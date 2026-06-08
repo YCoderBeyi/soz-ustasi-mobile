@@ -33,6 +33,26 @@
   100% { clip-path: inset(0 0 0 0 round 8px); }
 }
 
+@keyframes meaningCardSpring {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.85) rotate(-2deg);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.03) rotate(0.5deg);
+  }
+  60% {
+    transform: translateY(3px) scale(0.99) rotate(-0.2deg);
+  }
+  80% {
+    transform: translateY(-1px) scale(1.005) rotate(0deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
 @keyframes letterPick {
   0% { transform: scale(0.86); filter: brightness(1); }
   72% { transform: scale(1.13); filter: brightness(1.16); }
@@ -172,4 +192,35 @@
   45% { transform: translateX(-4px); }
   60% { transform: translateX(3px); }
   75% { transform: translateX(-2px); }
+}
+
+/* ===== Particle System ===== */
+.particleContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+}
+
+.particle {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  background: var(--bg);
+  border-radius: 50%;
+  animation: particleOut 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) var(--delay) forwards;
+  box-shadow: 0 0 8px var(--bg);
+}
+
+@keyframes particleOut {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) scale(0);
+    opacity: 0;
+  }
 }

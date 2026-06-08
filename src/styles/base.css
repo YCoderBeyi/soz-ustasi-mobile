@@ -237,62 +237,53 @@ p {
   height: var(--ui-bottomnav-h);
   padding: 0 6px 10px;
   border-radius: 22px;
-  background: linear-gradient(180deg, rgba(16,24,39,0.92), rgba(7,11,18,0.96));
-  border: 1px solid rgba(217,164,65,0.15);
-  box-shadow: 0 -4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
-  backdrop-filter: blur(12px);
+  background: linear-gradient(180deg, rgba(16,24,39,0.95), rgba(7,11,18,0.98));
+  border: 1px solid rgba(217,164,65,0.2);
+  box-shadow: 
+    0 -8px 32px rgba(0,0,0,0.5), 
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
 }
 
 .bottomNavItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 6px 8px 4px;
+  gap: 4px;
+  padding: 10px 4px 6px;
   border: none;
   background: none;
-  color: rgba(255,249,239,0.45);
-  font-size: 10px;
-  font-weight: 700;
+  color: rgba(255,249,239,0.4);
   cursor: pointer;
-  transition: color 180ms ease, transform 120ms ease;
-  min-width: 0;
+  transition: transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1), color 200ms ease;
   flex: 1;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.bottomNavSvg {
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
-}
-
-.bottomNavSvgInactive {
-  opacity: 0.55;
-  filter: grayscale(0.35) drop-shadow(0 1px 2px rgba(0,0,0,0.15));
-}
-
-.bottomNavItem:active {
-  transform: scale(0.92);
+.bottomNavItem:active:not(.bottomNavActive) {
+  transform: scale(0.9) translateY(2px);
 }
 
 .bottomNavActive {
   color: #f1c96a;
+  transform: translateY(-4px);
 }
 
-.bottomNavIconEmoji {
-  font-size: 20px;
-  line-height: 1;
+.bottomNavActive .bottomNavSvg {
+  filter: drop-shadow(0 0 12px rgba(241, 201, 106, 0.45));
 }
 
 .bottomNavLabel {
-  font-size: 10px;
-  font-weight: 800;
+  font-size: 9px;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
+  letter-spacing: 1px;
 }
 
 .bottomNavCenter {
   position: relative;
-  margin-top: -20px;
+  margin-top: -24px;
+  z-index: 2;
 }
 
 .bottomNavCenterIcon {
@@ -301,6 +292,15 @@ p {
   place-items: center;
   width: var(--ui-icon-nav-center);
   height: var(--ui-icon-nav-center);
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bottomNavCenter:active .bottomNavCenterIcon {
+  transform: scale(0.9) rotate(-5deg);
+}
+
+.bottomNavCenter.bottomNavActive .bottomNavCenterIcon {
+  transform: scale(1.1);
 }
 
 .bottomNavItem .bottomNavSvg {
@@ -584,12 +584,14 @@ p {
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: transform 120ms ease, filter 120ms ease;
+  transition: transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 120ms ease;
   -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 
-.svgBtn:active {
-  transform: scale(0.94);
+.svgBtn:active:not(:disabled) {
+  transform: scale(0.92) translateY(calc(2px * var(--ui-scale)));
+  filter: brightness(0.9);
 }
 
 .svgBtn img {
@@ -599,6 +601,13 @@ p {
   object-fit: contain;
   pointer-events: none;
   user-select: none;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.svgBtn:disabled {
+  opacity: 0.5;
+  filter: grayscale(1);
+  cursor: not-allowed;
 }
 
 /* Action button (hint/shuffle/seal) - uses complete v2 SVG with text */
@@ -664,19 +673,14 @@ p {
   position: relative;
   display: inline-grid;
   place-items: center;
-  width: var(--ui-pill-w);
-  height: var(--ui-pill-h);
+  width: calc(140px * var(--ui-scale));
+  height: calc(48px * var(--ui-scale));
   flex-shrink: 0;
 }
 
 .resourcePillWrap--compact {
-  width: var(--ui-pill-w-compact);
-  height: var(--ui-pill-h-compact);
-}
-
-.resourcePillWrap--compact .resourcePillValue {
-  padding-left: 18px;
-  font-size: 14px;
+  width: calc(110px * var(--ui-scale));
+  height: calc(38px * var(--ui-scale));
 }
 
 .resourcePillBg {
@@ -684,19 +688,60 @@ p {
   inset: 0;
   width: 100% !important;
   height: 100% !important;
-  object-fit: fill;
+  object-fit: contain;
   pointer-events: none;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+.resourcePillContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-right: calc(12px * var(--ui-scale));
+}
+
+.resourcePillIconZone {
+  position: absolute;
+  left: calc(-4px * var(--ui-scale));
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(44px * var(--ui-scale));
+  height: calc(44px * var(--ui-scale));
+  display: grid;
+  place-items: center;
+}
+
+.resourcePillWrap--compact .resourcePillIconZone {
+  width: calc(34px * var(--ui-scale));
+  height: calc(34px * var(--ui-scale));
+  left: calc(-2px * var(--ui-scale));
+}
+
+.resourcePillSymbol {
+  width: 100% !important;
+  height: 100% !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
 .resourcePillValue {
-  position: relative;
-  z-index: 1;
-  padding-left: 28px;
-  font-size: 16px;
+  flex: 1;
+  text-align: right;
+  padding-left: calc(38px * var(--ui-scale));
+  font-size: calc(16px * var(--ui-scale));
   font-weight: 900;
-  color: #2b1e13;
+  color: #fff2cf;
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  text-shadow: 
+    0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.resourcePillWrap--compact .resourcePillValue {
+  padding-left: calc(30px * var(--ui-scale));
+  font-size: calc(13px * var(--ui-scale));
 }
 
 /* ===== 3D Button Frame ===== */
@@ -710,12 +755,29 @@ p {
   height: var(--ui-btn-h);
   background: none;
   cursor: pointer;
-  transition: transform 120ms ease;
+  transition: transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 180ms ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  border-radius: calc(20px * var(--ui-scale)); /* Matching SVG border-radius */
 }
 
 .btn3dFull { width: 100%; }
 
-.btn3d:active { transform: scale(0.96); }
+.btn3dCompact {
+  --ui-btn-h: calc(64px * var(--ui-scale));
+  min-height: var(--ui-btn-h);
+  height: var(--ui-btn-h);
+}
+
+.btn3dCompact .btn3dLabel {
+  font-size: calc(15px * var(--ui-scale));
+}
+
+.btn3d:active:not(:disabled) { 
+  transform: scale(0.95) translateY(calc(3px * var(--ui-scale))); 
+  filter: brightness(0.95);
+}
 
 .btn3dBg {
   position: absolute;
@@ -724,21 +786,83 @@ p {
   height: 100% !important;
   object-fit: fill;
   pointer-events: none;
+  transition: filter 180ms ease;
+}
+
+.btn3dContent {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .btn3dLabel {
-  position: relative;
-  z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 20px;
-  font-size: 17px;
+  justify-content: center;
+  gap: calc(8px * var(--ui-scale));
+  padding: 0 calc(24px * var(--ui-scale));
+  font-size: calc(18px * var(--ui-scale));
   font-weight: 900;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   color: #fff9ef;
-  text-shadow: 0 1px 2px rgba(15, 23, 42, 0.45);
+  text-shadow: 
+    0 -1px 0 rgba(15, 23, 42, 0.4),
+    0 1px 2px rgba(15, 23, 42, 0.6);
+  transition: transform 120ms ease;
+}
+
+/* Shimmer Effect for Gold Buttons */
+.btn3dShimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 45%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.15) 55%,
+    transparent 60%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  animation: btnShimmer 4s infinite linear;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes btnShimmer {
+  0% { transform: translateX(-150%) rotate(25deg); }
+  25%, 100% { transform: translateX(150%) rotate(25deg); }
+}
+
+/* Loading State */
+.btn3dLoader {
+  width: calc(24px * var(--ui-scale));
+  height: calc(24px * var(--ui-scale));
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: btnRotate 0.8s infinite linear;
+}
+
+@keyframes btnRotate {
+  to { transform: rotate(360deg); }
+}
+
+.btn3d:disabled {
+  opacity: 0.65;
+  filter: grayscale(0.8) contrast(0.8);
+  cursor: not-allowed;
+  transform: none !important;
 }
 
 /* ===== 3D Tab Pills ===== */
@@ -1016,6 +1140,12 @@ button.panel3d {
   width: 100%;
   min-height: 96px;
   align-self: start;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
+  transition: filter 300ms ease;
+}
+
+.meaningCard3d.visible {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
 }
 
 .meaningCard3dBg {
@@ -1047,7 +1177,8 @@ button.panel3d {
 }
 
 .meaningCard3d.visible {
-  animation: meaningReveal 260ms cubic-bezier(.2,.8,.2,1) both;
+  animation: meaningCardSpring 500ms cubic-bezier(.17,.67,.35,1.15) both,
+             meaningReveal 400ms cubic-bezier(.2,.8,.2,1) both;
 }
 
 .hintBadge3d .uiV1IconMd,
