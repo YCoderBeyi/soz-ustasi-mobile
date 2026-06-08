@@ -1,0 +1,254 @@
+/* Vertical compact scale (design frame height 844) */
+@media (max-height: 844px) {
+  :root {
+    --ui-v-scale: 1;
+  }
+}
+
+@media (max-height: 760px) {
+  :root {
+    --ui-v-scale: 0.96;
+  }
+}
+
+@media (max-height: 700px) {
+  :root {
+    --ui-v-scale: 0.92;
+    --splash-logo-top: calc(18px + var(--ui-safe-top));
+    --splash-actions-bottom: calc(36px + var(--ui-safe-bottom));
+  }
+}
+
+@media (max-height: 640px) {
+  :root {
+    --ui-v-scale: 0.88;
+    --splash-logo-top: calc(12px + var(--ui-safe-top));
+    --splash-actions-bottom: calc(28px + var(--ui-safe-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@media (max-height: 760px) {
+  .screen {
+    min-height: 100dvh;
+  }
+
+  .game:not(.gameRef) {
+    grid-template-rows: 72px auto minmax(64px, 0.28fr) minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .gameRef {
+    gap: 3px;
+  }
+
+  .gameRef .wheelRing {
+    width: min(calc(180px * var(--ui-scale)), 54cqw);
+    height: min(calc(180px * var(--ui-scale)), 54cqw);
+  }
+
+  .gameRef .wheelLetter {
+    width: 40px;
+    height: 40px;
+  }
+
+  .gameActionIcon {
+    max-height: 42px;
+  }
+
+  .gameSealMark {
+    width: 54px;
+    height: 54px;
+    font-size: 16px;
+  }
+
+  .game .wheelLetter {
+    width: 44px;
+    height: 44px;
+  }
+
+  .gamePlayZone .actions .actionBtn {
+    max-height: 48px;
+  }
+
+  .slotRow {
+    gap: 4px;
+  }
+
+  .slot {
+    width: clamp(calc(30px * var(--ui-scale)), 7cqw, calc(36px * var(--ui-scale)));
+    height: clamp(calc(34px * var(--ui-scale)), 8cqw, calc(40px * var(--ui-scale)));
+    font-size: 14px;
+  }
+
+  .crosswordGrid {
+    gap: 2px;
+  }
+
+  .crosswordCell {
+    width: var(--crossword-cell);
+    height: var(--crossword-cell);
+    font-size: 14px;
+  }
+
+  .meaning {
+    min-height: 48px;
+    padding: 8px 10px;
+  }
+
+  .meaning p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .wheelRing {
+    width: min(calc(220px * var(--ui-scale)), 62cqw);
+    height: min(calc(220px * var(--ui-scale)), 62cqw);
+  }
+
+  .wheelLetter {
+    width: 50px;
+    height: 50px;
+  }
+
+  .wheelLetterChar {
+    font-size: 17px;
+  }
+
+  .gameGridPanelContent {
+    min-height: 60px;
+    padding: 6px;
+  }
+
+  .gameStatsRow {
+    gap: 3px;
+  }
+
+  .gameStatChip {
+    min-height: 34px;
+    padding: 3px 2px;
+  }
+
+  .gameStatChip strong {
+    font-size: 13px;
+  }
+
+  .gameRefHeader {
+    padding: 2px 6px 0;
+  }
+
+  .levelBadge3d {
+    height: 40px;
+  }
+
+  .gameModeBar {
+    padding: 0 8px;
+  }
+
+  .onboarding {
+    grid-template-rows: auto auto 22px 54px;
+    gap: 12px;
+  }
+
+  .onboardStage {
+    min-height: 240px;
+  }
+
+  .onboardSeal {
+    top: 12px;
+    width: 72px;
+    height: 72px;
+    font-size: 36px;
+  }
+
+  .demoBank {
+    top: 92px;
+    height: 46px;
+    padding: 5px 10px;
+    gap: 8px;
+  }
+
+  .demoLetter {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .demoResult {
+    bottom: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .questPanel {
+    grid-template-columns: 1fr 1fr 92px;
+    gap: 6px;
+  }
+
+  .questPanel div,
+  .questPanel button {
+    min-height: 54px;
+    padding: 8px;
+  }
+
+  .questPanel button {
+    grid-column: auto;
+    font-size: 11px;
+  }
+
+  .featuredLevel {
+    grid-template-columns: 56px 1fr 48px;
+    min-height: 90px;
+    gap: 9px;
+    padding: 11px;
+  }
+
+  .featuredSeal {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+
+  .featuredCopy strong {
+    font-size: 20px;
+  }
+
+  .featuredAction {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  .modernLevelNode {
+    width: 90%;
+    grid-template-columns: 48px minmax(0, 1fr) 58px;
+    gap: 8px;
+  }
+
+  .modernLevelNode.active {
+    width: 98%;
+  }
+
+  .nodeSeal {
+    width: 48px;
+    height: 48px;
+  }
+
+  .nodeReward {
+    min-width: 58px;
+    padding: 7px 4px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+}

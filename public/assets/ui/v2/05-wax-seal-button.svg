@@ -1,0 +1,40 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+  <radialGradient id="waxOuter" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(48 36) rotate(42) scale(78)">
+    <stop offset="0" stop-color="#FF7A8F"/>
+    <stop offset="0.38" stop-color="#D93A57"/>
+    <stop offset="0.72" stop-color="#A81F3B"/>
+    <stop offset="1" stop-color="#7C132A"/>
+  </radialGradient>
+  <radialGradient id="waxInner" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(58 48) rotate(35) scale(52)">
+    <stop offset="0" stop-color="#F25F77"/>
+    <stop offset="0.52" stop-color="#B92541"/>
+    <stop offset="1" stop-color="#83162D"/>
+  </radialGradient>
+  <linearGradient id="highlight" x1="38" y1="28" x2="89" y2="54" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#FFD5DC" stop-opacity="0.85"/>
+    <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="emboss" x1="48" y1="42" x2="84" y2="84" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#F7A9B7"/>
+    <stop offset="1" stop-color="#761225"/>
+  </linearGradient>
+  <filter id="outerShadow" x="4" y="8" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.30"/>
+  </filter>
+</defs>
+<g filter="url(#outerShadow)">
+  <path d="M64 14C69 18 76 16 81 19C86 22 93 22 97 27C101 31 107 34 110 40C113 46 117 52 116 59C115 65 118 72 115 78C112 84 113 91 108 96C103 101 99 107 92 109C86 111 80 116 73 115C66 114 60 118 53 115C46 112 39 113 34 108C29 103 22 100 19 94C16 88 11 82 11 75C11 68 8 62 10 55C12 48 11 41 15 35C19 30 21 23 28 20C34 17 40 13 47 14C54 15 59 11 64 14Z" fill="url(#waxOuter)"/>
+</g>
+<circle cx="64" cy="64" r="31" fill="#8E1830"/>
+<circle cx="64" cy="64" r="28.5" fill="url(#waxInner)"/>
+<circle cx="64" cy="64" r="28.5" stroke="#761327" stroke-width="3"/>
+<circle cx="64" cy="64" r="20.5" stroke="#9E2740" stroke-width="2.5"/>
+<path d="M41 35C48 29 59 26 71 27C78 28 84 31 88 35" stroke="url(#highlight)" stroke-width="6" stroke-linecap="round"/>
+<path d="M73 49C70 45 65 43 60 44C54 45 50 49 50 55C50 61 55 64 62 65C67 66 70 67 70 71C70 75 66 77 61 76C56 75 53 73 50 69" stroke="url(#emboss)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M56 51C60 48 66 48 70 52" stroke="#FFD3DA" stroke-opacity="0.45" stroke-width="3" stroke-linecap="round"/>
+<ellipse cx="43" cy="47" rx="4" ry="2.8" fill="#F4A4B1" fill-opacity="0.38"/>
+<ellipse cx="85" cy="42" rx="3.5" ry="2.4" fill="#FFD2D9" fill-opacity="0.42"/>
+
+</svg>

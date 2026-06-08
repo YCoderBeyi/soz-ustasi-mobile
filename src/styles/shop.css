@@ -1,0 +1,159 @@
+.shopScreen {
+  display: grid;
+  grid-template-rows: var(--ui-topbar-h) calc(var(--ui-tab-h) + 12px) 1fr;
+  gap: 0;
+  overflow: hidden;
+}
+
+.shopTabs {
+  display: flex;
+  gap: 4px;
+  padding: 6px 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: rgba(5, 12, 24, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.shopTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.shopTabs button {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 247, 226, 0.7);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+.shopTabs button.active {
+  background: rgba(217, 164, 65, 0.2);
+  color: #f1c96a;
+  border-color: rgba(217, 164, 65, 0.4);
+}
+
+.shopList {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 12px 14px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.shopList::-webkit-scrollbar {
+  display: none;
+}
+
+.shopEmpty {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  color: rgba(255, 247, 226, 0.5);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.shopCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(5, 12, 24, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.shopIcon {
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 22px;
+}
+
+.shopInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.shopInfo strong {
+  display: block;
+  color: #fff9ef;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.shopInfo p {
+  margin: 2px 0 0;
+  color: rgba(255, 247, 226, 0.55);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.shopBuy {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #d9a441, #c8912e);
+  color: #2b1e13;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.shopBuy:active {
+  transform: scale(0.94);
+}
+
+.shopOwned {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(76, 195, 138, 0.15);
+  color: #4cc38a;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.shopToast {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  z-index: 10;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 36px);
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: rgba(16, 24, 39, 0.95);
+  border: 1px solid rgba(217, 164, 65, 0.34);
+  color: #fff9ef;
+  font-weight: 800;
+  text-align: center;
+  animation: toastIn 180ms ease both;
+}

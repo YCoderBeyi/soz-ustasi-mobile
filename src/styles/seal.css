@@ -1,0 +1,112 @@
+.sealMark,
+.onboardSeal,
+.featuredSeal,
+.sealCore {
+  position: relative;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.sealMark::before,
+.onboardSeal::before,
+.featuredSeal::before,
+.sealCore::before {
+  content: none;
+}
+
+.sealMark::after,
+.onboardSeal::after,
+.featuredSeal::after,
+.sealCore::after {
+  content: none;
+}
+
+.sealMark {
+  display: grid;
+  place-items: center;
+  width: 126px;
+  height: 126px;
+  margin: 0 auto 10px;
+  border: 0;
+  background: transparent;
+  color: #ffe8b7;
+  font-family: Georgia, serif;
+  font-size: 38px;
+  font-weight: 800;
+  box-shadow: none;
+  text-shadow:
+    0 2px 1px rgba(38, 6, 12, 0.82),
+    0 -1px 0 rgba(255, 232, 183, 0.32);
+  animation: sealPulse 3s ease-in-out infinite;
+}
+
+.demoWheel span,
+.letterNode {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #f4e6c8;
+  color: #2b1e13;
+  font-size: 23px;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.waxSeal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.waxSealSvg {
+  position: absolute;
+  inset: -5%;
+  z-index: 0;
+  width: 110%;
+  height: 110%;
+  overflow: visible;
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.34));
+  pointer-events: none;
+}
+
+.waxSealLabel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  line-height: 0.92;
+  text-align: center;
+  color: #a63245;
+  text-shadow:
+    0 -2px 1px rgba(255, 225, 198, 0.38),
+    0 3px 3px rgba(37, 4, 11, 0.82),
+    2px 1px 2px rgba(37, 4, 11, 0.28),
+    -1px -1px 1px rgba(255, 235, 214, 0.12);
+}
+
+.waxSealLabel span {
+  display: block;
+}
+
+.waxSealLabel.multiLine {
+  gap: 2px;
+}
+.sealMark .waxSealLabel,
+.onboardSeal .waxSealLabel,
+.featuredSeal .waxSealLabel,
+.sealCore .waxSealLabel,
+.modernLevelNode.active .nodeSeal .waxSealLabel,
+.modernLevelNode.completed .nodeSeal .waxSealLabel {
+  color: #aa3346;
+  text-shadow:
+    0 -2px 1px rgba(255, 226, 199, 0.42),
+    0 3px 3px rgba(35, 4, 11, 0.88),
+    2px 1px 2px rgba(35, 4, 11, 0.3),
+    -1px -1px 1px rgba(255, 235, 214, 0.14);
+}
