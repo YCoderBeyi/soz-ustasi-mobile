@@ -78,25 +78,10 @@
 }
 
 .map-resources {
-  display: grid;
-  gap: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex: 0 0 auto;
-}
-
-.map-resources span {
-  min-width: 82px;
-  padding: 5px 9px;
-  border: 1px solid rgba(224, 182, 91, .22);
-  border-radius: 999px;
-  background: rgba(4, 12, 20, .62);
-  color: rgba(255, 242, 207, .68);
-  font-size: 10px;
-  text-align: right;
-}
-
-.map-resources b {
-  color: var(--map-gold);
-  font-size: 13px;
 }
 
 .map-progress-card {
@@ -175,21 +160,47 @@
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
-  width: 68px;
-  height: 68px;
+  width: calc(68px * var(--ui-scale));
+  height: calc(68px * var(--ui-scale));
   padding: 6px;
-  border: 3px solid #bd8a32;
+  border: 2px solid #bd8a32;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 35% 25%, #ffe9a5 0 8%, transparent 9%),
-    linear-gradient(145deg, #e7b952, #8e561e 70%);
+    radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.15) 0 8%, transparent 20%),
+    linear-gradient(145deg, #d9a441, #8a6622);
   box-shadow:
-    0 9px 0 #573418,
-    0 14px 20px rgba(0, 0, 0, .5),
-    inset 0 2px 2px rgba(255, 255, 255, .42),
-    inset 0 -5px 8px rgba(83, 42, 13, .45);
-  color: #28170c;
-  text-shadow: 0 1px rgba(255, 244, 190, .42);
+    0 6px 0 #573418,
+    0 12px 24px rgba(0, 0, 0, .5),
+    inset 0 1px 1px rgba(255, 255, 255, .3);
+  color: #2b1e13;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 120ms ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.map-route-node.completed {
+  background: linear-gradient(145deg, #f1c96a, #d9a441);
+  border-color: #f1c96a;
+}
+
+.map-route-node.active {
+  width: calc(80px * var(--ui-scale));
+  height: calc(80px * var(--ui-scale));
+  border-color: #4cc38a;
+  background: radial-gradient(circle at 35% 25%, #dffff7, #3db69c 30%, #116b69 74%);
+  box-shadow: 0 8px 0 #063b3b, 0 0 32px rgba(76, 195, 138, .4);
+  color: #eafffa;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, .5);
+}
+
+
+.map-route-node:active:not(:disabled) {
+  transform: translate(-50%, -50%) scale(0.94) translateY(4px);
+  box-shadow:
+    0 4px 0 #573418,
+    0 6px 12px rgba(0, 0, 0, .4),
+    inset 0 2px 2px rgba(255, 255, 255, .3);
 }
 
 .map-route-node::after {
@@ -213,12 +224,35 @@
   text-transform: uppercase;
 }
 
-.map-node-crown {
+.map-node-mastery {
   position: absolute;
-  z-index: 1;
-  top: -15px;
+  top: -12px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  pointer-events: none;
+}
+
+.map-node-stars {
+  display: flex;
+  gap: 1px;
+}
+
+.map-node-stars span {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.22);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.map-node-stars span.earned {
   color: #ffe39a;
-  font-size: 18px;
+  filter: drop-shadow(0 2px 2px #29140a);
+}
+
+.map-node-status-icon {
+  font-size: 14px;
+  color: #ffe39a;
+  opacity: 0.8;
   filter: drop-shadow(0 2px 2px #29140a);
 }
 
@@ -257,14 +291,31 @@
   gap: 8px;
   min-width: 205px;
   padding: 8px 10px;
-  border: 1px solid rgba(224, 182, 91, .42);
+  border: none;
   border-radius: 14px;
-  background: linear-gradient(145deg, rgba(37, 28, 38, .96), rgba(14, 22, 32, .95));
-  box-shadow: 0 10px 28px rgba(0, 0, 0, .46), inset 0 1px rgba(255, 255, 255, .08);
+  background: transparent;
   text-align: left;
+  overflow: hidden;
+}
+
+.map-daily-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.map-daily-card:active:not(:disabled) {
+  transform: scale(0.96) translateY(2px);
+  filter: brightness(0.9);
 }
 
 .map-daily-icon {
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 36px;
@@ -275,7 +326,9 @@
   color: #ffd986;
 }
 
-.map-daily-card > span:nth-child(2) {
+.map-daily-card > span:nth-child(3) {
+  position: relative;
+  z-index: 1;
   display: grid;
 }
 
@@ -285,6 +338,8 @@
 }
 
 .map-daily-card b {
+  position: relative;
+  z-index: 1;
   color: var(--map-gold);
 }
 

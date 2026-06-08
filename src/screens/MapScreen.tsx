@@ -4,6 +4,9 @@ import { getThemeGroups, getActiveThemeIndex } from '../data/themeUtils';
 import { levels } from '../data/levels';
 import { LevelModal } from '../components/LevelModal';
 import { BottomNavBar } from '../components/BottomNavBar';
+import { V2Icon } from '../components/Icon';
+import { ResourcePill } from '../components/ResourcePill';
+import { ActionIconButton } from '../components/ActionIconButton';
 import './MapScreen.css';
 
 const NODE_POSITIONS = [
@@ -36,7 +39,7 @@ export function MapScreen() {
   const {
     play, level, setLevel, setModal, startLevel, completedLevels,
     collectedWords, levelMastery, modal, toast, setToast,
-    isLevelUnlocked, dailyChallenge, levelStats,
+    isLevelUnlocked, dailyChallenge, levelStats, setScreen, coins, coinPulse,
   } = useGame();
 
   const themeGroups = useMemo(
@@ -98,7 +101,6 @@ export function MapScreen() {
   const themeLevels = activeThemeGroup.levels;
   const themeStars = activeThemeGroup.earnedStars;
   const themeStarCapacity = activeThemeGroup.totalStars;
-  const totalAttempts = Object.values(levelStats).reduce((sum, stats) => sum + stats.attempts, 0);
 
   return (
     <main
@@ -111,14 +113,14 @@ export function MapScreen() {
       <div className="map-atmosphere" />
 
       <header className="map-topbar">
+        <ActionIconButton icon="bottomProfile" onClick={() => { play('tap'); setScreen('profile'); }} ariaLabel="Profil" size="lg" />
         <div className="map-brand">
           <span className="map-brand-kicker">SÖZ USTASI</span>
           <strong>{activeTheme.title}</strong>
           <small>{activeTheme.modifier?.label ?? activeTheme.title}</small>
         </div>
         <div className="map-resources">
-          <span><b>{collectedWords.length}</b> söz</span>
-          <span><b>{totalAttempts}</b> deneme</span>
+          <ResourcePill type="coin" value={coins} compact className={coinPulse ? 'coinPulse' : ''} />
         </div>
       </header>
 
@@ -160,9 +162,19 @@ export function MapScreen() {
                 setModal('level');
               }}
             >
-              <span className="map-node-crown">{completed ? '★' : locked ? '◆' : '✦'}</span>
+              <div className="map-node-mastery">
+                {completed && (
+                  <div className="map-node-stars">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                      <span key={i} className={i < (levelMastery[item.levelId]?.stars ?? 0) ? 'earned' : ''}>★</span>
+                    ))}
+                  </div>
+                )}
+                {!completed && !locked && <span className="map-node-status-icon">✦</span>}
+                {locked && <span className="map-node-status-icon">◆</span>}
+              </div>
               <strong>{item.levelId}</strong>
-              <small>{completed ? 'Tamamlandı' : active ? 'Sıradaki' : locked ? 'Kilitli' : 'Açık'}</small>
+              <small>{completed ? 'Usta' : active ? 'Sıradaki' : locked ? 'Kilitli' : 'Açık'}</small>
             </button>
           );
         })}
@@ -179,6 +191,7 @@ export function MapScreen() {
             else setToast('Level bulunamadı');
           }}
         >
+          <img className="map-daily-bg" src="/assets/ui/map/05-daily-reward-widget.png" alt="" />
           <span className="map-daily-icon">✦</span>
           <span>
             <small>GÜNLÜK MÜCADELE</small>
