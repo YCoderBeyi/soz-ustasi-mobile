@@ -107,7 +107,7 @@ export function MapScreen() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <img className="map-bg" src={activeTheme.backgroundImage} alt="" />
+      <img className="map-bg" src="/assets/ui/map/map-diorama-v2.png" alt="" />
       <div className="map-atmosphere" />
 
       <header className="map-topbar">
