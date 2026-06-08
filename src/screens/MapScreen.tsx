@@ -1,13 +1,12 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useRef, useCallback, useEffect } from 'react';
 import { useGame } from '../store/GameContext';
+import { getThemeGroups, getActiveThemeIndex } from '../data/themeUtils';
 import { levels } from '../data/levels';
-import { getLevelStory } from '../data/levelStories';
-import { getTheme } from '../data/themes';
 import { LevelModal } from '../components/LevelModal';
 import { BottomNavBar } from '../components/BottomNavBar';
 import './MapScreen.css';
 
-const nodePositions = [
+const NODE_POSITIONS = [
   { left: 17, top: 84 },
   { left: 61, top: 75 },
   { left: 29, top: 63 },
@@ -18,6 +17,21 @@ const nodePositions = [
   { left: 76, top: 8 },
 ];
 
+function getNodePosition(index: number, total: number) {
+  if (total <= NODE_POSITIONS.length) {
+    return NODE_POSITIONS[index] ?? NODE_POSITIONS[NODE_POSITIONS.length - 1];
+  }
+  const leftBase = 20;
+  const leftSpread = 55;
+  const topBase = 85;
+  const topDrop = 10;
+  const step = total > 1 ? 1 / (total - 1) : 0;
+  const progress = step * index;
+  const left = leftBase + leftSpread * progress + Math.sin(progress * Math.PI * 2.5) * 8;
+  const top = topBase - (topBase - topDrop) * progress;
+  return { left: Math.round(left), top: Math.round(top) };
+}
+
 export function MapScreen() {
   const {
     play, level, setLevel, setModal, startLevel, completedLevels,
@@ -25,26 +39,82 @@ export function MapScreen() {
     isLevelUnlocked, dailyChallenge, levelStats,
   } = useGame();
 
-  const activeTheme = getTheme(level.themeId);
-  const activeStory = getLevelStory(level.levelId);
-  const themeLevels = useMemo(
-    () => levels.filter((item) => item.themeId === activeTheme.themeId),
-    [activeTheme.themeId],
+  const themeGroups = useMemo(
+    () => getThemeGroups(completedLevels, levelMastery),
+    [completedLevels, levelMastery],
   );
-  const themeStars = themeLevels.reduce((total, item) => total + (levelMastery[item.levelId]?.stars ?? 0), 0);
-  const themeStarCapacity = themeLevels.length * 3;
+
+  const initialIndex = useMemo(
+    () => getActiveThemeIndex(level.levelId, completedLevels),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  const [activeIndex, setActiveIndex] = useState(initialIndex);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const touchDeltaRef = useRef(0);
+
+  const activeThemeGroup = themeGroups[activeIndex] ?? themeGroups[0];
+  const activeTheme = activeThemeGroup.theme;
+
+  const handleSwipe = useCallback(
+    (direction: 'left' | 'right') => {
+      setActiveIndex((prev) => {
+        const next = direction === 'left' ? prev + 1 : prev - 1;
+        return Math.max(0, Math.min(themeGroups.length - 1, next));
+      });
+    },
+    [themeGroups.length],
+  );
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    touchDeltaRef.current = 0;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    touchDeltaRef.current = e.touches[0].clientX - touchStartRef.current.x;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    const delta = touchDeltaRef.current;
+    if (Math.abs(delta) > 50) {
+      handleSwipe(delta < 0 ? 'left' : 'right');
+    }
+    touchStartRef.current = null;
+    touchDeltaRef.current = 0;
+  }, [handleSwipe]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') handleSwipe('left');
+      else if (e.key === 'ArrowRight') handleSwipe('right');
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleSwipe]);
+
+  const themeLevels = activeThemeGroup.levels;
+  const themeStars = activeThemeGroup.earnedStars;
+  const themeStarCapacity = activeThemeGroup.totalStars;
   const totalAttempts = Object.values(levelStats).reduce((sum, stats) => sum + stats.attempts, 0);
 
   return (
-    <main className="map-screen">
-      <img className="map-bg" src="/assets/ui/map/map-diorama-v2.png" alt="" />
+    <main
+      className="map-screen"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <img className="map-bg" src={activeTheme.backgroundImage} alt="" />
       <div className="map-atmosphere" />
 
       <header className="map-topbar">
         <div className="map-brand">
           <span className="map-brand-kicker">SÖZ USTASI</span>
           <strong>{activeTheme.title}</strong>
-          <small>{activeStory.era} · {activeStory.place}</small>
+          <small>{activeTheme.modifier?.label ?? activeTheme.title}</small>
         </div>
         <div className="map-resources">
           <span><b>{collectedWords.length}</b> söz</span>
@@ -71,15 +141,19 @@ export function MapScreen() {
           const completed = completedLevels.includes(item.levelId);
           const active = item.levelId === level.levelId;
           const locked = !isLevelUnlocked(item);
-          const position = nodePositions[index] ?? nodePositions[nodePositions.length - 1];
+          const position = getNodePosition(index, themeLevels.length);
 
           return (
             <button
               key={item.levelId}
               className={`map-route-node ${completed ? 'completed' : ''} ${active ? 'active' : ''} ${locked ? 'locked' : ''}`}
-              style={{ left: `${position.left}%`, top: `${position.top}%` }}
+              style={{
+                left: `${position.left}%`,
+                top: `${position.top}%`,
+                borderColor: active ? activeTheme.primaryColor : undefined,
+              }}
               disabled={locked}
-              aria-label={`Level ${item.levelId}: ${getLevelStory(item.levelId).title}`}
+              aria-label={`Level ${item.levelId}: ${item.mainWords[0]?.word ?? ''}`}
               onClick={() => {
                 play('tap');
                 setLevel(item);
@@ -92,7 +166,6 @@ export function MapScreen() {
             </button>
           );
         })}
-
       </section>
 
       {dailyChallenge && (
@@ -114,6 +187,21 @@ export function MapScreen() {
           <b>{dailyChallenge.completed ? '✓' : `+${dailyChallenge.reward}`}</b>
         </button>
       )}
+
+      <nav className="map-theme-dots" aria-label="Tema gezinmesi">
+        {themeGroups.map((group, i) => (
+          <button
+            key={group.theme.themeId}
+            className={`map-theme-dot ${i === activeIndex ? 'active' : ''} ${group.isCompleted ? 'completed' : ''}`}
+            style={i === activeIndex ? { background: group.theme.primaryColor } : undefined}
+            aria-label={group.theme.title}
+            onClick={() => {
+              play('tap');
+              setActiveIndex(i);
+            }}
+          />
+        ))}
+      </nav>
 
       {toast && <div className="toast map-toast">{toast}</div>}
       <BottomNavBar />

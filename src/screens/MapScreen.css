@@ -281,6 +281,37 @@
   color: var(--map-gold);
 }
 
+.map-theme-dots {
+  position: absolute;
+  z-index: 4;
+  bottom: calc(var(--ui-bottomnav-h, 56px) + 56px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.map-theme-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .3);
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+
+.map-theme-dot.active {
+  transform: scale(1.5);
+}
+
+.map-theme-dot.completed {
+  background: rgba(224, 182, 91, .6);
+}
+
 .map-toast {
   z-index: 50;
 }
