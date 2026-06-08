@@ -22,6 +22,7 @@
   object-fit: cover;
   object-position: center;
   transform: scale(1.02);
+  transition: opacity 0.3s ease;
 }
 
 .map-atmosphere {
@@ -144,6 +145,12 @@
   position: absolute;
   z-index: 2;
   inset: 132px 0 118px;
+  animation: themeFadeIn 0.3s ease-out;
+}
+
+@keyframes themeFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .map-route-line {
@@ -310,6 +317,12 @@
 
 .map-theme-dot.completed {
   background: rgba(224, 182, 91, .6);
+}
+
+.map-theme-dot.locked {
+  opacity: .35;
+  cursor: not-allowed;
+  filter: grayscale(.5);
 }
 
 .map-toast {

@@ -192,9 +192,10 @@ export function MapScreen() {
         {themeGroups.map((group, i) => (
           <button
             key={group.theme.themeId}
-            className={`map-theme-dot ${i === activeIndex ? 'active' : ''} ${group.isCompleted ? 'completed' : ''}`}
+            className={`map-theme-dot ${i === activeIndex ? 'active' : ''} ${group.isCompleted ? 'completed' : ''} ${!group.isUnlocked ? 'locked' : ''}`}
             style={i === activeIndex ? { background: group.theme.primaryColor } : undefined}
             aria-label={group.theme.title}
+            disabled={!group.isUnlocked}
             onClick={() => {
               play('tap');
               setActiveIndex(i);
