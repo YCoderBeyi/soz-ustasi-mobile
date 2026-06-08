@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import '../styles/vault.css';
 import '../styles/topbar.css';
 import '../styles/seal.css';
@@ -21,7 +21,7 @@ function isHiddenWord(word: string) {
 type DictTab = 'all' | 'hidden' | 'favorites';
 
 export function DictionaryScreen() {
-  const { play, setScreen, collectedWords, favoriteWords, toggleFavorite } = useGame();
+  const { play, setScreen, collectedWords, favoriteWords, toggleFavorite, theme } = useGame();
   const [tab, setTab] = useState<DictTab>('all');
 
   const filtered = tab === 'all' ? collectedWords
@@ -29,7 +29,8 @@ export function DictionaryScreen() {
     : collectedWords.filter((w) => favoriteWords.includes(w.word));
 
   return (
-    <main className="screen vaultScreen">
+    <main className="screen vaultScreen" style={{ '--accent': theme.primaryColor, '--theme-bg': `url(${theme.backgroundImage})` } as CSSProperties}>
+      <div className="themeBackdrop" />
       <ScreenHeader title="Söz Hazinesi" onBack={() => { play('tap'); setScreen('map'); }} showSound={false} />
       <div className="tabs tabs3d">
         <TabPill3D label="Tüm Kelimeler" active={tab === 'all'} onClick={() => { play('tap'); setTab('all'); }} />

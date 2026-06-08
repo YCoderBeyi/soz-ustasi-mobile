@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import '../styles/onboarding.css';
 import '../styles/seal.css';
 import { useGame } from '../store/GameContext';
@@ -6,7 +6,7 @@ import { WaxSeal } from '../components/WaxSeal';
 import { Button3D } from '../components/Button3D';
 
 export function OnboardingScreen() {
-  const { play, setScreen } = useGame();
+  const { play, setScreen, theme } = useGame();
   const [step, setStep] = useState(0);
   const slides = [
     { title: 'Harfleri Birleştir', body: 'Parmağını kaldırmadan akışı yakala.', word: 'ARI', accent: 'Bağla' },
@@ -16,7 +16,8 @@ export function OnboardingScreen() {
   const activeSlide = slides[step];
 
   return (
-    <main className="screen onboarding">
+    <main className="screen onboarding" style={{ '--accent': theme.primaryColor, '--theme-bg': `url(${theme.backgroundImage})` } as CSSProperties}>
+      <div className="themeBackdrop" />
       <section className="onboardStage" aria-label="Oyun demosu">
         <WaxSeal className="onboardSeal" label="S" />
         <div className="demoPath" aria-hidden="true" />

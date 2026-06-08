@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import '../styles/shop.css';
 import '../styles/topbar.css';
 import { useGame } from '../store/GameContext';
@@ -19,7 +19,7 @@ const tabLabels: Record<ShopTab, string> = {
 };
 
 export function ShopScreen() {
-  const { play, setScreen, buyShopItem, isItemOwned, toast } = useGame();
+  const { play, setScreen, buyShopItem, isItemOwned, toast, theme } = useGame();
   const [tab, setTab] = useState<ShopTab>('theme');
 
   const items = allShopItems.filter((item) => item.category === tab);
@@ -29,7 +29,8 @@ export function ShopScreen() {
   }
 
   return (
-    <main className="screen shopScreen">
+    <main className="screen shopScreen" style={{ '--accent': theme.primaryColor, '--theme-bg': `url(${theme.backgroundImage})` } as CSSProperties}>
+      <div className="themeBackdrop" />
       <ScreenHeader title="Dükkan" onBack={() => { play('tap'); setScreen('map'); }} />
 
       <div className="shopTabs tabs3d">

@@ -291,10 +291,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   function triggerFeedback(next: Feedback, sfx?: SfxName) {
     if (sfx) play(sfx);
-    if (next === 'correct') haptic(18);
-    if (next === 'wrong') haptic([12, 24, 12]);
-    if (next === 'hidden') haptic([18, 36, 24]);
-    if (next === 'seal') haptic([30, 45, 40]);
+    if (next === 'correct') haptic([20, 40, 30]); // Thump-thump
+    if (next === 'wrong') haptic([10, 50, 10, 50]); // Distant shake
+    if (next === 'hidden') haptic([25, 25, 25, 25, 50]); // Rhythmic discovery
+    if (next === 'seal') haptic([40, 20, 60, 20, 80]); // Heavy slam/pressure
     setFeedback(null);
     window.requestAnimationFrame(() => setFeedback(next));
     window.setTimeout(() => setFeedback(null), 760);
@@ -611,6 +611,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       const count = itemId === 'hint_3' ? 3 : 5;
       setHintsRemaining((prev) => prev + count);
     }
+    if (itemId === 'nazar_bead') {
+      setNazarCount((prev) => prev + 1);
+    }
     if (itemId === 'doubler') {
       setCoinMultiplier((prev) => prev * 2);
     }
@@ -652,7 +655,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     hapticsEnabled, setHapticsEnabled,
     levelMastery,
     modal, setModal,
-    sealOpen, feedback, coinPulse, rewardSummary,
+    sealOpen, canSeal, feedback, coinPulse, rewardSummary,
     streak, maxStreak, usedHint, earnedObjectives,
     theme,
     currentWord,
@@ -672,9 +675,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
     claimDailyReward,
     submitCurrentWord,
     toggleFavorite,
+    manualOpenSeal,
   };
 
   return (
+    <GameContext.Provider value={value}>
+      {children}
+    </GameContext.Provider>
+  );
+}
+rn (
     <GameContext.Provider value={value}>
       {children}
     </GameContext.Provider>

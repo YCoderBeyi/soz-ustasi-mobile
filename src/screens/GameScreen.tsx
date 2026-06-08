@@ -30,7 +30,7 @@ export function GameScreen() {
   const {
     level, theme, letters, selected, found,
     revealedLetters, meaning, toast, setToast,
-    feedback, sealOpen,
+    feedback, sealOpen, canSeal,
     streak, maxStreak,
     coins, coinPulse,
     modal,
@@ -41,6 +41,7 @@ export function GameScreen() {
     clearSelection,
     favoriteWords, toggleFavorite,
     submitWord,
+    manualOpenSeal,
   } = useGame();
 
   const ringRef = useRef<HTMLDivElement>(null);
