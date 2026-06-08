@@ -44,6 +44,7 @@ describe('persistPlayerSave / loadPlayerSave', () => {
       levelMastery: { 1: { stars: 3, objectives: ['complete', 'discovery', 'noHint'] } },
       ownedShopItems: [],
       hintsRemaining: 0,
+      nazarCount: 0,
       coinMultiplier: 1,
       levelStats: {},
     };
