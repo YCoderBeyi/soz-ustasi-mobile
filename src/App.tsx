@@ -1,4 +1,5 @@
-﻿import { GameProvider, useGame } from './store/GameContext';
+﻿import { GameProvider } from './store/GameProvider';
+import { useGame } from './store/GameContext';
 import { StartScreen3D } from './screens/StartScreen3D';
 import { OnboardingScreen } from './screens/OnboardingScreen';
 import { MapScreen } from './screens/MapScreen';
@@ -7,6 +8,7 @@ import { DictionaryScreen } from './screens/DictionaryScreen';
 import { ShopScreen } from './screens/ShopScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
+import { LevelStartScreen } from './components/level-start/LevelStartScreen';
 
 function ScreenRouter() {
   const { screen } = useGame();
@@ -28,6 +30,8 @@ function ScreenRouter() {
       return <ProfileScreen />;
     case 'settings':
       return <SettingsScreen />;
+    case 'level-start':
+      return <LevelStartScreen />;
   }
 }
 
