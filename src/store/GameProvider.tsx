@@ -3,6 +3,7 @@ import { ResourceProvider } from './contexts/ResourceContext';
 import { SessionProvider } from './contexts/SessionContext';
 import { PersistenceProvider, usePersistence } from './contexts/PersistenceContext';
 import { useResource } from './contexts/ResourceContext';
+import { GameContextBridge } from './GameContext';
 
 function ResourceProviderBridge({ children }: { children: ReactNode }) {
   const { soundEnabled, hapticsEnabled } = usePersistence();
@@ -27,7 +28,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     <PersistenceProvider>
       <ResourceProviderBridge>
         <SessionProviderBridge>
-          {children}
+          <GameContextBridge>
+            {children}
+          </GameContextBridge>
         </SessionProviderBridge>
       </ResourceProviderBridge>
     </PersistenceProvider>
