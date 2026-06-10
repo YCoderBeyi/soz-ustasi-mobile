@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useCallback, useRef, useEffect, ty
 import type { SfxName } from '../../audio';
 import { playSfx } from '../../audio';
 import { createCleanupRegistry } from '../../game/cleanup';
+import { shopItems } from '../../data/shop';
 
 type ResourceState = {
   coins: number;
@@ -22,6 +23,7 @@ type ResourceActions = {
   setCoinMultiplier: (value: number) => void;
   addOwnedItem: (itemId: string) => void;
   isItemOwned: (itemId: string) => boolean;
+  buyShopItem: (itemId: string) => void;
   pulseCoins: () => void;
   play: (name: SfxName) => void;
   haptic: (pattern: number | number[]) => void;
@@ -116,6 +118,44 @@ export function ResourceProvider({
     return result;
   }, []);
 
+  const buyShopItem = useCallback((itemId: string) => {
+    const item = shopItems.find((i) => i.id === itemId);
+    if (!item) {
+      playSfx('wrong', soundRef.current);
+      return;
+    }
+    let alreadyOwned = false;
+    setOwnedShopItems((prev) => {
+      if (prev.includes(itemId)) alreadyOwned = true;
+      return prev;
+    });
+    if (alreadyOwned) {
+      playSfx('wrong', soundRef.current);
+      return;
+    }
+    let canBuy = false;
+    setCoins((v) => {
+      if (v >= item.price) {
+        canBuy = true;
+        return v - item.price;
+      }
+      return v;
+    });
+    if (!canBuy) {
+      playSfx('wrong', soundRef.current);
+      return;
+    }
+    setOwnedShopItems((prev) => [...prev, itemId]);
+    if (itemId.startsWith('hint_')) {
+      const count = itemId === 'hint_3' ? 3 : 5;
+      setHintsRemaining((prev) => prev + count);
+    }
+    if (itemId === 'doubler') {
+      setCoinMultiplier((prev) => prev * 2);
+    }
+    playSfx('reward', soundRef.current);
+  }, []);
+
   const pulseCoins = useCallback(() => {
     setCoinPulse(false);
     if (cleanup) {
@@ -128,7 +168,7 @@ export function ResourceProvider({
     coins, hintsRemaining, lanternCount, coinMultiplier, doublerRemaining,
     freeHintNext, ownedShopItems, coinPulse,
     addCoins, spendCoins, spendHint, addHints, setCoinMultiplier,
-    addOwnedItem, isItemOwned, pulseCoins, play, haptic,
+    addOwnedItem, isItemOwned, buyShopItem, pulseCoins, play, haptic,
   };
 
   return (

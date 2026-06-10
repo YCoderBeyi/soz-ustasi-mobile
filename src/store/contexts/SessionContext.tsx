@@ -1,15 +1,18 @@
 import { createContext, useContext, useState, useCallback, useRef, useEffect, type ReactNode } from 'react';
-import type { LevelData, WordEntry } from '../../types';
+import type { LevelData, WordEntry, ScreenName, ThemeData } from '../../types';
 import type { Feedback } from '../../game/playerSave';
 import type { SfxName } from '../../audio';
 import { normalizeWord } from '../../game/normalize';
 import { shuffle } from '../../game/shuffle';
 import { createCleanupRegistry } from '../../game/cleanup';
+import { getTheme } from '../../data/themes';
+import type { ObjectiveKey } from '../../game/objectives';
 
 type Modal = 'level' | 'hint' | 'pause' | 'privacy' | 'reward' | null;
 
 type SessionState = {
   level: LevelData;
+  screen: ScreenName;
   letters: string[];
   selected: number[];
   found: string[];
@@ -28,6 +31,9 @@ type SessionState = {
   levelTransitionKey: number;
   modal: Modal;
   toast: string;
+  theme: ThemeData;
+  rewardSummary: { base: number; hidden: number; flawless?: boolean };
+  earnedObjectives: ObjectiveKey[];
 };
 
 type SessionActions = {
@@ -40,6 +46,10 @@ type SessionActions = {
   revealLetterHint: () => void;
   setModal: (modal: Modal) => void;
   setToast: (message: string) => void;
+  setScreen: (screen: ScreenName) => void;
+  setLevel: (level: LevelData) => void;
+  setRewardSummary: (summary: { base: number; hidden: number }) => void;
+  setEarnedObjectives: (keys: ObjectiveKey[]) => void;
   submitCurrentWord: () => void;
   manualOpenSeal: () => void;
 };
@@ -65,7 +75,7 @@ export function SessionProvider({
   play: (name: SfxName) => void;
   haptic: (pattern: number | number[]) => void;
 }) {
-  const [level, setLevel] = useState<LevelData>(null!);
+  const [level, setLevelState] = useState<LevelData>(null!);
   const [letters, setLetters] = useState<string[]>([]);
   const [selected, setSelected] = useState<number[]>([]);
   const [found, setFound] = useState<string[]>([]);
@@ -82,6 +92,9 @@ export function SessionProvider({
   const [levelTransitionKey, setLevelTransitionKey] = useState(0);
   const [modal, setModal] = useState<Modal>(null);
   const [toast, setToast] = useState('');
+  const [screen, setScreen] = useState<ScreenName>('splash');
+  const [rewardSummary, setRewardSummary] = useState<{ base: number; hidden: number; flawless?: boolean }>({ base: 0, hidden: 0 });
+  const [earnedObjectives, setEarnedObjectives] = useState<ObjectiveKey[]>([]);
 
   const cleanup = useRef(createCleanupRegistry()).current;
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -92,6 +105,7 @@ export function SessionProvider({
 
   const currentWord = selected.map((i) => letters[i]).join('');
   const complete = found.length === (level?.mainWords?.length ?? 0);
+  const theme = getTheme(level?.themeId ?? 'eski-istanbul');
 
   function startTimer() {
     if (timerRef.current) return;
@@ -178,7 +192,7 @@ export function SessionProvider({
     }
     resetTimer();
     setLevelTransitionKey((k) => k + 1);
-    setLevel(nextLevel);
+    setLevelState(nextLevel);
     setLetters(shuffle(nextLevel.letters));
     setSelected([]);
     setFound([]);
@@ -213,14 +227,19 @@ export function SessionProvider({
   const manualOpenSeal = useCallback(() => {
   }, []);
 
+  const setLevel = useCallback((lvl: LevelData) => {
+    setLevelState(lvl);
+  }, []);
+
   const value: SessionContextValue = {
-    level, letters, selected, found, hiddenFound, revealedLetters,
+    level, screen, letters, selected, found, hiddenFound, revealedLetters,
     meaning, feedback, streak, maxStreak, usedHint,
     sealOpen, canSeal, elapsedTime, complete, currentWord,
-    levelTransitionKey, modal, toast,
+    levelTransitionKey, modal, toast, theme, rewardSummary, earnedObjectives,
     startLevel, goToNextLevel, submitWord, clearSelection, shuffleLetters,
     revealMeaningHint, revealLetterHint,
-    setModal, setToast, submitCurrentWord, manualOpenSeal,
+    setModal, setToast, setScreen, setLevel, setRewardSummary, setEarnedObjectives,
+    submitCurrentWord, manualOpenSeal,
   };
 
   return (

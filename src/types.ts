@@ -77,4 +77,4 @@ export type DailyChallenge = {
   reward: number;
 };
 
-export type ScreenName = 'splash' | 'onboarding' | 'map' | 'game' | 'dictionary' | 'shop' | 'profile' | 'settings';
+export type ScreenName = 'splash' | 'onboarding' | 'map' | 'game' | 'dictionary' | 'shop' | 'profile' | 'settings' | 'level-start';
