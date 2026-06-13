@@ -3,29 +3,191 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Söz Ustası Gizlilik Politikası</title>
+    <title>Söz Ustası - Gizlilik Politikası</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-      body { margin: 0; background: #101827; color: #fff9ef; font: 16px/1.6 Arial, sans-serif; }
-      main { width: min(720px, calc(100% - 40px)); margin: 0 auto; padding: 48px 0; }
-      h1, h2 { color: #f1c96a; }
-      a { color: #f1c96a; }
+      :root {
+        --bg-grad: radial-gradient(circle at 50% 10%, #0d1e2e 0%, #070f17 100%);
+        --navy-900: #070f17;
+        --navy-800: #101c2c;
+        --gold-500: #d9a441;
+        --gold-300: #f1c96a;
+        --text-color: #fff9ef;
+        --text-muted: rgba(255, 249, 239, 0.72);
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg-grad);
+        color: var(--text-color);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+      }
+
+      main {
+        width: 100%;
+        max-width: 760px;
+        background: rgba(16, 28, 44, 0.65);
+        border: 1px solid rgba(217, 164, 65, 0.24);
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        box-sizing: border-box;
+      }
+
+      .header-area {
+        text-align: center;
+        border-bottom: 1px solid rgba(217, 164, 65, 0.18);
+        padding-bottom: 32px;
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .logo-icon {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 16px;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      }
+
+      h1 {
+        font-family: 'Georgia', serif;
+        font-size: clamp(28px, 5vw, 36px);
+        font-weight: 900;
+        margin: 0 0 8px;
+        color: var(--gold-300);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .last-updated {
+        font-size: 13px;
+        color: var(--gold-500);
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      p {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--text-muted);
+        margin: 0 0 24px;
+      }
+
+      .intro-card {
+        background: rgba(217, 164, 65, 0.06);
+        border-left: 3px solid var(--gold-500);
+        padding: 16px 20px;
+        border-radius: 4px 12px 12px 4px;
+        margin-bottom: 36px;
+      }
+
+      .intro-card p {
+        margin: 0;
+        color: var(--text-color);
+        font-weight: 500;
+      }
+
+      h2 {
+        font-family: 'Georgia', serif;
+        font-size: 20px;
+        color: var(--gold-300);
+        margin: 36px 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        padding-bottom: 6px;
+      }
+
+      h2::before {
+        content: "✦";
+        color: var(--gold-500);
+        font-size: 16px;
+      }
+
+      ul {
+        margin: 0 0 24px;
+        padding-left: 20px;
+      }
+
+      li {
+        color: var(--text-muted);
+        margin-bottom: 10px;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .footer-note {
+        text-align: center;
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 12px;
+        color: rgba(255, 249, 239, 0.45);
+      }
+
+      @media (max-width: 600px) {
+        main {
+          padding: 24px;
+          border-radius: 16px;
+        }
+        h1 {
+          font-size: 24px;
+        }
+      }
     </style>
   </head>
   <body>
     <main>
-      <h1>Söz Ustası Gizlilik Politikası</h1>
-      <p>Son güncelleme: 5 Haziran 2026</p>
-      <p>Söz Ustası bu sürümde kişisel veya hassas kullanıcı verisi toplamaz, paylaşmaz ya da satmaz.</p>
-      <h2>İzinler ve veriler</h2>
-      <p>Uygulama kamera, mikrofon, konum, kişi listesi, reklam kimliği veya hesap bilgilerine erişmez. Oyun içeriği cihaz üzerinde çalışır.</p>
-      <h2>Saklama ve silme</h2>
-      <p>Oyun ilerlemesi ve ayar tercihleri yalnızca cihaz üzerinde saklanır; sunuculara gönderilmez. Bu veriler uygulama kaldırılarak silinebilir.</p>
-      <h2>Üçüncü taraflar</h2>
-      <p>Bu sürüm reklam, analiz, ödeme veya üçüncü taraf kullanıcı takip SDK'sı içermez.</p>
-      <h2>Çocukların gizliliği</h2>
-      <p>Uygulama çocuklardan bilerek kişisel veri toplamaz.</p>
-      <h2>İletişim</h2>
-      <p>Gizlilik talepleri Google Play geliştirici profilinde yayımlanan destek e-posta adresi üzerinden iletilebilir.</p>
+      <div class="header-area">
+        <img class="logo-icon" src="/favicon.png" alt="Söz Ustası Logo" onerror="this.style.display='none'" />
+        <h1>Söz Ustası</h1>
+        <div class="last-updated">Gizlilik Politikası</div>
+      </div>
+
+      <div class="intro-card">
+        <p>Son Güncelleme: 13 Haziran 2026</p>
+      </div>
+
+      <p>Bu gizlilik politikası, <strong>Söz Ustası</strong> mobil uygulamasının veri toplama ve gizlilik ilkelerini açıklamaktadır. Kullanıcılarımızın gizliliğini korumak en yüksek önceliğimizdir.</p>
+
+      <h2>1. Veri Toplama ve Kullanım</h2>
+      <p>Söz Ustası mobil uygulaması, bu sürüm itibariyle <strong>hiçbir kişisel veri, hassas kullanıcı bilgisi veya reklam kimliği (ID) toplamaz, saklamaz, satmaz ve üçüncü taraflarla paylaşmaz.</strong></p>
+
+      <h2>2. Donanım ve Sistem İzinleri</h2>
+      <p>Uygulama, cihazınızın kritik güvenlik donanımlarına erişim talep etmez. Aşağıdaki hassas izinler oyunumuzda <strong>kesinlikle kullanılmamaktadır</strong>:</p>
+      <ul>
+        <li>Konum bilgisi (GPS)</li>
+        <li>Kamera ve mikrofon erişimi</li>
+        <li>Rehber (Kişiler) ve arama geçmişi erişimi</li>
+        <li>Dosya depolama veya galeri erişimi (Local ayarlar hariç)</li>
+      </ul>
+
+      <h2>3. Veri Saklama ve Yerel Depolama</h2>
+      <p>Oyun içi ilerleme seviyeleriniz, topladığınız mühürler, puanlar ve ayar tercihleriniz <strong>yalnızca cihazınızın yerel hafızasında (Local Storage)</strong> saklanır. Bu veriler herhangi bir harici sunucuya veya bulut sistemine aktarılmaz. Oyunu cihazınızdan kaldırdığınızda, tüm yerel ilerleme verileri de otomatik olarak silinir.</p>
+
+      <h2>4. Üçüncü Taraf Entegrasyonları</h2>
+      <p>Uygulamamızın bu sürümünde herhangi bir harici analiz (Analytics) yazılımı, reklam takip yazılımı (SDK'lar) veya veri toplayıcı harici servis entegrasyonu bulunmamaktadır.</p>
+
+      <h2>5. Çocukların Gizliliği</h2>
+      <p>Söz Ustası her yaş grubundan kullanıcıya hitap edecek şekilde tasarlanmıştır. Hiçbir yaş grubundan (çocuklar dahil) bilerek veya isteyerek kişisel bilgi toplamıyoruz.</p>
+
+      <h2>6. İletişim ve Destek</h2>
+      <p>Gizlilik ilkelerimiz hakkında sorularınız veya geri bildirimleriniz için Google Play Store geliştirici profilimizde yayımlanan resmi destek e-posta adresimiz üzerinden bizimle irtibata geçebilirsiniz.</p>
+
+      <div class="footer-note">
+        © 2026 Söz Ustası. Tüm hakları saklıdır.
+      </div>
     </main>
   </body>
 </html>
