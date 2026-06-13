@@ -1,53 +1,13 @@
-# Android signing (contains passwords)
-android/keystore.properties
+# Ignore everything in the repository by default
+/*
 
-# Android SDK path (machine-local)
-android/local.properties
+# Do not ignore the gitignore file itself
+!.gitignore
 
-# Node
-node_modules/
+# Allow the public directory but ignore its internal contents
+!public/
+public/*
 
-# Build outputs
-dist/
-artifacts/
-tsconfig.tsbuildinfo
-android/app/build/
+# Do not ignore the privacy policy html page
+!public/privacy.html
 
-# MCP debug artifacts
-.playwright-mcp/
-
-# Raw design source files (large PNGs)
-art-source/
-
-# Unity prototype (separate project)
-unity-blueprint/
-
-# Dev screenshots and iteration outputs
-audit-*.png
-game-check.png
-game-compact-check.png
-game-compact-fixed.png
-level-modal-check.png
-map-*.png
-onboard-*.png
-reward-story-real-flow.png
-wax-*.png
-theme-map-*.png
-current-map-flow.png
-
-# Internal docs (design iterations, plans)
-docs/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Environment
-.env
-.env.local
