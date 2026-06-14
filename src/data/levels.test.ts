@@ -88,3 +88,35 @@ describe('crossword layout generation', () => {
     });
   }
 });
+
+describe('learning progression quality', () => {
+  it('keeps obscure or fragmentary words out of main objectives', () => {
+    const unsuitableMainWords = new Set(['KEM', 'DEREN', 'EĞ', 'OL']);
+    const mainWords = levels.flatMap((level) => level.mainWords.map((entry) => entry.word));
+
+    for (const word of mainWords) {
+      expect(unsuitableMainWords.has(word), `${word} geniş kitle için ana hedef olmamalı`).toBe(false);
+    }
+  });
+
+  it('keeps disputed short forms out of hidden discoveries', () => {
+    const unsuitableHiddenWords = new Set(['DAV', 'EZ', 'TU']);
+    const hiddenWords = levels.flatMap((level) => level.hiddenWords.map((entry) => entry.word));
+
+    for (const word of hiddenWords) {
+      expect(unsuitableHiddenWords.has(word), `${word} güvenilir bonus kelime değil`).toBe(false);
+    }
+  });
+
+  it('starts accessible and ends with a clearly higher challenge', () => {
+    const averageDifficulty = (from: number, to: number) => {
+      const words = levels
+        .filter((level) => level.levelId >= from && level.levelId <= to)
+        .flatMap((level) => level.mainWords);
+      return words.reduce((sum, word) => sum + (word.difficulty ?? 1), 0) / words.length;
+    };
+
+    expect(averageDifficulty(1, 5)).toBeLessThanOrEqual(2);
+    expect(averageDifficulty(41, 45)).toBeGreaterThanOrEqual(4);
+  });
+});

@@ -154,10 +154,10 @@ export const levels: LevelData[] = [
       { word: 'KALEM', meaning: 'Yazı yazmaya yarayan araç.', difficulty: 2 },
       { word: 'KELAM', meaning: 'Söz, konuşma veya ifade.', difficulty: 2 },
       { word: 'MEAL', meaning: 'Bir sözün veya yazının kısaltılmış anlamı.', difficulty: 1 },
-      { word: 'KEM', meaning: 'Kötü, fena, yetersiz.', difficulty: 2 }
+      { word: 'ALEM', meaning: 'Dünya, evren veya belirli bir topluluk.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'ALEM', meaning: 'Dünya, evren veya topluluk.', reward: 12 }
+      { word: 'ELA', meaning: 'Yeşile çalan açık kahverengi göz rengi.', reward: 12 }
     ],
     reward: { baseCoin: 46, hiddenWordBonus: 8 },
   },
@@ -220,7 +220,7 @@ export const levels: LevelData[] = [
     puzzleType: 'crossword',
     letters: ["D","E","R","E","N"],
     mainWords: [
-      { word: 'DEREN', meaning: 'Toplayan, bir araya getiren kimse.', difficulty: 3 },
+      { word: 'NEDER', meaning: 'Bir davranışın nedenini soran söz.', difficulty: 3 },
       { word: 'DERE', meaning: 'Küçük akarsu.', difficulty: 2 },
       { word: 'EREN', meaning: 'Olgunluğa ve erdeme ulaşmış kimse.', difficulty: 2 },
       { word: 'NERE', meaning: 'Hangi yer anlamında kullanılan soru sözü.', difficulty: 3 }
@@ -296,7 +296,7 @@ export const levels: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'DİL', meaning: 'İnsanların anlaşmasını sağlayan sözlü sistem.', reward: 11 },
-      { word: 'DAV', meaning: 'Bir şeyi istemek için yapılan başvuru.', reward: 5 }
+      { word: 'İL', meaning: 'Ülke yönetimindeki temel bölgesel birim.', reward: 5 }
     ],
     reward: { baseCoin: 61, hiddenWordBonus: 11 },
   },
@@ -451,7 +451,7 @@ export const levels: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'VER', meaning: 'Bir şeyi başkasına geçirmek veya teslim etmek.', reward: 12 },
-      { word: 'EZ', meaning: 'Bir işte çok usta, maharetli.', reward: 8 }
+      { word: 'EV', meaning: 'İnsanların yaşadığı yapı veya konut.', reward: 8 }
     ],
     reward: { baseCoin: 82, hiddenWordBonus: 13 },
   },
@@ -486,7 +486,7 @@ export const levels: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'BUL', meaning: 'Aramakta olduğu şeyi elde etmek eyleminin emir biçimi.', reward: 12 },
-      { word: 'TU', meaning: 'Kükreyen ses veya uyarı.', reward: 5 }
+      { word: 'UT', meaning: 'Telli ve mızrapla çalınan bir müzik aleti.', reward: 5 }
     ],
     reward: { baseCoin: 86, hiddenWordBonus: 13 },
   },
@@ -555,7 +555,7 @@ export const levels: LevelData[] = [
       { word: 'DEĞER', meaning: 'Bir şeyin önemi veya karşılığı.', difficulty: 4 },
       { word: 'EDER', meaning: 'Bir şeyin karşılığı olan değer, fiyat.', difficulty: 3 },
       { word: 'EĞER', meaning: 'Koşul bildiren söz.', difficulty: 4 },
-      { word: 'EĞ', meaning: 'Eğri olan yan, bükük yer.', difficulty: 4 }
+      { word: 'DER', meaning: 'Bir şeyi söylemek veya adlandırmak.', difficulty: 4 }
     ],
     hiddenWords: [
       { word: 'ER', meaning: 'Asker veya yetişkin erkek.', reward: 13 }
@@ -703,7 +703,7 @@ export const levels: LevelData[] = [
       { word: 'KOKU', meaning: 'Burunla algılanan duyum.', difficulty: 3 },
       { word: 'KOKLA', meaning: 'Kokusunu almak için burna yaklaştırmak.', difficulty: 5 },
       { word: 'OKUL', meaning: 'Eğitim ve öğretim yeri.', difficulty: 4 },
-      { word: 'OL', meaning: 'Var olmak, bulunmak eyleminin emir biçimi.', difficulty: 4 }
+      { word: 'KOK', meaning: 'Bir kokuyu burnunla algıla.', difficulty: 4 }
     ],
     hiddenWords: [
       { word: 'KOL', meaning: 'Omuzdan ele kadar uzanan bölüm.', reward: 13 }
