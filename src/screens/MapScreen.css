@@ -66,16 +66,17 @@
 
 .map-daily-card {
   position: absolute;
-  z-index: 8;
-  top: calc(env(safe-area-inset-top, 0px) + 82px);
+  z-index: 19;
+  top: calc(max(28px, env(safe-area-inset-top)) + 76px);
   left: 50%;
-  width: min(78%, 310px);
+  width: min(calc(100% - 32px), 340px);
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px 14px;
+  min-height: 36px;
+  padding: 7px 14px;
   border: 1px solid rgba(241, 201, 106, 0.72);
   border-radius: 14px;
   background: linear-gradient(135deg, rgba(16, 32, 51, 0.95), rgba(91, 45, 31, 0.94));
@@ -92,6 +93,7 @@
 
 .map-daily-card strong {
   font-size: 0.78rem;
+  white-space: nowrap;
 }
 
 .map-daily-card--done {
@@ -216,6 +218,16 @@
   .map-resource-pill { min-width: 50px; padding-right: 6px; padding-left: 22px; }
   .map-resource-icon { width: 32px; height: 32px; }
   .map-topbar-title { font-size: 12px; }
+
+  .map-daily-card {
+    top: calc(max(28px, env(safe-area-inset-top)) + 74px);
+    width: calc(100% - 20px);
+    gap: 8px;
+    padding-inline: 10px;
+  }
+
+  .map-daily-card span { font-size: 0.62rem; }
+  .map-daily-card strong { font-size: 0.7rem; }
 }
 
 .map-resource-value {
@@ -227,7 +239,7 @@
 
 .map-journey {
   position: absolute;
-  inset: 104px 0 154px;
+  inset: 150px 0 154px;
   z-index: 10;
 }
 
