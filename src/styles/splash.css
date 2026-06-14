@@ -1,0 +1,193 @@
+/* Splash — scaled via --ui-scale-total tokens */
+.screen.splash {
+  position: relative;
+  display: block;
+  padding: 0 !important;
+  height: 100dvh;
+  overflow: hidden;
+  color: #fff7d6;
+  font-family: Georgia, "Times New Roman", serif;
+  background: #061326;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.screen.splash::before,
+.screen.splash::after {
+  display: none;
+}
+
+.screen.splash .splashScene {
+  position: absolute;
+  inset: 0;
+}
+
+.screen.splash .splash-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("/assets/screens/splash-bg.webp");
+  background-size: cover;
+  background-position: center top;
+}
+
+.screen.splash .splash-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 220, 150, 0.1), transparent 36%),
+    linear-gradient(
+      to bottom,
+      rgba(4, 14, 31, 0.06) 0%,
+      rgba(4, 14, 31, 0.02) 45%,
+      rgba(4, 14, 31, 0.55) 100%
+    );
+}
+
+.screen.splash .splashLogo {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: var(--splash-logo-top);
+  transform: translateX(-50%) translateZ(0);
+  width: min(var(--splash-logo-w), 94cqw);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+}
+
+.screen.splash .splashActions {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: var(--splash-actions-bottom);
+  transform: translateX(-50%);
+  width: min(var(--splash-actions-w), 96cqw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12px * var(--ui-scale-total));
+}
+
+.screen.splash .splashBtn {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  line-height: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  min-height: var(--ui-touch-min);
+}
+
+.screen.splash .splashBtn img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.screen.splash .splashBtn:active {
+  transform: scale(0.96);
+}
+
+.screen.splash .splashBtn--basla {
+  width: 100%;
+  min-height: calc(56px * var(--ui-scale-total));
+}
+
+.screen.splash .splashSecondary {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(10px * var(--ui-scale-total));
+}
+
+.screen.splash .splashSecondary .splashBtn {
+  min-height: var(--ui-touch-min);
+}
+
+.screen.splash .splashWelcome {
+  width: min(var(--splash-welcome-w), 78cqw);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+}
+
+.screen.splash .splashProgress {
+  position: relative;
+  width: 100%;
+  height: var(--splash-progress-h);
+  display: grid;
+  place-items: center;
+}
+
+.screen.splash .splashProgressTrack {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #061326;
+  border: calc(3px * var(--ui-scale)) solid #d6a14a;
+  box-shadow:
+    inset 0 4px 8px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.screen.splash .splashProgressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #5be6ff 0%, #0878d4 100%);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.42),
+    0 0 12px rgba(59, 205, 255, 0.65);
+  transition: width 80ms linear;
+}
+
+.screen.splash .splashProgressLabel {
+  position: relative;
+  z-index: 3;
+  color: #fff;
+  font-size: calc(17px * var(--ui-scale-total));
+  font-weight: 900;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.screen.splash .splashFooter {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: var(--splash-footer-bottom);
+  transform: translateX(-50%);
+  width: min(calc(420px * var(--ui-scale-total)), 94cqw);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(8px * var(--ui-scale-total));
+  text-align: center;
+  color: #f9d47a;
+  font-size: calc(12px * var(--ui-scale-total));
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+}
+
+.screen.splash .splashLeaf {
+  width: calc(18px * var(--ui-scale-total));
+  height: calc(8px * var(--ui-scale-total));
+  border-radius: 50%;
+  background: linear-gradient(90deg, transparent, #c5923d);
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.screen.splash .splashLeaf--right {
+  background: linear-gradient(270deg, transparent, #c5923d);
+}

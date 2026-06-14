@@ -1,0 +1,420 @@
+.levelModal {
+  position: relative;
+  width: min(100%, 392px);
+  max-height: calc(100dvh - 28px);
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0;
+  gap: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 15, 27, 0.32), rgba(8, 14, 24, 0.96) 43%),
+    var(--level-bg) center top / 100% auto no-repeat,
+    #09101b;
+  border: 1px solid rgba(241, 201, 106, 0.22);
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.56),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ── Close Button ── */
+.levelClose {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  right: 10px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.levelCloseImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  transition: transform 120ms ease;
+}
+
+.levelClose:active .levelCloseImg {
+  transform: scale(0.9);
+}
+
+/* ── Hero Section ── */
+.levelHero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 180px;
+  padding: 20px 16px;
+  overflow: hidden;
+}
+
+.levelHeroFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.levelHeroContent {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  padding-left: 8px;
+}
+
+.levelBadge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(214, 169, 74, 0.2), rgba(214, 169, 74, 0.08));
+  border: 1px solid rgba(214, 169, 74, 0.3);
+  color: #ffe29a;
+  font: 800 10px/1 Georgia, serif;
+  letter-spacing: 1.5px;
+}
+
+.puzzleTypeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(50, 216, 216, 0.12);
+  border: 1px solid rgba(50, 216, 216, 0.25);
+  color: #32d8d8;
+  font: 700 9px/1 Georgia, serif;
+}
+
+.levelHeroContent h2 {
+  margin: 8px 0 4px;
+  color: #fff7e6;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.levelHeroContent p {
+  margin: 0;
+  color: #d9cfba;
+  font-size: 12px;
+}
+
+.levelSealWrap {
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.levelSealImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+}
+
+.levelSealNumber {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 800 28px/1 Georgia, serif;
+  color: #ffe8b7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Stats ── */
+.levelStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 4px;
+  align-items: center;
+  margin: 0 12px;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.statBlock {
+  position: relative;
+}
+
+.statBlockCard {
+  aspect-ratio: 2008 / 783;
+  min-width: 0;
+}
+
+.statBlockSecret {
+  aspect-ratio: 1706 / 922;
+}
+
+.statBlockSecret .statBlockInner {
+  padding-right: 22%;
+}
+
+.statBlockReward {
+  width: 88px;
+  aspect-ratio: 1;
+  margin-left: -6px;
+  z-index: 2;
+}
+
+.statFrameImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.statBlockInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 4px;
+  height: 100%;
+  padding: 12% 8%;
+  text-align: center;
+  color: #fff1d0;
+}
+
+.statBlockInner strong {
+  color: #ffe39a;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+
+.statBlockInner span {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.statBlockInner small {
+  font-size: 9px;
+  font-weight: 700;
+  color: #ffd966;
+}
+
+.statBlockReward .statBlockInner {
+  padding: 18% 10%;
+}
+
+/* ── Theme Modifier ── */
+.themeModifierTag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(50, 216, 216, 0.08), rgba(50, 216, 216, 0.03));
+  border: 1px solid rgba(50, 216, 216, 0.18);
+}
+
+.themeModifierTag span:first-child {
+  font-size: 22px;
+}
+
+.themeModifierTag strong {
+  color: #32d8d8;
+  font-size: 11px;
+}
+
+.themeModifierTag p {
+  margin: 2px 0 0;
+  color: #b9c2c9;
+  font-size: 10px;
+}
+
+/* ── Story ── */
+.levelStory {
+  position: relative;
+  margin: 8px 12px;
+  padding: 14px 16px;
+  overflow: hidden;
+}
+
+.levelStoryFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.levelStoryContent {
+  position: relative;
+  z-index: 1;
+}
+
+.levelStoryContent strong {
+  display: block;
+  margin: 4px 0;
+  color: #fff7e6;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+}
+
+.levelStoryContent p {
+  margin: 0;
+  color: #d9cfba;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.levelStoryMeta {
+  display: flex;
+  gap: 10px;
+}
+
+.levelStoryMeta span {
+  color: #70d7b1;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.levelStoryMeta span:last-child {
+  color: #f1c96a;
+}
+
+/* ── Stats Line ── */
+.levelStatsLine {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 4px 12px;
+  padding: 6px;
+}
+
+.levelStatsLine span {
+  color: #b9c2c9;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ── Objectives ── */
+.briefObjectives {
+  display: grid;
+  gap: 8px;
+  margin: 0 12px;
+}
+
+.objectiveRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.objectiveStar {
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 16px;
+}
+
+.objectiveRow p {
+  flex: 1;
+  margin: 0;
+  color: #d9cfba;
+  font-size: 12px;
+}
+
+.objectiveBadge {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.objectiveBadge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+}
+
+.objectiveRow.earned .objectiveStar {
+  color: #f1c96a;
+}
+
+.objectiveRow.earned p {
+  color: #fff7e6;
+}
+
+/* ── Play Button ── */
+.levelPlayBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 24px);
+  margin: 10px 12px 16px;
+  padding: 14px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.levelPlayBtnFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.levelPlayBtnText {
+  position: relative;
+  z-index: 1;
+  font: 800 16px/1 Georgia, serif;
+  letter-spacing: 0.06em;
+  color: #fff7e6;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.levelPlayBtn:active {
+  transform: scale(0.97);
+}
+
+/* ── Responsive ── */
+@media (max-height: 700px) {
+  .levelHero {
+    min-height: 140px;
+    padding: 14px 12px;
+  }
+
+  .levelSealWrap {
+    width: 80px;
+    height: 80px;
+  }
+
+  .levelSealNumber {
+    font-size: 22px;
+  }
+
+  .levelHeroContent h2 {
+    font-size: 20px;
+  }
+
+  .statBlockReward {
+    width: 72px;
+  }
+}

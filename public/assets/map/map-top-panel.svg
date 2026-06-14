@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="140" viewBox="0 0 1000 140">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0b2234" stop-opacity=".96"/>
+      <stop offset=".55" stop-color="#06131f" stop-opacity=".96"/>
+      <stop offset="1" stop-color="#102b3f" stop-opacity=".92"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop offset="0" stop-color="#7f5a18"/>
+      <stop offset=".22" stop-color="#ffe29a"/>
+      <stop offset=".5" stop-color="#d6a94a"/>
+      <stop offset=".78" stop-color="#fff0b7"/>
+      <stop offset="1" stop-color="#815b19"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-40%" width="120%" height="180%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+  </defs>
+  <rect x="10" y="10" width="980" height="120" rx="28" fill="url(#bg)" stroke="url(#gold)" stroke-width="3" filter="url(#shadow)"/>
+  <rect x="24" y="24" width="952" height="92" rx="21" fill="none" stroke="#ffe29a" stroke-opacity=".16"/>
+  <path d="M42 108 C78 125,120 124,148 108" fill="none" stroke="url(#gold)" stroke-width="2" opacity=".45"/>
+  <path d="M852 108 C880 124,922 125,958 108" fill="none" stroke="url(#gold)" stroke-width="2" opacity=".45"/>
+  <circle cx="38" cy="38" r="3" fill="#ffe29a" opacity=".7"/>
+  <circle cx="962" cy="38" r="3" fill="#ffe29a" opacity=".7"/>
+</svg>

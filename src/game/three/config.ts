@@ -1,0 +1,18 @@
+export const SCENE_CONFIG = {
+  ringRadius: 3.5,
+  ringPosition: [0, 2, -1] as const,
+  cellSize: 0.8,
+  gridPosition: [0, -1, 0] as const,
+  floorPosition: [0, -0.5, 0] as const,
+  floorSize: 12,
+  cameraPosition: [0, 6, 10] as const,
+  cameraFov: 40,
+  cameraNear: 0.1,
+  cameraFar: 50,
+  fogNear: 10,
+  fogFar: 30,
+  ringRotationSpeed: 0.05,
+  particleCount: 60,
+  particleRotationSpeed: 0.02,
+  particleSize: 0.08,
+} as const;
