@@ -50,9 +50,9 @@ export function ResourceProvider({
 }) {
   const [coins, setCoins] = useState(120);
   const [hintsRemaining, setHintsRemaining] = useState(0);
-  const [lanternCount, setLanternCount] = useState(0);
+  const [lanternCount] = useState(0);
   const [coinMultiplier, setCoinMultiplier] = useState(1);
-  const [doublerRemaining, setDoublerRemaining] = useState(0);
+  const [doublerRemaining] = useState(0);
   const [freeHintNext, setFreeHintNext] = useState(false);
   const [ownedShopItems, setOwnedShopItems] = useState<string[]>([]);
   const [coinPulse, setCoinPulse] = useState(false);

@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, type ReactNode } from 'react';
+import { createContext, useMemo, type ReactNode } from 'react';
 import { useResource } from './contexts/ResourceContext';
 import { useSession } from './contexts/SessionContext';
 import { usePersistence } from './contexts/PersistenceContext';

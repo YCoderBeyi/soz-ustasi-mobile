@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import '../styles/animations.css';
 
 type Particle = {
@@ -64,7 +64,7 @@ export function ParticleBurst({
             '--bg': p.color,
             '--size': `${p.size}px`,
             '--delay': `${p.delay}s`,
-          } as any}
+          } as CSSProperties & Record<`--${string}`, string>}
         />
       ))}
     </div>

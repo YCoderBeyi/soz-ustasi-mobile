@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
   findWheelLetterAtPoint,
-  letterCenterPx,
   letterCenterPercent,
+  letterCenterPx,
   wheelHitRadius,
   wheelRadius,
 } from './wheelDrag';
@@ -10,39 +10,34 @@ import {
 const ring = { left: 100, top: 200, width: 200, height: 200 };
 
 describe('wheelDrag', () => {
-  it('wheelRadius küçük harf sayısında daha geniş', () => {
+  it('uses a wider radius for small letter sets', () => {
     expect(wheelRadius(4)).toBeGreaterThan(wheelRadius(7));
   });
 
-  it('letterCenterPercent merkezde değil', () => {
-    const c = letterCenterPercent(0, 4);
-    expect(c.x).toBeCloseTo(50, 0);
-    expect(c.y).toBeLessThan(50);
+  it('places letters away from the center', () => {
+    const center = letterCenterPercent(0, 4);
+    expect(center.x).toBeCloseTo(50, 0);
+    expect(center.y).toBeLessThan(50);
   });
 
-  it('dar hitbox — komşu harfe atlamaz', () => {
+  it('captures a mobile touch slightly beyond half the tile radius', () => {
     const tile = 56;
-    const count = 5;
-    const idx0 = letterCenterPx(ring, 0, count);
-    const idx1 = letterCenterPx(ring, 1, count);
-    const betweenX = idx0.x + (idx1.x - idx0.x) * 0.35;
-    const betweenY = idx0.y + (idx1.y - idx0.y) * 0.35;
+    const center = letterCenterPx(ring, 0, 5);
+    const touchX = center.x + tile * 0.52;
 
-    expect(findWheelLetterAtPoint(idx0.x, idx0.y, ring, count, tile, null)).toBe(0);
-    expect(findWheelLetterAtPoint(betweenX, betweenY, ring, count, tile, 0)).toBe(0);
-    expect(findWheelLetterAtPoint(betweenX, betweenY, ring, count, tile, null)).not.toBe(1);
-    expect(wheelHitRadius(tile)).toBeLessThan(tile * 0.5);
+    expect(findWheelLetterAtPoint(center.x, center.y, ring, 5, tile, null)).toBe(0);
+    expect(findWheelLetterAtPoint(touchX, center.y, ring, 5, tile, null)).toBe(0);
+    expect(wheelHitRadius(tile)).toBeGreaterThan(tile * 0.5);
   });
 
-  it('yapışkan son harf — sınırda kalır', () => {
+  it('keeps the last letter sticky near its edge', () => {
     const tile = 56;
-    const count = 4;
-    const center = letterCenterPx(ring, 1, count);
+    const center = letterCenterPx(ring, 1, 4);
     const edge = center.x + wheelHitRadius(tile) * 0.9;
-    expect(findWheelLetterAtPoint(edge, center.y, ring, count, tile, 1)).toBe(1);
+    expect(findWheelLetterAtPoint(edge, center.y, ring, 4, tile, 1)).toBe(1);
   });
 
-  it('boş alanda null döner', () => {
+  it('returns null in empty space', () => {
     expect(findWheelLetterAtPoint(ring.left + 100, ring.top + 100, ring, 5, 56, null)).toBeNull();
   });
 });

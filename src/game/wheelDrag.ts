@@ -30,8 +30,8 @@ export function letterCenterPx(
   };
 }
 
-const HIT_SCALE = 0.38;
-const STICKY_SCALE = 0.5;
+const HIT_SCALE = 0.62;
+const STICKY_SCALE = 0.78;
 
 export function wheelHitRadius(tilePx: number): number {
   return tilePx * HIT_SCALE;

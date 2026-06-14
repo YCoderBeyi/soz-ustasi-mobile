@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode, JSX } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { V2Icon, type V2IconName } from './Icon';
 
 const FRAME_MAP = {

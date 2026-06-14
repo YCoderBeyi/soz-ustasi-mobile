@@ -31,7 +31,7 @@ export function getThemeGroups(completedLevels: number[], levelMastery: Record<n
   });
 }
 
-export function getActiveThemeIndex(currentLevelId: number, completedLevels: number[]): number {
+export function getActiveThemeIndex(currentLevelId: number): number {
   const currentLevel = levels.find((item) => item.levelId === currentLevelId);
   if (!currentLevel) return 0;
   const idx = themes.findIndex((t) => t.themeId === currentLevel.themeId);

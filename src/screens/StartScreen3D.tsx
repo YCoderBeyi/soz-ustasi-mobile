@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useGame } from "../store/GameContext";
 import { Button3D } from "../components/Button3D";
-import { WaxSeal } from "../components/WaxSeal";
 import "./StartScreen3D.css";
 
 export function StartScreen3D() {

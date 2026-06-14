@@ -27,7 +27,7 @@ export type PlayerSave = {
   levelStats: Record<number, LevelStats>;
 };
 
-export type Feedback = 'correct' | 'wrong' | 'hidden' | 'shuffle' | 'seal' | null;
+export type Feedback = 'correct' | 'wrong' | 'hidden' | 'hint' | 'shuffle' | 'seal' | null;
 
 // ---------------------------------------------------------------------------
 // Constants

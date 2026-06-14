@@ -71,6 +71,7 @@ export function SessionProvider({
   initialLevelId,
   setCurrentLevelId,
   addCoins,
+  spendHint,
   play,
   haptic,
   awardedLevels,
@@ -84,6 +85,7 @@ export function SessionProvider({
   initialLevelId: number;
   setCurrentLevelId: (levelId: number) => void;
   addCoins: (amount: number) => void;
+  spendHint: () => boolean;
   play: (name: SfxName) => void;
   haptic: (pattern: number | number[]) => void;
   awardedLevels: number[];
@@ -100,6 +102,7 @@ export function SessionProvider({
   const [selected, setSelected] = useState<number[]>([]);
   const [found, setFound] = useState<string[]>([]);
   const [hiddenFound, setHiddenFound] = useState<WordEntry[]>([]);
+  const [bonusFound, setBonusFound] = useState<string[]>([]);
   const [revealedLetters, setRevealedLetters] = useState<Record<string, number[]>>({});
   const [meaning, setMeaning] = useState<WordEntry | null>(null);
   const [feedback, setFeedback] = useState<Feedback>(null);
@@ -164,13 +167,19 @@ export function SessionProvider({
 
   const shuffleLetters = useCallback(() => {
     setLetters((prev) => shuffle(prev));
-  }, []);
+    play('shuffle');
+    setToast('Harfler karıştırıldı');
+    cleanup.safeTimeout(() => setToast(''), 900);
+  }, [cleanup, play]);
 
   const submitWord = useCallback((word: string) => {
     if (!word || !level) return;
     const normalized = normalizeWord(word);
     const main = level.mainWords.find((entry) => normalizeWord(entry.word) === normalized);
     const hidden = level.hiddenWords.find((entry) => normalizeWord(entry.word) === normalized);
+    const dictionaryEntry = levels
+      .flatMap((item) => [...item.mainWords, ...item.hiddenWords])
+      .find((entry) => normalizeWord(entry.word) === normalized);
 
     if (main && !found.includes(main.word)) {
       const nextStreak = streak + 1;
@@ -186,6 +195,26 @@ export function SessionProvider({
       startTimer();
       cleanup.safeTimeout(() => setMeaning(null), 5000);
       cleanup.safeTimeout(() => setFeedback(null), 600);
+      return;
+    }
+
+    if (dictionaryEntry && !bonusFound.includes(normalized)) {
+      const nextStreak = streak + 1;
+      setStreak(nextStreak);
+      setMaxStreak((v) => Math.max(v, nextStreak));
+      setBonusFound((items) => [...items, normalized]);
+      addCollectedWord(dictionaryEntry);
+      addCoins(3);
+      setMeaning(dictionaryEntry);
+      setFeedback('hidden');
+      setToast(`Bonus Kelime: ${dictionaryEntry.word}`);
+      play('hidden');
+      haptic([20, 30, 20]);
+      clearSelection();
+      startTimer();
+      cleanup.safeTimeout(() => setMeaning(null), 5000);
+      cleanup.safeTimeout(() => setFeedback(null), 600);
+      cleanup.safeTimeout(() => setToast(''), 2200);
       return;
     }
 
@@ -213,7 +242,10 @@ export function SessionProvider({
     haptic(100);
     clearSelection();
     cleanup.safeTimeout(() => setFeedback(null), 600);
-  }, [level, found, hiddenFound, streak, cleanup, play, haptic, clearSelection]);
+  }, [
+    level, found, hiddenFound, bonusFound, streak, cleanup, play, haptic,
+    clearSelection, addCollectedWord, addCoins,
+  ]);
 
   const startLevel = useCallback((nextLevel?: LevelData) => {
     if (!nextLevel) return;
@@ -229,6 +261,7 @@ export function SessionProvider({
     setSelected([]);
     setFound([]);
     setHiddenFound([]);
+    setBonusFound([]);
     setRevealedLetters({});
     setMeaning(null);
     setToast('');
@@ -255,10 +288,53 @@ export function SessionProvider({
   }, [level, startLevel, setScreen, cleanup]);
 
   const revealMeaningHint = useCallback(() => {
-  }, []);
+    const target = level.mainWords.find((entry) => !found.includes(entry.word));
+    if (!target) {
+      setToast('Bu seviyedeki tüm ana kelimeleri buldun');
+      setModal(null);
+      return;
+    }
+    if (!spendHint()) {
+      setToast('İpucu için 20 altın gerekiyor');
+      return;
+    }
+    setUsedHint(true);
+    setMeaning({ word: 'ANLAM İPUCU', meaning: target.meaning });
+    setFeedback('hint');
+    play('hint');
+    setModal(null);
+    cleanup.safeTimeout(() => setMeaning(null), 6000);
+    cleanup.safeTimeout(() => setFeedback(null), 700);
+  }, [level, found, spendHint, cleanup, play]);
 
   const revealLetterHint = useCallback(() => {
-  }, []);
+    const target = level.mainWords.find((entry) => {
+      const revealed = revealedLetters[entry.word] ?? [];
+      return !found.includes(entry.word) && revealed.length < entry.word.length;
+    });
+    if (!target) {
+      setToast('Açılacak harf kalmadı');
+      setModal(null);
+      return;
+    }
+    if (!spendHint()) {
+      setToast('İpucu için 20 altın gerekiyor');
+      return;
+    }
+    const revealed = revealedLetters[target.word] ?? [];
+    const nextIndex = [...target.word].findIndex((_, index) => !revealed.includes(index));
+    setRevealedLetters((items) => ({
+      ...items,
+      [target.word]: [...(items[target.word] ?? []), nextIndex],
+    }));
+    setUsedHint(true);
+    setToast(`${target.word.length} harfli bir kelimeden harf açıldı`);
+    setFeedback('hint');
+    play('hint');
+    setModal(null);
+    cleanup.safeTimeout(() => setFeedback(null), 700);
+    cleanup.safeTimeout(() => setToast(''), 1800);
+  }, [level, found, revealedLetters, spendHint, cleanup, play]);
 
   const submitCurrentWord = useCallback(() => {
     const word = selected.map((i) => letters[i]).join('');

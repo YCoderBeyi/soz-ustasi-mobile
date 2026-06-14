@@ -3,7 +3,6 @@ import { useGame } from '../store/GameContext';
 import { OBJECTIVE_KEYS, getObjectiveLabels } from '../game/objectives';
 import { getLevelStory } from '../data/levelStories';
 import { getTheme } from '../data/themes';
-import { V2Icon } from './Icon';
 
 const puzzleTypeLabels: Record<string, string> = {
   crossword: 'Çapraz Bulmaca',

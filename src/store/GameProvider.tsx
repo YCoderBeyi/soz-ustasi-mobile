@@ -15,7 +15,7 @@ function ResourceProviderBridge({ children }: { children: ReactNode }) {
 }
 
 function SessionProviderBridge({ children }: { children: ReactNode }) {
-  const { addCoins, play, haptic } = useResource();
+  const { addCoins, spendHint, play, haptic } = useResource();
   const {
     currentLevelId, setCurrentLevelId,
     awardedLevels,
@@ -26,7 +26,10 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
     <SessionProvider
       initialLevelId={currentLevelId}
       setCurrentLevelId={setCurrentLevelId}
-      addCoins={addCoins} play={play} haptic={haptic}
+      addCoins={addCoins}
+      spendHint={spendHint}
+      play={play}
+      haptic={haptic}
       awardedLevels={awardedLevels}
       markLevelCompleted={markLevelCompleted}
       markLevelAwarded={markLevelAwarded}

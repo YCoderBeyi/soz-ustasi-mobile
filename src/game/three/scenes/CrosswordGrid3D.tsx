@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { Text } from '@react-three/drei';
 import type { CrosswordLayout } from '../../crossword';
 import { gridTo3D } from '../utils/geometry';
