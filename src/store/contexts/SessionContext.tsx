@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, useRef, useEffect, type ReactNode } from 'react';
-import type { LevelData, WordEntry, ScreenName, ThemeData } from '../../types';
+import type { DailyChallenge, LevelData, WordEntry, ScreenName, ThemeData } from '../../types';
 import type { Feedback } from '../../game/playerSave';
 import type { SfxName } from '../../audio';
 import { normalizeWord } from '../../game/normalize';
@@ -80,6 +80,8 @@ export function SessionProvider({
   mergeMastery,
   addCollectedWord,
   updateStats,
+  dailyChallenge,
+  claimDailyReward,
 }: {
   children: ReactNode;
   initialLevelId: number;
@@ -94,6 +96,8 @@ export function SessionProvider({
   mergeMastery: (levelId: number, objectives: ObjectiveKey[]) => void;
   addCollectedWord: (entry: WordEntry) => void;
   updateStats: (levelId: number, time: number, streak: number) => void;
+  dailyChallenge: DailyChallenge | null;
+  claimDailyReward: () => void;
 }) {
   const [level, setLevelState] = useState<LevelData>(
     () => levels.find((item) => item.levelId === initialLevelId) ?? initialLevel,
@@ -366,6 +370,16 @@ export function SessionProvider({
       setRewardSummary({ base: 0, hidden: 0 });
     }
 
+    if (
+      dailyChallenge
+      && !dailyChallenge.completed
+      && dailyChallenge.levelId === level.levelId
+    ) {
+      addCoins(dailyChallenge.reward);
+      claimDailyReward();
+      setToast(`Günün görevi tamamlandı: +${dailyChallenge.reward} altın`);
+    }
+
     const runObjectives = getRunObjectives(level, hiddenFound.length, usedHint, maxStreak);
     setEarnedObjectives(runObjectives);
     mergeMastery(level.levelId, runObjectives);
@@ -376,7 +390,7 @@ export function SessionProvider({
   }, [level, hiddenFound, usedHint, maxStreak, elapsedTime,
       sealOpen, awardedLevels, theme,
       addCoins, markLevelCompleted, markLevelAwarded,
-      mergeMastery, updateStats, play, cleanup]);
+      mergeMastery, updateStats, play, cleanup, dailyChallenge, claimDailyReward]);
 
   const setLevel = useCallback((lvl: LevelData) => {
     setLevelState(lvl);

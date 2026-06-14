@@ -44,7 +44,7 @@ export function MapScreen() {
   const {
     play, level, setLevel, completedLevels,
     levelMastery, toast, setToast, coins,
-    isLevelUnlocked, setScreen,
+    isLevelUnlocked, setScreen, dailyChallenge,
   } = useGame();
 
   const regionGroups = useMemo(() => {
@@ -129,13 +129,17 @@ export function MapScreen() {
     setScreen('level-start');
   };
 
+  const handleDailyChallenge = () => {
+    if (!dailyChallenge || dailyChallenge.completed) return;
+    const dailyLevel = levels.find((item) => item.levelId === dailyChallenge.levelId);
+    if (!dailyLevel) return;
+    play('tap');
+    setLevel(dailyLevel);
+    setScreen('level-start');
+  };
+
   return (
-    <main
-      className="map-screen"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
+    <main className="map-screen">
       <img className="map-bg" src="/assets/ui/map/map-diorama-v2.png" alt="" />
 
       {toast && <div className="map-toast">{toast}</div>}
@@ -164,7 +168,30 @@ export function MapScreen() {
         </div>
       </header>
 
-      <section className="map-journey" aria-label={`${activeTheme.title} seviyeleri`}>
+      {dailyChallenge && (
+        <button
+          type="button"
+          className={`map-daily-card ${dailyChallenge.completed ? 'map-daily-card--done' : ''}`}
+          onClick={handleDailyChallenge}
+          disabled={dailyChallenge.completed}
+          aria-label={dailyChallenge.completed ? 'Günün görevi tamamlandı' : `Günün görevi: Level ${dailyChallenge.levelId}`}
+        >
+          <span>GÜNÜN GÖREVİ</span>
+          <strong>
+            {dailyChallenge.completed
+              ? 'Tamamlandı'
+              : `Level ${dailyChallenge.levelId} · +${dailyChallenge.reward} altın`}
+          </strong>
+        </button>
+      )}
+
+      <section
+        className="map-journey"
+        aria-label={`${activeTheme.title} seviyeleri`}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <img className="map-path-glow" src="/assets/map/path-glow-line.svg" alt="" />
 
         {themeLevels.map((item, index) => {

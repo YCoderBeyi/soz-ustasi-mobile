@@ -21,6 +21,7 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
     awardedLevels,
     markLevelCompleted, markLevelAwarded,
     mergeMastery, addCollectedWord, updateStats,
+    dailyChallenge, claimDailyReward,
   } = usePersistence();
   return (
     <SessionProvider
@@ -36,6 +37,8 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
       mergeMastery={mergeMastery}
       addCollectedWord={addCollectedWord}
       updateStats={updateStats}
+      dailyChallenge={dailyChallenge}
+      claimDailyReward={claimDailyReward}
     >
       {children}
     </SessionProvider>
