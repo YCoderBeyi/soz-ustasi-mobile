@@ -5,6 +5,6 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['dist', 'android', 'scripts'],
+    ignores: ['dist', 'android', 'scripts', '.worktrees'],
   },
 );

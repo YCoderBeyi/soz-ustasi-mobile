@@ -1,6 +1,12 @@
 import type { LevelStory } from '../types';
+import { levelStories46to50 } from './levelStories46to50';
+import { levelStories51to55 } from './levelStories51to55';
+import { levelStories56to60 } from './levelStories56to60';
+import { levelStories61to65 } from './levelStories61to65';
+import { levelStories66to70 } from './levelStories66to70';
+import { levelStories71to75 } from './levelStories71to75';
 
-export const levelStories: LevelStory[] = [
+const baseLevelStories: LevelStory[] = [
   { levelId: 1, era: 'MÖ 3500', place: 'Mezopotamya', title: 'Tekerleğin Dönüşü', body: 'İlk tekerlekler ulaşım için değil, çömlekçi çarkı olarak kullanıldı. İnsanlar dönen bir diskin hareketi kolaylaştırdığını fark edince yük taşımacılığı ve üretim kökten değişti.' },
   { levelId: 2, era: 'MÖ 3200', place: 'Sümer', title: 'Sözün Kil Tablete Geçişi', body: 'Sümerli kâtipler tahıl ve ticaret kayıtlarını kil tabletlere işaretledi. Çivi yazısına dönüşen bu yöntem, bilginin insan hafızasından bağımsız yaşamasını sağladı.' },
   { levelId: 3, era: 'MÖ 3000', place: 'Mısır', title: 'Papirüsün Hafifliği', body: 'Nil kıyısındaki papirüs bitkisinin şeritleri preslenerek taşınabilir yazı yüzeyleri üretildi. Bilgi artık ağır taşlara değil, rulolanıp uzaklara götürülebilen sayfalara yazılabiliyordu.' },
@@ -46,6 +52,16 @@ export const levelStories: LevelStory[] = [
   { levelId: 43, era: '1989', place: 'CERN, İsviçre', title: 'Dünya Çapında Ağ', body: 'Tim Berners-Lee belgeleri bağlantılarla birbirine bağlayan World Wide Web sistemini önerdi. İnternet altyapısı, herkesin gezinebileceği ortak bir bilgi alanına dönüştü.', person: 'Tim Berners-Lee', personInfo: 'HTTP, HTML ve URL temelini bir araya getirerek World Wide Web sistemini öneren İngiliz bilgisayar bilimcisidir.' },
   { levelId: 44, era: '2000’ler', place: 'Küresel', title: 'Cepteki Bilgisayar', body: 'Dokunmatik ekran, mobil internet, kamera ve sensörlerin tek cihazda birleşmesi telefonu kişisel bilgisayara dönüştürdü. İletişim, harita, ödeme ve bilgi erişimi aynı ekrana taşındı.' },
   { levelId: 45, era: '2020', place: 'Küresel', title: 'Mesajcı RNA ile Aşı', body: 'On yıllarca geliştirilen mRNA teknolojisi, hücrelere geçici bir protein talimatı vererek bağışıklık yanıtı oluşturdu. COVID-19 döneminde hızla ölçeklenmesi, yeni aşı platformlarının gücünü gösterdi.' },
+];
+
+export const levelStories: LevelStory[] = [
+  ...baseLevelStories,
+  ...levelStories46to50,
+  ...levelStories51to55,
+  ...levelStories56to60,
+  ...levelStories61to65,
+  ...levelStories66to70,
+  ...levelStories71to75,
 ];
 
 export function getLevelStory(levelId: number): LevelStory {

@@ -19,6 +19,4 @@
 <path d="M27 64H37" stroke="#8A4B00" stroke-width="5" stroke-linecap="round"/>
 <path d="M32 0V-5M10 10L5 5M54 10L59 5" stroke="#FFF7D6" stroke-width="5" stroke-linecap="round"/>
 </g>
-<text x="145" y="45" text-anchor="middle" font-size="22" font-weight="900" font-family="Inter, Arial, sans-serif" fill="white" stroke="#0F172A" stroke-opacity="0.25" stroke-width="3" paint-order="stroke">İpucu</text>
-
 </svg>

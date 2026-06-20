@@ -18,8 +18,8 @@
 
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/brand_navy</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground_modern</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
-        <item name="android:background">@drawable/splash_modern</item>
+        <item name="android:background">@drawable/splash</item>
     </style>
 </resources>

@@ -4,17 +4,11 @@ import { OBJECTIVE_KEYS, getObjectiveLabels } from '../game/objectives';
 import { getLevelStory } from '../data/levelStories';
 import { getTheme } from '../data/themes';
 
-const puzzleTypeLabels: Record<string, string> = {
-  crossword: 'Çapraz Bulmaca',
-  anagram: 'Anagram',
-  wordsearch: 'Kelime Avı',
-};
-
-const puzzleTypeIcons: Record<string, string> = {
-  crossword: '✚',
-  anagram: '↔',
-  wordsearch: '🔍',
-};
+// Tüm seviyeler aynı çark-tabanlı kelime kurma mekaniğini oynatır; puzzleType
+// veride tematik bilgi olarak korunur ama oyuncuya ayrı bir "oyun tipi" gibi
+// sunulmaz (anagram modu fiilen crossword ile aynı oynanıyordu).
+const PUZZLE_BADGE_LABEL = 'Kelime Bulmaca';
+const PUZZLE_BADGE_ICON = '✚';
 
 const ASSETS = '/assets/level-start';
 
@@ -25,8 +19,8 @@ export function LevelModal() {
   const objectiveLabels = getObjectiveLabels(level);
   const mastery = levelMastery[level.levelId];
   const stats = levelStats[level.levelId];
-  const puzzleLabel = puzzleTypeLabels[level.puzzleType ?? 'crossword'] ?? 'Bulmaca';
-  const puzzleIcon = puzzleTypeIcons[level.puzzleType ?? 'crossword'] ?? '✚';
+  const puzzleLabel = PUZZLE_BADGE_LABEL;
+  const puzzleIcon = PUZZLE_BADGE_ICON;
 
   return (
     <div className="modalShade modalShadeLevel">

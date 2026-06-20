@@ -12,6 +12,21 @@ const shopItems: ShopItem[] = [
   { id: 'seal_ruby', name: 'Yakut Mühür', description: 'Mühürlerine yakut kırmızısı kazandırır.', price: 60, icon: '◆', category: 'seal', owned: false },
   { id: 'seal_emerald', name: 'Zümrüt Mühür', description: 'Mühürlerine zümrüt yeşili kazandırır.', price: 70, icon: '●', category: 'seal', owned: false },
   { id: 'seal_sapphire', name: 'Safir Mühür', description: 'Mühürlerine safir mavisi kazandırır.', price: 80, icon: '●', category: 'seal', owned: false },
+  { id: 'doubler', name: 'Altın Katlayıcı', description: 'Sonraki 3 bölümde kazandığın bölüm altınını 2 katına çıkarır.', price: 60, icon: '⚡', category: 'power_up', owned: false },
 ];
 
 export { shopItems };
+
+const themeItemMap: Record<string, string> = {
+  theme_cappadocia: 'cappadocia',
+  theme_ege: 'ege_coast',
+  theme_anatolia: 'anatolian_autumn',
+  theme_ottoman: 'ottoman_library',
+  theme_seljuk: 'seljuk_courtyard',
+  theme_nemrut: 'nemrut_dawn',
+  theme_blacksea: 'blacksea_highland',
+};
+
+export function getThemeIdForShopItem(itemId: string | null): string | null {
+  return itemId ? themeItemMap[itemId] ?? null : null;
+}

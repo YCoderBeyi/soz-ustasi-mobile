@@ -20,6 +20,7 @@ export type LevelData = {
   levelId: number;
   themeId: string;
   sealId: string;
+  chapterId?: string; // Plan §4: ana yolculuk 12 bölümü. Boşsa levelId'den türetilir.
   story?: string;
   letters: string[];
   mainWords: WordEntry[];
@@ -31,6 +32,8 @@ export type LevelData = {
   puzzleType?: PuzzleType;
 };
 
+export type ContentReviewStatus = 'draft' | 'reviewed' | 'approved';
+
 export type LevelStory = {
   levelId: number;
   title: string;
@@ -39,6 +42,11 @@ export type LevelStory = {
   place: string;
   person?: string;
   personInfo?: string;
+  // Plan §5/§9 keşif kartı sözleşmesi. İçerik editoryal onaydan sonra doldurulur.
+  impact?: string; // "Neden önemli?"
+  today?: string; // "Bugün nerede?"
+  sourceNotes?: string[];
+  contentReviewStatus?: ContentReviewStatus;
 };
 
 export type LevelMastery = { stars: number; objectives: string[] };

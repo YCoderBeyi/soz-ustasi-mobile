@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useGame } from '../store/GameContext';
 import { OBJECTIVE_KEYS, chooseBestMastery, getObjectiveLabels } from '../game/objectives';
 import { getLevelStory } from '../data/levelStories';
@@ -21,6 +22,16 @@ export function RewardModal() {
   const {
     level, rewardSummary, levelMastery, earnedObjectives, goToNextLevel, play,
   } = useGame();
+  // Both the backdrop/X (onClose) and the primary button advance the level.
+  // goToNextLevel has no idempotency guard, so a fast double activation (button
+  // tap + backdrop dismiss) could skip a level. This ref collapses them to one.
+  const advancingRef = useRef(false);
+  const advance = () => {
+    if (advancingRef.current) return;
+    advancingRef.current = true;
+    play('tap');
+    goToNextLevel();
+  };
   const story = getLevelStory(level.levelId);
   const objectiveLabels = getObjectiveLabels(level);
   const mastery = levelMastery[level.levelId];
@@ -51,10 +62,16 @@ export function RewardModal() {
       label: 'KUSURSUZ +%50',
       className: 'flawlessBonus',
     } : null,
+    rewardSummary.doubled ? {
+      key: 'doubler',
+      icon: '/assets/reward/v2/coins.png',
+      label: 'ALTIN KATLAYICI ×2',
+      className: 'doublerBonus',
+    } : null,
   ].filter((item): item is RewardItem => item !== null);
 
   return (
-    <Modal title="Mühür Açıldı!" onClose={() => { play('tap'); goToNextLevel(); }}>
+    <Modal title="Mühür Açıldı!" onClose={advance}>
       <div className="rewardModalBody">
         <div className="rewardHero">
           <img src="/assets/reward/v2/history.png" alt="" />
@@ -63,6 +80,12 @@ export function RewardModal() {
         <article className="rewardStory">
           <div className="storyMeta"><span>{story.era}</span><span>{story.place}</span></div>
           <p>{story.body}</p>
+          {story.impact && (
+            <p className="storyImpact"><b>Neden önemli?</b> {story.impact}</p>
+          )}
+          {story.today && (
+            <p className="storyToday"><b>Bugün nerede?</b> {story.today}</p>
+          )}
           {story.person && (
             <div className="storyPerson">
               <small>Öne çıkan isim: <b>{story.person}</b></small>
@@ -101,7 +124,7 @@ export function RewardModal() {
         )}
       </div>
       <div className="rewardActions rewardActionsSticky">
-        <Button3D variant={isFinal ? 'blue' : 'green'} onClick={() => { play('tap'); goToNextLevel(); }}>
+        <Button3D variant={isFinal ? 'blue' : 'green'} onClick={advance}>
           {isFinal ? 'Haritaya Dön' : 'Sonraki Seviye'}
         </Button3D>
       </div>

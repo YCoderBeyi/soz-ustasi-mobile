@@ -1,5 +1,6 @@
 import type { LevelMastery, LevelStats, WordEntry } from '../types';
 import type { ObjectiveKey } from './objectives';
+import { toRunMastery } from './objectives';
 import { levels, initialLevel } from '../data/levels';
 import { normalizeWord } from './normalize';
 
@@ -13,21 +14,24 @@ export type PlayerSave = {
   coins: number;
   completedLevels: number[];
   awardedLevels: number[];
+  rewardedWordKeys: string[];
   collectedWords: string[];
   favoriteWords: string[];
   soundEnabled: boolean;
+  soundVolume: number;
   hapticsEnabled: boolean;
+  reduceMotion: boolean;
   levelMastery: Record<number, LevelMastery>;
   ownedShopItems: string[];
+  selectedThemeId: string | null;
+  selectedSealId: string | null;
   hintsRemaining: number;
-  lanternCount: number;
-  coinMultiplier: number;
   doublerRemaining: number;
   freeHintNext: boolean;
   levelStats: Record<number, LevelStats>;
 };
 
-export type Feedback = 'correct' | 'wrong' | 'hidden' | 'hint' | 'shuffle' | 'seal' | null;
+export type Feedback = 'correct' | 'wrong' | 'unknown' | 'hidden' | 'hint' | 'shuffle' | 'seal' | null;
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -48,15 +52,18 @@ export function getDefaultSave(): PlayerSave {
     coins: 120,
     completedLevels: [],
     awardedLevels: [],
+    rewardedWordKeys: [],
     collectedWords: [],
     favoriteWords: [],
     soundEnabled: true,
+    soundVolume: 80,
     hapticsEnabled: true,
+    reduceMotion: false,
     levelMastery: {},
     ownedShopItems: [],
+    selectedThemeId: null,
+    selectedSealId: null,
     hintsRemaining: 0,
-    lanternCount: 0,
-    coinMultiplier: 1,
     doublerRemaining: 0,
     freeHintNext: false,
     levelStats: {},
@@ -143,9 +150,27 @@ function sanitize(data: RawSave): PlayerSave {
     ? (data.awardedLevels as unknown[]).filter((id): id is number => typeof id === 'number' && validLevelIds.has(id))
     : [];
 
+  const collectedWords = Array.isArray(data.collectedWords)
+    ? [...new Set((data.collectedWords as unknown[]).filter((w): w is string => typeof w === 'string'))]
+    : [];
+  const migratedRewardedWordKeys = levels.flatMap((level) =>
+    level.hiddenWords
+      .filter((entry) => collectedWords.some((word) => normalizeWord(word) === normalizeWord(entry.word)))
+      .map((entry) => `${level.levelId}:hidden:${normalizeWord(entry.word)}`)
+  );
+  const rewardedWordKeys = Array.isArray(data.rewardedWordKeys)
+    ? [...new Set((data.rewardedWordKeys as unknown[]).filter((key): key is string => typeof key === 'string'))]
+    : migratedRewardedWordKeys;
+
+  const highestCompletedId = Math.max(0, ...completedLevels);
+  const nextUncompletedLevel = levels.find((level) =>
+    level.levelId > highestCompletedId && !completedLevels.includes(level.levelId)
+  );
+  const inferredCurrentLevelId = nextUncompletedLevel?.levelId
+    ?? (validLevelIds.has(highestCompletedId) ? highestCompletedId : initialLevel.levelId);
   const currentLevelId = typeof data.currentLevelId === 'number' && validLevelIds.has(data.currentLevelId)
     ? data.currentLevelId
-    : initialLevel.levelId;
+    : inferredCurrentLevelId;
 
   const rawLevelMastery = (data.levelMastery ?? {}) as Record<string, unknown>;
   const levelMastery: Record<number, LevelMastery> = Object.fromEntries(
@@ -157,12 +182,19 @@ function sanitize(data: RawSave): PlayerSave {
         ? (m.objectives as unknown[]).filter((item): item is ObjectiveKey =>
             ['complete', 'discovery', 'noHint'].includes(item as string))
         : [];
-      return [[levelId, { stars: Math.min(3, Math.max(0, objectives.length)), objectives }]];
+      return [[levelId, toRunMastery(objectives)]];
     }),
   );
 
-  // Migration for nazarCount -> lanternCount if needed
-  const rawLanternCount = data.lanternCount ?? data.nazarCount;
+  const ownedShopItems = Array.isArray(data.ownedShopItems)
+    ? [...new Set((data.ownedShopItems as unknown[]).filter((i): i is string => typeof i === 'string'))]
+    : [];
+  const selectedThemeId = typeof data.selectedThemeId === 'string'
+    && ownedShopItems.includes(data.selectedThemeId) && data.selectedThemeId.startsWith('theme_')
+    ? data.selectedThemeId : null;
+  const selectedSealId = typeof data.selectedSealId === 'string'
+    && ownedShopItems.includes(data.selectedSealId) && data.selectedSealId.startsWith('seal_')
+    ? data.selectedSealId : null;
 
   return {
     version: 2,
@@ -172,21 +204,22 @@ function sanitize(data: RawSave): PlayerSave {
       : 120,
     completedLevels: [...new Set(completedLevels)],
     awardedLevels: [...new Set(awardedLevels)],
-    collectedWords: Array.isArray(data.collectedWords)
-      ? [...new Set((data.collectedWords as unknown[]).filter((w): w is string => typeof w === 'string'))]
-      : [],
+    rewardedWordKeys,
+    collectedWords,
     favoriteWords: Array.isArray(data.favoriteWords)
       ? [...new Set((data.favoriteWords as unknown[]).filter((w): w is string => typeof w === 'string'))]
       : [],
     soundEnabled: data.soundEnabled !== false,
+    soundVolume: typeof data.soundVolume === 'number' && Number.isFinite(data.soundVolume)
+      ? Math.min(100, Math.max(0, Math.round(data.soundVolume)))
+      : 80,
     hapticsEnabled: data.hapticsEnabled !== false,
+    reduceMotion: data.reduceMotion === true,
     levelMastery,
-    ownedShopItems: Array.isArray(data.ownedShopItems)
-      ? (data.ownedShopItems as unknown[]).filter((i): i is string => typeof i === 'string')
-      : [],
+    ownedShopItems,
+    selectedThemeId,
+    selectedSealId,
     hintsRemaining: typeof data.hintsRemaining === 'number' ? Math.max(0, data.hintsRemaining) : 0,
-    lanternCount: typeof rawLanternCount === 'number' ? Math.max(0, rawLanternCount) : 0,
-    coinMultiplier: typeof data.coinMultiplier === 'number' ? Math.max(1, data.coinMultiplier) : 1,
     doublerRemaining: typeof data.doublerRemaining === 'number' ? Math.max(0, data.doublerRemaining) : 0,
     freeHintNext: data.freeHintNext === true,
     levelStats: sanitizeLevelStats(data.levelStats),

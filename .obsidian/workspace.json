@@ -1,0 +1,226 @@
+{
+  "main": {
+    "id": "c7dd791b6558cdb4",
+    "type": "split",
+    "children": [
+      {
+        "id": "65beb8d43bf9c942",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1c87ddcf76eadd93",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vault/03-Screens/GamePlayScreen.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "GamePlayScreen"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "055df7605f545e94",
+    "type": "split",
+    "children": [
+      {
+        "id": "a011763751369a92",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e0edef63113cec03",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Dosya Gezgini"
+            }
+          },
+          {
+            "id": "d2aa7598a99017e9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Ara"
+            }
+          },
+          {
+            "id": "5806e74a1652b805",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Yer İmleri"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "ef4451d445cbc49d",
+    "type": "split",
+    "children": [
+      {
+        "id": "ce297e03cc123467",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7ee39ef7591bf63c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "vault/03-Screens/GamePlayScreen.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "GamePlayScreen için geri bağlantılar"
+            }
+          },
+          {
+            "id": "bba4269b0ab3065e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "vault/03-Screens/GamePlayScreen.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "GamePlayScreen'dan giden bağlantılar"
+            }
+          },
+          {
+            "id": "25be26da061251b5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiketler"
+            }
+          },
+          {
+            "id": "c9ee2536556ca65c",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Tüm özellikler"
+            }
+          },
+          {
+            "id": "7b78948a3386cc4c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "vault/03-Screens/GamePlayScreen.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "GamePlayScreen ana hatları"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Hızlı geçişi aç": false,
+      "graph:Grafik görünümünü aç": false,
+      "canvas:Yeni tuval oluşturun": false,
+      "daily-notes:Bugünün Notunu Aç": false,
+      "templates:Şablon ekle": false,
+      "command-palette:Komut paletini aç": false,
+      "bases:Yeni taban oluştur": false
+    }
+  },
+  "active": "1c87ddcf76eadd93",
+  "lastOpenFiles": [
+    "android/capacitor-cordova-android-plugins/build/intermediates/lint_vital_partial_results",
+    "android/capacitor-cordova-android-plugins/build/intermediates/aapt_friendly_merged_manifests",
+    "dist/assets/index-BxVPqjc4.js",
+    "dist/assets/index-DEJ2SxrK.css",
+    "vault/07-Production/Release-Readiness-Report-2026-06-20.md",
+    "vault/07-Production/Release-Readiness-Report-2026-06-20.md.tmp.154096.16601ab4cf4f",
+    "src/styles/animations.css.tmp.186320.0ab3a87c3379",
+    "src/App.tsx.tmp.186320.bc1a1fd1ef89",
+    "vault/07-Production/Closed-Test-Checklist-v2-2026-06-20.md",
+    "vault/07-Production/Closed-Test-Checklist-v2-2026-06-20.md.tmp.154096.3803e55e58bc",
+    "src/App.tsx.tmp.186320.401eb1b6fcfc",
+    "src/data/_stat.test.ts",
+    "dist/assets/index-CnJ9mrP7.js",
+    "vault/05-Content/Findings-Backlog-2026-06-20.md",
+    "vault/05-Content/Level-Word-Audit-2026-06-20.md",
+    "vault/02-Design-System/UI-UX-Professional-Improvements-2026-06-20.md",
+    "vault/05-Content/Game-Mechanics-Panel-Audit-2026-06-20.md",
+    "vault/05-Content/Plan-Compliance-Audit-2026-06-20.md",
+    "vault/07-Production/Soz-Ustasi-1.0.16-Implementation-Plan-TODO-v1.md",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/36-stat-chip.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/35-word-pill.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/34-grid-panel.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/33-wheel-ring.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/32-level-badge.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/31-map-widget-panel.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/08-seal-action-button.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/30-map-stat-chip.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/29-map-featured-panel.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui/v2/26-shop-buy.svg",
+    "android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/themes/README.md",
+    "vault/07-Production/Soz-Ustasi-1.0.16-120-Level-Design-v1.md",
+    "vault/07-Production/Release-Manifest-v1.md",
+    "docs/superpowers/plans/2026-06-20-audiovisual-atmosphere-plan.md",
+    "docs/superpowers/specs/2026-06-20-audiovisual-atmosphere-design.md",
+    "vault/04-Game-Design/Core-Loop.md",
+    "vault/00-README.md",
+    "vault/00-Graph-MOC.md"
+  ]
+}

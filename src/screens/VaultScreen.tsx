@@ -53,7 +53,7 @@ export function VaultScreen() {
             {earnedSeals.length === 0 ? (
               <article className="wordCard">
                 <strong>Henüz mühür yok</strong>
-                <p>Level'ları tamamlayarak mühürlerini burada toplayabilirsin.</p>
+                <p>Seviyeleri tamamlayarak mühürlerini burada toplayabilirsin.</p>
               </article>
             ) : (
               <>
@@ -65,7 +65,7 @@ export function VaultScreen() {
                       onClick={() => { play('tap'); setSelectedLevelId(l.levelId); }}
                     >
                       <WaxSeal className="sealNodeGraphic" label={`${l.levelId}`} />
-                      <small>Level {l.levelId}</small>
+                      <small>Seviye {l.levelId}</small>
                     </button>
                   ))}
                 </div>
@@ -76,6 +76,12 @@ export function VaultScreen() {
                       <span className="eraTag">{selectedStory.era}</span>
                     </div>
                     <p>{selectedStory.body}</p>
+                    {selectedStory.impact && (
+                      <p className="storyImpact"><b>Neden önemli?</b> {selectedStory.impact}</p>
+                    )}
+                    {selectedStory.today && (
+                      <p className="storyToday"><b>Bugün nerede?</b> {selectedStory.today}</p>
+                    )}
                     {selectedStory.person && (
                       <div className="personInfo">
                         <V2Icon name="bottomProfile" className="personIcon" />

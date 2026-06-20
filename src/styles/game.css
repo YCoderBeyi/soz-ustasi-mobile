@@ -31,7 +31,7 @@
 
 .gameTopBar {
   display: grid;
-  grid-template-columns: 36px 1fr 36px;
+  grid-template-columns: 44px 1fr 44px;
   align-items: center;
   padding: calc(var(--ui-safe-top) + 4px) 10px 4px;
   gap: 4px;
@@ -54,6 +54,13 @@
 }
 
 .gameTopBar .svgBtn {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+.gameTopBar .svgBtn img {
   width: 28px;
   height: 28px;
 }
@@ -445,6 +452,15 @@
     inset 0 0 30px rgba(241, 201, 106, 0.03);
 }
 
+/* Harf çoğaldıkça çark biraz daha geniş alan kaplar (yarıçap açılımını tamamlar).
+   Attribute özgüllüğü (0,2,0) tüm responsive .wheelRing kurallarını yener;
+   min() ve max-height:100% dikey taşmayı sınırlar. */
+.wheelRing[data-letters="7"],
+.wheelRing[data-letters="8"] {
+  width: min(calc(268px * var(--ui-scale)), 74cqw);
+  height: min(calc(268px * var(--ui-scale)), 74cqw);
+}
+
 .wheelRing::before {
   content: '';
   position: absolute;
@@ -731,6 +747,19 @@
   font-size: 12px;
 }
 
+.storyImpact,
+.storyToday {
+  margin: 0;
+  color: #ecdfbe;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.storyImpact b,
+.storyToday b {
+  color: #ffd98a;
+}
+
 .storyPerson {
   display: grid;
   gap: 5px;
@@ -926,6 +955,15 @@
 }
 
 .gameStatChip strong { font-size: 14px; }
+
+.gameStatChipHintLengths {
+  color: #b9ddd8;
+  font-size: 9px;
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-top: 1px;
+  opacity: 0.85;
+}
 
 .gameWheelZone {
   display: grid;
@@ -1160,7 +1198,7 @@
 }
 
 .gameTopBar {
-  grid-template-columns: 38px minmax(0, 1fr) auto 38px;
+  grid-template-columns: 44px minmax(0, 1fr) auto 44px;
   min-height: 54px;
   padding: 5px 10px;
   gap: 7px;

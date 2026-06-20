@@ -17,7 +17,7 @@ describe('ResourceContext', () => {
     const { result } = renderHook(() => useResource(), { wrapper });
     expect(result.current.coins).toBe(120);
     expect(result.current.hintsRemaining).toBe(0);
-    expect(result.current.coinMultiplier).toBe(1);
+    expect(result.current.doublerRemaining).toBe(0);
   });
 
   it('addCoins increases coins', () => {
@@ -52,6 +52,42 @@ describe('ResourceContext', () => {
     const saved = JSON.parse(window.localStorage.getItem('soz-ustasi-player-v1') ?? '{}');
     expect(saved.ownedShopItems).toContain('theme_ege');
     expect(saved.selectedThemeId).toBe('theme_ege');
+  });
+
+  it('doubler is a repeatable power-up that stacks remaining games and persists', () => {
+    const { result } = renderHook(() => useResource(), { wrapper });
+    expect(result.current.doublerRemaining).toBe(0);
+
+    act(() => result.current.buyShopItem('doubler'));
+    expect(result.current.coins).toBe(60); // 120 - 60
+    expect(result.current.doublerRemaining).toBe(3);
+
+    act(() => result.current.buyShopItem('doubler')); // rebuyable, stacks
+    expect(result.current.coins).toBe(0);
+    expect(result.current.doublerRemaining).toBe(6);
+
+    const saved = JSON.parse(window.localStorage.getItem('soz-ustasi-player-v1') ?? '{}');
+    expect(saved.doublerRemaining).toBe(6);
+    // Consumable power-ups are not tracked as owned cosmetics.
+    expect(result.current.ownedShopItems).not.toContain('doubler');
+  });
+
+  it('consumeDoubler decrements one game and reports whether it was active', () => {
+    const { result } = renderHook(() => useResource(), { wrapper });
+    act(() => result.current.buyShopItem('doubler'));
+
+    let active: boolean;
+    act(() => { active = result.current.consumeDoubler(); });
+    expect(active!).toBe(true);
+    expect(result.current.doublerRemaining).toBe(2);
+
+    act(() => { result.current.consumeDoubler(); });
+    act(() => { result.current.consumeDoubler(); });
+    expect(result.current.doublerRemaining).toBe(0);
+
+    act(() => { active = result.current.consumeDoubler(); });
+    expect(active!).toBe(false); // nothing left to consume
+    expect(result.current.doublerRemaining).toBe(0);
   });
 
   it('does not charge twice and allows owned cosmetics to be selected', () => {

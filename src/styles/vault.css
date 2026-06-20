@@ -117,6 +117,18 @@
   animation: overshootIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
 
+.sealStoryCard .storyImpact,
+.sealStoryCard .storyToday {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.sealStoryCard .storyImpact b,
+.sealStoryCard .storyToday b {
+  color: var(--accent, #f1c96a);
+}
+
 .eraTag {
   font-size: 10px;
   background: rgba(241, 201, 106, 0.2);

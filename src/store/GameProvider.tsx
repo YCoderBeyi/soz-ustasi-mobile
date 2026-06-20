@@ -15,11 +15,11 @@ function ResourceProviderBridge({ children }: { children: ReactNode }) {
 }
 
 function SessionProviderBridge({ children }: { children: ReactNode }) {
-  const { addCoins, spendHint, play, haptic, selectedThemeId } = useResource();
+  const { addCoins, spendHint, play, haptic, selectedThemeId, consumeDoubler } = useResource();
   const {
     currentLevelId, setCurrentLevelId,
     awardedLevels,
-    markLevelCompleted, markLevelAwarded, markWordRewarded, isWordRewarded,
+    markLevelCompleted, markLevelAwarded, markWordRewarded, isWordRewarded, countRewardedBonus,
     mergeMastery, addCollectedWord, updateStats,
     dailyChallenge, claimDailyReward,
   } = usePersistence();
@@ -29,6 +29,7 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
       setCurrentLevelId={setCurrentLevelId}
       addCoins={addCoins}
       spendHint={spendHint}
+      consumeDoubler={consumeDoubler}
       play={play}
       haptic={haptic}
       awardedLevels={awardedLevels}
@@ -36,6 +37,7 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
       markLevelAwarded={markLevelAwarded}
       markWordRewarded={markWordRewarded}
       isWordRewarded={isWordRewarded}
+      countRewardedBonus={countRewardedBonus}
       mergeMastery={mergeMastery}
       addCollectedWord={addCollectedWord}
       updateStats={updateStats}

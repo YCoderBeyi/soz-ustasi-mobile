@@ -2,6 +2,12 @@
 
 ## Yapılan Geliştirmeler
 
+### 18 Haziran 2026
+- **Profesyonel Oyun Geliştirme Kararları Vault'a Eklendi:**
+  - Oyunu daha faydalı, daha oynanabilir, daha heyecanlı ve uzun süre tutulacak hale getirmek için alınan ürün kararları [Professional-Game-Improvement-Decisions-v1.md](../vault/07-Production/Professional-Game-Improvement-Decisions-v1.md) dosyasına kaydedildi.
+  - Ana karar: İlk sürüm reklamsız, takipsiz ve stabil kapalı test odaklı kalacak; akıllı kelime kabulü, öğrenme sistemi, günlük/haftalık görevler, rekabet ve ödüllü reklam sonraki sürümlere bölünecek.
+  - Geliştirme önceliği: adil kelime kabulü, öğrenme değeri, düzenli geri dönüş sebebi, güçlü mühür/ödül hissi ve oyuncu dostu para kazanma modeli.
+
 ### 12 Haziran 2026
 - **Mühür Level Atlama Hatası Düzeltildi (Z-Index):** 
   - Mühür basıldıktan sonra ortaya çıkan `.sealReveal` efekti (`z-index: 80`) modal pencerelerinin (`z-index: 10`) üstünde kaldığı için ödül modalı arka planda kalıyordu. Bu durum kullanıcının sonraki seviyeye geçmesini engelliyordu.
@@ -48,10 +54,22 @@
 - **Oyun Ekranı Z-Index Çakışma Düzeltmesi:**
   - Oyun ekranının (`.screen.game` / `.game` sınıfı) diğer ekranlar veya native bindirilmiş katmanlar karşısında altta kalma (z-index çakışması) riskini tamamen ortadan kaldırmak için, hem `base.css` hem de `game.css` içindeki `.game` seçicisine `position: relative` ve `z-index: 100` kuralları eklendi. Böylece oyun aktifken diğer tüm arayüz veya kalıntı katmanların üzerinde en üstte renderlanması sağlandı.
 
-
-
-
-
-
-
-
+### 17 Haziran 2026
+- **Mühür Açıldı Ekranı Taşma ve Sürükleme (Scroll) Düzeltmesi:**
+  - Ödül penceresinin (`RewardModal`) dikeyde ekran yüksekliğini aşıp kaydırılabilir (scroll) hale gelmesi ve arayüz dışına taşması engellendi. `.modal:has(.rewardHero)` seçicisinin `max-height` değeri `80dvh`'ten `94dvh`'e yükseltilerek modalın ekran boyutuna göre dikeyde esnemesi sağlandı ve gereksiz kaydırma çubukları ortadan kaldırıldı.
+- **Bölge Sandığı Ödülü '0' Sayısı Görüntülenme Hatası Çözüldü:**
+  - `RewardModal.tsx` dosyasında, bölge sandığı ödül sayısının (`rewardSummary.region`) `0` olması durumunda React'in sayısal `0` değerini DOM'a doğrudan basmasından kaynaklanan görsel kirlilik giderildi. `rewardSummary.region && ...` mantıksal kontrolü `rewardSummary.region !== undefined && rewardSummary.region > 0 && ...` şeklinde güncellenerek sayısal `0`'ın ekranda belirmesi engellendi.
+- **Ses ve Fon Müziği Tasarım Konsepti Hazırlandı:**
+  - Oyunun tarihsel ve antik keşif temasına sadık kalacak şekilde enstrüman, tempo, ses efektleri (mühür basma, harf seçimi vb.) ve yapay zeka müzik üreticileri için hazır promptları içeren detaylı bir tasarım rehberi hazırladı ve projenin ilgili çalışma planına dahil etti.
+### 19 Haziran 2026
+- **3D Asset Profesyonel Kalite Düzeltmeleri:**
+  - Gömülü metinli aksiyon SVG'leri temizlendi; UI asset audit skoru `100/100` seviyesine çıkarıldı.
+  - Ödül ekranındaki emoji kupa kullanımı 3D yıldız assetiyle değiştirildi.
+  - Üretim görselleri güvenli sıkıştırma scriptiyle optimize edildi; 47 asset tarandı, 9 asset küçüldü, 2.64 MB tasarruf sağlandı.
+  - Detaylı karar notu [Professional-3D-Asset-Review-2026-06-19.md](../vault/02-Design-System/Professional-3D-Asset-Review-2026-06-19.md) dosyasına eklendi.
+### 19 Haziran 2026 - 240 Seviye Öğrenme Yolculuğu ve 3D Tasarım Ana Planı
+- 46-120 arasındaki otomatik seviye tekrarının déjà vu ve zorluk gerilemesi ürettiği kök neden analiziyle doğrulandı.
+- Ana yolculuğun 12 bölüm ve 240 özgün seviyeden oluşması; tekrarların yalnızca açıkça belirtilen Ustalık Atölyesi içinde yapılması kararlaştırıldı.
+- İslam alimleri, Türk-İslam bilim tarihi, kadın bilim insanları, küresel bilim insanları, önemli buluşlar ve modern gelişmeler için editoryal içerik standardı oluşturuldu.
+- Bütün 3D asset aileleri, on iki bölümün sanat yönü, ekran tasarım sözleşmeleri, responsive ve erişilebilirlik kuralları, performans/asset bütçeleri ve görsel kabul kriterleri plana eklendi.
+- Ana belge: [Soz-Ustasi-240-Level-Learning-Journey-Master-Plan-v1.md](../vault/07-Production/Soz-Ustasi-240-Level-Learning-Journey-Master-Plan-v1.md).

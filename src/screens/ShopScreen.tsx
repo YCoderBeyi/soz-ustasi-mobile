@@ -2,16 +2,17 @@ import { useState } from 'react';
 import '../styles/shop.css';
 import { useGame } from '../store/GameContext';
 import { shopItems } from '../data/shop';
-import type { ShopItem } from '../types';
 import { ActionIconButton } from '../components/ActionIconButton';
 
-type ShopTab = 'theme' | 'seal';
+type ShopTab = 'theme' | 'seal' | 'power_up';
 
 export function ShopScreen() {
-  const { play, setScreen, buyShopItem, isItemOwned, toast, coins } = useGame();
+  const {
+    play, setScreen, buyShopItem, selectShopItem, isItemOwned,
+    selectedThemeId, selectedSealId, toast, coins, doublerRemaining,
+  } = useGame();
   const [tab, setTab] = useState<ShopTab>('theme');
-  const items = shopItems.filter((item) => item.category === tab && !isItemOwned(item.id));
-  const buy = (item: ShopItem) => buyShopItem(item.id);
+  const items = shopItems.filter((item) => item.category === tab);
 
   return (
     <main className="screen shopScreen">
@@ -24,34 +25,60 @@ export function ShopScreen() {
       <div className="shopTabs">
         <button className={tab === 'theme' ? 'active' : ''} onClick={() => setTab('theme')}>Temalar</button>
         <button className={tab === 'seal' ? 'active' : ''} onClick={() => setTab('seal')}>Mühürler</button>
+        <button className={tab === 'power_up' ? 'active' : ''} onClick={() => setTab('power_up')}>Güç</button>
       </div>
+      {tab === 'power_up' ? (
+        <div className="shopList">
+          {items.map((item) => {
+            const active = item.id === 'doubler' && doublerRemaining > 0;
+            return (
+              <article className={`shopCard ${active ? 'selected' : ''}`} key={item.id}>
+                <div className="shopItemIcon shopItemIcon--power"><span className="shopPowerEmoji">{item.icon}</span></div>
+                <div className="shopInfo">
+                  <strong>{item.name}</strong>
+                  <p>{item.description}</p>
+                  {active && <small className="shopPowerActive">Aktif: {doublerRemaining} bölüm</small>}
+                </div>
+                <button
+                  className="shopBuy"
+                  onClick={() => buyShopItem(item.id)}
+                  disabled={coins < item.price}
+                >
+                  <img src="/assets/map/topbar-3d/topbar-coin.png" alt="" /><strong>{item.price}</strong>
+                </button>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
       <div className="shopList">
-        {items.length === 0 ? <p className="shopEmpty">Bu koleksiyon tamamlandı.</p> : items.map((item) => (
-          <article className="shopCard" key={item.id}>
-            <div className={`shopItemIcon shopItemIcon--${tab}`}>
-              {tab === 'seal' ? (
+        {items.map((item) => {
+          const owned = isItemOwned(item.id);
+          const selected = tab === 'theme' ? selectedThemeId === item.id : selectedSealId === item.id;
+          return (
+            <article className={`shopCard ${selected ? 'selected' : ''}`} key={item.id}>
+              <div className={`shopItemIcon shopItemIcon--${tab}`}>
                 <img
-                  src={`/assets/ui/seals/${item.id}.png`}
+                  src={`/assets/ui/${tab === 'seal' ? 'seals' : 'themes'}/${item.id}.png`}
                   alt={item.name}
-                  className="shopItemSealImg"
+                  className={tab === 'seal' ? 'shopItemSealImg' : 'shopItemThemeImg'}
                 />
-              ) : tab === 'theme' ? (
-                <img
-                  src={`/assets/ui/themes/${item.id}.png`}
-                  alt={item.name}
-                  className="shopItemThemeImg"
-                />
-              ) : (
-                <span>{item.icon}</span>
-              )}
-            </div>
-            <div className="shopInfo"><strong>{item.name}</strong><p>{item.description}</p></div>
-            <button className="shopBuy" onClick={() => buy(item)} disabled={coins < item.price}>
-              <img src="/assets/map/topbar-3d/topbar-coin.png" alt="" /><strong>{item.price}</strong>
-            </button>
-          </article>
-        ))}
+              </div>
+              <div className="shopInfo"><strong>{item.name}</strong><p>{item.description}</p></div>
+              <button
+                className={`shopBuy ${owned ? 'shopUse' : ''}`}
+                onClick={() => owned ? selectShopItem(item.id) : buyShopItem(item.id)}
+                disabled={selected || (!owned && coins < item.price)}
+              >
+                {owned ? <strong>{selected ? 'SEÇİLİ' : 'KULLAN'}</strong> : (
+                  <><img src="/assets/map/topbar-3d/topbar-coin.png" alt="" /><strong>{item.price}</strong></>
+                )}
+              </button>
+            </article>
+          );
+        })}
       </div>
+      )}
       {toast && <div className="toast shopToast">{toast}</div>}
     </main>
   );

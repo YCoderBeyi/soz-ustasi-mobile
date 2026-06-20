@@ -5,11 +5,13 @@ import { createCleanupRegistry } from '../../game/cleanup';
 import { shopItems } from '../../data/shop';
 import { loadPlayerSave, persistPlayerSave } from '../../game/playerSave';
 
+// Altın Katlayıcı (doubler) süreli bir buff: satın alınca sonraki bu kadar
+// bölümün ödülünü 2 katına çıkarır, her mühürlemede bir hak tükenir.
+export const DOUBLER_GAMES = 3;
+
 type ResourceState = {
   coins: number;
   hintsRemaining: number;
-  lanternCount: number;
-  coinMultiplier: number;
   doublerRemaining: number;
   freeHintNext: boolean;
   ownedShopItems: string[];
@@ -22,9 +24,7 @@ type ResourceActions = {
   addCoins: (amount: number) => void;
   spendCoins: (amount: number) => boolean;
   spendHint: () => boolean;
-  addHints: (count: number) => void;
-  setCoinMultiplier: (value: number) => void;
-  addOwnedItem: (itemId: string) => void;
+  consumeDoubler: () => boolean;
   isItemOwned: (itemId: string) => boolean;
   buyShopItem: (itemId: string) => void;
   selectShopItem: (itemId: string) => void;
@@ -57,9 +57,7 @@ export function ResourceProvider({
   const initialSave = useRef(loadPlayerSave()).current;
   const [coins, setCoins] = useState(initialSave.coins);
   const [hintsRemaining, setHintsRemaining] = useState(initialSave.hintsRemaining);
-  const [lanternCount] = useState(0);
-  const [coinMultiplier, setCoinMultiplier] = useState(initialSave.coinMultiplier);
-  const [doublerRemaining] = useState(0);
+  const [doublerRemaining, setDoublerRemaining] = useState(initialSave.doublerRemaining);
   const [freeHintNext, setFreeHintNext] = useState(initialSave.freeHintNext);
   const [ownedShopItems, setOwnedShopItems] = useState<string[]>(initialSave.ownedShopItems);
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(initialSave.selectedThemeId);
@@ -76,13 +74,13 @@ export function ResourceProvider({
       ...latest,
       coins,
       hintsRemaining,
-      coinMultiplier,
+      doublerRemaining,
       freeHintNext,
       ownedShopItems,
       selectedThemeId,
       selectedSealId,
     });
-  }, [coins, hintsRemaining, coinMultiplier, freeHintNext, ownedShopItems, selectedThemeId, selectedSealId]);
+  }, [coins, hintsRemaining, doublerRemaining, freeHintNext, ownedShopItems, selectedThemeId, selectedSealId]);
 
   const soundRef = useRef(soundEnabled);
   soundRef.current = soundEnabled;
@@ -129,14 +127,6 @@ export function ResourceProvider({
     return spendCoins(cost);
   }, [freeHintNext, hintsRemaining, spendCoins]);
 
-  const addHints = useCallback((count: number) => {
-    setHintsRemaining((v) => v + count);
-  }, []);
-
-  const addOwnedItem = useCallback((itemId: string) => {
-    setOwnedShopItems((prev) => prev.includes(itemId) ? prev : [...prev, itemId]);
-  }, []);
-
   const isItemOwned = useCallback((itemId: string) => ownedShopItems.includes(itemId), [ownedShopItems]);
 
   const buyShopItem = useCallback((itemId: string) => {
@@ -145,7 +135,10 @@ export function ResourceProvider({
       play('wrong');
       return;
     }
-    if (ownedShopItems.includes(itemId)) {
+    // Power-up'lar tüketilebilir: tekrar tekrar satın alınabilir. Kozmetikler
+    // (tema/mühür) ise tek seferlik — ikinci alımı engelle.
+    const consumable = item.category === 'power_up';
+    if (!consumable && ownedShopItems.includes(itemId)) {
       play('wrong');
       return;
     }
@@ -154,18 +147,23 @@ export function ResourceProvider({
       return;
     }
     setCoins((v) => v - item.price);
-    setOwnedShopItems((prev) => [...prev, itemId]);
+    if (!consumable) setOwnedShopItems((prev) => prev.includes(itemId) ? prev : [...prev, itemId]);
     if (item.category === 'theme') setSelectedThemeId(itemId);
     if (item.category === 'seal') setSelectedSealId(itemId);
-    if (itemId.startsWith('hint_')) {
-      const count = itemId === 'hint_3' ? 3 : 5;
-      setHintsRemaining((prev) => prev + count);
-    }
     if (itemId === 'doubler') {
-      setCoinMultiplier((prev) => prev * 2);
+      setDoublerRemaining((prev) => prev + DOUBLER_GAMES);
     }
     play('reward');
   }, [coins, ownedShopItems, play]);
+
+  // Bir kullanım hakkı varsa tüketir ve buff'ın aktif olup olmadığını döndürür.
+  const consumeDoubler = useCallback((): boolean => {
+    if (doublerRemaining > 0) {
+      setDoublerRemaining((prev) => Math.max(0, prev - 1));
+      return true;
+    }
+    return false;
+  }, [doublerRemaining]);
 
   const selectShopItem = useCallback((itemId: string) => {
     const item = shopItems.find((candidate) => candidate.id === itemId);
@@ -184,10 +182,10 @@ export function ResourceProvider({
   }, [cleanup]);
 
   const value: ResourceContextValue = {
-    coins, hintsRemaining, lanternCount, coinMultiplier, doublerRemaining,
+    coins, hintsRemaining, doublerRemaining,
     freeHintNext, ownedShopItems, selectedThemeId, selectedSealId, coinPulse,
-    addCoins, spendCoins, spendHint, addHints, setCoinMultiplier,
-    addOwnedItem, isItemOwned, buyShopItem, selectShopItem, pulseCoins, play, haptic,
+    addCoins, spendCoins, spendHint, consumeDoubler,
+    isItemOwned, buyShopItem, selectShopItem, pulseCoins, play, haptic,
   };
 
   return (

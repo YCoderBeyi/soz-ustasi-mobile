@@ -131,6 +131,17 @@
   }
 }
 
+/* In-app "Hareketi Azalt" preference (mirrors the OS media query above so the
+   toggle works even when the system setting is off). */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
 @keyframes demoLetterFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
@@ -223,4 +234,17 @@
     transform: translate(var(--x), var(--y)) scale(0);
     opacity: 0;
   }
+}
+
+/* Ekran-okuyucu için: görsel düzeni etkilemez, yalnız erişilebilirlik ağacında görünür. */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

@@ -12,7 +12,7 @@ export function OnboardingScreen() {
   const slides = [
     { title: 'Harfleri Birleştir', body: 'Parmağını kaldırmadan akışı yakala.', word: 'ARI', accent: 'Bağla' },
     { title: "Mührü Doldur", body: 'Doğru kelimeler kutulara yerleşir.', word: 'SÖZ', accent: 'Aç' },
-    { title: 'Anlamı Keşfet', body: 'Her level küçük bir olayı görünür kılar.', word: 'YÂD', accent: 'Başla' },
+    { title: 'Anlamı Keşfet', body: 'Her seviye küçük bir olayı görünür kılar.', word: 'YÂD', accent: 'Başla' },
   ];
   const activeSlide = slides[step];
 

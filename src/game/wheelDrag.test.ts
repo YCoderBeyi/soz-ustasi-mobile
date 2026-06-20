@@ -10,8 +10,31 @@ import {
 const ring = { left: 100, top: 200, width: 200, height: 200 };
 
 describe('wheelDrag', () => {
-  it('uses a wider radius for small letter sets', () => {
-    expect(wheelRadius(4)).toBeGreaterThan(wheelRadius(7));
+  it('opens the radius up as letters grow so tiles do not crowd', () => {
+    // Harf çoğaldıkça yarıçap küçülmemeli (eski hata); en az korunmalı/açılmalı.
+    expect(wheelRadius(8)).toBeGreaterThanOrEqual(wheelRadius(4));
+    expect(wheelRadius(8)).toBeGreaterThanOrEqual(wheelRadius(6));
+  });
+
+  it('keeps adjacent letter hitboxes from overlapping for every letter count', () => {
+    // Gerçek oran: taş ≈ ring genişliğinin %20.6'sı (14cqw / 68cqw).
+    const ringWidth = 248;
+    const tile = ringWidth * 0.206;
+    const hitDiameter = wheelHitRadius(tile) * 2;
+    for (let n = 3; n <= 8; n++) {
+      const a = letterCenterPx({ left: 0, top: 0, width: ringWidth, height: ringWidth }, 0, n);
+      const b = letterCenterPx({ left: 0, top: 0, width: ringWidth, height: ringWidth }, 1, n);
+      const adjacent = Math.hypot(a.x - b.x, a.y - b.y);
+      expect(adjacent, `n=${n}: komşu hitbox çakışıyor`).toBeGreaterThanOrEqual(hitDiameter);
+    }
+  });
+
+  it('keeps tiles inside the ring at the widest radius', () => {
+    // yarıçap + taş yarı-genişliği (%10.3) <= %50 (ring kenarı)
+    const tileHalfPct = 20.6 / 2;
+    for (let n = 3; n <= 8; n++) {
+      expect(wheelRadius(n) + tileHalfPct).toBeLessThanOrEqual(50);
+    }
   });
 
   it('places letters away from the center', () => {

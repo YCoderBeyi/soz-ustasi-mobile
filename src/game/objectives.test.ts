@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getObjectiveLabels, getRunObjectives } from './objectives';
+import { chooseBestMastery, getObjectiveLabels, getRunObjectives, toRunMastery } from './objectives';
 import type { LevelData } from '../types';
 
 function makeLevel(overrides?: Partial<LevelData>): LevelData {
@@ -32,8 +32,8 @@ describe('getObjectiveLabels', () => {
     expect(getObjectiveLabels(level).discovery).toBe('Hata yapmadan tamamla');
   });
 
-  it('returns "İpucu kullanmadan bitir" for noHint', () => {
-    expect(getObjectiveLabels(makeLevel()).noHint).toBe('İpucu kullanmadan bitir');
+  it('returns "Tüm gizlileri ipucusuz bul" for noHint', () => {
+    expect(getObjectiveLabels(makeLevel()).noHint).toBe('Tüm gizlileri ipucusuz bul');
   });
 });
 
@@ -50,7 +50,7 @@ describe('getRunObjectives', () => {
     expect(result).toContain('discovery');
   });
 
-  it('includes discovery when main words completed without wrong guess (no hidden words)', () => {
+  it('includes discovery automatically when a level has no hidden words', () => {
     const level = makeLevel({ mainWords: [{ word: 'A', meaning: 'a' }, { word: 'B', meaning: 'b' }], hiddenWords: [] });
     const result = getRunObjectives(level, 0, false, 2);
     expect(result).toContain('discovery');
@@ -62,15 +62,33 @@ describe('getRunObjectives', () => {
     expect(result).not.toContain('discovery');
   });
 
-  it('includes noHint when hint was not used', () => {
-    const level = makeLevel();
+  it('does not award noHint as a second star when hidden discoveries are missing', () => {
+    const level = makeLevel({ hiddenWords: [{ word: 'BAL', meaning: 'Bal' }] });
     const result = getRunObjectives(level, 0, false, 0);
-    expect(result).toContain('noHint');
+    expect(result).toEqual(['complete']);
   });
 
   it('excludes noHint when hint was used', () => {
     const level = makeLevel();
     const result = getRunObjectives(level, 0, true, 0);
     expect(result).not.toContain('noHint');
+  });
+});
+
+describe('mastery snapshots', () => {
+  it('creates ordered stars from a single run', () => {
+    expect(toRunMastery(['complete', 'discovery', 'noHint'])).toEqual({
+      stars: 3, objectives: ['complete', 'discovery', 'noHint'],
+    });
+  });
+
+  it('keeps the better run without combining objectives across runs', () => {
+    expect(chooseBestMastery(
+      { stars: 2, objectives: ['complete', 'discovery'] },
+      ['complete', 'noHint'],
+    )).toEqual({
+      stars: 2,
+      objectives: ['complete', 'discovery'],
+    });
   });
 });

@@ -10,23 +10,33 @@ describe('normalizeWord', () => {
     expect(normalizeWord('merhaba')).toBe('MERHABA');
   });
 
-  it('removes Turkish dotted i (i → I)', () => {
-    expect(normalizeWord('i')).toBe('I');
-    expect(normalizeWord('İ')).toBe('I');
+  it('uppercases the Turkish i/ı pair to their distinct capitals', () => {
+    expect(normalizeWord('i')).toBe('İ');
+    expect(normalizeWord('İ')).toBe('İ');
+    expect(normalizeWord('ı')).toBe('I');
+    expect(normalizeWord('I')).toBe('I');
   });
 
-  it('strips diacritics from accented characters', () => {
-    expect(normalizeWord('şal')).toBe('SAL');
-    expect(normalizeWord('çok')).toBe('COK');
-    expect(normalizeWord('gün')).toBe('GUN');
-    expect(normalizeWord('öz')).toBe('OZ');
-    expect(normalizeWord('üç')).toBe('UC');
+  it('preserves Turkish letters as distinct (does not fold ş/ç/ğ/ö/ü)', () => {
+    expect(normalizeWord('şal')).toBe('ŞAL');
+    expect(normalizeWord('çok')).toBe('ÇOK');
+    expect(normalizeWord('gün')).toBe('GÜN');
+    expect(normalizeWord('öz')).toBe('ÖZ');
+    expect(normalizeWord('üç')).toBe('ÜÇ');
     expect(normalizeWord('ılık')).toBe('ILIK');
+    expect(normalizeWord('ağ')).toBe('AĞ');
   });
 
-  it('handles mixed case and diacritics', () => {
-    expect(normalizeWord('İstanbul')).toBe('ISTANBUL');
-    expect(normalizeWord('Şımarık')).toBe('SIMARIK');
+  it('keeps genuinely different Turkish words distinct', () => {
+    // The core regression: these used to collapse together.
+    expect(normalizeWord('aş')).not.toBe(normalizeWord('as'));
+    expect(normalizeWord('saç')).not.toBe(normalizeWord('sac'));
+    expect(normalizeWord('su')).not.toBe(normalizeWord('şu'));
+  });
+
+  it('handles mixed case', () => {
+    expect(normalizeWord('İstanbul')).toBe('İSTANBUL');
+    expect(normalizeWord('Şımarık')).toBe('ŞIMARIK');
   });
 
   it('leaves plain ASCII uppercased letters unchanged', () => {

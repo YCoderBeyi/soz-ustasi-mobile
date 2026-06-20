@@ -1,16 +1,20 @@
 {
   "name": "sozustasi",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.16",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "audit:levels": "node scripts/audit-levels.mjs",
+    "audit:plan": "node scripts/audit-plan.mjs",
     "audit:release": "node scripts/audit-release.mjs",
     "audit:ui": "node scripts/audit-ui-assets.mjs",
+    "optimize:assets": "node scripts/optimize-production-assets.mjs",
     "generate:ui-v2": "node scripts/generate-game-ui-v2.cjs",
     "process:splash-assets": "node scripts/process-splash-assets.mjs",
+    "generate:android-brand-assets": "node scripts/generate-android-brand-assets.mjs",
+    "generate:play-store-assets": "node scripts/generate-play-store-assets.mjs",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -20,10 +24,10 @@
     "android:open": "npx cap open android",
     "android:run": "npm run build && npx cap run android",
     "android:doctor": "node scripts/android-doctor.mjs",
-    "android:install:release": "D:\\Android\\Sdk\\platform-tools\\adb.exe install -r artifacts\\SozUstasi-1.0.0-release.apk",
-    "android:apk:debug": "npm run android:sync && cd android && gradlew.bat --no-daemon assembleDebug",
-    "android:apk:release": "npm run android:sync && cd android && gradlew.bat --no-daemon assembleRelease",
-    "android:aab:release": "npm run android:sync && cd android && gradlew.bat --no-daemon bundleRelease"
+    "android:install:release": "D:\\Android\\Sdk\\platform-tools\\adb.exe install -r artifacts\\SozUstasi-1.0.16-release.apk",
+    "android:apk:debug": "npm run android:sync && cd android && ./gradlew.bat --no-daemon assembleDebug",
+    "android:apk:release": "npm run android:sync && cd android && ./gradlew.bat --no-daemon assembleRelease",
+    "android:aab:release": "npm run android:sync && cd android && ./gradlew.bat --no-daemon bundleRelease"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.0",

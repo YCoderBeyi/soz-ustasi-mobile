@@ -93,4 +93,7 @@ Android SDK D: sürücüsüne kuruldu. İmzalı release APK ve Google Play AAB p
 
 ## Sürüm Kararı
 
-İç test ve kapalı test için release APK/AAB paketleri hazır. Google Play production yayını için gerçek cihaz testleri, store assetleri, privacy/data safety beyanları ve reklam/IAP kararları tamamlanmalı.
+İç test ve kapalı test için release APK/AAB paketleri hazır. İlk sürümün kapsamı
+`Product-Roadmap-v1.md` ile kilitlenmiştir; AI, hesap, sunucu ve rekabet
+özellikleri sonraki sürümlere ertelenmiştir. Google Play production yayını için
+gerçek cihaz testleri, store assetleri ve Play Console beyanları tamamlanmalıdır.

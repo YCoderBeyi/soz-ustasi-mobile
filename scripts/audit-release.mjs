@@ -78,6 +78,7 @@ requireManifestValue('Ads', 'None');
 requireManifestValue('In-app purchases', 'None');
 requireManifestValue('Account/login', 'None');
 requireManifestValue('Supported locale', 'tr-TR');
+requireManifestValue('Level catalog', '75 authored levels');
 
 requireResolvedManifestField('Release owner', 'pending sign-off');
 requireResolvedManifestField('AAB SHA-256', 'pending build');

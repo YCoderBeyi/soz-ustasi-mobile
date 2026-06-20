@@ -1,4 +1,5 @@
-﻿import { GameProvider } from './store/GameProvider';
+import { useEffect } from 'react';
+import { GameProvider } from './store/GameProvider';
 import { useGame } from './store/GameContext';
 import { StartScreen3D } from './screens/StartScreen3D';
 import { OnboardingScreen } from './screens/OnboardingScreen';
@@ -11,7 +12,14 @@ import { SettingsScreen } from './screens/SettingsScreen';
 import { LevelStartScreen } from './components/level-start/LevelStartScreen';
 
 function ScreenRouter() {
-  const { screen } = useGame();
+  const { screen, reduceMotion } = useGame();
+
+  // In-app "Hareketi Azalt" toggle must also silence CSS animations/transitions,
+  // not just the JS-rendered effects. The OS prefers-reduced-motion media query
+  // covers the system setting; this class bridges the in-app preference to CSS.
+  useEffect(() => {
+    document.documentElement.classList.toggle('reduce-motion', reduceMotion);
+  }, [reduceMotion]);
 
   switch (screen) {
     case 'splash':

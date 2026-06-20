@@ -14,8 +14,15 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
-#-renamesourcefileattribute SourceFile
+-renamesourcefileattribute SourceFile
+
+# Capacitor plugins are discovered and invoked through the bridge.
+-keep @com.getcapacitor.annotation.CapacitorPlugin public class * {
+    public *;
+}
+-keep class com.getcapacitor.** { *; }
+-keep class org.apache.cordova.** { *; }

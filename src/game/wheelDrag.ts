@@ -1,8 +1,14 @@
-/** Harf çemberi yarıçapı — viewBox yüzdesi (50 merkez). */
+/**
+ * Harf çemberi yarıçapı — viewBox yüzdesi (50 merkez).
+ * Ring ve taş boyutu sabit olduğundan, harf sayısı arttıkça komşu harfler arası
+ * açısal aralık daralır. Bu yüzden yarıçap, harf çoğaldıkça KÜÇÜLMEZ, AÇILIR:
+ * böylece taşlar çembere yayılır, görsel binme ve hitbox çakışması önlenir.
+ * Üst sınır ~38 (taş yarı-genişliği ~%10 + yarıçap, %50 ring kenarını aşmamalı).
+ */
 export function wheelRadius(letterCount: number): number {
-  if (letterCount <= 4) return 36;
-  if (letterCount <= 6) return 34;
-  return 30;
+  if (letterCount <= 5) return 36;
+  if (letterCount === 6) return 37;
+  return 38; // 7-8 harf: en geniş yayılım
 }
 
 export function letterAngle(index: number, letterCount: number): number {

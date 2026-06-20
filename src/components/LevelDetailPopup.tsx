@@ -65,7 +65,7 @@ export function LevelDetailPopup() {
             <img className="statFrameImg" src={`${ASSETS}/08-stat-icon-reward.png`} alt="" />
             <div className="statBlockInner">
               <strong>ÖDÜL</strong>
-              <span>{level.reward.baseCoin} ELMAS</span>
+              <span>{level.reward.baseCoin} ALTIN</span>
               <small>+ Gizli Bonus</small>
             </div>
           </div>

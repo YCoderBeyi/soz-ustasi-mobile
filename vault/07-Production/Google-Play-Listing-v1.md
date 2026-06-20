@@ -16,6 +16,7 @@ Her bölümde harfleri doğru sırayla birleştir, çengel bulmaca düzenindeki 
 
 Öne çıkan özellikler:
 
+- 75 özgün, giderek zorlaşan kelime bulmacası
 - Tek elle oynanabilen sürüklemeli harf mekaniği
 - Çengel bulmaca düzeninde dinamik kelime alanları
 - Kelime anlamları ve kısa öğrenme kartları
@@ -48,4 +49,3 @@ Kelimeleri bul. Anlamlarını keşfet. Mührü aç.
 ## Politika Notu
 
 Mağaza açıklaması yalnızca mevcut sürümde çalışan özellikleri anlatmalıdır. Reklam, cloud save, günlük görev veya ödeme sistemi etkin değilse listing metnine eklenmemelidir.
-

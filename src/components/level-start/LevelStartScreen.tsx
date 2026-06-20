@@ -8,11 +8,8 @@ import './LevelStartScreen.css';
 const ASSETS = '/assets/level-start';
 const ASSETS_V2 = `${ASSETS}/v2`;
 
-const puzzleTypeLabels: Record<string, string> = {
-  crossword: 'Çapraz Bulmaca',
-  anagram: 'Anagram',
-  wordsearch: 'Kelime Avı',
-};
+// puzzleType veride korunur; oyuncuya ayrı bir oyun tipi gibi sunulmaz.
+const PUZZLE_BADGE_LABEL = 'Kelime Bulmaca';
 
 export function LevelStartScreen() {
   const { level, levelMastery, startLevel, setScreen, play } = useGame();
@@ -20,7 +17,7 @@ export function LevelStartScreen() {
   const story = getLevelStory(level.levelId);
   const objectiveLabels = getObjectiveLabels(level);
   const mastery = levelMastery[level.levelId];
-  const puzzleLabel = puzzleTypeLabels[level.puzzleType ?? 'crossword'] ?? 'Bulmaca';
+  const puzzleLabel = PUZZLE_BADGE_LABEL;
   const [launching, setLaunching] = useState(false);
   const launchTimerRef = useRef<number | null>(null);
 

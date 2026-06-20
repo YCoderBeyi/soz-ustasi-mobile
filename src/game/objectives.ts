@@ -1,14 +1,32 @@
-import type { LevelData } from '../types';
+import type { LevelData, LevelMastery } from '../types';
 
 export type ObjectiveKey = 'complete' | 'discovery' | 'noHint';
 
 export const OBJECTIVE_KEYS: ObjectiveKey[] = ['complete', 'discovery', 'noHint'];
 
+export function toRunMastery(objectives: ObjectiveKey[]): LevelMastery {
+  const complete = objectives.includes('complete');
+  const discovery = complete && objectives.includes('discovery');
+  const noHint = discovery && objectives.includes('noHint');
+  const normalized: ObjectiveKey[] = complete ? ['complete'] : [];
+  if (discovery) normalized.push('discovery');
+  if (noHint) normalized.push('noHint');
+  return { stars: normalized.length, objectives: normalized };
+}
+
+export function chooseBestMastery(
+  existing: LevelMastery | undefined,
+  objectives: ObjectiveKey[],
+): LevelMastery {
+  const current = toRunMastery(objectives);
+  return !existing || current.stars > existing.stars ? current : existing;
+}
+
 export function getObjectiveLabels(level: LevelData) {
   return {
     complete: 'Mührü aç',
     discovery: level.hiddenWords.length > 0 ? 'Tüm gizli kelimeleri bul' : 'Hata yapmadan tamamla',
-    noHint: 'İpucu kullanmadan bitir',
+    noHint: 'Tüm gizlileri ipucusuz bul',
   } satisfies Record<ObjectiveKey, string>;
 }
 
@@ -18,11 +36,11 @@ export function getRunObjectives(
   usedHint: boolean,
   maxStreak: number,
 ): ObjectiveKey[] {
+  void maxStreak;
   const objectives: ObjectiveKey[] = ['complete'];
-  const discoveryComplete = level.hiddenWords.length > 0
-    ? hiddenCount === level.hiddenWords.length
-    : maxStreak >= level.mainWords.length;
+  const discoveryComplete = level.hiddenWords.length === 0
+    || hiddenCount === level.hiddenWords.length;
   if (discoveryComplete) objectives.push('discovery');
-  if (!usedHint) objectives.push('noHint');
+  if (discoveryComplete && !usedHint) objectives.push('noHint');
   return objectives;
 }

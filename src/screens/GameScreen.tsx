@@ -4,7 +4,7 @@ import '../styles/seal.css';
 import '../styles/modal.css';
 import '../styles/level-modal.css';
 import type { CSSProperties } from 'react';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useGame } from '../store/GameContext';
 import { WordPuzzle } from '../components/WordPuzzle';
 import { HintModal } from '../components/HintModal';
@@ -17,13 +17,16 @@ import { V2Icon } from '../components/Icon';
 import { FavButton } from '../components/FavButton';
 import { MeaningCard3D } from '../components/MeaningCard3D';
 import { findWheelLetterAtPoint, letterCenterPercent } from '../game/wheelDrag';
+import { StreakBadge } from '../components/StreakBadge';
+import { Modal } from '../components/Modal';
+import { Button3D } from '../components/Button3D';
 
 export function GameScreen() {
   const {
     level, theme, letters, selected, found,
     revealedLetters, meaning, toast, setToast,
     feedback, sealOpen, canSeal,
-    streak, maxStreak,
+    streak,
     coins, coinPulse,
     modal,
     play, setModal, setScreen,
@@ -33,7 +36,9 @@ export function GameScreen() {
     clearSelection,
     favoriteWords, toggleFavorite,
     submitWord,
-    manualOpenSeal,
+    manualOpenSeal, selectedSealId,
+    hiddenFound, missingHiddenCount, missingHiddenWordLengths,
+    reduceMotion,
   } = useGame();
 
   const ringRef = useRef<HTMLDivElement>(null);
@@ -43,6 +48,25 @@ export function GameScreen() {
   const [localSelected, setLocalSelected] = useState<number[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [pointerPoint, setPointerPoint] = useState<{ x: number; y: number } | null>(null);
+  const [sealConfirmationOpen, setSealConfirmationOpen] = useState(false);
+  const [a11ySelected, setA11ySelected] = useState<number[]>([]);
+  const progressToastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (progressToastTimerRef.current) clearTimeout(progressToastTimerRef.current);
+  }, []);
+
+  // Seviye değişiminde klavye seçimini temizle (stale harf indeksi kalmasın)
+  useEffect(() => { setA11ySelected([]); }, [levelTransitionKey]);
+
+  const requestSeal = useCallback(() => {
+    play('tap');
+    if (missingHiddenCount > 0) {
+      setSealConfirmationOpen(true);
+      return;
+    }
+    manualOpenSeal();
+  }, [manualOpenSeal, missingHiddenCount, play]);
 
   const getWheelPoint = useCallback((clientX: number, clientY: number) => {
     const ring = ringRef.current;
@@ -143,6 +167,26 @@ export function GameScreen() {
     clearSelection();
   }
 
+  // Klavye/ekran-okuyucu için harf seçimi (sürükle akışından bağımsız alternatif giriş)
+  const a11yToggleLetter = useCallback((index: number) => {
+    play('letter');
+    setA11ySelected((prev) => (
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    ));
+  }, [play]);
+
+  const a11ySubmit = useCallback(() => {
+    const word = a11ySelected.map((i) => letters[i]).join('');
+    setA11ySelected([]);
+    if (word.length >= 2) submitWord(word);
+    else clearSelection();
+  }, [a11ySelected, letters, submitWord, clearSelection]);
+
+  const a11yClear = useCallback(() => {
+    setA11ySelected([]);
+    clearSelection();
+  }, [clearSelection]);
+
   const trailPointsList = displaySelected
     .map(getLetterPoint)
     .concat(pointerPoint && draggingRef.current ? [pointerPoint] : []);
@@ -161,8 +205,6 @@ export function GameScreen() {
     }
   }
 
-  const flawlessTarget = Math.min(2, level.mainWords.length);
-
   return (
     <main
       key={levelTransitionKey}
@@ -176,7 +218,7 @@ export function GameScreen() {
           <V2Icon name="back" />
         </button>
         <div className="gameTopIdentity">
-          <strong>Level {level.levelId}</strong>
+          <strong>Seviye {level.levelId}</strong>
           <span>{theme.title}</span>
         </div>
         <div className={`gameCoinPill ${coinPulse ? 'coinPulse' : ''}`} aria-label={`Altın: ${coins}`}>
@@ -208,8 +250,13 @@ export function GameScreen() {
           </div>
           <div className="gameStatChip">
             <V2Icon name="statChip" className="gameStatChipBg" />
-            <span className="gameStatChipLabel">Hatasız Seri</span>
-            <strong>{Math.min(maxStreak, flawlessTarget)}/{flawlessTarget}</strong>
+            <span className="gameStatChipLabel">Gizli</span>
+            <strong>{hiddenFound.length}/{level.hiddenWords.length}</strong>
+            {missingHiddenWordLengths.length > 0 && (
+              <span className="gameStatChipHintLengths" aria-label="Kalan gizli kelime uzunlukları">
+                {missingHiddenWordLengths.map((len) => '_'.repeat(len)).join('  ')}
+              </span>
+            )}
           </div>
           <div className="gameStatChip">
             <V2Icon name="statChip" className="gameStatChipBg" />
@@ -232,14 +279,47 @@ export function GameScreen() {
           </div>
         )}
         {displayWord && (
-          <div className="wheelWordPill" aria-live="polite">
+          <div className="wheelWordPill" aria-hidden="true">
             <span>{displayWord}</span>
           </div>
         )}
+        {/* Erişilebilir canlı bölgeler — görünmez, ekran okuyucuya açık */}
+        <div className="visually-hidden" aria-live="polite" aria-atomic="true">
+          {displayWord ? `Seçilen harfler: ${[...displayWord].join(' ')}` : ''}
+        </div>
+        <div className="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+          {feedback === 'correct' ? 'Doğru kelime bulundu' : ''}
+          {feedback === 'hidden' ? 'Gizli kelime bulundu' : ''}
+          {feedback === 'unknown' ? 'Kelime sözlükte yok, seri bozulmadı' : ''}
+          {feedback === 'wrong' ? 'Yanlış, tekrar deneyin' : ''}
+        </div>
+        {/* Klavye / ekran-okuyucu için harf seçimi — görünmez alternatif giriş */}
+        <div className="visually-hidden">
+          <h2>Harf çemberi — klavye ile seçim</h2>
+          <p>Harflere odaklanıp Enter ile seçin, sonra "Kelimeyi onayla" düğmesine basın.</p>
+          <ul>
+            {letters.map((letter, index) => (
+              <li key={index}>
+                <button
+                  type="button"
+                  aria-pressed={a11ySelected.includes(index)}
+                  onClick={() => a11yToggleLetter(index)}
+                >
+                  {letter}{a11ySelected.includes(index) ? ' (seçili)' : ''}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button type="button" onClick={a11ySubmit}>
+            Kelimeyi onayla: {a11ySelected.map((i) => letters[i]).join('') || 'boş'}
+          </button>
+          <button type="button" onClick={a11yClear}>Seçimi temizle</button>
+        </div>
         <div className="letterWheel">
           <div
             ref={ringRef}
             className="wheelRing"
+            data-letters={letters.length}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
@@ -253,12 +333,10 @@ export function GameScreen() {
                   <button
                     type="button"
                     className="wheelCenterSealBtn"
-                    onClick={() => {
-                      manualOpenSeal();
-                    }}
+                    onClick={requestSeal}
                     aria-label="Mührü bas ve tamamla"
                   >
-                    <WaxSeal className="gameSealMark glowing" label="BAS" />
+                    <WaxSeal className="gameSealMark glowing" label="BAS" variant={selectedSealId} />
                     <span className="wheelCenterSealLabel">Mühürle</span>
                   </button>
                 ) : (
@@ -309,53 +387,69 @@ export function GameScreen() {
             <img src="/assets/gameplay/v2/shuffle.png" alt="" />
             <span>Karıştır</span>
           </button>
+          {/* Mühürleme tek yoldan yapılır: çark merkezindeki wheelCenterSealBtn (yalnız canSeal).
+              Bu buton yalnızca ilerleme göstergesidir; canSeal'de gizlenir. */}
           <button
-            className={`gameSealAction ${canSeal ? 'canSealActive' : ''}`}
+            className="gameSealAction"
             style={canSeal ? { display: 'none' } : undefined}
             onClick={() => {
-              if (canSeal) {
-                manualOpenSeal();
-              } else {
-                play('tap');
-                setToast(`Mühür: ${found.length}/${level.mainWords.length}`);
-                window.setTimeout(() => setToast(''), 1400);
-              }
+              play('tap');
+              setToast(`Mühür: ${found.length}/${level.mainWords.length}`);
+              if (progressToastTimerRef.current) clearTimeout(progressToastTimerRef.current);
+              progressToastTimerRef.current = setTimeout(() => setToast(''), 1400);
             }}
-            aria-label={canSeal ? 'Mührü bas ve tamamla' : 'Mühür ilerlemesi'}
+            aria-label="Mühür ilerlemesi"
           >
-            <WaxSeal className={`gameSealMark ${canSeal ? 'glowing' : ''}`} label={canSeal ? 'BAS' : `${found.length}`} />
+            <WaxSeal className="gameSealMark" label={`${found.length}`} variant={selectedSealId} />
             <span>Mühür</span>
           </button>
         </div>
       </section>
 
       {toast && <div className="toast">{toast}</div>}
-      {streak >= 3 && (
-        <div className={`streakBadge tier${streak >= 8 ? 8 : streak >= 5 ? 5 : 3}`} aria-hidden="true">
-          {streak >= 8 ? 'Efsane' : streak >= 5 ? 'Usta' : 'Çırak'} Serisi · {streak}x
-        </div>
-      )}
-      {feedback === 'hidden' && <div className="burst hiddenBurst" aria-hidden="true" />}
-      {feedback === 'correct' && <div className="burst correctBurst" aria-hidden="true" />}
+      <StreakBadge streak={streak} />
+      {!reduceMotion && feedback === 'hidden' && <div className="burst hiddenBurst" aria-hidden="true" />}
+      {!reduceMotion && feedback === 'correct' && <div className="burst correctBurst" aria-hidden="true" />}
+      {!reduceMotion && feedback === 'unknown' && <div className="burst hiddenBurst" aria-hidden="true" />}
       {sealOpen && (
         <>
           <div className="sealReveal" role="status" aria-label="Söz Mührü Açıldı">
             <div className="sealRevealFlash" />
             <div className="sealRevealRing" />
-            <WaxSeal className="sealOpen" label="S" ariaLabel="Söz Mührü" />
+            <WaxSeal className="sealOpen" label="S" ariaLabel="Söz Mührü" variant={selectedSealId} />
             <div className="sealRevealTitle">
               <span>SÖZ MÜHRÜ</span>
               <strong>AÇILDI</strong>
             </div>
           </div>
-          <Confetti count={34} />
+          {!reduceMotion && <Confetti count={34} />}
         </>
       )}
-      {feedback === 'wrong' && <div className="shakeOverlay" aria-hidden="true" />}
+      {!reduceMotion && feedback === 'wrong' && <div className="shakeOverlay" aria-hidden="true" />}
       {modal === 'hint' && <HintModal />}
       {modal === 'pause' && <PauseModal />}
       {modal === 'privacy' && <PrivacyModal />}
       {modal === 'reward' && <RewardModal />}
+      {sealConfirmationOpen && (
+        <Modal title="Gizli Kelimeler Kaldı" onClose={() => setSealConfirmationOpen(false)}>
+          <p>
+            Bu seviyede keşfedilmeyi bekleyen {missingHiddenCount} gizli kelime var.
+            Şimdi mühürlersen bu turu 1 yıldızla tamamlarsın.
+          </p>
+          <Button3D variant="blue" onClick={() => { play('tap'); setSealConfirmationOpen(false); }}>
+            Aramaya Devam Et
+          </Button3D>
+          <Button3D
+            variant="gold"
+            onClick={() => {
+              setSealConfirmationOpen(false);
+              manualOpenSeal();
+            }}
+          >
+            Yine de Mühürle (1★)
+          </Button3D>
+        </Modal>
+      )}
     </main>
   );
 }

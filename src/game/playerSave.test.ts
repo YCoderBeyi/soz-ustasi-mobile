@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest';
-import { loadPlayerSave, persistPlayerSave, resolveCollectedWords, getDefaultSave, type PlayerSave } from './playerSave';
+import { loadPlayerSave, persistPlayerSave, resolveCollectedWords, getDefaultSave, migratePlayerSave, type PlayerSave } from './playerSave';
 
 const store = new Map<string, string>();
 
@@ -25,6 +25,7 @@ describe('getDefaultSave', () => {
     expect(save.coins).toBe(120);
     expect(save.completedLevels).toEqual([]);
     expect(save.soundEnabled).toBe(true);
+    expect(save.soundVolume).toBe(80);
     expect(save.hapticsEnabled).toBe(true);
   });
 });
@@ -37,15 +38,18 @@ describe('persistPlayerSave / loadPlayerSave', () => {
       coins: 200,
       completedLevels: [1, 2, 3],
       awardedLevels: [],
+      rewardedWordKeys: [],
       collectedWords: ['TEST'],
       favoriteWords: [],
       soundEnabled: false,
+      soundVolume: 65,
       hapticsEnabled: true,
+      reduceMotion: false,
       levelMastery: { 1: { stars: 3, objectives: ['complete', 'discovery', 'noHint'] } },
       ownedShopItems: [],
+      selectedThemeId: null,
+      selectedSealId: null,
       hintsRemaining: 0,
-      lanternCount: 0,
-      coinMultiplier: 1,
       doublerRemaining: 0,
       freeHintNext: false,
       levelStats: {},
@@ -53,6 +57,7 @@ describe('persistPlayerSave / loadPlayerSave', () => {
     persistPlayerSave(save);
     const loaded = loadPlayerSave();
     expect(loaded.coins).toBe(200);
+    expect(loaded.soundVolume).toBe(65);
     expect(loaded.completedLevels).toEqual([1, 2, 3]);
     expect(loaded.levelMastery[1]).toEqual({ stars: 3, objectives: ['complete', 'discovery', 'noHint'] });
   });
@@ -78,6 +83,42 @@ describe('persistPlayerSave / loadPlayerSave', () => {
     expect(loadPlayerSave().coins).toBe(120);
   });
 
+  it('clamps saved sound volume to the supported range', () => {
+    expect(migratePlayerSave({ version: 2, soundVolume: 140 }).soundVolume).toBe(100);
+    expect(migratePlayerSave({ version: 2, soundVolume: -10 }).soundVolume).toBe(0);
+    expect(migratePlayerSave({ version: 2, soundVolume: 'loud' }).soundVolume).toBe(80);
+  });
+
+  it('keeps valid selected shop cosmetics and rejects unowned selections', () => {
+    const save = migratePlayerSave({
+      version: 2,
+      ownedShopItems: ['theme_ege', 'seal_gold'],
+      selectedThemeId: 'theme_ege',
+      selectedSealId: 'seal_gold',
+    });
+    expect(save.selectedThemeId).toBe('theme_ege');
+    expect(save.selectedSealId).toBe('seal_gold');
+
+    const invalid = migratePlayerSave({
+      version: 2,
+      ownedShopItems: [],
+      selectedThemeId: 'theme_ege',
+      selectedSealId: 'seal_gold',
+    });
+    expect(invalid.selectedThemeId).toBeNull();
+    expect(invalid.selectedSealId).toBeNull();
+  });
+
+  it('normalizes legacy mastery so noHint cannot bypass discovery', () => {
+    const save = migratePlayerSave({
+      version: 2,
+      levelMastery: {
+        1: { stars: 2, objectives: ['complete', 'noHint'] },
+      },
+    });
+    expect(save.levelMastery[1]).toEqual({ stars: 1, objectives: ['complete'] });
+  });
+
   it('removes unknown levelIds from completedLevels', () => {
     window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({ completedLevels: [999, 1] }));
     const loaded = loadPlayerSave();
@@ -87,6 +128,57 @@ describe('persistPlayerSave / loadPlayerSave', () => {
   it('deduplicates completedLevels', () => {
     window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({ completedLevels: [1, 1, 2, 2] }));
     expect(loadPlayerSave().completedLevels).toEqual([1, 2]);
+  });
+
+  it('preserves complete legacy progress during an app update', () => {
+    window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({
+      version: 1,
+      currentLevelId: 6,
+      coins: 845,
+      completedLevels: [1, 2, 3, 4, 5],
+      awardedLevels: [1, 2, 3, 4, 5],
+      collectedWords: ['BALON'],
+      favoriteWords: ['BALON'],
+      levelMastery: {
+        1: { stars: 3, objectives: ['complete', 'discovery', 'noHint'] },
+        5: { stars: 2, objectives: ['complete', 'discovery'] },
+      },
+      ownedShopItems: ['theme_ege', 'seal_gold'],
+      selectedThemeId: 'theme_ege',
+      selectedSealId: 'seal_gold',
+      hintsRemaining: 4,
+      doublerRemaining: 3,
+      freeHintNext: true,
+    }));
+
+    const loaded = loadPlayerSave();
+    expect(loaded.currentLevelId).toBe(6);
+    expect(loaded.completedLevels).toEqual([1, 2, 3, 4, 5]);
+    expect(loaded.coins).toBe(845);
+    expect(loaded.levelMastery[5]).toEqual({ stars: 2, objectives: ['complete', 'discovery'] });
+    expect(loaded.ownedShopItems).toEqual(['theme_ege', 'seal_gold']);
+    expect(loaded.selectedThemeId).toBe('theme_ege');
+    expect(loaded.selectedSealId).toBe('seal_gold');
+    expect(loaded.hintsRemaining).toBe(4);
+    expect(loaded.doublerRemaining).toBe(3);
+    expect(loaded.freeHintNext).toBe(true);
+  });
+
+  it('infers the next playable level when an old save has no currentLevelId', () => {
+    const loaded = migratePlayerSave({
+      version: 1,
+      completedLevels: [1, 2, 3, 4, 5],
+    });
+    expect(loaded.currentLevelId).toBe(6);
+    expect(loaded.completedLevels).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it('migrates collected hidden words into one-time reward keys', () => {
+    const loaded = migratePlayerSave({
+      version: 2,
+      collectedWords: ['ERK'],
+    });
+    expect(loaded.rewardedWordKeys).toContain('5:hidden:ERK');
   });
 });
 

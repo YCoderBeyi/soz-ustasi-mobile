@@ -12,7 +12,7 @@
 
 ## Uygulama
 
-- [x] Level audit: 45 level, 8 tema, 0 uyarı
+- [x] Level audit: 120 level, 8 tema
 - [x] TypeScript build geçti
 - [x] ESLint geçti
 - [x] İşlevsiz reklam butonları kaldırıldı
@@ -20,7 +20,7 @@
 - [x] Titreşim kontrolü çalışıyor
 - [x] Uygulama içi gizlilik metni var
 - [x] Uygulama kapatılıp açıldığında ilerleme local save ile korunuyor
-- [ ] Fiziksel cihazda 45 level smoke test yapıldı
+- [ ] Fiziksel cihazda 120 level smoke test yapıldı
 - [ ] Düşük RAM cihaz testi yapıldı
 - [ ] Android 10-11 cihaz testi yapıldı
 - [ ] Android 13-15 cihaz testi yapıldı

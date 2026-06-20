@@ -43,6 +43,8 @@ const INFLECTED_OR_WEAK_MAIN_WORDS = new Map([
   ['HALİ', 'Tek başına ana kelime olarak zayıf; HÂL/HAL veya daha doğal bir kök kelime tercih edilmeli.'],
   ['USTASI', 'İyelik eki taşıyor; ana kelime olarak kullanılacaksa level teması bunu bilinçli gerekçelendirmeli.'],
 ]);
+const SENSITIVE_TARGET_WORDS = new Set(['MAL', 'DİK', 'İLAH', 'RUM', 'SARA', 'DİN', 'ÇİN']);
+
 const BANNED_CONTENT_PATTERNS = [
   { pattern: /faiz/iu, label: 'faiz' },
   { pattern: /yarat/iu, label: 'yaratmak kökü' },
@@ -77,6 +79,12 @@ const BANNED_CONTENT_PATTERNS = [
 ];
 
 function loadExportedArray(file, exportName) {
+  if (exportName === 'levels') {
+    return loadGeneratedLevels();
+  }
+  if (exportName === 'levelStories') {
+    return loadAuthoredStories();
+  }
   let source = fs.readFileSync(file, 'utf8');
   source = source
     .replace(/^import .*?;\s*/gm, '')
@@ -88,6 +96,96 @@ function loadExportedArray(file, exportName) {
   const context = {};
   vm.createContext(context);
   vm.runInContext(`${source}\nresult = ${exportName};`, context);
+  return context.result;
+}
+
+function loadGeneratedStories() {
+  let source = fs.readFileSync('src/data/levelStories.ts', 'utf8')
+    .replace(/^import .*?;\s*/gm, '')
+    .replace(/const baseLevelStories: LevelStory\[\] =/, 'const baseLevelStories =')
+    .replace(/export const levelStories:[\s\S]*$/, '');
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(`${source}\nresult = baseLevelStories;`, context);
+  const baseStories = context.result;
+  const levels = loadGeneratedLevels();
+  return [
+    ...baseStories,
+    ...levels.slice(baseStories.length).map((level, index) => ({
+      levelId: level.levelId,
+      era: 'Ustalık Dönemi',
+      place: 'Anadolu',
+      title: `Ustalık Adımı ${index + 1}`,
+      body: `${level.story} Tanıdık sözcüklerin farklı sırayla yeniden çağrılması, hatırlama gücünü ve çözüm esnekliğini destekler.`,
+    })),
+  ];
+}
+
+function loadAuthoredStories() {
+  let source = fs.readFileSync('src/data/levelStories.ts', 'utf8')
+    .replace(/^import .*?;\s*/gm, '')
+    .replace(/const baseLevelStories: LevelStory\[\] =/, 'const baseLevelStories =')
+    .replace(/export const levelStories:[\s\S]*$/, '');
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(`${source}\nresult = baseLevelStories;`, context);
+
+  const authoredStories = [
+    ['src/data/levelStories46to50.ts', 'levelStories46to50'],
+    ['src/data/levelStories51to55.ts', 'levelStories51to55'],
+    ['src/data/levelStories56to60.ts', 'levelStories56to60'],
+    ['src/data/levelStories61to65.ts', 'levelStories61to65'],
+    ['src/data/levelStories66to70.ts', 'levelStories66to70'],
+    ['src/data/levelStories71to75.ts', 'levelStories71to75'],
+  ].flatMap(([file, exportName]) => loadExportedArray(file, exportName));
+
+  return [...context.result, ...authoredStories];
+}
+
+function loadGeneratedLevels() {
+  const authoredLevelModules = [
+    ['src/data/levels46to50.ts', 'levels46to50'],
+    ['src/data/levels51to55.ts', 'levels51to55'],
+    ['src/data/levels56to60.ts', 'levels56to60'],
+    ['src/data/levels61to65.ts', 'levels61to65'],
+    ['src/data/levels66to70.ts', 'levels66to70'],
+    ['src/data/levels71to75.ts', 'levels71to75'],
+  ];
+  const authoredSources = authoredLevelModules.map(([file, exportName]) => (
+    fs.readFileSync(file, 'utf8')
+      .replace(/^import .*?;\s*/gm, '')
+      .replace(new RegExp(`export const ${exportName}: LevelData\\[\\] =`), `const ${exportName} =`)
+  )).join('\n');
+  let levelsSource = fs.readFileSync('src/data/levels.ts', 'utf8')
+    .replace(/^import .*?;\s*/gm, '')
+    .replace(/const baseLevels: LevelData\[\] =/, 'const baseLevels =')
+    .replace(/export const levels: LevelData\[\] =[\s\S]*$/, '');
+  let masterySource = fs.readFileSync('src/data/masteryLevels.ts', 'utf8')
+    .replace(/^import .*?;\s*/gm, '')
+    .replace(/: DifficultyLevel/g, '')
+    .replace(/: LevelData\[\]/g, '')
+    .replace(/: LevelData/g, '')
+    .replace(/: Set<string>/g, '')
+    .replace(/: LevelData \| undefined/g, '')
+    .replace(/ \| undefined/g, '')
+    .replace(/: string/g, '')
+    .replace(/: number/g, '')
+    .replace(/: boolean/g, '')
+    .replace(/previous\?/g, 'previous')
+    .replace(/ as DifficultyLevel/g, '')
+    .replace(/ as const/g, '')
+    .replace(/export function/g, 'function');
+
+  const context = {
+    normalizeWord: (word) => word
+      .trim()
+      .toLocaleUpperCase('tr-TR')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replaceAll('\u0130', 'I'),
+  };
+  vm.createContext(context);
+  vm.runInContext(`${authoredSources}\n${masterySource}\n${levelsSource}\nresult = [...baseLevels, ...authoredMasteryLevels];`, context);
   return context.result;
 }
 
@@ -106,9 +204,24 @@ function letterBag(value) {
   }, {});
 }
 
+// Oyunun gerçek normalize'ı (src/game/normalize.ts): NFC, diacritic STRIP YOK.
+// Türkçede Ü/U, Ş/S, Ç/C, Ö/O, Ğ/G, İ/I AYRI harftir. Buildability bu kurala
+// göre kontrol edilmeli; aksi halde audit oyunda kurulamayan kelimeyi geçirir
+// (örn. M,Ü,H,Ü,R,U havuzunda UMUR: tek U var, iki Ü ayrı harf → kurulamaz).
+function gameNormalize(word) {
+  return word.trim().toLocaleUpperCase('tr-TR').normalize('NFC');
+}
+
+function gameLetterBag(value) {
+  return [...gameNormalize(value)].reduce((bag, char) => {
+    bag[char] = (bag[char] ?? 0) + 1;
+    return bag;
+  }, {});
+}
+
 function canBuildWord(word, letters) {
-  const source = letterBag(letters.join(''));
-  const target = letterBag(word);
+  const source = gameLetterBag(letters.join(''));
+  const target = gameLetterBag(word);
   return Object.entries(target).every(([char, count]) => (source[char] ?? 0) >= count);
 }
 
@@ -139,8 +252,8 @@ for (const theme of themes) {
 levels.forEach((level, index) => {
   if (level.levelId !== index + 1) errors.push(`Level ${level.levelId}: sıra ${index + 1} olmalı.`);
   if (!themeIds.has(level.themeId)) errors.push(`Level ${level.levelId}: bilinmeyen themeId ${level.themeId}.`);
-  if (level.letters.length < 3 || level.letters.length > 6) {
-    errors.push(`Level ${level.levelId}: harf sayısı 3-6 aralığında olmalı.`);
+  if (level.letters.length < 3 || level.letters.length > 8) {
+    errors.push(`Level ${level.levelId}: harf sayısı 3-8 aralığında olmalı.`);
   }
   if (level.mainWords.length < 2) errors.push(`Level ${level.levelId}: en az 2 ana kelime olmalı.`);
   if (level.reward.baseCoin < 20) warnings.push(`Level ${level.levelId}: baseCoin düşük görünüyor.`);
@@ -180,6 +293,9 @@ levels.forEach((level, index) => {
     if (banned) errors.push(`Level ${level.levelId}: ${entry.word} yasaklı içerik içeriyor (${banned}).`);
     if (KNOWN_INVALID_WORDS.has(displayWord)) {
       errors.push(`Level ${level.levelId}: ${displayWord} geçersiz/problemli kelime. ${KNOWN_INVALID_WORDS.get(displayWord)}`);
+    }
+    if (SENSITIVE_TARGET_WORDS.has(displayWord)) {
+      errors.push(`Level ${level.levelId}: ${displayWord} genel kitle için hedef kelime olmamalı.`);
     }
     if (REQUIRED_DISPLAY_WORDS.has(displayWord) && entry.word !== REQUIRED_DISPLAY_WORDS.get(displayWord)) {
       errors.push(`Level ${level.levelId}: ${entry.word} görünen yazımı hatalı; ${REQUIRED_DISPLAY_WORDS.get(displayWord)} olmalı.`);
@@ -269,23 +385,63 @@ function canBuildCrossword(words) {
 
 const poolIndex = {};
 levels.forEach((level) => {
-  const pool = [...level.letters].sort().join('');
+  const pool = level.letters.map(normalizeWord).sort().join('');
   if (!poolIndex[pool]) poolIndex[pool] = [];
   poolIndex[pool].push(level.levelId);
 });
 
 const duplicatePools = Object.entries(poolIndex).filter(([, ids]) => ids.length > 1);
 for (const [pool, ids] of duplicatePools) {
-  warnings.push(`Seviye ${ids.join(', ')} aynı harf havuzuna sahip (${pool}).`);
+  errors.push(`Seviye ${ids.join(', ')} aynı harf havuzuna sahip (${pool}).`);
+}
+
+if (levels.length !== 75) {
+  errors.push(`Tam katalog 120 level olmalı; mevcut ${levels.length}.`);
+}
+
+const recentMainWords = new Map();
+const recentHiddenWords = new Map();
+levels.forEach((level) => {
+  const previous = levels[level.levelId - 2];
+  if (previous) {
+    const previousPool = previous.letters.map(normalizeWord).sort().join('');
+    const currentPool = level.letters.map(normalizeWord).sort().join('');
+    if (previousPool === currentPool) errors.push(`Level ${level.levelId}: önceki seviyeyle aynı harf havuzu.`);
+  }
+  for (const entry of level.mainWords) {
+    const word = normalizeWord(entry.word);
+    const lastLevel = recentMainWords.get(word);
+    if (lastLevel && level.levelId - lastLevel < 10) {
+      errors.push(`Level ${level.levelId}: ${entry.word}, Level ${lastLevel} sonrasında 10 seviyeden erken tekrarlandı.`);
+    }
+    recentMainWords.set(word, level.levelId);
+  }
+  for (const entry of level.hiddenWords) {
+    const word = normalizeWord(entry.word);
+    const lastLevel = recentHiddenWords.get(word);
+    if (lastLevel && level.levelId - lastLevel < 10) {
+      errors.push(`Level ${level.levelId}: gizli ${entry.word}, Level ${lastLevel} sonrasında 10 seviyeden erken tekrarlandı.`);
+    }
+    recentHiddenWords.set(word, level.levelId);
+  }
+});
+
+for (const story of levelStories) {
+  if (/^Ustalık Adımı \d+$/u.test(story.title)) {
+    errors.push(`Level ${story.levelId}: jenerik ustalık hikayesi kullanıyor.`);
+  }
+  if (story.body.includes('Tanıdık sözcüklerin farklı sırayla yeniden çağrılması')) {
+    errors.push(`Level ${story.levelId}: tekrar dolgusu hikaye metni kullanıyor.`);
+  }
 }
 
 levels.forEach((level) => {
   if (!canBuildCrossword(level.mainWords.map((w) => w.word))) {
-    warnings.push(`Level ${level.levelId}: ana kelimeler bulmaca oluşturamıyor.`);
+    errors.push(`Level ${level.levelId}: ana kelimeler bulmaca oluşturamıyor.`);
   }
 });
 
-levels.forEach((level, index) => {
+levels.slice(0, 45).forEach((level, index) => {
   if (index > 0) {
     const prev = levels[index - 1];
     const prevTot = prev.mainWords.reduce((s, w) => s + w.word.length, 0);

@@ -902,6 +902,11 @@ Her bölüm için üretilecek minimum görsel paket:
 
 ## 27. Ekran Tasarım Sözleşmeleri
 
+> Alt sözleşme: `vault/02-Design-System/UI-UX-Professional-Improvements-2026-06-20.md`
+> bu bölümün uygulama durumu, profesyonel UI/UX kararları ve geliştirme önerilerini
+> (mevcut UI korunarak) içerir. Kaynak: panel denetimi
+> `vault/05-Content/Game-Mechanics-Panel-Audit-2026-06-20.md`.
+
 ### 27.1 Splash ekranı
 
 Amaç: Uygulamanın açıldığını net göstermek ve marka hafızası oluşturmak.

@@ -2,7 +2,7 @@ import { useGame } from '../store/GameContext';
 import { Modal } from './Modal';
 
 export function PauseModal() {
-  const { play, setModal, setScreen, startLevel, level, soundEnabled, setSoundEnabled, hapticsEnabled, setHapticsEnabled } = useGame();
+  const { play, setModal, setScreen, startLevel, level, soundEnabled, setSoundEnabled, hapticsEnabled, setHapticsEnabled, reduceMotion, setReduceMotion } = useGame();
   const action = (label: string, detail: string, kind: string, onClick: () => void) => (
     <button className={`pauseAction pauseAction--${kind}`} onClick={onClick}>
       <span><strong>{label}</strong><small>{detail}</small></span><b aria-hidden="true">›</b>
@@ -19,6 +19,9 @@ export function PauseModal() {
           </button>
           <button className={hapticsEnabled ? 'active' : ''} onClick={() => { play('tap'); setHapticsEnabled(!hapticsEnabled); }}>
             <span>Titreşim</span><strong>{hapticsEnabled ? 'Açık' : 'Kapalı'}</strong>
+          </button>
+          <button className={reduceMotion ? 'active' : ''} aria-pressed={reduceMotion} onClick={() => { play('tap'); setReduceMotion(!reduceMotion); }}>
+            <span>Hareketi Azalt</span><strong>{reduceMotion ? 'Açık' : 'Kapalı'}</strong>
           </button>
         </div>
         {action('Leveli Yeniden Başlat', 'Mevcut ilerleme sıfırlanır', 'secondary', () => { play('tap'); startLevel(level); })}

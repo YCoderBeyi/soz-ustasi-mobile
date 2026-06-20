@@ -53,7 +53,7 @@ vi.mock('./Button3D', () => ({
 describe('isFinalLevel', () => {
   it('derives the final level from the catalog', () => {
     expect(isFinalLevel(45, levels)).toBe(false);
-    expect(isFinalLevel(120, levels)).toBe(true);
+    expect(isFinalLevel(75, levels)).toBe(true);
   });
 });
 
