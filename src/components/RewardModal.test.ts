@@ -77,6 +77,8 @@ describe('RewardModal', () => {
     expect(screen.queryByText('+0 ALTIN')).toBeNull();
     expect(screen.queryByText(/^0$/)).toBeNull();
     expect(screen.getByText('Bu mühür daha önce ödüllendirildi.')).toBeTruthy();
+    expect(screen.queryByText('Keşif devam ediyor')).toBeNull();
+    expect(screen.queryByText('Tekrar Keşfet')).toBeNull();
   });
 
   it('omits zero coin rows when a non-zero bonus exists', () => {
@@ -98,6 +100,8 @@ describe('RewardModal', () => {
     expect(screen.queryByText('+0 ALTIN')).toBeNull();
     expect(screen.getByText('+2 GİZLİ BONUS')).toBeTruthy();
     expect(screen.getByText('+3 BÖLGE SANDIĞI')).toBeTruthy();
+    expect(screen.queryByText('Keşif devam ediyor')).toBeNull();
+    expect(screen.queryByText('Tekrar Keşfet')).toBeNull();
   });
 
   it('renders the flawless reward row when present', () => {
@@ -118,5 +122,7 @@ describe('RewardModal', () => {
 
     expect(screen.getByText('+10 ALTIN')).toBeTruthy();
     expect(screen.getByText('KUSURSUZ +%50')).toBeTruthy();
+    expect(screen.queryByText('Keşif devam ediyor')).toBeNull();
+    expect(screen.queryByText('Tekrar Keşfet')).toBeNull();
   });
 });
