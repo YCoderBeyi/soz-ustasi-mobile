@@ -3,6 +3,7 @@ import type { SfxName } from '../../audio';
 import { playSfx } from '../../audio';
 import { createCleanupRegistry } from '../../game/cleanup';
 import { shopItems } from '../../data/shop';
+import { loadPlayerSave, persistPlayerSave } from '../../game/playerSave';
 
 type ResourceState = {
   coins: number;
@@ -12,6 +13,8 @@ type ResourceState = {
   doublerRemaining: number;
   freeHintNext: boolean;
   ownedShopItems: string[];
+  selectedThemeId: string | null;
+  selectedSealId: string | null;
   coinPulse: boolean;
 };
 
@@ -24,6 +27,7 @@ type ResourceActions = {
   addOwnedItem: (itemId: string) => void;
   isItemOwned: (itemId: string) => boolean;
   buyShopItem: (itemId: string) => void;
+  selectShopItem: (itemId: string) => void;
   pulseCoins: () => void;
   play: (name: SfxName) => void;
   haptic: (pattern: number | number[]) => void;
@@ -42,32 +46,53 @@ export function useResource() {
 export function ResourceProvider({
   children,
   soundEnabled,
+  soundVolume,
   hapticsEnabled,
 }: {
   children: ReactNode;
   soundEnabled: boolean;
+  soundVolume: number;
   hapticsEnabled: boolean;
 }) {
-  const [coins, setCoins] = useState(120);
-  const [hintsRemaining, setHintsRemaining] = useState(0);
+  const initialSave = useRef(loadPlayerSave()).current;
+  const [coins, setCoins] = useState(initialSave.coins);
+  const [hintsRemaining, setHintsRemaining] = useState(initialSave.hintsRemaining);
   const [lanternCount] = useState(0);
-  const [coinMultiplier, setCoinMultiplier] = useState(1);
+  const [coinMultiplier, setCoinMultiplier] = useState(initialSave.coinMultiplier);
   const [doublerRemaining] = useState(0);
-  const [freeHintNext, setFreeHintNext] = useState(false);
-  const [ownedShopItems, setOwnedShopItems] = useState<string[]>([]);
+  const [freeHintNext, setFreeHintNext] = useState(initialSave.freeHintNext);
+  const [ownedShopItems, setOwnedShopItems] = useState<string[]>(initialSave.ownedShopItems);
+  const [selectedThemeId, setSelectedThemeId] = useState<string | null>(initialSave.selectedThemeId);
+  const [selectedSealId, setSelectedSealId] = useState<string | null>(initialSave.selectedSealId);
   const [coinPulse, setCoinPulse] = useState(false);
 
   const cleanup = useRef(createCleanupRegistry()).current;
 
   useEffect(() => cleanup.flushAll, []);
 
+  useEffect(() => {
+    const latest = loadPlayerSave();
+    persistPlayerSave({
+      ...latest,
+      coins,
+      hintsRemaining,
+      coinMultiplier,
+      freeHintNext,
+      ownedShopItems,
+      selectedThemeId,
+      selectedSealId,
+    });
+  }, [coins, hintsRemaining, coinMultiplier, freeHintNext, ownedShopItems, selectedThemeId, selectedSealId]);
+
   const soundRef = useRef(soundEnabled);
   soundRef.current = soundEnabled;
+  const soundVolumeRef = useRef(soundVolume);
+  soundVolumeRef.current = soundVolume;
   const hapticRef = useRef(hapticsEnabled);
   hapticRef.current = hapticsEnabled;
 
   const play = useCallback((name: SfxName) => {
-    playSfx(name, soundRef.current);
+    playSfx(name, soundRef.current, soundVolumeRef.current);
   }, []);
 
   const haptic = useCallback((pattern: number | number[]) => {
@@ -112,40 +137,26 @@ export function ResourceProvider({
     setOwnedShopItems((prev) => prev.includes(itemId) ? prev : [...prev, itemId]);
   }, []);
 
-  const isItemOwned = useCallback((itemId: string) => {
-    let result = false;
-    setOwnedShopItems((prev) => { result = prev.includes(itemId); return prev; });
-    return result;
-  }, []);
+  const isItemOwned = useCallback((itemId: string) => ownedShopItems.includes(itemId), [ownedShopItems]);
 
   const buyShopItem = useCallback((itemId: string) => {
     const item = shopItems.find((i) => i.id === itemId);
     if (!item) {
-      playSfx('wrong', soundRef.current);
+      play('wrong');
       return;
     }
-    let alreadyOwned = false;
-    setOwnedShopItems((prev) => {
-      if (prev.includes(itemId)) alreadyOwned = true;
-      return prev;
-    });
-    if (alreadyOwned) {
-      playSfx('wrong', soundRef.current);
+    if (ownedShopItems.includes(itemId)) {
+      play('wrong');
       return;
     }
-    let canBuy = false;
-    setCoins((v) => {
-      if (v >= item.price) {
-        canBuy = true;
-        return v - item.price;
-      }
-      return v;
-    });
-    if (!canBuy) {
-      playSfx('wrong', soundRef.current);
+    if (coins < item.price) {
+      play('wrong');
       return;
     }
+    setCoins((v) => v - item.price);
     setOwnedShopItems((prev) => [...prev, itemId]);
+    if (item.category === 'theme') setSelectedThemeId(itemId);
+    if (item.category === 'seal') setSelectedSealId(itemId);
     if (itemId.startsWith('hint_')) {
       const count = itemId === 'hint_3' ? 3 : 5;
       setHintsRemaining((prev) => prev + count);
@@ -153,8 +164,16 @@ export function ResourceProvider({
     if (itemId === 'doubler') {
       setCoinMultiplier((prev) => prev * 2);
     }
-    playSfx('reward', soundRef.current);
-  }, []);
+    play('reward');
+  }, [coins, ownedShopItems, play]);
+
+  const selectShopItem = useCallback((itemId: string) => {
+    const item = shopItems.find((candidate) => candidate.id === itemId);
+    if (!item || !ownedShopItems.includes(itemId)) return;
+    if (item.category === 'theme') setSelectedThemeId(itemId);
+    if (item.category === 'seal') setSelectedSealId(itemId);
+    play('tap');
+  }, [ownedShopItems, play]);
 
   const pulseCoins = useCallback(() => {
     setCoinPulse(false);
@@ -166,9 +185,9 @@ export function ResourceProvider({
 
   const value: ResourceContextValue = {
     coins, hintsRemaining, lanternCount, coinMultiplier, doublerRemaining,
-    freeHintNext, ownedShopItems, coinPulse,
+    freeHintNext, ownedShopItems, selectedThemeId, selectedSealId, coinPulse,
     addCoins, spendCoins, spendHint, addHints, setCoinMultiplier,
-    addOwnedItem, isItemOwned, buyShopItem, pulseCoins, play, haptic,
+    addOwnedItem, isItemOwned, buyShopItem, selectShopItem, pulseCoins, play, haptic,
   };
 
   return (

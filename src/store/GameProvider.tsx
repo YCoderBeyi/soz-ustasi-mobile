@@ -6,20 +6,20 @@ import { useResource } from './contexts/ResourceContext';
 import { GameContextBridge } from './GameContext';
 
 function ResourceProviderBridge({ children }: { children: ReactNode }) {
-  const { soundEnabled, hapticsEnabled } = usePersistence();
+  const { soundEnabled, soundVolume, hapticsEnabled } = usePersistence();
   return (
-    <ResourceProvider soundEnabled={soundEnabled} hapticsEnabled={hapticsEnabled}>
+    <ResourceProvider soundEnabled={soundEnabled} soundVolume={soundVolume} hapticsEnabled={hapticsEnabled}>
       {children}
     </ResourceProvider>
   );
 }
 
 function SessionProviderBridge({ children }: { children: ReactNode }) {
-  const { addCoins, spendHint, play, haptic } = useResource();
+  const { addCoins, spendHint, play, haptic, selectedThemeId } = useResource();
   const {
     currentLevelId, setCurrentLevelId,
     awardedLevels,
-    markLevelCompleted, markLevelAwarded,
+    markLevelCompleted, markLevelAwarded, markWordRewarded, isWordRewarded,
     mergeMastery, addCollectedWord, updateStats,
     dailyChallenge, claimDailyReward,
   } = usePersistence();
@@ -34,11 +34,14 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
       awardedLevels={awardedLevels}
       markLevelCompleted={markLevelCompleted}
       markLevelAwarded={markLevelAwarded}
+      markWordRewarded={markWordRewarded}
+      isWordRewarded={isWordRewarded}
       mergeMastery={mergeMastery}
       addCollectedWord={addCollectedWord}
       updateStats={updateStats}
       dailyChallenge={dailyChallenge}
       claimDailyReward={claimDailyReward}
+      selectedThemeId={selectedThemeId}
     >
       {children}
     </SessionProvider>

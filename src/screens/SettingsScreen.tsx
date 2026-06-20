@@ -3,7 +3,12 @@ import { useGame } from '../store/GameContext';
 import { ActionIconButton } from '../components/ActionIconButton';
 
 export function SettingsScreen() {
-  const { setScreen, play, soundEnabled, setSoundEnabled, hapticsEnabled, setHapticsEnabled, setModal } = useGame();
+  const {
+    setScreen, play, soundEnabled, setSoundEnabled, soundVolume, setSoundVolume,
+    hapticsEnabled, setHapticsEnabled, setModal,
+  } = useGame();
+  const soundActive = soundEnabled && soundVolume > 0;
+
   return (
     <main className="screen settingsScreen">
       <div className="settingsSurface" aria-hidden="true" />
@@ -12,18 +17,54 @@ export function SettingsScreen() {
         <h1>Ayarlar</h1><div className="settingsHeaderSpacer" />
       </header>
       <section className="settingsList">
-        <button className="settingsItem" onClick={() => { play('tap'); setSoundEnabled(!soundEnabled); }}>
-          <span><strong>Ses Efektleri</strong><small>Oyun seslerini yönet</small></span>
-          <i className={soundEnabled ? 'active' : ''}><b /></i>
+        <button
+          className="settingsItem"
+          onClick={() => {
+            const nextEnabled = !soundEnabled;
+            setSoundEnabled(nextEnabled);
+            if (nextEnabled && soundVolume > 0) play('tap');
+          }}
+        >
+          <span><strong>Ses Efektleri</strong><small>Tüm dokunuş, harf, ödül ve mühür seslerini yönet</small></span>
+          <i className={soundActive ? 'active' : ''}><b /></i>
         </button>
+        <div className="settingsVolume">
+          <div className="settingsVolumeHeader">
+            <span><strong>Efekt Ses Seviyesi</strong><small>Tüm efekt sesleri için tek denetim</small></span>
+            <output>{soundVolume}%</output>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            value={soundVolume}
+            aria-label="Efekt ses seviyesi"
+            onChange={(event) => {
+              const value = Number(event.target.value);
+              setSoundVolume(value);
+              if (value > 0 && !soundEnabled) setSoundEnabled(true);
+            }}
+            onPointerUp={(event) => {
+              const value = Number((event.currentTarget as HTMLInputElement).value);
+              if ((soundEnabled || value > 0) && value > 0) play('correct');
+            }}
+            onKeyUp={(event) => {
+              const value = Number((event.currentTarget as HTMLInputElement).value);
+              if (value > 0 && !soundEnabled) setSoundEnabled(true);
+              if ((soundEnabled || value > 0) && value > 0) play('correct');
+            }}
+          />
+          <div className="settingsVolumeScale"><span>Sessiz</span><span>Güçlü</span></div>
+        </div>
         <button className="settingsItem" onClick={() => { play('tap'); setHapticsEnabled(!hapticsEnabled); }}>
           <span><strong>Dokunsal Geri Bildirim</strong><small>Dokunuşlarda titreşim kullan</small></span>
           <i className={hapticsEnabled ? 'active' : ''}><b /></i>
         </button>
-        <div className="settingsAbout"><span>Sürüm</span><strong>Söz Ustası 1.0</strong></div>
+        <div className="settingsAbout"><span>Sürüm</span><strong>Söz Ustası 1.0.14</strong></div>
       </section>
       <footer className="settingsFooter">
-        <button onClick={() => { play('tap'); setModal('privacy'); }}>Gizlilik Politikası <b>›</b></button>
+        <button onClick={() => { play('tap'); setModal('privacy'); }}>Gizlilik Politikası <b>&gt;</b></button>
         <p>İlerlemen yalnızca bu cihazda saklanır.</p>
       </footer>
     </main>
