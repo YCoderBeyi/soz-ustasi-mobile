@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, statSync } from 'node:fs';
+﻿import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /* global console, process */
@@ -15,21 +15,73 @@ function requireFile(relativePath) {
   if (!existsSync(join(root, relativePath))) errors.push(`Missing file: ${relativePath}`);
 }
 
-const packageJson = JSON.parse(read('package.json'));
+function parseReleaseManifest(text) {
+  const fields = new Map();
+  for (const line of text.split(/\r?\n/)) {
+    const match = line.match(/^- ([^:]+):\s*(.+)$/);
+    if (match) {
+      const value = match[2].trim().replace(/^`|`$/g, '');
+      fields.set(match[1], value);
+    }
+  }
+  return fields;
+}
+
 const gradle = read('android/app/build.gradle');
 const manifest = read('android/app/src/main/AndroidManifest.xml');
 const playerSaveSource = read('src/game/playerSave.ts');
 const privacy = read('public/privacy.html');
+const releaseManifestPath = 'vault/07-Production/Release-Manifest-v1.md';
+const releaseManifestText = read(releaseManifestPath);
+const releaseManifest = parseReleaseManifest(releaseManifestText);
 
 const versionName = gradle.match(/versionName\s+"([^"]+)"/)?.[1];
 const versionCode = gradle.match(/versionCode\s+(\d+)/)?.[1];
 const applicationId = gradle.match(/applicationId\s+"([^"]+)"/)?.[1];
+const releaseManifestVersionName = releaseManifest.get('Version name');
+const releaseManifestVersionCode = releaseManifest.get('Version code');
 
-if (versionName !== packageJson.version) {
-  errors.push(`Version mismatch: package.json=${packageJson.version}, Android=${versionName ?? 'missing'}`);
+function requireManifestValue(label, expected) {
+  const actual = releaseManifest.get(label);
+  if (actual !== expected) {
+    errors.push(`Release manifest mismatch: ${label}=${actual ?? 'missing'} (expected ${expected})`);
+  }
 }
-if (!versionCode || Number(versionCode) < 1) errors.push('Android versionCode must be at least 1.');
+
+function requireResolvedManifestField(label, placeholder) {
+  const actual = releaseManifest.get(label);
+  if (!actual) {
+    errors.push(`Release manifest field missing: ${label}`);
+    return;
+  }
+  if (actual === placeholder) {
+    errors.push(`Release manifest field unresolved: ${label}`);
+  }
+}
+
+if (versionName !== '1.0.15') {
+  errors.push(`Android versionName must be 1.0.15, found ${versionName ?? 'missing'}.`);
+}
+if (!versionCode || Number(versionCode) !== 17) errors.push(`Android versionCode must be 17, found ${versionCode ?? 'missing'}.`);
 if (applicationId !== 'com.sozustasi.game') errors.push(`Unexpected applicationId: ${applicationId ?? 'missing'}`);
+
+if (releaseManifestVersionName !== '1.0.15') {
+  errors.push(`Release manifest version name must be 1.0.15, found ${releaseManifestVersionName ?? 'missing'}.`);
+}
+if (releaseManifestVersionCode !== '17') {
+  errors.push(`Release manifest version code must be 17, found ${releaseManifestVersionCode ?? 'missing'}.`);
+}
+requireManifestValue('Track', 'Closed test, then production after eligibility');
+requireManifestValue('Data model', 'PlayerSave v2');
+requireManifestValue('Network access', 'None');
+requireManifestValue('Ads', 'None');
+requireManifestValue('In-app purchases', 'None');
+requireManifestValue('Account/login', 'None');
+requireManifestValue('Supported locale', 'tr-TR');
+
+requireResolvedManifestField('Release owner', 'pending sign-off');
+requireResolvedManifestField('AAB SHA-256', 'pending build');
+requireResolvedManifestField('APK SHA-256', 'pending build');
 
 const forbiddenPermissions = [
   'android.permission.INTERNET',
@@ -51,13 +103,13 @@ if (!playerSaveSource.includes('window.localStorage.setItem')) errors.push('Pers
 if (!privacy.includes('kişisel veya hassas kullanıcı verisi toplamaz')) errors.push('Privacy policy data collection statement is missing.');
 if (existsSync(join(root, 'public/assets/themes/imported'))) errors.push('Raw imported theme assets must not be included in public build.');
 
-requireFile(`artifacts/SozUstasi-${versionName}-release.apk`);
-requireFile(`artifacts/SozUstasi-${versionName}-release.aab`);
+requireFile(`artifacts/SozUstasi-${releaseManifestVersionName}-release.apk`);
+requireFile(`artifacts/SozUstasi-${releaseManifestVersionName}-release.aab`);
 requireFile('vault/07-Production/Data-Safety-v1.md');
 requireFile('vault/07-Production/Google-Play-Listing-v1.md');
 requireFile('vault/07-Production/Closed-Test-Checklist-v1.md');
 
-for (const artifact of [`artifacts/SozUstasi-${versionName}-release.apk`, `artifacts/SozUstasi-${versionName}-release.aab`]) {
+for (const artifact of [`artifacts/SozUstasi-${releaseManifestVersionName}-release.apk`, `artifacts/SozUstasi-${releaseManifestVersionName}-release.aab`]) {
   const path = join(root, artifact);
   if (existsSync(path) && statSync(path).size > 40 * 1024 * 1024) {
     warnings.push(`${artifact} is larger than 40 MB; rebuild after asset cleanup.`);
@@ -68,4 +120,4 @@ for (const warning of warnings) console.warn(`WARN ${warning}`);
 for (const error of errors) console.error(`ERR ${error}`);
 
 if (errors.length > 0) process.exit(1);
-console.log(`Release audit OK: version ${versionName}, code ${versionCode}, ${warnings.length} warning.`);
+console.log(`Release audit OK: version ${releaseManifestVersionName}, code ${releaseManifestVersionCode}, ${warnings.length} warning.`);
