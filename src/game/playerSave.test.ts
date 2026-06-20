@@ -180,6 +180,32 @@ describe('persistPlayerSave / loadPlayerSave', () => {
     });
     expect(loaded.rewardedWordKeys).toContain('5:hidden:ERK');
   });
+
+  it('1.0.15 -> 1.0.16 update keeps the reached level and all completed progress', () => {
+    // A real 1.0.15 save still carries economy fields removed in 1.0.16
+    // (coinMultiplier, lanternCount). Loading with the new code must ignore them
+    // WITHOUT dropping the player's reached level or completed levels.
+    const completed = Array.from({ length: 41 }, (_, i) => i + 1); // levels 1..41
+    window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({
+      version: 2,
+      currentLevelId: 42,
+      completedLevels: completed,
+      awardedLevels: completed,
+      coins: 500,
+      coinMultiplier: 2, // removed in 1.0.16 — must be ignored, not fatal
+      lanternCount: 5,   // removed in 1.0.16
+      hintsRemaining: 3,
+      levelMastery: { 10: { stars: 3, objectives: ['complete', 'discovery', 'noHint'] } },
+    }));
+
+    const loaded = loadPlayerSave();
+
+    expect(loaded.currentLevelId).toBe(42);
+    expect(loaded.completedLevels).toEqual(completed);
+    expect(loaded.awardedLevels).toEqual(completed);
+    expect(loaded.coins).toBe(500);
+    expect(loaded.levelMastery[10]).toEqual({ stars: 3, objectives: ['complete', 'discovery', 'noHint'] });
+  });
 });
 
 describe('resolveCollectedWords', () => {
