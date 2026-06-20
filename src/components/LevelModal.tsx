@@ -7,7 +7,7 @@ import { getTheme } from '../data/themes';
 const puzzleTypeLabels: Record<string, string> = {
   crossword: 'Çapraz Bulmaca',
   anagram: 'Anagram',
-  wordsearch: 'Çengel Bulmaca',
+  wordsearch: 'Kelime Avı',
 };
 
 const puzzleTypeIcons: Record<string, string> = {
@@ -74,7 +74,7 @@ export function LevelModal() {
             <img className="statFrameImg" src={`${ASSETS}/08-stat-icon-reward.png`} alt="" />
             <div className="statBlockInner">
               <strong>ÖDÜL</strong>
-              <span>{level.reward.baseCoin} ALTIN</span>
+              <span>{level.reward.baseCoin} ELMAS</span>
               <small>+ Gizli Bonus</small>
             </div>
           </div>

@@ -176,13 +176,13 @@ export function MapScreen() {
           className={`map-daily-card ${dailyChallenge.completed ? 'map-daily-card--done' : ''}`}
           onClick={handleDailyChallenge}
           disabled={dailyChallenge.completed}
-          aria-label={dailyChallenge.completed ? 'Günün görevi tamamlandı' : `Günün görevi: Seviye ${dailyChallenge.levelId}`}
+          aria-label={dailyChallenge.completed ? 'Günün görevi tamamlandı' : `Günün görevi: Level ${dailyChallenge.levelId}`}
         >
           <span>GÜNÜN GÖREVİ</span>
           <strong>
             {dailyChallenge.completed
               ? 'Tamamlandı'
-              : `Seviye ${dailyChallenge.levelId} · +${dailyChallenge.reward} altın`}
+              : `Level ${dailyChallenge.levelId} · +${dailyChallenge.reward} altın`}
           </strong>
         </button>
       )}
@@ -208,7 +208,6 @@ export function MapScreen() {
               key={item.levelId}
               level={item.levelId}
               state={state}
-              stars={levelMastery[item.levelId]?.stars ?? 0}
               x={pos.x}
               y={pos.y}
               label={isFirstUncompleted ? 'Sıradaki' : undefined}
