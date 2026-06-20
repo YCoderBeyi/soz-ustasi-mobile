@@ -13,9 +13,9 @@
   place-items: center;
   padding: 18px;
   background:
-    radial-gradient(circle at 50% 20%, rgba(241, 201, 106, 0.08), transparent 24%),
-    rgba(3, 7, 14, 0.62);
-  backdrop-filter: blur(14px) saturate(1.1);
+    radial-gradient(circle at 50% 20%, rgba(242, 207, 119, 0.14), transparent 24%),
+    linear-gradient(180deg, rgba(4, 8, 15, 0.58), rgba(4, 8, 15, 0.76));
+  backdrop-filter: blur(16px) saturate(1.08);
 }
 
 .modalShadeLevel {
@@ -29,11 +29,9 @@
   width: 100%;
   padding: 24px;
   border-radius: 22px;
-  background: linear-gradient(180deg, rgba(19, 27, 41, 0.94), rgba(9, 14, 24, 0.96));
-  border: 1px solid rgba(255, 220, 146, 0.16);
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  background: var(--brand-surface-gradient);
+  border: 1px solid var(--brand-border);
+  box-shadow: var(--brand-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   animation: modalIn 260ms cubic-bezier(.2,.8,.2,1) both;
 }
 
@@ -92,10 +90,6 @@
   color: #4cc39b;
 }
 
-.rewardIconEmoji {
-  font-size: 24px;
-}
-
 .inline-coin-v2 {
   display: inline-block !important;
   vertical-align: middle;
@@ -123,6 +117,74 @@
 .pauseActions, .rewardActions {
   display: grid;
   gap: 10px;
+}
+.rewardDiscoveryPrompt{display:grid;gap:5px;padding:12px 14px;border:1px solid rgba(103,210,187,.42);border-radius:10px;background:linear-gradient(180deg,rgba(28,95,101,.35),rgba(8,42,53,.58));text-align:left}
+.rewardDiscoveryPrompt strong{color:#ffe4a0;font-size:14px}.rewardDiscoveryPrompt p{margin:0;color:#e9faf5;font-size:12px;line-height:1.45}.rewardDiscoveryPrompt small{color:#91c9c1;font-size:10px}
+
+.modal.levelModal.levelModal--premium {
+  background:
+    linear-gradient(180deg, rgba(8, 13, 22, 0.28), rgba(8, 13, 22, 0.92) 42%),
+    var(--level-bg) center top / cover no-repeat,
+    var(--brand-surface-gradient);
+  border-color: var(--brand-border-strong);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.58), var(--brand-glow);
+}
+
+.modal.levelModal.levelModal--premium::before {
+  border-color: rgba(255, 244, 214, 0.08);
+}
+
+.modal.levelModal.levelModal--premium .levelHero {
+  min-height: 188px;
+  background:
+    linear-gradient(180deg, rgba(9, 13, 22, 0.08), rgba(9, 13, 22, 0.42)),
+    radial-gradient(circle at 78% 18%, rgba(242, 207, 119, 0.1), transparent 26%);
+}
+
+.modal.levelModal.levelModal--premium .levelHeroContent h2,
+.modal.levelModal.levelModal--premium .levelStoryContent strong,
+.modal.levelModal.levelModal--premium .levelPlayBtnText,
+.modal.levelModal.levelModal--premium .statBlockInner span {
+  color: var(--brand-text);
+}
+
+.modal.levelModal.levelModal--premium .levelHeroContent p,
+.modal.levelModal.levelModal--premium .levelStoryContent p,
+.modal.levelModal.levelModal--premium .objectiveRow p,
+.modal.levelModal.levelModal--premium .levelStatsLine span {
+  color: var(--brand-text-muted);
+}
+
+.modal.levelModal.levelModal--premium .levelBadge,
+.modal.levelModal.levelModal--premium .puzzleTypeBadge,
+.modal.levelModal.levelModal--premium .themeModifierTag,
+.modal.levelModal.levelModal--premium .levelStory,
+.modal.levelModal.levelModal--premium .objectiveRow,
+.modal.levelModal.levelModal--premium .levelStatsLine {
+  border: 1px solid var(--brand-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.modal.levelModal.levelModal--premium .levelBadge,
+.modal.levelModal.levelModal--premium .puzzleTypeBadge,
+.modal.levelModal.levelModal--premium .themeModifierTag,
+.modal.levelModal.levelModal--premium .levelStatsLine,
+.modal.levelModal.levelModal--premium .objectiveRow {
+  background: rgba(17, 24, 36, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.modal.levelModal.levelModal--premium .puzzleTypeBadge,
+.modal.levelModal.levelModal--premium .themeModifierTag strong,
+.modal.levelModal.levelModal--premium .levelStoryMeta span:first-child {
+  color: var(--brand-gold-soft);
+}
+
+.modal.levelModal.levelModal--premium .levelStoryMeta span:last-child,
+.modal.levelModal.levelModal--premium .levelBadge,
+.modal.levelModal.levelModal--premium .statBlockInner strong,
+.modal.levelModal.levelModal--premium .objectiveRow.earned .objectiveStar {
+  color: var(--brand-gold);
 }
 
 .modal:has(.pauseMenu){max-width:390px;padding:22px 18px 18px;border-radius:14px;border-color:rgba(238,197,94,.42);background:linear-gradient(180deg,#102c3a,#061722 72%);box-shadow:0 24px 60px rgba(0,0,0,.62),inset 0 1px rgba(255,255,255,.12)}

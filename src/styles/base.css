@@ -51,22 +51,47 @@
   --splash-actions-bottom: calc(44px + var(--ui-safe-bottom));
   --splash-footer-bottom: calc(14px + var(--ui-safe-bottom));
 
+  /* Warm premium atmosphere */
+  --brand-bg: #0d1321;
+  --brand-surface: #162238;
+  --brand-surface-soft: #1f2d46;
+  --brand-gold: #d8ab45;
+  --brand-gold-soft: #f2cf77;
+  --brand-bronze: #a8742d;
+  --brand-stone: #2a3447;
+  --brand-text: #f4ecd8;
+  --brand-text-muted: #c8b99a;
+  --brand-shadow: 0 22px 50px rgba(0, 0, 0, 0.38);
+  --brand-glow: 0 0 28px rgba(216, 171, 69, 0.28);
+  --brand-border: rgba(242, 207, 119, 0.18);
+  --brand-border-strong: rgba(242, 207, 119, 0.34);
+  --brand-surface-gradient:
+    linear-gradient(180deg, rgba(31, 45, 70, 0.96), rgba(13, 19, 33, 0.98));
+  --brand-shell-gradient:
+    radial-gradient(circle at 50% 8%, rgba(242, 207, 119, 0.12), transparent 30%),
+    radial-gradient(circle at 18% 84%, rgba(168, 116, 45, 0.18), transparent 24%),
+    linear-gradient(160deg, #090f19 0%, #11192a 52%, #0d1321 100%);
+  --brand-motion-surface:
+    linear-gradient(115deg, transparent 0 30%, rgba(255, 244, 214, 0.08) 44%, transparent 58% 100%),
+    radial-gradient(circle at 50% 120%, rgba(216, 171, 69, 0.08), transparent 34%);
+  --brand-motion-duration: 8s;
+
   --navy-950: #070b12;
-  --navy-900: #101827;
-  --navy-800: #172235;
-  --gold-500: #d9a441;
-  --gold-300: #f1c96a;
+  --navy-900: var(--brand-bg);
+  --navy-800: var(--brand-surface);
+  --gold-500: var(--brand-gold);
+  --gold-300: var(--brand-gold-soft);
   --seal-burgundy-900: #351018;
   --seal-burgundy-700: #6f1d2b;
   --seal-burgundy-500: #9f2d3e;
   --seal-wax-highlight: #d95562;
-  --paper-100: #fff9ef;
-  --paper-300: #f4e6c8;
+  --paper-100: var(--brand-text);
+  --paper-300: #eadcc0;
   --ink-700: #4b3323;
   --success: #4cc38a;
   --error: #d95b5b;
-  color: #fff9ef;
-  background: #101827;
+  color: var(--brand-text);
+  background: var(--brand-bg);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -98,7 +123,9 @@ body {
   min-height: 100dvh;
   display: flex;
   justify-content: center;
-  background: var(--navy-950);
+  background:
+    radial-gradient(circle at top, rgba(242, 207, 119, 0.08), transparent 28%),
+    linear-gradient(180deg, #060911 0%, #0d1321 100%);
   overflow: hidden;
   overscroll-behavior: none;
 }
@@ -120,6 +147,7 @@ button:active {
   container-name: shell;
   width: var(--ui-shell-w);
   height: 100dvh;
+  max-height: 100dvh;
   margin: 0 auto;
   overflow: hidden;
   scrollbar-width: none;
@@ -128,9 +156,8 @@ button:active {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.025), transparent 24%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 68px),
-    radial-gradient(circle at 50% 10%, rgba(215, 168, 79, 0.12), transparent 34%),
-    linear-gradient(160deg, #0b1220 0%, #101827 54%, #070b12 100%);
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.45);
+    var(--brand-shell-gradient);
+  box-shadow: var(--brand-shadow);
   animation: screenIn 420ms cubic-bezier(.2,.8,.2,1) both;
 }
 
@@ -151,13 +178,11 @@ button:active {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background:
-    linear-gradient(115deg, transparent 0 34%, rgba(255, 255, 255, 0.09) 42%, transparent 50% 100%),
-    radial-gradient(circle at 50% 120%, rgba(76, 195, 138, 0.1), transparent 32%);
+  background: var(--brand-motion-surface);
   opacity: 0.52;
   mix-blend-mode: screen;
   pointer-events: none;
-  animation: atmosphereSweep 8s ease-in-out infinite;
+  animation: atmosphereSweep var(--brand-motion-duration) ease-in-out infinite;
 }
 
 .screen::before {
@@ -166,8 +191,8 @@ button:active {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(circle at 50% 12%, rgba(241, 201, 106, 0.12), transparent 28%),
-    radial-gradient(circle at 12% 78%, rgba(244, 230, 200, 0.08), transparent 22%),
+    radial-gradient(circle at 50% 12%, rgba(242, 207, 119, 0.12), transparent 28%),
+    radial-gradient(circle at 12% 78%, rgba(244, 236, 216, 0.08), transparent 22%),
     linear-gradient(180deg, transparent 58%, rgba(4, 7, 12, 0.62) 100%);
   pointer-events: none;
 }
@@ -185,7 +210,7 @@ h2 {
 }
 
 p {
-  color: #f4e6c8;
+  color: var(--brand-text-muted);
   line-height: 1.5;
 }
 
@@ -193,10 +218,10 @@ p {
   min-height: 52px;
   width: 100%;
   border-radius: 18px;
-  background: linear-gradient(135deg, #d9a441, #f1c96a);
+  background: linear-gradient(135deg, var(--brand-gold), var(--brand-gold-soft));
   color: #2b1e13;
   font-weight: 800;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), var(--brand-glow);
   transition: transform 140ms cubic-bezier(.2,.8,.2,1), filter 160ms ease, box-shadow 160ms ease;
   animation: softButtonBreath 2.4s ease-in-out infinite;
 }

@@ -634,3 +634,86 @@
   color: #4cc38a;
 }
 
+.map-screen--premium {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(242, 207, 119, 0.12), transparent 24%),
+    linear-gradient(180deg, rgba(5, 10, 18, 0.22), rgba(5, 10, 18, 0.82)),
+    var(--brand-bg);
+  color: var(--brand-text);
+}
+
+.map-screen__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(7, 12, 21, 0.14) 0%, rgba(7, 12, 21, 0.46) 34%, rgba(7, 12, 21, 0.8) 100%),
+    radial-gradient(circle at 50% 10%, rgba(242, 207, 119, 0.12), transparent 26%),
+    linear-gradient(90deg, rgba(7, 12, 21, 0.36), transparent 16% 84%, rgba(7, 12, 21, 0.4));
+}
+
+.map-screen--premium .map-topbar,
+.map-screen--premium .map-daily-card,
+.map-screen--premium .map-mastery,
+.map-screen--premium .map-dot {
+  backdrop-filter: blur(12px);
+}
+
+.map-screen--premium .map-topbar {
+  border-color: var(--brand-border-strong);
+  background:
+    radial-gradient(circle at 22% 0%, rgba(242, 207, 119, 0.12), transparent 36%),
+    linear-gradient(180deg, rgba(31, 45, 70, 0.96), rgba(13, 19, 33, 0.98));
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.map-screen--premium .map-topbar::before {
+  border-color: rgba(255, 244, 214, 0.08);
+}
+
+.map-screen--premium .map-topbar-title,
+.map-screen--premium .map-daily-card strong,
+.map-screen--premium .map-mastery-value {
+  color: var(--brand-text);
+}
+
+.map-screen--premium .map-topbar-subtitle,
+.map-screen--premium .map-mastery-label {
+  color: var(--brand-text-muted);
+}
+
+.map-screen--premium .map-daily-card {
+  border-color: var(--brand-border-strong);
+  background:
+    radial-gradient(circle at 15% 50%, rgba(242, 207, 119, 0.12), transparent 22%),
+    linear-gradient(135deg, rgba(31, 45, 70, 0.96), rgba(25, 18, 23, 0.94));
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+}
+
+.map-screen--premium .map-daily-card span,
+.map-screen--premium .map-resource-value {
+  color: var(--brand-gold-soft);
+}
+
+.map-screen--premium .map-daily-card--done {
+  border-color: rgba(76, 195, 138, 0.5);
+  background:
+    radial-gradient(circle at 15% 50%, rgba(76, 195, 138, 0.12), transparent 22%),
+    linear-gradient(135deg, rgba(24, 52, 53, 0.94), rgba(13, 28, 31, 0.96));
+}
+
+.map-screen--premium .map-resource-pill {
+  border-color: var(--brand-border);
+  background: linear-gradient(180deg, rgba(42, 52, 71, 0.94), rgba(14, 19, 31, 0.96));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(0, 0, 0, 0.26);
+}
+
+.map-screen--premium .map-journey {
+  z-index: 2;
+}
+
+.map-screen--premium .map-path-glow {
+  opacity: 0.68;
+  filter: sepia(0.24) saturate(1.12);
+}

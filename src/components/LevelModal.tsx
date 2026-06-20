@@ -7,7 +7,7 @@ import { getTheme } from '../data/themes';
 const puzzleTypeLabels: Record<string, string> = {
   crossword: 'Çapraz Bulmaca',
   anagram: 'Anagram',
-  wordsearch: 'Kelime Avı',
+  wordsearch: 'Çengel Bulmaca',
 };
 
 const puzzleTypeIcons: Record<string, string> = {
@@ -31,7 +31,7 @@ export function LevelModal() {
   return (
     <div className="modalShade modalShadeLevel">
       <section
-        className="modal levelModal"
+        className="modal levelModal levelModal--premium"
         style={{ '--level-bg': `url(${theme.backgroundImage})`, '--level-accent': theme.primaryColor } as CSSProperties}
       >
         <button className="levelClose" onClick={() => { play('tap'); setModal(null); }} aria-label="Kapat">
@@ -74,7 +74,7 @@ export function LevelModal() {
             <img className="statFrameImg" src={`${ASSETS}/08-stat-icon-reward.png`} alt="" />
             <div className="statBlockInner">
               <strong>ÖDÜL</strong>
-              <span>{level.reward.baseCoin} ELMAS</span>
+              <span>{level.reward.baseCoin} ALTIN</span>
               <small>+ Gizli Bonus</small>
             </div>
           </div>

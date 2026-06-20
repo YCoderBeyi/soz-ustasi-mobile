@@ -5,6 +5,7 @@ import { themes } from '../data/themes';
 import { LevelNode } from '../components/map/LevelNode';
 import { BottomNav } from '../components/ui/BottomNav';
 import './MapScreen.css';
+import '../styles/map.css';
 
 const PATH_POSITIONS = [
   { x: 31, y: 84 },
@@ -139,8 +140,9 @@ export function MapScreen() {
   };
 
   return (
-    <main className="map-screen">
+    <main className="map-screen map-screen--premium">
       <img className="map-bg" src="/assets/ui/map/map-diorama-v2.png" alt="" />
+      <div className="map-screen__veil" aria-hidden="true" />
 
       {toast && <div className="map-toast">{toast}</div>}
 
@@ -174,13 +176,13 @@ export function MapScreen() {
           className={`map-daily-card ${dailyChallenge.completed ? 'map-daily-card--done' : ''}`}
           onClick={handleDailyChallenge}
           disabled={dailyChallenge.completed}
-          aria-label={dailyChallenge.completed ? 'Günün görevi tamamlandı' : `Günün görevi: Level ${dailyChallenge.levelId}`}
+          aria-label={dailyChallenge.completed ? 'Günün görevi tamamlandı' : `Günün görevi: Seviye ${dailyChallenge.levelId}`}
         >
           <span>GÜNÜN GÖREVİ</span>
           <strong>
             {dailyChallenge.completed
               ? 'Tamamlandı'
-              : `Level ${dailyChallenge.levelId} · +${dailyChallenge.reward} altın`}
+              : `Seviye ${dailyChallenge.levelId} · +${dailyChallenge.reward} altın`}
           </strong>
         </button>
       )}
@@ -206,6 +208,7 @@ export function MapScreen() {
               key={item.levelId}
               level={item.levelId}
               state={state}
+              stars={levelMastery[item.levelId]?.stars ?? 0}
               x={pos.x}
               y={pos.y}
               label={isFirstUncompleted ? 'Sıradaki' : undefined}

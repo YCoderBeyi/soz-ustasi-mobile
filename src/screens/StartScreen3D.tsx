@@ -25,7 +25,7 @@ export function StartScreen3D() {
   }, [play]);
 
   return (
-    <main className="start-screen">
+    <main className="start-screen start-screen--premium">
       <img className="bg" src="/assets/themes/old_istanbul/background.webp" alt="" />
 
       <div className="start-screen-content">
