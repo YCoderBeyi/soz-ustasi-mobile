@@ -15,7 +15,7 @@ vi.mock('../data/levelStories', () => ({
     title: 'Deneme Hikayesi',
     era: 'Klasik Cag',
     place: 'Istanbul',
-    body: 'Ödül alanı test ediliyor.',
+    body: 'Odul alani test ediliyor.',
   }),
 }));
 
@@ -68,9 +68,6 @@ describe('RewardModal', () => {
       rewardSummary: { base: 0, hidden: 0, region: 0 },
       levelMastery: {},
       earnedObjectives: [],
-      missingHiddenCount: 0,
-      missingHiddenWordLengths: [],
-      startLevel: vi.fn(),
       goToNextLevel: vi.fn(),
       play: vi.fn(),
     });
@@ -92,9 +89,6 @@ describe('RewardModal', () => {
       rewardSummary: { base: 0, hidden: 2, region: 3 },
       levelMastery: {},
       earnedObjectives: [],
-      missingHiddenCount: 0,
-      missingHiddenWordLengths: [],
-      startLevel: vi.fn(),
       goToNextLevel: vi.fn(),
       play: vi.fn(),
     });
@@ -104,5 +98,25 @@ describe('RewardModal', () => {
     expect(screen.queryByText('+0 ALTIN')).toBeNull();
     expect(screen.getByText('+2 GİZLİ BONUS')).toBeTruthy();
     expect(screen.getByText('+3 BÖLGE SANDIĞI')).toBeTruthy();
+  });
+
+  it('renders the flawless reward row when present', () => {
+    useGameMock.mockReturnValue({
+      level: {
+        levelId: 1,
+        mainWords: ['SOZ'],
+        hiddenWords: [],
+      },
+      rewardSummary: { base: 10, hidden: 0, region: 0, flawless: true },
+      levelMastery: {},
+      earnedObjectives: [],
+      goToNextLevel: vi.fn(),
+      play: vi.fn(),
+    });
+
+    render(createElement(RewardModal));
+
+    expect(screen.getByText('+10 ALTIN')).toBeTruthy();
+    expect(screen.getByText('KUSURSUZ +%50')).toBeTruthy();
   });
 });

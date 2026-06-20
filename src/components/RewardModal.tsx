@@ -19,12 +19,9 @@ type RewardItem = {
 
 export function RewardModal() {
   const {
-    level, rewardSummary, levelMastery, earnedObjectives,
-    missingHiddenCount, missingHiddenWordLengths,
-    startLevel, goToNextLevel, play,
+    level, rewardSummary, levelMastery, earnedObjectives, goToNextLevel, play,
   } = useGame();
   const story = getLevelStory(level.levelId);
-  const totalReward = rewardSummary.base + rewardSummary.hidden + (rewardSummary.region ?? 0);
   const objectiveLabels = getObjectiveLabels(level);
   const mastery = levelMastery[level.levelId];
   const displayedMastery = chooseBestMastery(mastery, earnedObjectives);
@@ -47,6 +44,12 @@ export function RewardModal() {
       icon: '/assets/reward/v2/star.png',
       label: `+${rewardSummary.region} BÖLGE SANDIĞI`,
       className: 'regionBonus',
+    } : null,
+    rewardSummary.flawless ? {
+      key: 'flawless',
+      icon: '/assets/reward/v2/star.png',
+      label: 'KUSURSUZ +%50',
+      className: 'flawlessBonus',
     } : null,
   ].filter((item): item is RewardItem => item !== null);
 
@@ -84,7 +87,7 @@ export function RewardModal() {
             </p>
           ))}
         </section>
-        {totalReward > 0 && rewardItems.length > 0 ? (
+        {rewardItems.length > 0 ? (
           <div className="rewardSummary3d">
             {rewardItems.map((item) => (
               <div key={item.key} className={`rewardItem3d ${item.className}`.trim()}>
@@ -96,20 +99,8 @@ export function RewardModal() {
         ) : (
           <p className="modalWarning">Bu mühür daha önce ödüllendirildi.</p>
         )}
-        {missingHiddenCount > 0 && (
-          <section className="rewardDiscoveryPrompt">
-            <strong>Keşif devam ediyor</strong>
-            <p>Bu bölümde keşfedilmeyi bekleyen {missingHiddenCount} gizli kelime kaldı.</p>
-            <small>Kelime uzunluğu: {missingHiddenWordLengths.map((length) => `${length} harf`).join(', ')}</small>
-          </section>
-        )}
       </div>
       <div className="rewardActions rewardActionsSticky">
-        {missingHiddenCount > 0 && (
-          <Button3D variant="blue" onClick={() => { play('tap'); startLevel(level); }}>
-            Tekrar Keşfet
-          </Button3D>
-        )}
         <Button3D variant={isFinal ? 'blue' : 'green'} onClick={() => { play('tap'); goToNextLevel(); }}>
           {isFinal ? 'Haritaya Dön' : 'Sonraki Seviye'}
         </Button3D>
