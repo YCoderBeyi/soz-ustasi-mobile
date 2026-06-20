@@ -20,9 +20,14 @@ export function SettingsScreen() {
         <button
           className="settingsItem"
           onClick={() => {
-            const nextEnabled = !soundEnabled;
-            setSoundEnabled(nextEnabled);
-            if (nextEnabled && soundVolume > 0) play('tap');
+            if (soundActive) {
+              setSoundEnabled(false);
+              return;
+            }
+            if (soundVolume === 0) {
+              setSoundVolume(80);
+            }
+            setSoundEnabled(true);
           }}
         >
           <span><strong>Ses Efektleri</strong><small>Tüm dokunuş, harf, ödül ve mühür seslerini yönet</small></span>
