@@ -19,7 +19,7 @@ const baseLevels: LevelData[] = [
     ],
     hiddenWords: [
     ],
-    reward: { baseCoin: 24, hiddenWordBonus: 8 },
+    reward: { baseCoin: 24, hiddenWordBonus: 0 },
   },
   {
     levelId: 2,
@@ -65,9 +65,8 @@ const baseLevels: LevelData[] = [
       { word: 'SÜZ', meaning: 'Bir sıvıyı süzgeçten geçirmek.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'ÖZÜ', meaning: 'Özünü, kendini veya bir şeyin aslını.', reward: 8 }
     ],
-    reward: { baseCoin: 32, hiddenWordBonus: 9 },
+    reward: { baseCoin: 32, hiddenWordBonus: 0 },
   },
   {
     levelId: 5,
@@ -478,7 +477,7 @@ const baseLevels: LevelData[] = [
       { word: 'ŞART', meaning: 'Bir işin gerçekleşmesi için gereken koşul.', difficulty: 3 }
     ],
     hiddenWords: [],
-    reward: { baseCoin: 85, hiddenWordBonus: 14 },
+    reward: { baseCoin: 85, hiddenWordBonus: 0 },
   },
   {
     levelId: 29,

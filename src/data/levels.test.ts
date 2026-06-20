@@ -53,7 +53,26 @@ describe('level data integrity', () => {
 
     it(`Level ${level.levelId}: pozitif ödül`, () => {
       expect(level.reward.baseCoin).toBeGreaterThan(0);
-      expect(level.reward.hiddenWordBonus).toBeGreaterThan(0);
+    });
+
+    it(`Level ${level.levelId}: hiddenWordBonus yalnız gizli kelime varsa pozitif olmalı`, () => {
+      if (level.hiddenWords.length === 0) {
+        expect(level.reward.hiddenWordBonus).toBe(0);
+      } else {
+        expect(level.reward.hiddenWordBonus).toBeGreaterThan(0);
+      }
+    });
+
+    it(`Level ${level.levelId}: gizli kelimeler bağımsız sözlük maddesi olmalı (çekim eki kabul edilmez)`, () => {
+      for (const hw of level.hiddenWords) {
+        const word = hw.word;
+        // ÖZÜ gibi kök+iyelik/belirtme biçimlerini tespit etmek için blocklist
+        const KNOWN_INVALID = ['ÖZÜ', 'SUYU', 'EVİ', 'ADAYI'];
+        expect(
+          KNOWN_INVALID.includes(word),
+          `${word} gizli kelimesi bağımsız sözlük maddesi değil (çekim hali)`,
+        ).toBe(false);
+      }
     });
 
     it(`Level ${level.levelId}: kelimeler boş değil`, () => {

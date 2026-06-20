@@ -51,7 +51,7 @@ export const levels71to75: LevelData[] = [
       { word: 'KİŞİ', meaning: 'Bir insanı veya bireyi anlatan söz.', difficulty: 3 },
     ],
     hiddenWords: [],
-    reward: { baseCoin: 182, hiddenWordBonus: 24 },
+    reward: { baseCoin: 182, hiddenWordBonus: 0 },
   },
   {
     levelId: 74,
