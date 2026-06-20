@@ -1,8 +1,10 @@
 .levelModal {
   position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   width: min(100%, 392px);
   max-height: calc(100dvh - 28px);
-  overflow: auto;
+  overflow: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 0;
@@ -15,6 +17,23 @@
   box-shadow:
     0 28px 70px rgba(0, 0, 0, 0.56),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.levelModalBody {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.levelModalFooter {
+  position: relative;
+  z-index: 2;
+  padding: 10px 12px 16px;
+  border-top: 1px solid rgba(241, 201, 106, 0.14);
+  background: linear-gradient(180deg, rgba(9, 16, 27, 0.2), rgba(9, 16, 27, 0.96) 42%);
+  box-shadow: 0 -12px 24px rgba(3, 8, 14, 0.44);
 }
 
 /* ── Close Button ── */
@@ -363,8 +382,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(100% - 24px);
-  margin: 10px 12px 16px;
+  width: 100%;
+  margin: 0;
   padding: 14px 20px;
   border: none;
   background: none;
@@ -416,5 +435,43 @@
 
   .statBlockReward {
     width: 72px;
+  }
+}
+
+@media (max-width: 380px) {
+  .levelHero {
+    align-items: flex-start;
+    min-height: 150px;
+    padding: 18px 14px 14px;
+    padding-right: 58px;
+  }
+
+  .levelHeroContent {
+    padding-left: 0;
+  }
+
+  .levelHeroContent h2 {
+    font-size: 20px;
+  }
+
+  .levelSealWrap {
+    width: 72px;
+    height: 72px;
+    margin-top: 6px;
+  }
+
+  .levelStats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .statBlockReward {
+    grid-column: 1 / -1;
+    width: min(100%, 112px);
+    margin: 0 auto;
+  }
+
+  .levelStatsLine {
+    flex-wrap: wrap;
+    gap: 8px 12px;
   }
 }

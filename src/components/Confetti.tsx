@@ -20,7 +20,7 @@ export function Confetti({ count = 50 }: { count?: number }) {
   });
 
   return (
-    <div className="confettiOverlay" aria-hidden="true">
+    <div className="confettiOverlay" aria-hidden="true" style={{ pointerEvents: 'none' }}>
       {particles.map((p) => (
         <span
           key={p.key}

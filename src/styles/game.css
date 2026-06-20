@@ -1310,6 +1310,7 @@
 .meaningCard3d {
   position: relative;
   min-height: 82px;
+  max-width: 100%;
   overflow: hidden;
   border: 1px solid rgba(242,196,95,.58);
   border-radius: 16px;
@@ -1346,8 +1347,8 @@
   padding: 25px 16px 12px;
   color: #fff8e7;
 }
-.meaningCard3dContent strong { color: #ffd66d; font-size: 18px; text-shadow: 0 2px 4px rgba(0,0,0,.65); }
-.meaningCard3dContent p { margin: 4px 36px 0 0; color: #f5efdf; font-size: 13px; line-height: 1.42; }
+.meaningCard3dContent strong { color: #ffd66d; font-size: 18px; text-shadow: 0 2px 4px rgba(0,0,0,.65); overflow-wrap: anywhere; }
+.meaningCard3dContent p { margin: 4px 36px 0 0; color: #f5efdf; font-size: 13px; line-height: 1.42; overflow-wrap: anywhere; }
 .meaningCard3d.visible { animation: meaningCardReveal 420ms cubic-bezier(.16,1,.3,1) both; }
 
 .sealReveal {
@@ -1355,7 +1356,14 @@
   inset: 0;
   z-index: 80;
   display: grid;
-  place-items: center;
+  grid-template-rows: minmax(24px, 1fr) auto auto minmax(56px, 1fr);
+  justify-items: center;
+  align-items: center;
+  gap: clamp(10px, 3vh, 22px);
+  padding:
+    max(16px, env(safe-area-inset-top))
+    16px
+    max(16px, env(safe-area-inset-bottom));
   overflow: hidden;
   pointer-events: none;
   background: radial-gradient(circle, rgba(6,18,28,.16), rgba(2,8,14,.62) 58%, rgba(2,8,14,.82));
@@ -1363,11 +1371,15 @@
 }
 .sealReveal .sealOpen {
   position: relative;
+  grid-row: 2;
+  grid-column: 1;
   top: auto;
   left: auto;
   z-index: 3;
-  width: 190px;
-  height: 190px;
+  width: clamp(120px, 31vw, 190px);
+  height: clamp(120px, 31vw, 190px);
+  max-width: calc(100vw - 96px);
+  max-height: calc(100dvh - 220px);
   border: 0;
   background: transparent;
   transform: none;
@@ -1382,9 +1394,11 @@
 }
 .sealRevealRing {
   position: absolute;
+  grid-row: 2;
+  grid-column: 1;
   z-index: 2;
-  width: 180px;
-  height: 180px;
+  width: clamp(110px, 29vw, 180px);
+  height: clamp(110px, 29vw, 180px);
   border: 4px solid rgba(255,211,104,.9);
   border-radius: 50%;
   box-shadow: 0 0 28px rgba(255,205,85,.75), inset 0 0 22px rgba(255,205,85,.38);
@@ -1392,6 +1406,8 @@
 }
 .sealRevealFlash {
   position: absolute;
+  grid-row: 2;
+  grid-column: 1;
   z-index: 1;
   width: 42px;
   height: 42px;
@@ -1401,14 +1417,14 @@
   animation: sealFlash .72s ease-out both;
 }
 .sealRevealTitle {
-  position: absolute;
-  left: 50%;
-  top: calc(50% + 112px);
+  position: relative;
+  grid-row: 3;
+  grid-column: 1;
   z-index: 5;
-  transform: translateX(-50%);
   display: grid;
   justify-items: center;
-  min-width: 210px;
+  width: min(100%, 230px);
+  min-width: min(210px, calc(100vw - 48px));
   padding: 9px 24px 10px;
   border: 1px solid rgba(242,196,95,.7);
   border-radius: 13px;
@@ -1459,7 +1475,7 @@
   .sealReveal .sealOpen { width: 150px; height: 150px; }
   .sealReveal .sealOpen .waxSealLabel { font-size: 42px; }
   .sealRevealRing { width: 140px; height: 140px; }
-  .sealRevealTitle { top: calc(50% + 82px); min-width: 170px; padding: 7px 18px 8px; }
+  .sealRevealTitle { min-width: min(170px, calc(100vw - 48px)); padding: 7px 18px 8px; }
   .sealRevealTitle strong { font-size: 18px; }
 }
 
@@ -1467,7 +1483,7 @@
   .sealReveal .sealOpen { width: 120px; height: 120px; }
   .sealReveal .sealOpen .waxSealLabel { font-size: 34px; }
   .sealRevealRing { width: 110px; height: 110px; }
-  .sealRevealTitle { top: calc(50% + 62px); min-width: 150px; padding: 5px 14px 6px; }
+  .sealRevealTitle { min-width: min(150px, calc(100vw - 48px)); padding: 5px 14px 6px; }
   .sealRevealTitle strong { font-size: 15px; }
   .sealRevealTitle span { font-size: 8px; }
 }
@@ -1555,8 +1571,7 @@
 .modal:has(.rewardHero) {
   width: min(100%, 390px);
   max-height: calc(100dvh - 18px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 10px;
   padding: 18px;
   border: 1px solid rgba(242,196,95,.44);
@@ -1564,6 +1579,16 @@
     radial-gradient(circle at 50% 0%, rgba(65,203,193,.13), transparent 34%),
     linear-gradient(180deg, rgba(15,43,57,.99), rgba(5,20,33,.99));
   box-shadow: 0 28px 70px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,.11);
+}
+
+.rewardModalBody {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal:has(.rewardHero) > h2 {
@@ -1598,6 +1623,7 @@
 .rewardHero div {
   display: grid;
   gap: 4px;
+  min-width: 0;
 }
 
 .rewardHero span {
@@ -1612,6 +1638,7 @@
   font-family: Georgia, serif;
   font-size: 19px;
   line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .modal:has(.rewardHero) .rewardStory {
@@ -1626,10 +1653,7 @@
   color: #f4edde;
   font-size: 12px;
   line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .rewardMastery {
@@ -1688,6 +1712,9 @@
 }
 
 .rewardItem3d {
+  display: flex;
+  align-items: center;
+  width: 100%;
   min-height: 48px;
   padding: 4px 20px 4px 7px;
   border-color: rgba(242,196,95,.45);
@@ -1707,11 +1734,9 @@
 }
 
 .modal:has(.rewardHero) .rewardActions {
-  position: sticky;
-  bottom: -18px;
   z-index: 2;
   margin: 0 -18px -18px;
-  padding: 10px 18px 14px;
+  padding: 10px 18px 14px max(18px, env(safe-area-inset-bottom));
   border-top: 1px solid rgba(242,196,95,.24);
   background: linear-gradient(180deg, rgba(5,20,33,.82), rgba(5,20,33,.99) 45%);
   box-shadow: 0 -12px 18px rgba(5,20,33,.72);
@@ -1757,7 +1782,6 @@
   .rewardItem3d img { width: 40px; height: 40px; }
   .modal:has(.rewardHero) .btn3d { min-height: 50px; }
   .modal:has(.rewardHero) .rewardActions {
-    bottom: -12px;
     margin: 0 -12px -12px;
     padding: 8px 12px 10px;
   }
@@ -1776,6 +1800,40 @@
   .rewardItem3d img { width: 34px; height: 34px; }
   .rewardDiscoveryPrompt { padding: 8px 10px; }
   .rewardDiscoveryPrompt p { font-size: 11px; }
+}
+
+@media (max-width: 380px) {
+  .modal:has(.rewardHero) {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .rewardModalBody {
+    padding-right: 0;
+  }
+
+  .rewardHero {
+    grid-template-columns: 56px minmax(0, 1fr);
+    padding: 8px 10px 8px 6px;
+  }
+
+  .rewardHero img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .rewardHero strong {
+    font-size: 17px;
+  }
+
+  .rewardMastery p {
+    font-size: 11px;
+  }
+
+  .modal:has(.rewardHero) .rewardActions {
+    margin: 0 -14px -14px;
+    padding: 10px 14px 14px;
+  }
 }
 
 .gameSealAction.canSealActive {
