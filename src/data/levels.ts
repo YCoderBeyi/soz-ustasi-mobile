@@ -231,7 +231,7 @@ const baseLevels: LevelData[] = [
       { word: 'EREN', meaning: 'Olgunluğa ve erdeme ulaşmış kimse.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'ER', meaning: 'Asker veya yetişkin erkek.', reward: 10 }
+      { word: 'RENDE', meaning: 'Tahta yüzeyini düzlemek veya sebzeleri rendelemek için kullanılan araç.', reward: 10 }
     ],
     reward: { baseCoin: 53, hiddenWordBonus: 10 },
   },
@@ -284,7 +284,7 @@ const baseLevels: LevelData[] = [
       { word: 'OLAN', meaning: 'Var olan veya gerçekleşen şey.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'AL', meaning: 'Almak eyleminin emir biçimi.', reward: 10 }
+      { word: 'OBA', meaning: 'Göçebe çadır topluluğu veya geçici yerleşim birimi.', reward: 10 }
     ],
     reward: { baseCoin: 57, hiddenWordBonus: 10 },
   },
@@ -301,7 +301,7 @@ const baseLevels: LevelData[] = [
       { word: 'VİDA', meaning: 'Bir nesneyi sabitlemek için kullanılan dişli bağlantı elemanı.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'DİL', meaning: 'İnsanların anlaşmasını sağlayan sözlü sistem.', reward: 11 },
+      { word: 'DAL', meaning: 'Ağacın veya bitkinin gövdesinden çıkan kol.', reward: 11 },
       { word: 'İL', meaning: 'Ülke yönetimindeki temel bölgesel birim.', reward: 5 }
     ],
     reward: { baseCoin: 61, hiddenWordBonus: 11 },
@@ -491,7 +491,7 @@ const baseLevels: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'UT', meaning: 'Mızrapla çalınan, armut biçimli gövdeli telli çalgı; ud olarak da bilinir.', reward: 12 },
-      { word: 'ALT', meaning: 'Bir şeyin aşağı kısmı veya alt bölümü.', reward: 12 }
+      { word: 'BAL', meaning: 'Arıların çiçeklerden ürettiği tatlı ve besleyici madde.', reward: 12 }
     ],
     reward: { baseCoin: 86, hiddenWordBonus: 15 },
   },
@@ -584,7 +584,7 @@ const baseLevels: LevelData[] = [
     hiddenWords: [
       { word: 'AT', meaning: 'Binek hayvanı.', reward: 14 },
       { word: 'KİL', meaning: 'Su ile yoğrulabilen ince taneli toprak; ilk yazı tabletleri kilden yapılırdı.', reward: 8 },
-      { word: 'TİP', meaning: 'Ortak özellikleri olan örnek veya çeşit; yazı tiplerinin sınıflandırılması kütüphaneciliğin temelidir.', reward: 10 }
+      { word: 'KİP', meaning: 'Dilbilgisinde eylemin zaman ve kişiye göre aldığı biçim; Osmanlı yazıcıları kiplik örneklerini el yazmalarına not ederdi.', reward: 10 }
     ],
     reward: { baseCoin: 97, hiddenWordBonus: 15 },
   },
@@ -638,7 +638,7 @@ const baseLevels: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'OYA', meaning: 'İnce işçilikle yapılan süsleme.', reward: 12 },
-      { word: 'YON', meaning: 'Yön, taraf, istikamet.', reward: 10 },
+      { word: 'LONCA', meaning: 'Aynı mesleği yapan esnafın oluşturduğu dayanışma ve düzenleme birliği.', reward: 10 },
       { word: 'OYNA', meaning: 'Eğlenmek veya vakit geçirmek amacıyla bir şeyle uğraşmak.', reward: 10 },
       { word: 'CAN', meaning: 'Yaşamı sağlayan güç, hayat.', reward: 10 }
     ],
@@ -659,7 +659,7 @@ const baseLevels: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'TERS', meaning: 'Düz olmayan veya karşıt yönde olan.', reward: 13 },
-      { word: 'TER', meaning: 'Deri gözeneklerinden sıvı atılımı.', reward: 5 }
+      { word: 'TERAS', meaning: 'Binanın önünde veya üstünde yer alan açık oturma alanı.', reward: 5 }
     ],
     reward: { baseCoin: 103, hiddenWordBonus: 14 },
   },
@@ -729,7 +729,7 @@ const baseLevels: LevelData[] = [
     letters: ["S","I","R","A"],
     mainWords: [
       { word: 'SIRA', meaning: 'Diziliş veya bekleme düzeni.', difficulty: 2 },
-      { word: 'ARI', meaning: 'Bal ve balmumu yapan, sokan kanatlı böcek; temiz ve saf olan.', difficulty: 2 },
+      { word: 'SAR', meaning: 'Bir şeyi bir başkasının çevresine dolamak veya sarmak; sırrı örtmek için kullanılan eylem.', difficulty: 2 },
       { word: 'SIR', meaning: 'Gizli tutulan bilgi.', difficulty: 3 },
       { word: 'ASIR', meaning: 'Yüzyıl anlamına gelen zaman dilimi.', difficulty: 4 }
     ],
