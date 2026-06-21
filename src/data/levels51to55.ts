@@ -52,7 +52,7 @@ export const levels51to55: LevelData[] = [
       { word: 'SIK', meaning: 'Aralarında az uzaklık bulunan veya çok kez gerçekleşen.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'ILIK', meaning: 'Sıcak ile soğuk arasında olan.', reward: 15 },
+      { word: 'SILIK', meaning: 'Rengini veya belirginliğini yitirmiş olan; seyrek kullanılan harfler frekans analizinde silik kalır.', reward: 15 },
     ],
     reward: { baseCoin: 138, hiddenWordBonus: 19 },
   },

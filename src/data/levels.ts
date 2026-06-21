@@ -251,7 +251,7 @@ const baseLevels: LevelData[] = [
       { word: 'YASA', meaning: 'Kanun, kural veya yasak.', reward: 8 },
       { word: 'YAR', meaning: 'Derin ve dik yamaç; uçurum.', reward: 9 },
     ],
-    reward: { baseCoin: 53, hiddenWordBonus: 10 },
+    reward: { baseCoin: 54, hiddenWordBonus: 10 },
   },
   {
     levelId: 16,
@@ -563,10 +563,8 @@ const baseLevels: LevelData[] = [
       { word: 'EĞER', meaning: 'Koşul bildiren söz.', difficulty: 2 },
       { word: 'DER', meaning: 'Bir şeyi söylemek veya adlandırmak.', difficulty: 3 }
     ],
-    hiddenWords: [
-      { word: 'ER', meaning: 'Asker veya yetişkin erkek.', reward: 13 }
-    ],
-    reward: { baseCoin: 93, hiddenWordBonus: 13 },
+    hiddenWords: [],
+    reward: { baseCoin: 93, hiddenWordBonus: 0 },
   },
   {
     levelId: 34,
@@ -583,7 +581,7 @@ const baseLevels: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'AT', meaning: 'Binek hayvanı.', reward: 14 },
-      { word: 'KİL', meaning: 'Su ile yoğrulabilen ince taneli toprak; ilk yazı tabletleri kilden yapılırdı.', reward: 8 },
+      { word: 'PAT', meaning: 'Satrançta oyunu berabere bitiren konum; kütüphane müzakerelerinde uzlaşmazlık halini betimler.', reward: 8 },
       { word: 'KİP', meaning: 'Dilbilgisinde eylemin zaman ve kişiye göre aldığı biçim; Osmanlı yazıcıları kiplik örneklerini el yazmalarına not ederdi.', reward: 10 }
     ],
     reward: { baseCoin: 97, hiddenWordBonus: 15 },
@@ -767,7 +765,7 @@ const baseLevels: LevelData[] = [
     letters: ["Z","A","M","A","N"],
     mainWords: [
       { word: 'ZAMAN', meaning: 'Olayların geçtiği süre.', difficulty: 2 },
-      { word: 'AMAN', meaning: 'Yardım veya dikkat çağrısı.', difficulty: 3 },
+      { word: 'AZMAN', meaning: 'Normalin çok üzerinde büyük ve güçlü; evrendeki devasa gök cisimlerini tanımlamak için kullanılır.', difficulty: 3 },
       { word: 'NAZ', meaning: 'Cilve, işve, kırıtma.', difficulty: 3 },
       { word: 'ZAM', meaning: 'Fiyata yapılan artış.', difficulty: 3 }
     ],
