@@ -12,7 +12,7 @@ export const levels51to55: LevelData[] = [
       { word: 'ŞİFRELİ', meaning: 'Anlamı özel bir yöntemle gizlenmiş olan.', difficulty: 4 },
       { word: 'ŞİFRE', meaning: 'Bir mesajı gizlemek veya açmak için kullanılan işaret ve kurallar bütünü.', difficulty: 2 },
       { word: 'FİŞ', meaning: 'Bilgi yazılan küçük kâğıt veya elektrik bağlantı parçası.', difficulty: 3 },
-      { word: 'İLE', meaning: 'Birliktelik veya araç anlamı kuran söz.', difficulty: 1 },
+      { word: 'ŞİRE', meaning: 'Meyve veya bitkiden elde edilen, işlenmemiş doğal öz; eski tıpta ilaç hazırlığında kullanılır.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'FİL', meaning: 'Hortumlu, iri gövdeli kara memelisi.', reward: 14 },

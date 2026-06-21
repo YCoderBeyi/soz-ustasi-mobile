@@ -90,7 +90,7 @@ export const levels56to60: LevelData[] = [
       { word: 'İNEK', meaning: 'Sütü için yetiştirilen dişi sığır.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'KİM', meaning: 'Bir kişinin kimliğini sormaya yarayan söz.', reward: 18 },
+      { word: 'KİNA', meaning: 'Kına bitkisinin yapraklarından elde edilen kırmızı-turuncu boya; geleneksel törenlerde kullanılır.', reward: 18 },
       { word: 'EKİN', meaning: 'Tarlaya ekilmiş tahıl veya ekili ürün.', reward: 18 },
     ],
     reward: { baseCoin: 168, hiddenWordBonus: 22 },

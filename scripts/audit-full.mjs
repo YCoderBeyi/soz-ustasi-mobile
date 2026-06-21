@@ -6,11 +6,11 @@ function loadExportedArray(file, exportName) {
   let source = fs.readFileSync(file, 'utf8');
   source = source
     .replace(/^import .*?;\s*/gm, '')
-    .replace(new RegExp(`export const ${exportName}: [^=]+ =`), `const ${exportName} =`)
+    .replace(/export const (\w+):\s*[\w<>\[\]|,\s]+\s*=/g, 'const $1 =')
+    .replace(/const (\w+):\s*[\w<>\[\]|,\s]+\s*=/g, 'const $1 =')
     .replace(/export const initialLevel = .*?;\s*/s, '')
     .replace(/export function [\s\S]*$/, '')
-    .replace(/export const themes: [^=]+ =/, 'const themes =')
-    .replace(/export const levelStories: [^=]+ =/, 'const levelStories =');
+    .replace(/export const (\w+) =/g, 'const $1 =');
   const context = {};
   vm.createContext(context);
   vm.runInContext(`${source}\nresult = ${exportName};`, context);
@@ -171,7 +171,12 @@ for (const level of levels) {
 console.log('\n=== 9. ODUL KONTROL ===');
 for (const level of levels) {
   if (level.reward.baseCoin < 20) errors.push(`Level ${level.levelId}: baseCoin cok dusuk (${level.reward.baseCoin})`);
-  if (level.reward.hiddenWordBonus < 3) errors.push(`Level ${level.levelId}: hiddenWordBonus cok dusuk (${level.reward.hiddenWordBonus})`);
+  if (level.hiddenWords.length === 0 && level.reward.hiddenWordBonus !== 0) {
+    errors.push(`Level ${level.levelId}: gizli kelime yokken hiddenWordBonus 0 olmali (${level.reward.hiddenWordBonus})`);
+  }
+  if (level.hiddenWords.length > 0 && level.reward.hiddenWordBonus < 3) {
+    errors.push(`Level ${level.levelId}: hiddenWordBonus cok dusuk (${level.reward.hiddenWordBonus})`);
+  }
   for (const hw of level.hiddenWords) {
     if (!hw.reward || hw.reward <= 0) errors.push(`Level ${level.levelId}: "${hw.word}" gizli kelime odulu tanimsiz`);
   }

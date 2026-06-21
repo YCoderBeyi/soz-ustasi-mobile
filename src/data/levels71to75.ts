@@ -14,8 +14,8 @@ export const levels71to75: LevelData[] = [
       { word: 'TEL', meaning: 'İnce ve uzun metal iplik.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'EL', meaning: 'Kolun bilekten parmak uçlarına kadar olan bölümü.', reward: 20 },
-      { word: 'ER', meaning: 'Asker veya yiğit kimse.', reward: 20 },
+      { word: 'TELA', meaning: 'İnce, seyrek dokunmuş kumaş; tıbbi uygulamalarda sargı bezi olarak kullanılır.', reward: 20 },
+      { word: 'ART', meaning: 'Bir şeyin geride kalan ya da arta kalan bölümü.', reward: 20 },
     ],
     reward: { baseCoin: 174, hiddenWordBonus: 23 },
   },
@@ -49,8 +49,11 @@ export const levels71to75: LevelData[] = [
       { word: 'DİŞ', meaning: 'Ağızda besinleri kesip öğütmeye yarayan sert yapı.', difficulty: 3 },
       { word: 'KİŞİ', meaning: 'Bir insanı veya bireyi anlatan söz.', difficulty: 3 },
     ],
-    hiddenWords: [],
-    reward: { baseCoin: 182, hiddenWordBonus: 0 },
+    hiddenWords: [
+      { word: 'ŞİK', meaning: 'Giyim ve görünüşte zarif, özenli ve beğenilen.', reward: 22 },
+      { word: 'İKİ', meaning: 'Birden sonra, üçten önce gelen sayı.', reward: 22 },
+    ],
+    reward: { baseCoin: 182, hiddenWordBonus: 23 },
   },
   {
     levelId: 74,
@@ -62,8 +65,8 @@ export const levels71to75: LevelData[] = [
     mainWords: [
       { word: 'TEMİZLİK', meaning: 'Kir ve zararlı maddelerden arındırılmış olma durumu.', difficulty: 4 },
       { word: 'TEMİZ', meaning: 'Kirli olmayan veya özenli.', difficulty: 3 },
-      { word: 'LİMİT', meaning: 'Bir büyüklüğün ulaşabileceği sınır veya üst değer.', difficulty: 4 },
-      { word: 'ELİT', meaning: 'Bir toplulukta seçkin kabul edilen kesim.', difficulty: 4 },
+      { word: 'İZLEM', meaning: 'Bir süreç veya durumun belirli aralıklarla takip edilmesi.', difficulty: 4 },
+      { word: 'KİLİT', meaning: 'Kapı veya kutuyu güvenli biçimde kapamaya yarayan mekanizma.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'ZİL', meaning: 'Çalınca ses çıkaran küçük çıngırak veya uyarı aygıtı.', reward: 21 },

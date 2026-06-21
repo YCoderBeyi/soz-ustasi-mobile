@@ -86,6 +86,7 @@ export const levels61to65: LevelData[] = [
       { word: 'MERCEK', meaning: 'Işığı kırarak görüntü oluşturan saydam optik parça.', difficulty: 3 },
       { word: 'KEMER', meaning: 'Giyside bele takılan şerit veya yay biçimli yapı bölümü.', difficulty: 2 },
       { word: 'KREM', meaning: 'Yumuşak kıvamlı bakım veya tatlı karışımı.', difficulty: 2 },
+      { word: 'KEREM', meaning: 'Cömertlik, iyilik ve yücelik niteliği; bağış.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'EM', meaning: 'Halk hekimliğinde kullanılan ilaç veya çare.', reward: 15 },
