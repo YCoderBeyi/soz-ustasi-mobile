@@ -366,7 +366,7 @@ describe('SessionContext', () => {
     expect(addCoins).toHaveBeenCalledWith(3);
   });
 
-  it('level 34 treats KİTAP as a main word and PATİK as a hidden discovery', () => {
+  it('level 34 treats KATİP as a main word and KİL as a hidden discovery', () => {
     const addCoins = vi.fn();
     const level34 = levels.find((item) => item.levelId === 34);
     expect(level34).toBeDefined();
@@ -375,11 +375,11 @@ describe('SessionContext', () => {
     });
 
     act(() => result.current.startLevel(level34));
-    act(() => result.current.submitWord('KİTAP'));
-    act(() => result.current.submitWord('PATİK'));
+    act(() => result.current.submitWord('KATİP'));
+    act(() => result.current.submitWord('KİL'));
 
-    expect(result.current.found).toContain('KİTAP');
-    expect(result.current.hiddenFound.map((entry) => entry.word)).toContain('PATİK');
+    expect(result.current.found).toContain('KATİP');
+    expect(result.current.hiddenFound.map((entry) => entry.word)).toContain('KİL');
     expect(addCoins).toHaveBeenCalledWith(8);
   });
 
@@ -392,8 +392,8 @@ describe('SessionContext', () => {
     });
 
     act(() => result.current.startLevel(level34));
-    act(() => result.current.submitWord('KİL'));
     act(() => result.current.submitWord('TİP'));
+    act(() => result.current.submitWord('TAK'));
 
     expect(result.current.feedback).toBe('hidden');
     expect(addCoins).toHaveBeenCalledWith(1);

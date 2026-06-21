@@ -16,7 +16,7 @@ export const levels46to50: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'EL', meaning: 'Kolun bilekten parmak uçlarına kadar olan bölümü.', reward: 13 },
-      { word: 'BİL', meaning: 'Bilmek eyleminin emir kipi; cebirde bilinmeyeni çözme sürecinin ilk adımı.', reward: 13 },
+      { word: 'ER', meaning: 'Yiğit veya asker; erkek anlamına gelen sözcük.', reward: 13 },
     ],
     reward: { baseCoin: 122, hiddenWordBonus: 16 },
   },
