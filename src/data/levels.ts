@@ -49,7 +49,7 @@ const baseLevels: LevelData[] = [
       { word: 'EL', meaning: 'Kolun bilekten parmak uçlarına kadar olan bölümü.', difficulty: 1 }
     ],
     hiddenWords: [
-      { word: 'AL', meaning: 'Almak eyleminin emir biçimi.', reward: 9 }
+      { word: 'AK', meaning: 'Beyaz, saf ve temiz; al ile birlikte Türk bayrağının renkleri.', reward: 9 }
     ],
     reward: { baseCoin: 30, hiddenWordBonus: 9 },
   },
@@ -675,7 +675,7 @@ const baseLevels: LevelData[] = [
       { word: 'ALT', meaning: 'Bir şeyin alt kısmı, aşağısı.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'AL', meaning: 'Almak eyleminin emir biçimi veya kırmızı renk.', reward: 10 },
+      { word: 'AL', meaning: 'Kızıl, açık kırmızı renk tonu; al rengi.', reward: 10 },
       { word: 'MAT', meaning: 'Satrançta yenilgi; parlak olmayan donuk yüzey.', reward: 12 },
     ],
     reward: { baseCoin: 106, hiddenWordBonus: 15 },
@@ -713,7 +713,7 @@ const baseLevels: LevelData[] = [
       { word: 'KOL', meaning: 'Omuzdan ele kadar uzanan bölüm.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'KOK', meaning: 'Bir kokuyu burnunla algıla.', reward: 13 },
+      { word: 'KOK', meaning: 'Kömürün yüksek ısıda işlenmesiyle elde edilen sert karbon yakıtı; kok kömürünün kısa adı.', reward: 13 },
       { word: 'KOLA', meaning: 'Gazlı bir içecek; kumaş sertleştirici.', reward: 13 },
     ],
     reward: { baseCoin: 110, hiddenWordBonus: 14 },
@@ -727,15 +727,14 @@ const baseLevels: LevelData[] = [
     letters: ["S","I","R","A"],
     mainWords: [
       { word: 'SIRA', meaning: 'Diziliş veya bekleme düzeni.', difficulty: 2 },
-      { word: 'SAR', meaning: 'Bir şeyi bir başkasının çevresine dolamak veya sarmak; sırrı örtmek için kullanılan eylem.', difficulty: 2 },
+      { word: 'SARI', meaning: 'Turuncu ile yeşil arasındaki renk; solgun veya rengi atmış.', difficulty: 2 },
       { word: 'SIR', meaning: 'Gizli tutulan bilgi.', difficulty: 3 },
       { word: 'ASIR', meaning: 'Yüzyıl anlamına gelen zaman dilimi.', difficulty: 4 }
     ],
     hiddenWords: [
       { word: 'ASI', meaning: 'Başkaldıran, isyankar, itaat etmez.', reward: 13 },
-      { word: 'SARI', meaning: 'Bir renk veya solgun yüz.', reward: 8 }
     ],
-    reward: { baseCoin: 111, hiddenWordBonus: 14 },
+    reward: { baseCoin: 111, hiddenWordBonus: 13 },
   },
   {
     levelId: 43,

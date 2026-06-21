@@ -376,11 +376,11 @@ describe('SessionContext', () => {
 
     act(() => result.current.startLevel(level34));
     act(() => result.current.submitWord('KATİP'));
-    act(() => result.current.submitWord('KİL'));
+    act(() => result.current.submitWord('KİP'));
 
     expect(result.current.found).toContain('KATİP');
-    expect(result.current.hiddenFound.map((entry) => entry.word)).toContain('KİL');
-    expect(addCoins).toHaveBeenCalledWith(8);
+    expect(result.current.hiddenFound.map((entry) => entry.word)).toContain('KİP');
+    expect(addCoins).toHaveBeenCalledWith(10);
   });
 
   it('accepts safe side words from level 34 letters as bonus discoveries', () => {
