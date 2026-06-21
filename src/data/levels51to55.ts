@@ -28,7 +28,7 @@ export const levels51to55: LevelData[] = [
     puzzleType: 'crossword',
     letters: ['H', 'A', 'R', 'F', 'L', 'E', 'R'],
     mainWords: [
-      { word: 'HARFLER', meaning: 'Bir dilin yazıdaki ses işaretleri.', difficulty: 3 },
+      { word: 'REFAH', meaning: 'Rahatlık, bolluk ve iyi geçim durumu.', difficulty: 3 },
       { word: 'HARF', meaning: 'Bir sesi yazıda göstermeye yarayan işaret.', difficulty: 2 },
       { word: 'FARE', meaning: 'Küçük bir kemirgen veya bilgisayar işaretleme aygıtı.', difficulty: 2 },
       { word: 'HER', meaning: 'Bir topluluğun bütün üyelerini tek tek belirten söz.', difficulty: 1 },

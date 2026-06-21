@@ -149,7 +149,7 @@ describe('learning progression quality', () => {
     expect(levels51to55.map((level) => level.levelId)).toEqual([51, 52, 53, 54, 55]);
     expect(levels51to55.map((level) => normalizeWord(level.mainWords[0].word))).toEqual([
       'ŞİFRELİ',
-      'HARFLER',
+      'REFAH',
       'SIKLIK',
       'ÖRÜNTÜ',
       'ANAHTAR',
@@ -231,7 +231,7 @@ describe('learning progression quality', () => {
     expect(levels66to70.map((level) => normalizeWord(level.mainWords[0].word))).toEqual([
       'BELİRTİ',
       'HEKİMLİK',
-      'İLAÇLAR',
+      'İLAÇ',
       'AMELİYAT',
       'REÇETE',
     ]);
@@ -268,7 +268,7 @@ describe('learning progression quality', () => {
 
     expect(levels71to75.map((level) => level.levelId)).toEqual([71, 72, 73, 74, 75]);
     expect(levels71to75.map((level) => normalizeWord(level.mainWords[0].word))).toEqual([
-      'ALETLER',
+      'ALET',
       'BIÇAK',
       'DİKİŞ',
       'TEMİZLİK',

@@ -471,7 +471,7 @@ const baseLevels: LevelData[] = [
     puzzleType: 'crossword',
     letters: ["T","A","Ş","L","A","R"],
     mainWords: [
-      { word: 'TAŞLAR', meaning: 'Birden çok taş.', difficulty: 3 },
+      { word: 'TAŞ', meaning: 'Sert ve katı mineral parçası.', difficulty: 2 },
       { word: 'TAŞRA', meaning: 'Merkez dışındaki yerler.', difficulty: 4 },
       { word: 'TARLA', meaning: 'Tarım yapılan geniş toprak parçası.', difficulty: 3 },
       { word: 'ŞART', meaning: 'Bir işin gerçekleşmesi için gereken koşul.', difficulty: 3 }

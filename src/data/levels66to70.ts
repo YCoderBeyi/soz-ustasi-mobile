@@ -33,10 +33,10 @@ export const levels66to70: LevelData[] = [
       { word: 'KEMİK', meaning: 'İskeleti oluşturan sert ve dayanıklı doku.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'KİL', meaning: 'Su ile yoğrulabilen ince taneli toprak.', reward: 19 },
+      { word: 'HİLE', meaning: 'Birini yanıltmak için yapılan düzen veya hile yolu.', reward: 17 },
       { word: 'EKİM', meaning: 'Yılın onuncu ayı; tohumu toprağa atma işi.', reward: 20 },
     ],
-    reward: { baseCoin: 166, hiddenWordBonus: 22 },
+    reward: { baseCoin: 166, hiddenWordBonus: 20 },
   },
   {
     levelId: 68,
@@ -46,7 +46,6 @@ export const levels66to70: LevelData[] = [
     puzzleType: 'crossword',
     letters: ['İ', 'L', 'A', 'Ç', 'L', 'A', 'R'],
     mainWords: [
-      { word: 'İLAÇLAR', meaning: 'Hastalığı önlemek, azaltmak veya tedavi etmek için kullanılan maddeler.', difficulty: 3 },
       { word: 'İLAÇ', meaning: 'Tedavi amacıyla kullanılan madde veya karışım.', difficulty: 2 },
       { word: 'ARAÇ', meaning: 'Bir işi yapmaya veya sonuca ulaşmaya yarayan nesne.', difficulty: 2 },
       { word: 'LAL', meaning: 'Konuşamayan veya parlak koyu kırmızı renkte olan.', difficulty: 4 },
@@ -85,6 +84,7 @@ export const levels66to70: LevelData[] = [
     mainWords: [
       { word: 'REÇETE', meaning: 'Hekimin ilaç ve kullanım biçimini yazdığı belge.', difficulty: 3 },
       { word: 'TERE', meaning: 'Yaprakları salata olarak kullanılan keskin tatlı bitki.', difficulty: 3 },
+      { word: 'RET', meaning: 'Bir öneri veya isteği kabul etmeme, reddetme.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'ET', meaning: 'Kas dokusundan oluşan besin.', reward: 20 },

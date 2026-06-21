@@ -11,7 +11,7 @@ export const levels56to60: LevelData[] = [
     mainWords: [
       { word: 'TERCÜME', meaning: 'Bir metni anlamını koruyarak başka bir dile aktarma işi.', difficulty: 4 },
       { word: 'CÜRET', meaning: 'Güç bir işe girişme cesareti.', difficulty: 4 },
-      { word: 'ÜRET', meaning: 'Yeni bir ürün veya düşünce ortaya koymak.', difficulty: 3 },
+      { word: 'CET', meaning: 'Büyük baba, ata.', difficulty: 3 },
       { word: 'TER', meaning: 'Vücudun sıcaklık düzenlemek için deriden çıkardığı sıvı.', difficulty: 2 },
     ],
     hiddenWords: [
@@ -69,7 +69,6 @@ export const levels56to60: LevelData[] = [
       { word: 'GÖZLEM', meaning: 'Bir olayı bilgi edinmek amacıyla dikkatle inceleme işi.', difficulty: 3 },
       { word: 'ÖZLEM', meaning: 'Uzakta olan bir şeye veya kişiye yeniden kavuşma isteği.', difficulty: 3 },
       { word: 'GÖZ', meaning: 'Görmeyi sağlayan duyu organı.', difficulty: 1 },
-      { word: 'GEL', meaning: 'Bir yere ulaşmak veya yaklaşmak eyleminin emir biçimi.', difficulty: 1 },
     ],
     hiddenWords: [
       { word: 'ÖZ', meaning: 'Bir şeyin temel niteliği veya iç bölümü.', reward: 18 },

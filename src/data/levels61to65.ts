@@ -31,13 +31,11 @@ export const levels61to65: LevelData[] = [
       { word: 'GÖRMEK', meaning: 'Işık yardımıyla bir varlığın biçim ve rengini algılamak.', difficulty: 2 },
       { word: 'ÖRMEK', meaning: 'İplik veya benzeri parçaları birbirine geçirerek doku oluşturmak.', difficulty: 3 },
       { word: 'KÖR', meaning: 'Görme duyusu bulunmayan veya işlemez durumda olan.', difficulty: 2 },
-      { word: 'GÖR', meaning: 'Görmek eyleminin emir biçimi.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'ÖR', meaning: 'Örmek eyleminin emir biçimi.', reward: 18 },
       { word: 'GÖK', meaning: 'Yeryüzünün üstünde görünen mavi boşluk.', reward: 18 },
     ],
-    reward: { baseCoin: 156, hiddenWordBonus: 21 },
+    reward: { baseCoin: 156, hiddenWordBonus: 18 },
   },
   {
     levelId: 63,
@@ -90,9 +88,9 @@ export const levels61to65: LevelData[] = [
       { word: 'KREM', meaning: 'Yumuşak kıvamlı bakım veya tatlı karışımı.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'EMEK', meaning: 'Bir işi gerçekleştirmek için harcanan çaba.', reward: 20 },
+      { word: 'EM', meaning: 'Halk hekimliğinde kullanılan ilaç veya çare.', reward: 15 },
       { word: 'ERK', meaning: 'Güç, yetki veya iktidar.', reward: 20 },
     ],
-    reward: { baseCoin: 178, hiddenWordBonus: 23 },
+    reward: { baseCoin: 178, hiddenWordBonus: 20 },
   },
 ];

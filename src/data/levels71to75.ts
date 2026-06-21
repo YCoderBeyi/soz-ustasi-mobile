@@ -9,7 +9,7 @@ export const levels71to75: LevelData[] = [
     puzzleType: 'crossword',
     letters: ['A', 'L', 'E', 'T', 'L', 'E', 'R'],
     mainWords: [
-      { word: 'ALETLER', meaning: 'Bir işi yapmaya yarayan araçların bütünü.', difficulty: 4 },
+      { word: 'ALET', meaning: 'Belirli bir işi yapmaya yarayan araç veya gereç.', difficulty: 3 },
       { word: 'LALE', meaning: 'İlkbaharda açan, soğanlı ve renkli bir süs bitkisi.', difficulty: 3 },
       { word: 'TEL', meaning: 'İnce ve uzun metal iplik.', difficulty: 2 },
     ],
@@ -29,8 +29,7 @@ export const levels71to75: LevelData[] = [
     mainWords: [
       { word: 'BIÇAK', meaning: 'Kesici metal ağız ve saptan oluşan araç.', difficulty: 3 },
       { word: 'AÇIK', meaning: 'Kapalı olmayan veya kolay anlaşılır durumda bulunan.', difficulty: 3 },
-      { word: 'BAK', meaning: 'Bakmak eyleminin emir biçimi.', difficulty: 2 },
-      { word: 'KAÇ', meaning: 'Bir miktarı sormaya veya uzaklaşmayı buyurmaya yarayan söz.', difficulty: 2 },
+      { word: 'KAÇ', meaning: 'Bir miktarı sormak için kullanılan söz.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'AK', meaning: 'Beyaz veya temiz.', reward: 20 },
