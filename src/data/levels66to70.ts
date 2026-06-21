@@ -12,6 +12,7 @@ export const levels66to70: LevelData[] = [
       { word: 'BELİRTİ', meaning: 'Bir hastalık veya durumun varlığını gösteren işaret.', difficulty: 3 },
       { word: 'İBRET', meaning: 'İnsana yol gösteren ders niteliğindeki örnek veya sonuç.', difficulty: 3 },
       { word: 'BEL', meaning: 'Gövdenin karın ile sırt arasında kalan bölümü.', difficulty: 2 },
+      { word: 'BİLET', meaning: 'Bir taşıt veya etkinliğe giriş hakkı veren belge.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'BİT', meaning: 'İnsan veya hayvan üzerinde yaşayabilen küçük asalak böcek.', reward: 18 },

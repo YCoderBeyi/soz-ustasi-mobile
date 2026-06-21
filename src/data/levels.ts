@@ -364,18 +364,17 @@ const baseLevels: LevelData[] = [
     themeId: 'anatolian_autumn',
     sealId: 'seal_anatolia_03',
     puzzleType: 'crossword',
-    letters: ["H","A","S","A","T"],
+    letters: ["H","A","R","M","A","N"],
     mainWords: [
-      { word: 'HASAT', meaning: 'Olgunlaşan ürünü toplama işi.', difficulty: 3 },
-      { word: 'ATA', meaning: 'Baba, cet, ecdat.', difficulty: 2 },
-      { word: 'SAHA', meaning: 'Alan, meydan veya çalışma yeri.', difficulty: 2 },
-      { word: 'HASTA', meaning: 'Sağlığı bozuk olan, rahatsız.', difficulty: 2 }
+      { word: 'HARMAN', meaning: 'Tahılın dövülüp savrulduğu alan; hasat mevsimini simgeleyen işleme yeri.', difficulty: 3 },
+      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 2 },
+      { word: 'MANA', meaning: 'Bir söz veya olayın içerdiği anlam.', difficulty: 2 },
+      { word: 'ARMAN', meaning: 'Gerçekleşmemiş dilek veya ulaşılamamış özlem.', difficulty: 4 }
     ],
     hiddenWords: [
-      { word: 'AS', meaning: 'Bir konuda üstün veya usta kişi.', reward: 11 },
-      { word: 'SAT', meaning: 'Bir malı para karşılığı vermek.', reward: 5 }
+      { word: 'HAM', meaning: 'Olgunlaşmamış veya işlenmemiş.', reward: 11 }
     ],
-    reward: { baseCoin: 70, hiddenWordBonus: 12 },
+    reward: { baseCoin: 70, hiddenWordBonus: 11 },
   },
   {
     levelId: 23,
@@ -484,16 +483,17 @@ const baseLevels: LevelData[] = [
     themeId: 'blacksea_highland',
     sealId: 'seal_blacksea_03',
     puzzleType: 'crossword',
-    letters: ["B","U","L","U","T"],
+    letters: ["B","U","L","U","T","A"],
     mainWords: [
       { word: 'BULUT', meaning: 'Gökyüzünde su buharının oluşturduğu kütle.', difficulty: 2 },
-      { word: 'BUT', meaning: 'Bacağın kalça ile diz arasındaki bölümü.', difficulty: 3 },
+      { word: 'TABU', meaning: 'Toplumsal ya da kültürel açıdan dokunulmaz ve yasak sayılan.', difficulty: 3 },
       { word: 'ULU', meaning: 'Yüce, büyük ve saygın.', difficulty: 3 },
     ],
     hiddenWords: [
-      { word: 'UT', meaning: 'Mızrapla çalınan, armut biçimli gövdeli telli çalgı; ud olarak da bilinir.', reward: 5 }
+      { word: 'UT', meaning: 'Mızrapla çalınan, armut biçimli gövdeli telli çalgı; ud olarak da bilinir.', reward: 12 },
+      { word: 'ALT', meaning: 'Bir şeyin aşağı kısmı veya alt bölümü.', reward: 12 }
     ],
-    reward: { baseCoin: 86, hiddenWordBonus: 13 },
+    reward: { baseCoin: 86, hiddenWordBonus: 15 },
   },
   {
     levelId: 30,
@@ -729,7 +729,7 @@ const baseLevels: LevelData[] = [
     letters: ["S","I","R","A"],
     mainWords: [
       { word: 'SIRA', meaning: 'Diziliş veya bekleme düzeni.', difficulty: 2 },
-      { word: 'SAR', meaning: 'Sarmak eylemi veya bir şeyi çevreleme.', difficulty: 3 },
+      { word: 'ARI', meaning: 'Bal ve balmumu yapan, sokan kanatlı böcek; temiz ve saf olan.', difficulty: 2 },
       { word: 'SIR', meaning: 'Gizli tutulan bilgi.', difficulty: 3 },
       { word: 'ASIR', meaning: 'Yüzyıl anlamına gelen zaman dilimi.', difficulty: 4 }
     ],
@@ -781,20 +781,20 @@ const baseLevels: LevelData[] = [
     levelId: 45,
     themeId: 'blacksea_highland',
     sealId: 'seal_blacksea_05',
-    story: 'Bir öğretmen, sevincin öğrenmeyi hızlandırdığını fark edip dersi oyuna çevirir.',
-    puzzleType: 'anagram',
-    letters: ["S","E","V","İ","N","Ç"],
+    story: 'Yaylada aniden kopan fırtına, çobanları obalarına çekilmek zorunda bırakır.',
+    puzzleType: 'crossword',
+    letters: ["B","O","R","A","N"],
     mainWords: [
-      { word: 'SEVİNÇ', meaning: 'Mutluluk veren duygu.', difficulty: 3 },
-      { word: 'SEVİN', meaning: 'Mutlu olmak eyleminin emir biçimi.', difficulty: 3 },
-      { word: 'EVİN', meaning: 'Ev sözcüğünün tamlayan eki almış biçimi.', difficulty: 4 },
-      { word: 'VİNÇ', meaning: 'Ağır yükleri kaldırıp taşımaya yarayan makine.', difficulty: 3 }
+      { word: 'BORAN', meaning: 'Karadeniz ve yayla bölgelerinde görülen şiddetli kar ve rüzgâr fırtınası.', difficulty: 4 },
+      { word: 'BORA', meaning: 'Ani ve güçlü soğuk rüzgâr; kısa süreli şiddetli fırtına.', difficulty: 3 },
+      { word: 'OBA', meaning: 'Göçebe çadır topluluğu veya yaylada kurulan geçici yerleşim birimi.', difficulty: 3 },
+      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'EN', meaning: 'Genişlik, boyut veya bir sıfatın en üstünlük derecesi.', reward: 14 },
-      { word: 'SEVİ', meaning: 'Sevgi veya sevme eylemi.', reward: 10 }
+      { word: 'BAR', meaning: 'Basınç birimi; ağır yük; toplantı veya eğlence mekânı.', reward: 12 },
+      { word: 'AN', meaning: 'Çok kısa zaman dilimi; şu an.', reward: 10 }
     ],
-    reward: { baseCoin: 117, hiddenWordBonus: 15 },
+    reward: { baseCoin: 117, hiddenWordBonus: 14 },
   }
 ];
 
