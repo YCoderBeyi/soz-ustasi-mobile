@@ -85,7 +85,7 @@ export const levels71to75: LevelData[] = [
     mainWords: [
       { word: 'TEDAVİ', meaning: 'Bir hastalığı iyileştirmek veya etkisini azaltmak için yapılan uygulama.', difficulty: 4 },
       { word: 'DAVET', meaning: 'Bir kişiyi bir yere veya etkinliğe çağırma.', difficulty: 4 },
-      { word: 'VEDA', meaning: 'Ayrılırken söylenen esenlik dileği.', difficulty: 3 },
+      { word: 'VADİ', meaning: 'İki yamaç arasında uzanan çukur arazi, dere yatağı.', difficulty: 3 },
       { word: 'İADE', meaning: 'Alınan bir şeyi geri verme.', difficulty: 3 },
     ],
     hiddenWords: [

@@ -7,6 +7,8 @@ export const levelStories66to70: LevelStory[] = [
     place: 'Orta Asya ve İran',
     title: 'Belirtiyi İzlemek',
     body: 'Tıbbi gözlem, hastanın anlattıklarını bedendeki işaretlerle birlikte değerlendirmeyi gerektirir. Belirtinin ne zaman başladığı ve nasıl değiştiği kaydedildiğinde tek bir an yerine hastalığın seyri görülebilir.',
+    person: 'İbn Sina',
+    personInfo: 'Tıp ve felsefeyi bir arada ele alarak hastalık belirtilerini gözlemleyip kayıt altına almayı sistemleştiren bilim insanıydı.',
   },
   {
     levelId: 67,

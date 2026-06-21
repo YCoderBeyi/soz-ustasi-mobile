@@ -15,7 +15,7 @@ export const levelStories61to65: LevelStory[] = [
     era: '11. yüzyıl',
     place: 'Kahire',
     title: 'Görmenin Yönü',
-    body: 'Eski görüşlerden biri, görmenin gözden çıkan ışınlarla gerçekleştiğini savunuyordu. İbnü’l-Heysem ışığın nesneden göze geldiğini açıklayarak görmenin yönünü tersine çevirdi ve optiğe daha sağlam bir temel kazandırdı.',
+    body: 'Eski görüşlerden biri, görmenin gözden çıkan ışınlarla gerçekleştiğini savunuyordu. İbnü’l-Heysem gök cisimlerinden ve nesnelerden göze ulaşan ışığı inceleyerek görmenin yönünü tersine çevirdi ve optiğe daha sağlam bir temel kazandırdı.',
     person: 'İbnü’l-Heysem',
     personInfo: 'Nesnelerden yansıyan ışığın göze ulaşmasıyla görmenin gerçekleştiğini açıklayan optik araştırmacısıydı.',
   },
@@ -45,4 +45,3 @@ export const levelStories61to65: LevelStory[] = [
     personInfo: 'Yedi bölümlük optik çalışması sonraki dönemlerde Latinceye çevrilen ve optik araştırmalarını etkileyen bilim insanıydı.',
   },
 ];
-

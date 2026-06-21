@@ -70,7 +70,7 @@ export const levels66to70: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'TEMA', meaning: 'Bir eserin veya düşüncenin temel konusu.', reward: 20 },
-      { word: 'İMLA', meaning: 'Bir dili yazım kurallarına göre doğru yazma.', reward: 21 },
+      { word: 'ELMA', meaning: 'Yuvarlak ve sulu bir meyve; Rosaceae familyasındandır.', reward: 18 },
     ],
     reward: { baseCoin: 176, hiddenWordBonus: 23 },
   },

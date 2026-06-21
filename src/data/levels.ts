@@ -491,7 +491,7 @@ const baseLevels: LevelData[] = [
       { word: 'ULU', meaning: 'Yüce, büyük ve saygın.', difficulty: 3 },
     ],
     hiddenWords: [
-      { word: 'UT', meaning: 'Yayla değil mızrapla çalınan telli bir Türk çalgısı, ud.', reward: 5 }
+      { word: 'UT', meaning: 'Mızrapla çalınan, armut biçimli gövdeli telli çalgı; ud olarak da bilinir.', reward: 5 }
     ],
     reward: { baseCoin: 86, hiddenWordBonus: 13 },
   },
