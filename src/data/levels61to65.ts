@@ -12,11 +12,11 @@ export const levels61to65: LevelData[] = [
       { word: 'PARILTI', meaning: 'Bir yüzeyden gelen kısa ve canlı ışık.', difficulty: 4 },
       { word: 'ALTI', meaning: 'Beşten sonra, yediden önce gelen sayı.', difficulty: 1 },
       { word: 'ARTI', meaning: 'Toplama işareti veya olumlu değer.', difficulty: 2 },
-      { word: 'TIR', meaning: 'Uzun yol yük taşımacılığında kullanılan büyük kamyon.', difficulty: 2 },
+      { word: 'ATIL', meaning: 'İşlevsiz, hareketsiz ve kullanılmayan; ışığın henüz harekete geçmemiş potansiyel hali.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'ARI', meaning: 'Bal yapan kanatlı küçük böcek.', reward: 17 },
-      { word: 'ATIL', meaning: 'İşlevsiz, hareketsiz ve kullanılmayan.', reward: 18 },
+      { word: 'TIR', meaning: 'Uzun yol yük taşımacılığında kullanılan büyük araç.', reward: 18 },
     ],
     reward: { baseCoin: 152, hiddenWordBonus: 20 },
   },

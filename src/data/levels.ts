@@ -368,7 +368,7 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'HARMAN', meaning: 'Tahılın dövülüp savrulduğu alan; hasat mevsimini simgeleyen işleme yeri.', difficulty: 3 },
       { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 2 },
-      { word: 'MANA', meaning: 'Bir söz veya olayın içerdiği anlam.', difficulty: 2 },
+      { word: 'AMAN', meaning: 'Acıma veya şaşkınlık bildiren söz; merhamet çağrısı.', difficulty: 2 },
       { word: 'ARMAN', meaning: 'Gerçekleşmemiş dilek veya ulaşılamamış özlem.', difficulty: 4 }
     ],
     hiddenWords: [
@@ -576,15 +576,15 @@ const baseLevels: LevelData[] = [
     puzzleType: 'crossword',
     letters: ["K","İ","T","A","P","L"],
     mainWords: [
-      { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', difficulty: 2 },
+      { word: 'TALİK', meaning: 'Osmanlı hat sanatında kullanılan eğik ve bağlantılı yazı üslubu; kütüphane yazıcıları bu stili metinleri hızlı kopyalamak için kullanırdı.', difficulty: 4 },
       { word: 'TALİP', meaning: 'İsteyen, talep eden, istekli kimse.', difficulty: 4 },
       { word: 'KATİP', meaning: 'Yazı işleriyle uğraşan görevli.', difficulty: 4 },
       { word: 'PİL', meaning: 'Elektrik enerjisi sağlayan küçük araç.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'AT', meaning: 'Binek hayvanı.', reward: 14 },
-      { word: 'ALP', meaning: 'Yiğit, kahraman, cesur kimse.', reward: 5 },
-      { word: 'PATİK', meaning: 'Evde giyilen hafif, yumuşak ayakkabı.', reward: 8 }
+      { word: 'KİL', meaning: 'Su ile yoğrulabilen ince taneli toprak; ilk yazı tabletleri kilden yapılırdı.', reward: 8 },
+      { word: 'TİP', meaning: 'Ortak özellikleri olan örnek veya çeşit; yazı tiplerinin sınıflandırılması kütüphaneciliğin temelidir.', reward: 10 }
     ],
     reward: { baseCoin: 97, hiddenWordBonus: 15 },
   },

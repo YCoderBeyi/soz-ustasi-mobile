@@ -84,7 +84,7 @@ export const levels51to55: LevelData[] = [
       { word: 'ANAHTAR', meaning: 'Bir kilidi açan araç veya bir çözümü mümkün kılan temel bilgi.', difficulty: 3 },
       { word: 'TARA', meaning: 'Bir metni veya alanı sistematik biçimde inceleme ve arama eylemi.', difficulty: 2 },
       { word: 'HAT', meaning: 'Çizgi, ulaşım yolu veya güzel yazı sanatı.', difficulty: 3 },
-      { word: 'NAR', meaning: 'İçi taneli, kırmızı kabuklu bir meyve.', difficulty: 2 },
+      { word: 'HATA', meaning: 'Yanlış yapılan iş veya söylenen söz; şifre analizinde düzeltilmesi gereken hatalı işaret.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'RAHAT', meaning: 'Sıkıntısız, huzurlu ve dingin olma durumu.', reward: 17 },
