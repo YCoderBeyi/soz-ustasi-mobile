@@ -519,7 +519,7 @@ const baseLevels: LevelData[] = [
     sealId: 'seal_cappadocia_05',
     story: 'Bir rehber, Kapadokya patikalarında yolculara vadiler arasında kaybolmadan ilerlemenin yolunu gösterir.',
     puzzleType: 'crossword',
-    letters: ["P","A","T","İ","K","A"],
+    letters: ["P","A","T","İ","K","A","I"],
     mainWords: [
       { word: 'PATİKA', meaning: 'Dağlarda yürüyüş için kullanılan dar yol.', difficulty: 3 },
       { word: 'AKİT', meaning: 'Sözleşme, anlaşma, bağıt.', difficulty: 4 },
@@ -527,7 +527,7 @@ const baseLevels: LevelData[] = [
       { word: 'PAKT', meaning: 'Devletler veya taraflar arasında imzalanan antlaşma veya ittifak belgesi.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'TAK', meaning: 'Bir şeyi bir yere iliştirmek.', reward: 12 }
+      { word: 'TAKI', meaning: 'Bilezik, kolye veya küpe gibi süs amacıyla kullanılan mücevher eşyası.', reward: 12 }
     ],
     reward: { baseCoin: 89, hiddenWordBonus: 12 },
   },

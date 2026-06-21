@@ -393,7 +393,7 @@ describe('SessionContext', () => {
 
     act(() => result.current.startLevel(level34));
     act(() => result.current.submitWord('TİP'));
-    act(() => result.current.submitWord('TAK'));
+    act(() => result.current.submitWord('KAP'));
 
     expect(result.current.feedback).toBe('hidden');
     expect(addCoins).toHaveBeenCalledWith(1);

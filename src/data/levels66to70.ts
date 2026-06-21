@@ -87,7 +87,7 @@ export const levels66to70: LevelData[] = [
       { word: 'REÇETE', meaning: 'Hekimin ilaç ve kullanım biçimini yazdığı belge.', difficulty: 3 },
       { word: 'TERE', meaning: 'Yaprakları salata olarak kullanılan keskin tatlı bitki.', difficulty: 3 },
       { word: 'RET', meaning: 'Bir öneri veya isteği kabul etmeme, reddetme.', difficulty: 2 },
-      { word: 'ETER', meaning: 'Organik kimyada oksijen köprülü bileşik; eskiden ağrı kesici ve uyuşturucu olarak kullanılmıştır.', difficulty: 4 },
+      { word: 'ETER', meaning: 'Organik kimyada iki karbon grubunun oksijen köprüsüyle bağlandığı bileşik sınıfı; 19. yüzyılda cerrahi anestezi için kullanılan tarihsel bir ilaçtır.', difficulty: 4 },
     ],
     hiddenWords: [
       { word: 'ET', meaning: 'Kas dokusundan oluşan besin.', reward: 20 },
