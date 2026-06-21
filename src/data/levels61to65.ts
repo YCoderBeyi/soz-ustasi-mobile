@@ -47,7 +47,7 @@ export const levels61to65: LevelData[] = [
     mainWords: [
       { word: 'YANSIMA', meaning: 'Işığın bir yüzeye çarpıp geldiği ortama geri dönmesi.', difficulty: 4 },
       { word: 'SAYI', meaning: 'Bir çokluğu veya sırayı belirten matematiksel değer.', difficulty: 2 },
-      { word: 'YASA', meaning: 'Toplum yaşamını düzenleyen bağlayıcı kural.', difficulty: 3 },
+      { word: 'SANI', meaning: 'Zihinde oluşan izlenim veya görünüşe dayalı yargı.', difficulty: 3 },
       { word: 'MAYA', meaning: 'Hamuru kabartan canlı kültür veya bir şeyin temel özü.', difficulty: 3 },
     ],
     hiddenWords: [
@@ -85,7 +85,7 @@ export const levels61to65: LevelData[] = [
     mainWords: [
       { word: 'MERCEK', meaning: 'Işığı kırarak görüntü oluşturan saydam optik parça.', difficulty: 3 },
       { word: 'KEMER', meaning: 'Giyside bele takılan şerit veya yay biçimli yapı bölümü.', difficulty: 2 },
-      { word: 'KREM', meaning: 'Yumuşak kıvamlı bakım veya tatlı karışımı.', difficulty: 2 },
+      { word: 'EREK', meaning: 'Ulaşılmak istenen hedef veya amaç.', difficulty: 3 },
       { word: 'KEREM', meaning: 'Cömertlik, iyilik ve yücelik niteliği; bağış.', difficulty: 3 },
     ],
     hiddenWords: [

@@ -50,7 +50,7 @@ export const levels71to75: LevelData[] = [
       { word: 'KİŞİ', meaning: 'Bir insanı veya bireyi anlatan söz.', difficulty: 3 },
     ],
     hiddenWords: [
-      { word: 'ŞİK', meaning: 'Giyim ve görünüşte zarif, özenli ve beğenilen.', reward: 22 },
+      { word: 'DİŞİ', meaning: 'Dişi cinsiyetine ait olan veya vida gibi parçalarda iç dişli olan.', reward: 22 },
       { word: 'İKİ', meaning: 'Birden sonra, üçten önce gelen sayı.', reward: 22 },
     ],
     reward: { baseCoin: 182, hiddenWordBonus: 23 },

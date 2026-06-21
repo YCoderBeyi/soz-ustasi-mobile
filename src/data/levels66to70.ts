@@ -48,7 +48,8 @@ export const levels66to70: LevelData[] = [
     mainWords: [
       { word: 'İLAÇ', meaning: 'Tedavi amacıyla kullanılan madde veya karışım.', difficulty: 2 },
       { word: 'ARAÇ', meaning: 'Bir işi yapmaya veya sonuca ulaşmaya yarayan nesne.', difficulty: 2 },
-      { word: 'LAL', meaning: 'Konuşamayan veya parlak koyu kırmızı renkte olan.', difficulty: 4 },
+      { word: 'İLAL', meaning: 'Osmanlı tıbbında hastalık halleri ve belirtilerinin genel adı.', difficulty: 4 },
+      { word: 'LAÇ', meaning: 'Bitkisel maddelerin dövülüp karıştırılmasıyla hazırlanan macun kıvamındaki preparat.', difficulty: 4 },
     ],
     hiddenWords: [
       { word: 'ALA', meaning: 'Karışık renkli veya çok iyi nitelikte olan.', reward: 19 },
@@ -85,6 +86,7 @@ export const levels66to70: LevelData[] = [
       { word: 'REÇETE', meaning: 'Hekimin ilaç ve kullanım biçimini yazdığı belge.', difficulty: 3 },
       { word: 'TERE', meaning: 'Yaprakları salata olarak kullanılan keskin tatlı bitki.', difficulty: 3 },
       { word: 'RET', meaning: 'Bir öneri veya isteği kabul etmeme, reddetme.', difficulty: 2 },
+      { word: 'ETER', meaning: 'Organik kimyada oksijen köprülü bileşik; eskiden ağrı kesici ve uyuşturucu olarak kullanılmıştır.', difficulty: 4 },
     ],
     hiddenWords: [
       { word: 'ET', meaning: 'Kas dokusundan oluşan besin.', reward: 20 },

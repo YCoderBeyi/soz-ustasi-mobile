@@ -67,7 +67,7 @@ export const levels56to60: LevelData[] = [
     letters: ['G', 'Ö', 'Z', 'L', 'E', 'M'],
     mainWords: [
       { word: 'GÖZLEM', meaning: 'Bir olayı bilgi edinmek amacıyla dikkatle inceleme işi.', difficulty: 3 },
-      { word: 'ÖZLEM', meaning: 'Uzakta olan bir şeye veya kişiye yeniden kavuşma isteği.', difficulty: 3 },
+      { word: 'ÖGE', meaning: 'Bir bütünü oluşturan temel parça veya unsur.', difficulty: 3 },
       { word: 'GÖZ', meaning: 'Görmeyi sağlayan duyu organı.', difficulty: 1 },
     ],
     hiddenWords: [

@@ -48,7 +48,7 @@ export const levels51to55: LevelData[] = [
     letters: ['S', 'I', 'K', 'L', 'I', 'K'],
     mainWords: [
       { word: 'SIKLIK', meaning: 'Bir olayın belirli bir aralıkta kaç kez gerçekleştiğini gösteren ölçü.', difficulty: 4 },
-      { word: 'KILIK', meaning: 'Bir kişinin dış görünüşü veya giyiniş biçimi.', difficulty: 3 },
+      { word: 'KISKI', meaning: 'İki yüzey arasına sıkıştırılarak tutturan veya sıkıştıran mekanizma.', difficulty: 3 },
       { word: 'SIK', meaning: 'Aralarında az uzaklık bulunan veya çok kez gerçekleşen.', difficulty: 2 },
     ],
     hiddenWords: [
@@ -66,7 +66,7 @@ export const levels51to55: LevelData[] = [
     mainWords: [
       { word: 'ÖRÜNTÜ', meaning: 'Belirli bir kurala göre düzenli biçimde yinelenen şekil veya ilişki.', difficulty: 4 },
       { word: 'ÖRTÜ', meaning: 'Bir şeyin üzerine serilen veya onu kaplayan parça.', difficulty: 3 },
-      { word: 'TÜR', meaning: 'Ortak özellikleri bulunan varlıkların oluşturduğu sınıf.', difficulty: 2 },
+      { word: 'NÖTR', meaning: 'Yansız, tarafsız veya kimyasal açıdan tepkisiz olan.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'ÜRÜN', meaning: 'Emek veya üretim sonucunda ortaya çıkan şey.', reward: 16 },
@@ -82,7 +82,7 @@ export const levels51to55: LevelData[] = [
     letters: ['A', 'N', 'A', 'H', 'T', 'A', 'R'],
     mainWords: [
       { word: 'ANAHTAR', meaning: 'Bir kilidi açan araç veya bir çözümü mümkün kılan temel bilgi.', difficulty: 3 },
-      { word: 'ANA', meaning: 'Temel, asıl veya anne anlamında kullanılan söz.', difficulty: 1 },
+      { word: 'TARA', meaning: 'Bir metni veya alanı sistematik biçimde inceleme ve arama eylemi.', difficulty: 2 },
       { word: 'HAT', meaning: 'Çizgi, ulaşım yolu veya güzel yazı sanatı.', difficulty: 3 },
       { word: 'NAR', meaning: 'İçi taneli, kırmızı kabuklu bir meyve.', difficulty: 2 },
     ],
