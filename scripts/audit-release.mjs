@@ -59,17 +59,17 @@ function requireResolvedManifestField(label, placeholder) {
   }
 }
 
-if (versionName !== '1.0.15') {
-  errors.push(`Android versionName must be 1.0.15, found ${versionName ?? 'missing'}.`);
+if (versionName !== '1.0.16') {
+  errors.push(`Android versionName must be 1.0.16, found ${versionName ?? 'missing'}.`);
 }
-if (!versionCode || Number(versionCode) !== 17) errors.push(`Android versionCode must be 17, found ${versionCode ?? 'missing'}.`);
+if (!versionCode || Number(versionCode) !== 19) errors.push(`Android versionCode must be 19, found ${versionCode ?? 'missing'}.`);
 if (applicationId !== 'com.sozustasi.game') errors.push(`Unexpected applicationId: ${applicationId ?? 'missing'}`);
 
-if (releaseManifestVersionName !== '1.0.15') {
-  errors.push(`Release manifest version name must be 1.0.15, found ${releaseManifestVersionName ?? 'missing'}.`);
+if (releaseManifestVersionName !== '1.0.16') {
+  errors.push(`Release manifest version name must be 1.0.16, found ${releaseManifestVersionName ?? 'missing'}.`);
 }
-if (releaseManifestVersionCode !== '17') {
-  errors.push(`Release manifest version code must be 17, found ${releaseManifestVersionCode ?? 'missing'}.`);
+if (releaseManifestVersionCode !== '19') {
+  errors.push(`Release manifest version code must be 19, found ${releaseManifestVersionCode ?? 'missing'}.`);
 }
 requireManifestValue('Track', 'Closed test, then production after eligibility');
 requireManifestValue('Data model', 'PlayerSave v2');
