@@ -367,7 +367,7 @@ const baseLevels: LevelData[] = [
     letters: ["H","A","R","M","A","N"],
     mainWords: [
       { word: 'HARMAN', meaning: 'Tahılın dövülüp savrulduğu alan; hasat mevsimini simgeleyen işleme yeri.', difficulty: 3 },
-      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 2 },
+      { word: 'NAHAR', meaning: 'Gündüz vakti; hasat zamanı yükselen öğle sıcağını ifade eden eski söz.', difficulty: 3 },
       { word: 'AMAN', meaning: 'Acıma veya şaşkınlık bildiren söz; merhamet çağrısı.', difficulty: 2 },
       { word: 'ARMAN', meaning: 'Gerçekleşmemiş dilek veya ulaşılamamış özlem.', difficulty: 4 }
     ],
@@ -524,7 +524,7 @@ const baseLevels: LevelData[] = [
       { word: 'PATİKA', meaning: 'Dağlarda yürüyüş için kullanılan dar yol.', difficulty: 3 },
       { word: 'AKİT', meaning: 'Sözleşme, anlaşma, bağıt.', difficulty: 4 },
       { word: 'ATİK', meaning: 'Hızlı hareket eden, çevik.', difficulty: 4 },
-      { word: 'KAT', meaning: 'Bir şeyin üzerine koyma işi.', difficulty: 2 }
+      { word: 'PAKT', meaning: 'Devletler veya taraflar arasında imzalanan antlaşma veya ittifak belgesi.', difficulty: 3 }
     ],
     hiddenWords: [
       { word: 'TAK', meaning: 'Bir şeyi bir yere iliştirmek.', reward: 12 }
@@ -747,7 +747,7 @@ const baseLevels: LevelData[] = [
       { word: 'ADALET', meaning: 'Hakkı gözetme ve doğruluk ilkesi.', difficulty: 2 },
       { word: 'ALET', meaning: 'Bir işte kullanılan araç.', difficulty: 3 },
       { word: 'TELA', meaning: 'Kumaşı sertleştirmek için kullanılan malzeme.', difficulty: 4 },
-      { word: 'DAL', meaning: 'Ağacın kolu veya alan bölümü.', difficulty: 2 }
+      { word: 'ELA', meaning: 'Yeşile çalan açık kahverengi göz rengi; adaleti tesis eden hâkimin keskin bakışını simgeler.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'ADET', meaning: 'Görenek; bir şeyin sayıca tutarı.', reward: 13 },
@@ -784,7 +784,7 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'BORAN', meaning: 'Karadeniz ve yayla bölgelerinde görülen şiddetli kar ve rüzgâr fırtınası.', difficulty: 4 },
       { word: 'BORA', meaning: 'Ani ve güçlü soğuk rüzgâr; kısa süreli şiddetli fırtına.', difficulty: 3 },
-      { word: 'OBA', meaning: 'Göçebe çadır topluluğu veya yaylada kurulan geçici yerleşim birimi.', difficulty: 3 },
+      { word: 'ORAN', meaning: 'İki büyüklük arasındaki bağıntı veya pay; fırtınanın yoğunluğunu ölçen meteorolojik oran.', difficulty: 3 },
       { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 2 }
     ],
     hiddenWords: [

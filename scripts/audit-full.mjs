@@ -2,17 +2,34 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
 
-function loadExportedArray(file, exportName) {
-  let source = fs.readFileSync(file, 'utf8');
-  source = source
+function stripTS(source) {
+  return source
     .replace(/^import .*?;\s*/gm, '')
     .replace(/export const (\w+):\s*[\w<>\[\]|,\s]+\s*=/g, 'const $1 =')
     .replace(/const (\w+):\s*[\w<>\[\]|,\s]+\s*=/g, 'const $1 =')
-    .replace(/export const initialLevel = .*?;\s*/s, '')
-    .replace(/export function [\s\S]*$/, '')
     .replace(/export const (\w+) =/g, 'const $1 =');
+}
+
+function loadExportedArray(file, exportName) {
   const context = {};
   vm.createContext(context);
+
+  // Detect and pre-load any sub-module imports (handles levels46to50, levelStories46to50, etc.)
+  const rawSrc = fs.readFileSync(file, 'utf8');
+  const dir = file.slice(0, file.lastIndexOf('/') + 1) || 'src/data/';
+  const importedPaths = [...rawSrc.matchAll(/^import\s+[^'"]*from\s+'(\.\/[^']+)'/gm)]
+    .map(m => m[1])
+    .filter(p => !p.includes('type'));
+  for (const rel of importedPaths) {
+    const subFile = dir + rel.replace(/^\.\//, '') + '.ts';
+    if (fs.existsSync(subFile)) {
+      vm.runInContext(stripTS(fs.readFileSync(subFile, 'utf8')), context);
+    }
+  }
+
+  let source = stripTS(fs.readFileSync(file, 'utf8'))
+    .replace(/export const initialLevel = .*?;\s*/s, '')
+    .replace(/export function [\s\S]*$/, '');
   vm.runInContext(`${source}\nresult = ${exportName};`, context);
   return context.result;
 }
