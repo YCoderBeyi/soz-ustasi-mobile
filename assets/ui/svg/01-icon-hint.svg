@@ -1,0 +1,85 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hintBase" x1="18" y1="12" x2="110" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFE98A"/>
+      <stop offset="0.46" stop-color="#FFC83D"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="hintDepth" x1="18" y1="26" x2="110" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D97706"/>
+      <stop offset="1" stop-color="#92400E"/>
+    </linearGradient>
+    <linearGradient id="glassHighlight" x1="34" y1="20" x2="92" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bulbGlass" x1="45" y1="32" x2="82" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.45" stop-color="#FFF8D6"/>
+      <stop offset="1" stop-color="#FFD166"/>
+    </linearGradient>
+    <linearGradient id="bulbCore" x1="52" y1="38" x2="76" y2="75" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF7D6"/>
+      <stop offset="1" stop-color="#FFB703"/>
+    </linearGradient>
+    <radialGradient id="innerGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(56 38) rotate(55) scale(58)">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.62"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softShadow" x="0" y="0" width="128" height="140" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.28"/>
+    </filter>
+    <filter id="iconShadow" x="24" y="20" width="80" height="92" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#78350F" flood-opacity="0.35"/>
+    </filter>
+    <filter id="glow" x="18" y="16" width="92" height="92" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 1  0 1 0 0 0.76  0 0 1 0 0.18  0 0 0 0.55 0"/>
+      <feBlend in="SourceGraphic" mode="screen"/>
+    </filter>
+  </defs>
+
+  <!-- 3D bottom depth -->
+  <rect x="18" y="24" width="92" height="92" rx="31" fill="url(#hintDepth)"/>
+
+  <!-- Main button body -->
+  <rect x="18" y="12" width="92" height="92" rx="31" fill="url(#hintBase)" filter="url(#softShadow)"/>
+
+  <!-- Inner border -->
+  <rect x="22" y="16" width="84" height="84" rx="27" stroke="#FFFFFF" stroke-opacity="0.42" stroke-width="4"/>
+
+  <!-- Soft glass highlight -->
+  <path d="M37 19H91C99.2843 19 106 25.7157 106 34V42C106 42 89.5 32 64 32C38.5 32 22 42 22 42V34C22 25.7157 28.7157 19 37 19Z" fill="url(#glassHighlight)"/>
+
+  <!-- Top glow -->
+  <circle cx="55" cy="42" r="42" fill="url(#innerGlow)"/>
+
+  <!-- Light rays -->
+  <g filter="url(#glow)">
+    <path d="M64 24V15" stroke="#FFF7D6" stroke-width="6" stroke-linecap="round"/>
+    <path d="M41.5 33.5L35 27" stroke="#FFF7D6" stroke-width="6" stroke-linecap="round"/>
+    <path d="M86.5 33.5L93 27" stroke="#FFF7D6" stroke-width="6" stroke-linecap="round"/>
+    <path d="M34 56H25" stroke="#FFF7D6" stroke-width="6" stroke-linecap="round"/>
+    <path d="M94 56H103" stroke="#FFF7D6" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Bulb icon -->
+  <g filter="url(#iconShadow)">
+    <path d="M64 31C50.7452 31 40 41.4036 40 54.236C40 62.3852 44.2928 69.5264 50.7696 73.686C53.1712 75.2288 54.72 77.8528 54.72 80.7064V84H73.28V80.7064C73.28 77.8528 74.8288 75.2288 77.2304 73.686C83.7072 69.5264 88 62.3852 88 54.236C88 41.4036 77.2548 31 64 31Z" fill="url(#bulbGlass)"/>
+
+    <path d="M64 38C54.6112 38 47 45.344 47 54.402C47 60.42 50.2688 65.6624 55.1392 68.496C58.12 70.232 60 73.38 60 76.8296V78H68V76.8296C68 73.38 69.88 70.232 72.8608 68.496C77.7312 65.6624 81 60.42 81 54.402C81 45.344 73.3888 38 64 38Z" fill="url(#bulbCore)"/>
+
+    <!-- Bulb shine -->
+    <path d="M55 45C58 41 64 39 70 42" stroke="#FFFFFF" stroke-opacity="0.72" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Bulb base -->
+    <rect x="54" y="82" width="20" height="8" rx="4" fill="#92400E"/>
+    <rect x="56" y="91" width="16" height="7" rx="3.5" fill="#78350F"/>
+    <path d="M56 86H72" stroke="#FDE68A" stroke-opacity="0.45" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Tiny sparkles -->
+  <circle cx="39" cy="78" r="3" fill="#FFF7D6"/>
+  <circle cx="91" cy="75" r="2.5" fill="#FFF7D6"/>
+  <circle cx="82" cy="24" r="2" fill="#FFFFFF" fill-opacity="0.8"/>
+</svg>
