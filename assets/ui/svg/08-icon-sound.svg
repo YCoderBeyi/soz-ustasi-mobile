@@ -1,0 +1,27 @@
+<svg width="108" height="108" viewBox="0 0 108 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <filter id="shadow3d" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.28"/>
+    </filter>
+    <linearGradient id="shine" x1="20" y1="10" x2="90" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.78"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="topGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(42 28) rotate(55) scale(60)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="10" y="17" width="88" height="84" rx="28" fill="#1D4ED8"/>
+  <rect x="10" y="8" width="88" height="84" rx="28" fill="url(#bg)" filter="url(#shadow3d)"/>
+  <defs><linearGradient id="bg" x1="10" y1="8" x2="98" y2="92" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#60A5FA"/><stop offset="1" stop-color="#2563EB"/>
+  </linearGradient></defs>
+  <rect x="13" y="11" width="82" height="78" rx="25" stroke="white" stroke-opacity="0.42" stroke-width="4"/>
+  <path d="M28 15H80C87 15 93 21 93 28V34C93 34 78 25 54 25C30 25 15 34 15 34V28C15 21 21 15 28 15Z" fill="url(#shine)"/>
+  <circle cx="45" cy="35" r="32" fill="url(#topGlow)"/>
+  <g transform="translate(22 22)"><path d="M9 25H21L37 11V53L21 39H9V25Z" fill="#FFFFFF"/>
+    <path d="M45 22C49 28 49 36 45 42" stroke="#DBEAFE" stroke-width="6" stroke-linecap="round"/>
+    <path d="M52 14C60 25 60 39 52 50" stroke="#DBEAFE" stroke-width="6" stroke-linecap="round"/></g>
+</svg>

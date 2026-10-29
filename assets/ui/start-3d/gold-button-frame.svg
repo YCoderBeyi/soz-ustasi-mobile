@@ -1,0 +1,84 @@
+<svg width="760" height="160" viewBox="0 0 760 160" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="goldOuter" x1="70" y1="20" x2="690" y2="136" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF8C8"/>
+      <stop offset="0.22" stop-color="#FFE082"/>
+      <stop offset="0.48" stop-color="#F4B43E"/>
+      <stop offset="0.75" stop-color="#C77A10"/>
+      <stop offset="1" stop-color="#6F3700"/>
+    </linearGradient>
+
+    <linearGradient id="goldInner" x1="96" y1="34" x2="664" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF7D6"/>
+      <stop offset="0.35" stop-color="#FFD166"/>
+      <stop offset="0.72" stop-color="#D99622"/>
+      <stop offset="1" stop-color="#9A5A00"/>
+    </linearGradient>
+
+    <linearGradient id="goldStroke" x1="88" y1="24" x2="672" y2="124" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.35" stop-color="#FFE082"/>
+      <stop offset="0.7" stop-color="#B96B05"/>
+      <stop offset="1" stop-color="#5C2D00"/>
+    </linearGradient>
+
+    <linearGradient id="topShine" x1="130" y1="36" x2="640" y2="74" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="buttonShadow" x="0" y="0" width="760" height="190" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="16" stdDeviation="13" flood-color="#020617" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+
+  <!-- bottom depth -->
+  <rect x="82" y="42" width="596" height="96" rx="35" fill="#6F3700"/>
+
+  <!-- outer body -->
+  <rect x="82" y="24" width="596" height="96" rx="35" fill="url(#goldOuter)" filter="url(#buttonShadow)"/>
+
+  <!-- inner body -->
+  <rect x="98" y="36" width="564" height="70" rx="27" fill="url(#goldInner)"/>
+
+  <!-- main stroke -->
+  <rect x="88" y="30" width="584" height="84" rx="31" stroke="url(#goldStroke)" stroke-width="6"/>
+
+  <!-- inner stroke -->
+  <rect x="106" y="42" width="548" height="58" rx="23" stroke="#FFF7D6" stroke-opacity="0.62" stroke-width="3"/>
+
+  <!-- top glossy shine -->
+  <path d="M122 36H638C654 36 666 48 666 64V70C666 70 548 49 380 49C212 49 94 70 94 70V64C94 48 106 36 122 36Z" fill="url(#topShine)"/>
+
+  <!-- left ornament -->
+  <g transform="translate(18 28)">
+    <path d="M72 48C50 48 39 30 56 16C52 34 78 29 84 5C98 31 82 47 72 48Z" fill="#D99622"/>
+    <path d="M54 50C36 46 30 59 18 74C40 73 51 66 56 50Z" fill="#B96B05"/>
+    <path d="M56 52C36 55 30 78 5 81C30 91 54 76 64 58Z" fill="#F4B43E"/>
+    <path d="M78 51C94 57 99 76 117 79C101 91 80 76 72 59Z" fill="#B96B05"/>
+    <circle cx="68" cy="51" r="10" fill="#FFF7D6"/>
+    <circle cx="68" cy="51" r="5" fill="#B96B05"/>
+  </g>
+
+  <!-- right ornament -->
+  <g transform="translate(742 28) scale(-1 1)">
+    <path d="M72 48C50 48 39 30 56 16C52 34 78 29 84 5C98 31 82 47 72 48Z" fill="#D99622"/>
+    <path d="M54 50C36 46 30 59 18 74C40 73 51 66 56 50Z" fill="#B96B05"/>
+    <path d="M56 52C36 55 30 78 5 81C30 91 54 76 64 58Z" fill="#F4B43E"/>
+    <path d="M78 51C94 57 99 76 117 79C101 91 80 76 72 59Z" fill="#B96B05"/>
+    <circle cx="68" cy="51" r="10" fill="#FFF7D6"/>
+    <circle cx="68" cy="51" r="5" fill="#B96B05"/>
+  </g>
+
+  <!-- sparkles -->
+  <circle cx="132" cy="38" r="12" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="132" cy="38" r="5" fill="#FFFFFF"/>
+  <path d="M132 18V58" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round"/>
+  <path d="M112 38H152" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round"/>
+
+  <circle cx="640" cy="34" r="8" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="640" cy="34" r="3" fill="#FFFFFF"/>
+  <path d="M640 20V48" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+  <path d="M626 34H654" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+</svg>

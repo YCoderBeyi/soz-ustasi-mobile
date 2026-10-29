@@ -1,0 +1,87 @@
+<svg width="760" height="440" viewBox="0 0 760 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+  <linearGradient id="bluePlaque" x1="64" y1="70" x2="696" y2="372" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#0C3763"/>
+    <stop offset="0.45" stop-color="#071F43"/>
+    <stop offset="1" stop-color="#041226"/>
+  </linearGradient>
+
+  <linearGradient id="gold" x1="60" y1="40" x2="700" y2="396" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFF7D6"/>
+    <stop offset="0.32" stop-color="#FFD166"/>
+    <stop offset="0.7" stop-color="#C17A10"/>
+    <stop offset="1" stop-color="#6B3500"/>
+  </linearGradient>
+
+  <linearGradient id="shine" x1="110" y1="80" x2="620" y2="150" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFFFFF" stop-opacity="0.45"/>
+    <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+  </linearGradient>
+
+  <filter id="shadow" x="0" y="0" width="760" height="460" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#020617" flood-opacity="0.45"/>
+  </filter>
+</defs>
+
+<path
+  d="M118 118
+     C118 78 154 62 194 68
+     H566
+     C606 62 642 78 642 118
+     C694 126 714 170 690 214
+     C714 258 694 302 642 310
+     C642 350 606 366 566 360
+     H194
+     C154 366 118 350 118 310
+     C66 302 46 258 70 214
+     C46 170 66 126 118 118Z"
+  fill="url(#gold)"
+  filter="url(#shadow)"
+/>
+
+<path
+  d="M132 126
+     C132 92 162 82 196 86
+     H564
+     C598 82 628 92 628 126
+     C670 136 682 174 662 214
+     C682 254 670 292 628 302
+     C628 336 598 346 564 342
+     H196
+     C162 346 132 336 132 302
+     C90 292 78 254 98 214
+     C78 174 90 136 132 126Z"
+  fill="url(#bluePlaque)"
+/>
+
+<path
+  d="M142 134
+     C142 104 166 98 198 100
+     H562
+     C594 98 618 104 618 134
+     C650 144 658 176 642 214
+     C658 252 650 284 618 294
+     C618 324 594 330 562 328
+     H198
+     C166 330 142 324 142 294
+     C110 284 102 252 118 214
+     C102 176 110 144 142 134Z"
+  stroke="url(#gold)"
+  stroke-width="6"
+/>
+
+<path d="M180 100H580C610 100 624 114 624 144V152C624 152 520 118 380 118C240 118 136 152 136 152V144C136 114 150 100 180 100Z" fill="url(#shine)"/>
+
+<!-- top gold ornament -->
+<g transform="translate(310 0)">
+  <path d="M70 84C48 58 62 28 70 6C78 28 92 58 70 84Z" fill="url(#gold)"/>
+  <path d="M70 84C45 66 28 62 8 70C26 42 48 50 70 84Z" fill="url(#gold)"/>
+  <path d="M70 84C95 66 112 62 132 70C114 42 92 50 70 84Z" fill="url(#gold)"/>
+  <circle cx="70" cy="78" r="10" fill="#FFF7D6"/>
+</g>
+
+<!-- lower ribbon -->
+<path d="M170 320H590L560 372H200L170 320Z" fill="#061A36" stroke="url(#gold)" stroke-width="4"/>
+
+</svg>

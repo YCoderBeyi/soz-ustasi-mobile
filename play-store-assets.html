@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Play Mağaza Görselleri</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; padding: 40px; font-family: Arial, sans-serif; }
+  .section { margin-bottom: 60px; }
+  h2 { color: #f1c96a; font-size: 18px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* FEATURE GRAPHIC */
+  .feature-graphic {
+    width: 1024px; height: 500px;
+    background: linear-gradient(135deg, #0D2742 0%, #1a3a5c 40%, #2F9CC8 100%);
+    position: relative; overflow: hidden;
+    border-radius: 8px;
+  }
+  .feature-graphic::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(241,201,106,0.15) 0%, transparent 60%);
+  }
+  .fg-content { position: relative; z-index: 1; padding: 60px; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+  .fg-badge { display: inline-block; background: rgba(241,201,106,0.2); color: #f1c96a; padding: 6px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 16px; align-self: flex-start; }
+  .fg-title { font-size: 56px; font-weight: 900; color: #fff9ef; letter-spacing: -1px; line-height: 1.1; }
+  .fg-title span { color: #f1c96a; }
+  .fg-sub { font-size: 20px; color: rgba(255,249,239,0.7); margin-top: 12px; max-width: 500px; line-height: 1.5; }
+  .fg-seal { position: absolute; right: 80px; top: 50%; transform: translateY(-50%); width: 160px; height: 160px; background: radial-gradient(circle at 35% 30%, #f06270, #9f2d3e); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff9ef; font-size: 48px; font-weight: bold; box-shadow: 0 8px 40px rgba(159,45,62,0.5); }
+  .fg-seal::after { content: ''; position: absolute; inset: -8px; border: 3px solid rgba(241,201,106,0.3); border-radius: 50%; }
+  .fg-seal span { position: relative; z-index: 1; }
+
+  /* SCREENSHOTS */
+  .screenshot-row { display: flex; gap: 24px; flex-wrap: wrap; }
+  .phone-frame {
+    width: 360px; height: 720px;
+    background: #0D2742;
+    border-radius: 24px;
+    position: relative; overflow: hidden;
+    padding: 20px;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+  .phone-frame .status-bar { height: 20px; display: flex; justify-content: space-between; color: rgba(255,255,255,0.5); font-size: 11px; padding: 0 4px; margin-bottom: 12px; }
+  .phone-frame .screen-content { height: calc(100% - 40px); border-radius: 8px; overflow: hidden; position: relative; }
+
+  /* Map screenshot */
+  .mock-map { height: 100%; background: linear-gradient(180deg, #0a1a30 0%, #0D2742 50%, #1a3a5c 100%); padding: 16px; }
+  .mock-map .topbar { display: flex; justify-content: space-between; align-items: center; color: #fff9ef; font-size: 14px; margin-bottom: 16px; }
+  .mock-map .topbar .coin { color: #f1c96a; }
+  .mock-map .hero { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+  .mock-map .hero .title { color: #f1c96a; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+  .mock-map .hero h3 { color: #fff9ef; font-size: 16px; margin: 4px 0; }
+  .mock-map .hero p { color: rgba(255,249,239,0.6); font-size: 11px; }
+  .mock-map .level { display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255,255,255,0.04); border-radius: 8px; margin-bottom: 6px; }
+  .mock-map .level .dot { width: 24px; height: 24px; border-radius: 50%; background: #f06270; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; }
+  .mock-map .level .dot.done { background: #4a9; }
+  .mock-map .level .dot.locked { background: #333; }
+  .mock-map .level .info { flex: 1; }
+  .mock-map .level .info strong { color: #fff9ef; font-size: 12px; display: block; }
+  .mock-map .level .info small { color: rgba(255,249,239,0.4); font-size: 10px; }
+  .mock-map .level .reward { color: #f1c96a; font-size: 12px; }
+
+  /* Game screenshot */
+  .mock-game { height: 100%; background: radial-gradient(ellipse at 50% 0%, #1a3a5c, #0a1a30); padding: 12px; display: flex; flex-direction: column; align-items: center; }
+  .mock-game .game-topbar { width: 100%; display: flex; justify-content: space-between; color: #fff9ef; font-size: 13px; margin-bottom: 8px; }
+  .mock-game .slot-row { display: flex; gap: 4px; margin-bottom: 4px; }
+  .mock-game .slot { width: 28px; height: 28px; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: rgba(255,249,239,0.3); font-size: 11px; }
+  .mock-game .slot.filled { border-color: #f1c96a; color: #f1c96a; background: rgba(241,201,106,0.1); }
+  .mock-game .wheel { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 16px; width: 200px; }
+  .mock-game .wheel .btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: #fff9ef; font-size: 16px; }
+  .mock-game .wheel .btn.active { background: rgba(241,201,106,0.2); border-color: #f1c96a; }
+  .mock-game .meaning { width: 100%; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-top: 12px; text-align: center; }
+  .mock-game .meaning strong { color: #f1c96a; font-size: 14px; display: block; }
+  .mock-game .meaning p { color: rgba(255,249,239,0.6); font-size: 11px; margin-top: 2px; }
+  .mock-game .progress { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 12px; }
+  .mock-game .progress .fill { height: 100%; width: 67%; background: #f1c96a; border-radius: 2px; }
+
+  /* Seal screenshot */
+  .mock-seal { height: 100%; background: radial-gradient(ellipse at 50% 50%, #1a1a2e, #0a0a1a); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .mock-seal .big-seal { width: 140px; height: 140px; background: radial-gradient(circle at 35% 30%, #f06270, #9f2d3e); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 60px rgba(159,45,62,0.4); }
+  .mock-seal .big-seal span { color: #fff9ef; font-size: 36px; font-weight: bold; }
+  .mock-seal h3 { color: #f1c96a; font-size: 18px; margin-top: 16px; }
+  .mock-seal p { color: rgba(255,249,239,0.5); font-size: 12px; }
+  .mock-seal .reward-badge { margin-top: 12px; background: rgba(241,201,106,0.15); padding: 8px 20px; border-radius: 20px; color: #f1c96a; font-size: 13px; }
+
+  /* Vault screenshot */
+  .mock-vault { height: 100%; background: #0D2742; padding: 16px; }
+  .mock-vault .vault-topbar { display: flex; justify-content: space-between; color: #fff9ef; margin-bottom: 12px; }
+  .mock-vault .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+  .mock-vault .tabs button { flex: 1; padding: 6px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,249,239,0.5); border-radius: 6px; font-size: 11px; cursor: default; }
+  .mock-vault .tabs button.active { background: rgba(241,201,106,0.15); border-color: #f1c96a; color: #f1c96a; }
+  .mock-vault .card { background: rgba(255,255,255,0.04); padding: 10px; border-radius: 8px; margin-bottom: 6px; }
+  .mock-vault .card strong { color: #f1c96a; font-size: 13px; display: block; }
+  .mock-vault .card p { color: rgba(255,249,239,0.5); font-size: 10px; }
+
+  /* Onboard screenshot */
+  .mock-onboard { height: 100%; background: linear-gradient(180deg, #0D2742, #1a2a4e); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+  .mock-onboard .demo { display: flex; gap: 8px; margin: 16px 0; }
+  .mock-onboard .demo span { width: 40px; height: 40px; border-radius: 8px; background: rgba(241,201,106,0.15); border: 1px solid rgba(241,201,106,0.3); display: flex; align-items: center; justify-content: center; color: #f1c96a; font-size: 18px; }
+  .mock-onboard h2 { color: #fff9ef; font-size: 22px; text-align: center; }
+  .mock-onboard p { color: rgba(255,249,239,0.5); text-align: center; font-size: 13px; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="section">
+  <h2>Feature Graphic · 1024 x 500 px</h2>
+  <div class="feature-graphic">
+    <div class="fg-content">
+      <div class="fg-badge">★ KELİME BULMACA</div>
+      <div class="fg-title">Söz <span>Ustası</span></div>
+      <div class="fg-sub">Harfleri birleştir, mührü aç.<br>Tamamen Türkçe, tamamen çevrimdışı.</div>
+      <div class="fg-seal"><span>SU</span></div>
+    </div>
+  </div>
+  <p style="color:#888;font-size:12px;margin-top:8px;">→ Tarayıcıda aç, sağ tıkla "Resim olarak kaydet" (PNG, 1024x500)</p>
+</div>
+
+<div class="section">
+  <h2>Ekran Görüntüleri · 360 x 720 px (5 adet)</h2>
+  <div class="screenshot-row">
+
+    <div class="phone-frame">
+      <div class="status-bar"><span>09:41</span><span>📶 🔋</span></div>
+      <div class="screen-content">
+        <div class="mock-map">
+          <div class="topbar"><span>‹</span><strong>Söz Ustası</strong><span class="coin">💎 120</span></div>
+          <div class="hero">
+            <div class="title">Mühür Yolu</div>
+            <h3>Eski İstanbul</h3>
+            <p>Kelimeleri bul, anlamını keşfet.</p>
+          </div>
+          <div class="level"><div class="dot done">✓</div><div class="info"><strong>Seviye 3</strong><small>KALE · 3 kelime</small></div><span class="reward">🪙 30</span></div>
+          <div class="level"><div class="dot done">✓</div><div class="info"><strong>Seviye 4</strong><small>SÖZ · 3 kelime</small></div><span class="reward">🪙 35</span></div>
+          <div class="level"><div class="dot">5</div><div class="info"><strong>Seviye 5</strong><small>Kapadokya · 3 kelime</small></div><span class="reward">🪙 35</span></div>
+          <div class="level"><div class="dot locked">🔒</div><div class="info"><strong>Seviye 6</strong><small>Kapadokya · 3 kelime</small></div><span class="reward">🪙 40</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone-frame">
+      <div class="status-bar"><span>09:41</span><span>📶 🔋</span></div>
+      <div class="screen-content">
+        <div class="mock-game">
+          <div class="game-topbar"><span>‹</span><strong>Seviye 16</strong><span>🪙 120 🔊</span></div>
+          <div style="margin-top:8px">
+            <div class="slot-row"><div class="slot filled">K</div><div class="slot filled">A</div><div class="slot filled">P</div><div class="slot filled">I</div></div>
+            <div class="slot-row"><div class="slot">_</div><div class="slot">_</div><div class="slot filled">L</div><div class="slot">_</div><div class="slot filled">P</div></div>
+            <div class="slot-row"><div class="slot">_</div><div class="slot">_</div><div class="slot filled">A</div><div class="slot">_</div><div class="slot">_</div></div>
+          </div>
+          <div class="meaning"><strong>KAPI</strong><p>Bir yere girip çıkmaya yarayan açıklık.</p></div>
+          <div class="wheel">
+            <div class="btn active">K</div><div class="btn">A</div><div class="btn active">P</div><div class="btn active">I</div><div class="btn">L</div>
+          </div>
+          <div class="progress"><div class="fill" style="width:75%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone-frame">
+      <div class="status-bar"><span>09:41</span><span>📶 🔋</span></div>
+      <div class="screen-content">
+        <div class="mock-seal">
+          <div class="big-seal"><span>S</span></div>
+          <h3>Söz Mührü Açıldı!</h3>
+          <p>Seviye 16 tamamlandı</p>
+          <div class="reward-badge">💎 +76 Elmas kazandın</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone-frame">
+      <div class="status-bar"><span>09:41</span><span>📶 🔋</span></div>
+      <div class="screen-content">
+        <div class="mock-vault">
+          <div class="vault-topbar"><span>‹</span><strong>Söz Hazinesi</strong><span>💎 120</span></div>
+          <div class="tabs"><button class="active">Tüm Kelimeler</button><button>Gizli</button><button>Favoriler</button></div>
+          <div class="card"><strong>KAPI</strong><p>Bir yere girip çıkmaya yarayan açıklık.<br><small>Bulundu</small></p></div>
+          <div class="card"><strong>KALP</strong><p>Kan dolaşımını sağlayan organ.<br><small>Bulundu</small></p></div>
+          <div class="card"><strong>PİL</strong><span style="color:gold;font-size:10px;margin-left:4px;">★ Gizli</span><p>Elektrik enerjisi sağlayan araç.<br><small>Bulundu</small></p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone-frame">
+      <div class="status-bar"><span>09:41</span><span>📶 🔋</span></div>
+      <div class="screen-content">
+        <div class="mock-onboard">
+          <div style="background:radial-gradient(circle,#f06270,#9f2d3e);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:bold">S</div>
+          <h2>Harfleri Birleştir</h2>
+          <p>Parmağını kaldırmadan akışı yakala.</p>
+          <div class="demo"><span>A</span><span>R</span><span>I</span></div>
+          <p style="color:#f1c96a;font-size:16px;margin-top:12px">ARI</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p style="color:#888;font-size:12px;margin-top:8px;">→ Her biri 360x720. Tarayıcıda her frame'e sağ tıkla "Resim olarak kaydet".</p>
+</div>
+
+</body>
+</html>
