@@ -66,9 +66,9 @@ export const levels51to55: LevelData[] = [
     mainWords: [
       { word: 'ÖRÜNTÜ', meaning: 'Belirli bir kurala göre düzenli biçimde yinelenen şekil veya ilişki.', difficulty: 4 },
       { word: 'ÖRTÜ', meaning: 'Bir şeyin üzerine serilen veya onu kaplayan parça.', difficulty: 3 },
-      { word: 'NÖTR', meaning: 'Yansız, tarafsız veya kimyasal açıdan tepkisiz olan.', difficulty: 3 },
     ],
     hiddenWords: [
+      { word: 'NÖTR', meaning: 'Yansız, tarafsız veya kimyasal açıdan tepkisiz olan.', reward: 19 },
       { word: 'ÜRÜN', meaning: 'Emek veya üretim sonucunda ortaya çıkan şey.', reward: 16 },
     ],
     reward: { baseCoin: 142, hiddenWordBonus: 19 },

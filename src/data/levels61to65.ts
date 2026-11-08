@@ -85,11 +85,11 @@ export const levels61to65: LevelData[] = [
     mainWords: [
       { word: 'MERCEK', meaning: 'Işığı kırarak görüntü oluşturan saydam optik parça.', difficulty: 3 },
       { word: 'KEMER', meaning: 'Giyside bele takılan şerit veya yay biçimli yapı bölümü.', difficulty: 2 },
-      { word: 'CEMRE', meaning: 'Baharın gelişini müjdeleyen sıcaklık.', difficulty: 3 },
       { word: 'KREM', meaning: 'Yumuşak kıvamlı bakım veya tatlı karışımı.', difficulty: 3 },
     ],
     hiddenWords: [
+      { word: 'CEMRE', meaning: 'Baharın gelişini müjdeleyen sıcaklık.', reward: 10 },
     ],
-    reward: { baseCoin: 178, hiddenWordBonus: 0 },
+    reward: { baseCoin: 178, hiddenWordBonus: 10 },
   },
 ];

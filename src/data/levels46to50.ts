@@ -10,11 +10,11 @@ export const levels46to50: LevelData[] = [
     letters: ['C', 'E', 'B', 'İ', 'R', 'L', 'İ'],
     mainWords: [
       { word: 'CEBİR', meaning: 'Sayılar ve bilinmeyenler arasındaki ilişkileri inceleyen matematik alanı.', difficulty: 3 },
-      { word: 'İBRE', meaning: 'Bir ölçü aletinde değeri gösteren ince hareketli parça.', difficulty: 3 },
       { word: 'İLERİ', meaning: 'Önde olan veya daha üst bir aşamaya ait olan.', difficulty: 3 },
       { word: 'BİR', meaning: 'Doğal sayıların ilki.', difficulty: 1 },
     ],
     hiddenWords: [
+      { word: 'İBRE', meaning: 'Bir ölçü aletinde değeri gösteren ince hareketli parça.', reward: 16 },
       { word: 'EL', meaning: 'Kolun bilekten parmak uçlarına kadar olan bölümü.', reward: 13 },
       { word: 'ER', meaning: 'Yiğit veya asker; erkek anlamına gelen sözcük.', reward: 13 },
     ],

@@ -86,9 +86,9 @@ export const levels66to70: LevelData[] = [
     mainWords: [
       { word: 'REÇETE', meaning: 'Hekimin ilaç ve kullanım biçimini yazdığı belge.', difficulty: 3 },
       { word: 'TERE', meaning: 'Yaprakları salata olarak kullanılan keskin tatlı bitki.', difficulty: 3 },
-      { word: 'RET', meaning: 'Bir öneri veya isteği kabul etmeme, reddetme.', difficulty: 2 },
     ],
     hiddenWords: [
+      { word: 'RET', meaning: 'Bir öneri veya isteği kabul etmeme, reddetme.', reward: 20 },
       { word: 'ET', meaning: 'Kas dokusundan oluşan besin.', reward: 20 },
     ],
     reward: { baseCoin: 188, hiddenWordBonus: 20 },

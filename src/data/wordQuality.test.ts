@@ -9,6 +9,11 @@ const dir = 'vault/07-Production/word-quality-v1';
 const approved = new Set(
   (JSON.parse(readFileSync(`${dir}/approved-words.json`, 'utf8')) as { words: string[] }).words.map(normalizeWord),
 );
+const tiers = (JSON.parse(readFileSync(`${dir}/word-tiers.json`, 'utf8')) as { tiers: Record<string, string> }).tiers;
+// Levels allowed to require more than one B-rated word. Each needs a reason; the test insists the list stays honest.
+const MORE_THAN_ONE_B_ALLOWED: Record<number, string> = {
+  10: 'Pool KALEM has no other safe word, and easing it would flatten the 6-10 block below the breather rule.',
+};
 const valuesExceptions = JSON.parse(readFileSync(`${dir}/values-exceptions.json`, 'utf8')) as Record<string, string>;
 const denied = new Set(
   Object.values(
@@ -42,6 +47,25 @@ describe('word quality gate', () => {
     const used = new Set(authored.map((item) => normalizeWord(item.word)));
     for (const word of Object.keys(valuesExceptions)) {
       expect(used.has(normalizeWord(word)), `${word} artik kullanilmiyor, istisnayi sil`).toBe(true);
+    }
+  });
+
+  it('requires at most one only-B-rated word per level, so a player is never blocked by two fuzzy words', () => {
+    const stuckRisk = levels
+      .map((level) => ({
+        id: level.levelId,
+        fuzzy: level.mainWords.map((entry) => entry.word).filter((word) => /B/.test(tiers[normalizeWord(word)] ?? 'BB')),
+      }))
+      .filter((row) => row.fuzzy.length >= 2 && !MORE_THAN_ONE_B_ALLOWED[row.id])
+      .map((row) => `L${row.id}: ${row.fuzzy.join(', ')}`);
+    expect(stuckRisk, 'ikiden fazla B-sinifi zorunlu kelime').toEqual([]);
+  });
+
+  it('keeps the exception list honest', () => {
+    for (const id of Object.keys(MORE_THAN_ONE_B_ALLOWED).map(Number)) {
+      const level = levels.find((item) => item.levelId === id);
+      const fuzzy = (level?.mainWords ?? []).filter((entry) => /B/.test(tiers[normalizeWord(entry.word)] ?? 'BB'));
+      expect(fuzzy.length, `L${id} artik istisna gerektirmiyor, listeden cikar`).toBeGreaterThanOrEqual(2);
     }
   });
 });
