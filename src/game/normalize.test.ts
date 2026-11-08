@@ -2,6 +2,11 @@ import { describe, it, expect } from 'vitest';
 import { normalizeWord } from './normalize';
 
 describe('normalizeWord', () => {
+  it('composes decomposed letters (s + cedilla, o + diaeresis) into the Turkish capitals', () => {
+    expect(normalizeWord('şar')).toBe('ŞAR');
+    expect(normalizeWord('göz')).toBe('GÖZ');
+  });
+
   it('trims whitespace', () => {
     expect(normalizeWord('  MERHABA  ')).toBe('MERHABA');
   });

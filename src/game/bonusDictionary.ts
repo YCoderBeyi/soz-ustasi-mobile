@@ -1,12 +1,11 @@
 import type { WordEntry } from '../types';
 import { normalizeWord } from './normalize';
+import { GENERATED_BONUS_MEANINGS, GENERATED_BONUS_WORDS } from '../data/bonusWords.generated';
 
 // Common, unambiguous words curated for the letter pools used by the game.
 // Lexical candidates were cross-checked against Zemberek's Turkish lexicon.
 const bonusWords: WordEntry[] = [
   { word: 'AMA', meaning: 'Karşıt iki düşünceyi birbirine bağlayan söz.' },
-  { word: 'AMEL', meaning: 'Yapılan iş, davranış veya eylem.' },
-  { word: 'KEL', meaning: 'Saçı olmayan veya saçı dökülmüş kimse.' },
   { word: 'SU', meaning: 'Canlıların yaşamı için gerekli saydam sıvı.' },
   { word: 'ŞU', meaning: 'Yakındaki veya gösterilen varlığı belirten söz.' },
   { word: 'ARK', meaning: 'Su taşımak için açılmış küçük kanal.' },
@@ -16,7 +15,6 @@ const bonusWords: WordEntry[] = [
   { word: 'ANMA', meaning: 'Birini veya bir olayı hatırlama işi.' },
   { word: 'ISLAH', meaning: 'Daha iyi duruma getirme, düzeltme işi.' },
   { word: 'UMUR', meaning: 'Önem verme ve ilgilenme durumu.' },
-  { word: 'AHİT', meaning: 'Söz verme veya karşılıklı anlaşma.' },
   { word: 'YAY', meaning: 'Ok atmaya yarayan eğri araç.' },
   { word: 'RENDE', meaning: 'Yiyecekleri küçük parçalara ayıran dişli araç.' },
   { word: 'ARYA', meaning: 'Operada tek kişinin söylediği ezgili bölüm.' },
@@ -49,7 +47,14 @@ const bonusWords: WordEntry[] = [
   { word: 'İNCE', meaning: 'Kalınlığı az olan.' },
 ];
 
-const dictionary = new Map(bonusWords.map((entry) => [normalizeWord(entry.word), entry]));
+// Hand-written meanings win; the generated tier (double-reviewed, values-filtered) carries original short meanings where authored.
+const dictionary = new Map<string, WordEntry>();
+for (const word of GENERATED_BONUS_WORDS) {
+  dictionary.set(normalizeWord(word), { word, meaning: GENERATED_BONUS_MEANINGS[word] ?? '' });
+}
+for (const entry of bonusWords) {
+  dictionary.set(normalizeWord(entry.word), entry);
+}
 
 export function findBonusDictionaryWord(word: string): WordEntry | undefined {
   return dictionary.get(normalizeWord(word));

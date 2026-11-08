@@ -6,6 +6,7 @@
 export function normalizeWord(word: string) {
   return word
     .trim()
+    .normalize('NFC')
     .toLocaleUpperCase('tr-TR')
     .normalize('NFC');
 }
