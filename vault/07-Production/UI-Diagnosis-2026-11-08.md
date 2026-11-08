@@ -53,7 +53,7 @@ Seviye başlangıcı ayrıca gerçek sağlayıcı akışında Oyna → oyun geç
 4. Oyun klavye panelinin odakta görünmesi, gerçek çoklu dokunma ve geri hareket davranışı cihazda kontrol edilmeli. Dokunarak seçim için sürekli görünür alternatif halen ürün değerlendirmesi gerektirir.
 5. Reklam gizlilik seçenekleri web sürümünde servis tarafından sessizce atlanıyor; Android consent akışı doğrulanmadan ortak servis sözleşmesi değiştirilmedi. Ödüllü reklam ve ikinci şansın başarı/iptal/hata durumları cihaz testi bekliyor.
 6. İlk oynanışta tek kelime bulup henüz mühürlememiş kullanıcı kaydı, açılışta rehberi yeniden gösterebilir; mevcut hasProgress tanımı tamamlanan seviye/kelime koleksiyonu üzerinden çalışır. **Karar:** ayrı `onboardingCompleted` alanı eklenmiyor (kayıt biçimi değişir, geçiş gerekir); kalan risk yalnızca hiç kelime bulmadan çıkan oyuncunun rehberi yeniden görmesi, kabul edildi.
-7. Rehberin gösterim çiziminde (adım 1) mühür "R" harfinin üstüne biniyor ve dar ekranda kalabalık duruyor. Görsel düzeltme bekliyor.
+7. Rehber gösterim çiziminde mühür/harf/sonuç çakışması düzeltildi (390 ve 320 genişlikte doğrulandı).
 
 ## Kaynaklar ve SSOT
 
