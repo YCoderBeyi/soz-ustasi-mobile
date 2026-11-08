@@ -1,7 +1,7 @@
 # Release Manifest
 
-- Version name: 1.2.0
-- Version code: 25
+- Version name: 1.2.1
+- Version code: 26
 - Track: Closed test, then production after eligibility
 - Data model: PlayerSave v3
 - Network access: Internet (AdMob)
@@ -16,11 +16,11 @@
 
 ## Play Release Notes
 
-Söz Ustası 1.2.0:
+Söz Ustası 1.2.1:
 - Puan ve çarpan: üst üste doğru kelimeler puanı katlar. Level sonunda kişisel rekorunu gör. Sakin Mod ile çarpansız oyna.
 - Yeni kutu görünümleri: şeker, meyve, blok.
-- Daha adil kelimeler; 74. level yenilendi.
+- Daha adil kelimeler: zor kelimeler isteğe bağlı bonusa taşındı; 74. level yenilendi.
 - Takılırsan 40 saniye sonra ücretsiz bir harf.
 - Harf çemberi daha akıcı: dışından başlayıp kaydırabilirsin.
 - İpucu, ayarlar, mağaza ve harita yenilendi.
-- Reklamlar 13+ kitleye yönelik, izin vermezsen gösterilmez.
+- Reklamlar 13+ kitleye yönelik; izin vermezsen gösterilmez.
