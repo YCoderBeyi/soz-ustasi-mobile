@@ -138,6 +138,46 @@ for (const artifact of [`artifacts/SozUstasi-${releaseManifestVersionName}-relea
   }
 }
 
+// ---- Ads readiness (only when the release declares ads) -------------------------------------------------------
+const adsMode = releaseManifest.get('Ads') ?? '';
+if (adsMode && !/^none$/i.test(adsMode)) {
+  const PUBLISHER = 'pub-2784764635828379';
+  const APP_ADS_LINE = `google.com, ${PUBLISHER}, DIRECT, f08c47fec0942fa0`;
+  const GOOGLE_TEST_ID = '3940256099942544';
+
+  // app-ads.txt must exist in both places with exactly the publisher line.
+  for (const file of ['app-ads.txt', 'public/app-ads.txt']) {
+    if (!existsSync(join(root, file))) { errors.push(`Missing ${file} (AdMob verification).`); continue; }
+    const lines = read(file).split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    if (lines.length !== 1 || lines[0] !== APP_ADS_LINE) errors.push(`${file} must contain exactly: ${APP_ADS_LINE}`);
+  }
+  if (read('app-ads.txt') !== read('public/app-ads.txt')) errors.push('app-ads.txt and public/app-ads.txt differ.');
+
+  // Ad ids must be real, from this publisher, and never Google's sample ids.
+  const adSource = read('src/services/admob.ts');
+  const stringsForAds = read('android/app/src/main/res/values/strings.xml');
+  const publisherDigits = PUBLISHER.replace('pub-', '');
+  for (const [label, text] of [['admob.ts', adSource], ['strings.xml', stringsForAds]]) {
+    if (text.includes(GOOGLE_TEST_ID)) errors.push(`${label} contains a Google sample ad id.`);
+    for (const id of text.match(/ca-app-pub-\d+/g) ?? []) {
+      if (id !== `ca-app-pub-${publisherDigits}`) errors.push(`${label}: ad id ${id} does not belong to ${PUBLISHER}.`);
+    }
+  }
+
+  // The audience declaration must exist and match the store listing (13+, not child-directed).
+  if (!/tagForChildDirectedTreatment:\s*false/.test(adSource)) errors.push('admob.ts must declare tagForChildDirectedTreatment: false (13+ audience).');
+  if (!/maxAdContentRating:\s*MaxAdContentRating\.ParentalGuidance/.test(adSource)) errors.push('admob.ts must cap ad content at ParentalGuidance.');
+  if (!/13 yaş/.test(read('vault/07-Production/Google-Play-Listing-v1.md'))) errors.push('Store listing must state the 13+ target age.');
+  if (!/13 yaşın altındaki çocuklara yönelik değildir/.test(privacy)) errors.push('Privacy policy must state that the app is not for children under 13.');
+  if (/çocuklara yönelik reklam kurallarına uygun/.test(privacy)) errors.push('Privacy policy still claims child-directed ad settings the app does not use.');
+
+  // Ads must never be requested without consent.
+  if (!/adsAllowed/.test(adSource)) errors.push('admob.ts must gate ad requests on consent (adsAllowed).');
+
+  // Production builds must not run in test mode.
+  if (!/IS_TESTING\s*=\s*import\.meta\.env\.DEV/.test(adSource)) errors.push('admob.ts test mode must come from import.meta.env.DEV only.');
+}
+
 for (const warning of warnings) console.warn(`WARN ${warning}`);
 for (const error of errors) console.error(`ERR ${error}`);
 
