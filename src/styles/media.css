@@ -228,9 +228,6 @@
     min-height: 62px;
   }
 
-  .map-screen--premium .map-journey {
-    inset: 142px 0 146px;
-  }
 
   .modal.levelModal.levelModal--premium {
     max-height: calc(100dvh - 18px);
@@ -263,7 +260,4 @@
     top: calc(max(20px, env(safe-area-inset-top)) + 72px);
   }
 
-  .map-screen--premium .map-journey {
-    inset: 132px 0 138px;
-  }
 }

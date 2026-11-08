@@ -655,8 +655,7 @@
 
 .map-screen--premium .map-topbar,
 .map-screen--premium .map-daily-card,
-.map-screen--premium .map-mastery,
-.map-screen--premium .map-dot {
+.map-screen--premium .map-mastery {
   backdrop-filter: blur(12px);
 }
 
@@ -713,7 +712,3 @@
   z-index: 2;
 }
 
-.map-screen--premium .map-path-glow {
-  opacity: 0.68;
-  filter: sepia(0.24) saturate(1.12);
-}

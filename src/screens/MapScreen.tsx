@@ -7,26 +7,22 @@ import { BottomNav } from '../components/ui/BottomNav';
 import './MapScreen.css';
 import '../styles/map.css';
 
-const PATH_POSITIONS = [
-  { x: 31, y: 84 },
-  { x: 66, y: 71 },
-  { x: 37, y: 57 },
-  { x: 68, y: 43 },
-  { x: 38, y: 29 },
-  { x: 63, y: 15 },
+// Level nodes live in the coordinate space of map-diorama-v2 (941x1672), not of the screen: x/y are percentages of the
+// image and k is the platform width as a fraction of the image width. The map stage reproduces the background's
+// "cover" crop, so a node stays on its platform at every screen shape. The image has seven platforms; the lowest one
+// sits behind the bottom navigation, so levels 1-6 use platforms 2-7 (measured from the image).
+const PLATFORMS = [
+  { x: 49.0, y: 69.6, k: 0.148 },
+  { x: 59.6, y: 56.8, k: 0.117 },
+  { x: 51.1, y: 46.8, k: 0.117 },
+  { x: 66.2, y: 38.7, k: 0.09 },
+  { x: 52.0, y: 32.4, k: 0.083 },
+  { x: 64.4, y: 26.7, k: 0.072 },
 ];
-const LEVELS_PER_REGION = PATH_POSITIONS.length;
+const LEVELS_PER_REGION = PLATFORMS.length;
 
 function getNodePositions(count: number) {
-  if (count <= PATH_POSITIONS.length) return PATH_POSITIONS.slice(0, count);
-  const positions: { x: number; y: number }[] = [];
-  for (let i = 0; i < count; i++) {
-    const t = count > 1 ? i / (count - 1) : 0;
-    const x = 33 + 35 * t + Math.sin(t * Math.PI * 2) * 12;
-    const y = 88 - 70 * t;
-    positions.push({ x: Math.round(x), y: Math.round(y) });
-  }
-  return positions;
+  return PLATFORMS.slice(0, count);
 }
 
 function getNodeState(
@@ -72,6 +68,8 @@ export function MapScreen() {
   const [activeIndex, setActiveIndex] = useState(initialIndex);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const touchDeltaRef = useRef(0);
+  const touchVerticalRef = useRef(0);
+  const regionsRef = useRef<HTMLDivElement>(null);
 
   const activeGroup = regionGroups[activeIndex] ?? regionGroups[0];
   const activeTheme = activeGroup.theme;
@@ -89,30 +87,38 @@ export function MapScreen() {
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     touchDeltaRef.current = 0;
+    touchVerticalRef.current = 0;
   }, []);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!touchStartRef.current) return;
     touchDeltaRef.current = e.touches[0].clientX - touchStartRef.current.x;
+    touchVerticalRef.current = e.touches[0].clientY - touchStartRef.current.y;
   }, []);
 
   const handleTouchEnd = useCallback(() => {
     const delta = touchDeltaRef.current;
-    if (Math.abs(delta) > 50) {
+    if (Math.abs(delta) > 50 && Math.abs(delta) > Math.abs(touchVerticalRef.current)) {
       handleSwipe(delta < 0 ? 'left' : 'right');
     }
     touchStartRef.current = null;
     touchDeltaRef.current = 0;
+    touchVerticalRef.current = 0;
   }, [handleSwipe]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof Element && e.target.closest('input, textarea, select, [contenteditable="true"], [role="dialog"]')) return;
       if (e.key === 'ArrowLeft') handleSwipe('left');
       else if (e.key === 'ArrowRight') handleSwipe('right');
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleSwipe]);
+
+  useEffect(() => {
+    regionsRef.current?.querySelector<HTMLElement>('[aria-current="true"]')?.scrollIntoView?.({ block: 'nearest', inline: 'center' });
+  }, [activeIndex]);
 
   const themeLevels = activeGroup.levels;
   const themeStars = activeGroup.earnedStars;
@@ -144,7 +150,7 @@ export function MapScreen() {
       <img className="map-bg" src="/assets/ui/map/map-diorama-v2.webp" alt="" />
       <div className="map-screen__veil" aria-hidden="true" />
 
-      {toast && <div className="map-toast">{toast}</div>}
+      {toast && <div className="map-toast" role="status">{toast}</div>}
 
       <header className="map-topbar">
         <button
@@ -193,14 +199,14 @@ export function MapScreen() {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        onTouchCancel={() => { touchStartRef.current = null; touchDeltaRef.current = 0; touchVerticalRef.current = 0; }}
       >
-        <img className="map-path-glow" src="/assets/map/path-glow-line.svg" alt="" />
-
+        <div className="map-stage">
         {themeLevels.map((item, index) => {
           const state = getNodeState(
             item.levelId, completedLevels, level.levelId, isLevelUnlocked(item),
           );
-          const pos = nodePositions[index] ?? { x: 50, y: 50 };
+          const pos = nodePositions[index] ?? PLATFORMS[PLATFORMS.length - 1];
           const isFirstUncompleted = !completedLevels.includes(item.levelId) && item.levelId === level.levelId;
 
           return (
@@ -210,19 +216,22 @@ export function MapScreen() {
               state={state}
               x={pos.x}
               y={pos.y}
+              k={pos.k}
               label={isFirstUncompleted ? 'Sıradaki' : undefined}
               onClick={() => handleNodeClick(item)}
             />
           );
         })}
+        </div>
       </section>
 
-      <div className="map-theme-dots">
+      <div ref={regionsRef} className="map-theme-dots" role="group" aria-label="Bölge seçimi">
         {regionGroups.map((group, i) => (
           <button
             key={`${group.theme.themeId}-${i}`}
             className={`map-dot ${i === activeIndex ? 'map-dot--active' : ''} ${group.isCompleted ? 'map-dot--completed' : ''} ${!group.isUnlocked ? 'map-dot--locked' : ''}`}
-            aria-label={group.theme.title}
+            aria-label={`Bölge ${i + 1}: ${group.theme.title}, seviyeler ${group.levels[0].levelId}–${group.levels[group.levels.length - 1].levelId}`}
+            aria-current={i === activeIndex ? 'true' : undefined}
             disabled={!group.isUnlocked}
             onClick={() => { play('tap'); setActiveIndex(i); }}
           />

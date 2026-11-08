@@ -239,18 +239,35 @@
 
 .map-journey {
   position: absolute;
-  inset: 150px 0 154px;
+  inset: 0;
   z-index: 10;
+  container-type: size;
+  overflow: hidden;
+  /* Only the level nodes catch taps; the swipe handlers stay on this element. */
 }
 
-.map-path-glow {
+/* The stage reproduces object-fit: cover (centered) for a 941x1672 image, so percentages inside it are image
+   coordinates and every node stays on its platform. */
+.map-stage {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  opacity: 0.5;
+  left: 50%;
+  top: 50%;
+  width: max(100cqw, calc(100cqh * 941 / 1672));
+  height: max(100cqh, calc(100cqw * 1672 / 941));
+  transform: translate(-50%, -50%);
+  container-type: size;
 }
+
+.map-stage .level-node.level-node {
+  width: max(var(--ui-touch-floor), calc(var(--k, 0.1) * 100cqw));
+  height: max(var(--ui-touch-floor), calc(var(--k, 0.1) * 100cqw));
+}
+
+.map-stage .level-node--active.level-node--active {
+  width: max(52px, calc(var(--k, 0.1) * 115cqw));
+  height: max(52px, calc(var(--k, 0.1) * 115cqw));
+}
+
 
 .map-theme-dots {
   position: absolute;
@@ -261,11 +278,16 @@
   display: flex;
   align-items: center;
   gap: 0;
+  width: calc(100% - 24px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
 }
 
 .map-dot {
   position: relative;
-  width: 28px;
+  width: var(--ui-touch-floor);
+  flex: 0 0 var(--ui-touch-floor);
   height: var(--ui-touch-floor);
   border: 0;
   border-radius: 0;
