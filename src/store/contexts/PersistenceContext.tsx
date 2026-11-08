@@ -1,11 +1,12 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from 'react';
 import type { LevelData, LevelMastery, WordEntry, DailyChallenge, LevelStats } from '../../types';
 import type { ObjectiveKey } from '../../game/objectives';
 import { chooseBestMastery } from '../../game/objectives';
 import { normalizeWord } from '../../game/normalize';
-import { loadPlayerSave, persistPlayerSave, resolveCollectedWords } from '../../game/playerSave';
+import { loadPlayerSave, persistPlayerSave, resolveCollectedWords, CURRENT_SAVE_VERSION } from '../../game/playerSave';
 import { getDailyChallenge, claimDailyReward as claimDaily } from '../../game/dailyChallenge';
 import { saveLevelStats, updateLevelStats } from '../../game/levelStats';
+import { rewardKeyPrefix } from '../../game/lexicon';
 import { levels } from '../../data/levels';
 
 type PersistenceState = {
@@ -22,6 +23,7 @@ type PersistenceState = {
   soundVolume: number;
   hapticsEnabled: boolean;
   reduceMotion: boolean;
+  calmMode: boolean;
 };
 
 type PersistenceActions = {
@@ -39,7 +41,9 @@ type PersistenceActions = {
   setSoundVolume: (value: number) => void;
   setHapticsEnabled: (value: boolean) => void;
   setReduceMotion: (value: boolean) => void;
-  updateStats: (levelId: number, time: number, streak: number) => void;
+  setCalmMode: (value: boolean) => void;
+  /** Records the run and returns the best score stored before it (0 when none). */
+  updateStats: (levelId: number, time: number, streak: number, score?: number) => number;
   claimDailyReward: () => void;
 };
 
@@ -66,6 +70,7 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
   const [soundVolume, setSoundVolume] = useState(save.soundVolume);
   const [hapticsEnabled, setHapticsEnabled] = useState(save.hapticsEnabled);
   const [reduceMotion, setReduceMotion] = useState(save.reduceMotion);
+  const [calmMode, setCalmMode] = useState(save.calmMode);
   // levelStats are read from the migrated player save (loadPlayerSave already
   // merges + removes the legacy soz-stats-v1 key). Reading via loadLevelStats()
   // here returned {} on every restart because the legacy key was already gone,
@@ -84,12 +89,12 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     persistPlayerSave({
-      ...loadPlayerSave(), version: 2, currentLevelId, completedLevels, awardedLevels, rewardedWordKeys,
+      ...loadPlayerSave(), version: CURRENT_SAVE_VERSION, currentLevelId, completedLevels, awardedLevels, rewardedWordKeys,
       collectedWords: collectedWords.map((w) => w.word), favoriteWords,
-      soundEnabled, soundVolume, hapticsEnabled, reduceMotion, levelMastery, levelStats,
+      soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, levelMastery, levelStats,
     });
   }, [completedLevels, awardedLevels, rewardedWordKeys, levelMastery, collectedWords, favoriteWords,
-      currentLevelId, soundEnabled, soundVolume, hapticsEnabled, reduceMotion, levelStats]);
+      currentLevelId, soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, levelStats]);
 
   const isLevelUnlocked = useCallback((candidate: LevelData) => {
     if (candidate.levelId === 1) return true;
@@ -112,9 +117,9 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
   const isWordRewarded = useCallback((key: string) => rewardedWordKeys.includes(key), [rewardedWordKeys]);
 
   // Count of bonus words already rewarded for a level. Persisted across replays
-  // so the MAX_REWARDED_BONUS_WORDS cap can't be reset by re-entering the level.
+  // so the bonus coin curve can't be reset by re-entering the level.
   const countRewardedBonus = useCallback(
-    (levelId: number) => rewardedWordKeys.filter((key) => key.startsWith(`${levelId}:bonus:`)).length,
+    (levelId: number) => rewardedWordKeys.filter((key) => key.startsWith(rewardKeyPrefix(levelId, 'bonus'))).length,
     [rewardedWordKeys],
   );
 
@@ -135,12 +140,17 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
     setFavoriteWords((prev) => prev.includes(word) ? prev.filter((w) => w !== word) : [...prev, word]);
   }, []);
 
-  const updateStats = useCallback((levelId: number, time: number, streak: number) => {
+  const levelStatsRef = useRef(levelStats);
+  levelStatsRef.current = levelStats;
+
+  const updateStats = useCallback((levelId: number, time: number, streak: number, score = 0) => {
+    const previousBest = levelStatsRef.current[levelId]?.bestScore ?? 0;
     setLevelStats((prev) => {
-      const updated = updateLevelStats(prev, levelId, time, streak, true);
+      const updated = updateLevelStats(prev, levelId, time, streak, true, score);
       saveLevelStats(updated);
       return updated;
     });
+    return previousBest;
   }, []);
 
   const claimDailyRewardImpl = useCallback(() => {
@@ -153,11 +163,11 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
   const value: PersistenceContextValue = {
     currentLevelId, completedLevels, awardedLevels, rewardedWordKeys, levelMastery,
     collectedWords, favoriteWords, levelStats, dailyChallenge,
-    soundEnabled, soundVolume, hapticsEnabled, reduceMotion,
+    soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode,
     setCurrentLevelId, isLevelUnlocked, markLevelCompleted, markLevelAwarded,
     markWordRewarded, isWordRewarded, countRewardedBonus,
     mergeMastery, addCollectedWord, toggleFavorite,
-    setSoundEnabled, setSoundVolume, setHapticsEnabled, setReduceMotion, updateStats,
+    setSoundEnabled, setSoundVolume, setHapticsEnabled, setReduceMotion, setCalmMode, updateStats,
     claimDailyReward: claimDailyRewardImpl,
   };
 

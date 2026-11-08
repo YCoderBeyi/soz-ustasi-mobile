@@ -1,9 +1,10 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { ResourceProvider } from './contexts/ResourceContext';
 import { SessionProvider } from './contexts/SessionContext';
 import { PersistenceProvider, usePersistence } from './contexts/PersistenceContext';
 import { useResource } from './contexts/ResourceContext';
 import { GameContextBridge } from './GameContext';
+import { initializeAdMob } from '../services/admob';
 
 function ResourceProviderBridge({ children }: { children: ReactNode }) {
   const { soundEnabled, soundVolume, hapticsEnabled } = usePersistence();
@@ -21,7 +22,7 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
     awardedLevels,
     markLevelCompleted, markLevelAwarded, markWordRewarded, isWordRewarded, countRewardedBonus,
     mergeMastery, addCollectedWord, updateStats,
-    dailyChallenge, claimDailyReward,
+    dailyChallenge, claimDailyReward, calmMode,
   } = usePersistence();
   return (
     <SessionProvider
@@ -44,6 +45,7 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
       dailyChallenge={dailyChallenge}
       claimDailyReward={claimDailyReward}
       selectedThemeId={selectedThemeId}
+      calmMode={calmMode}
     >
       {children}
     </SessionProvider>
@@ -51,6 +53,10 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
 }
 
 export function GameProvider({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    void initializeAdMob();
+  }, []);
+
   return (
     <PersistenceProvider>
       <ResourceProviderBridge>

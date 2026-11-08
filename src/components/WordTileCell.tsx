@@ -23,11 +23,6 @@ export function WordTileCell({
 
   return (
     <span className={`wordTileCell ${filled ? 'wordTileCellFilled' : ''} ${active ? 'wordTileCellActive' : ''} ${className}`} style={style}>
-      <img
-        src={`/assets/gameplay/wheel-v3/${filled ? 'letter-selected' : 'letter'}.png`}
-        className="wordTileBg"
-        alt=""
-      />
       {number ? <small className="wordTileNumber">{number}</small> : null}
       {letter ? <span className="wordTileChar">{letter}</span> : null}
     </span>

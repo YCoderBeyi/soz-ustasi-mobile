@@ -25,6 +25,26 @@ describe('PersistenceContext', () => {
     expect(result.current.completedLevels).toContain(1);
   });
 
+  it('persists calm mode across restarts and defaults to off', () => {
+    localStorage.clear();
+    const first = renderHook(() => usePersistence(), { wrapper: PersistenceProvider });
+    expect(first.result.current.calmMode).toBe(false);
+    act(() => first.result.current.setCalmMode(true));
+    first.unmount();
+    const second = renderHook(() => usePersistence(), { wrapper: PersistenceProvider });
+    expect(second.result.current.calmMode).toBe(true);
+  });
+
+  it('returns the previous best score and keeps the highest', () => {
+    const { result } = renderHook(() => usePersistence(), { wrapper: PersistenceProvider });
+    let before = -1;
+    act(() => { before = result.current.updateStats(7, 30, 2, 200); });
+    expect(before).toBe(0);
+    act(() => { before = result.current.updateStats(7, 28, 2, 150); });
+    expect(before).toBe(200);
+    expect(result.current.levelStats[7]?.bestScore).toBe(200);
+  });
+
   it('persists levelStats across app restarts', () => {
     localStorage.clear();
     const first = renderHook(() => usePersistence(), { wrapper: PersistenceProvider });

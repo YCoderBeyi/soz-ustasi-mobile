@@ -76,6 +76,8 @@ export type LevelStats = {
   bestStreak: number;
   attempts: number;
   completions: number;
+  /** Best run score; absent on saves from before the score engine. */
+  bestScore?: number;
 };
 
 export type DailyChallenge = {

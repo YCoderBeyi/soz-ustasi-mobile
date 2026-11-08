@@ -3,13 +3,19 @@ import type { ObjectiveKey } from './objectives';
 import { toRunMastery } from './objectives';
 import { levels, initialLevel } from '../data/levels';
 import { normalizeWord } from './normalize';
+import { rewardKey } from './lexicon';
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
+export type AdWatchStats = {
+  date: string;
+  count: number;
+};
+
 export type PlayerSave = {
-  version: 2;
+  version: 3;
   currentLevelId: number;
   coins: number;
   completedLevels: number[];
@@ -21,6 +27,8 @@ export type PlayerSave = {
   soundVolume: number;
   hapticsEnabled: boolean;
   reduceMotion: boolean;
+  /** Calm mode: score without the combo multiplier. */
+  calmMode: boolean;
   levelMastery: Record<number, LevelMastery>;
   ownedShopItems: string[];
   selectedThemeId: string | null;
@@ -29,6 +37,7 @@ export type PlayerSave = {
   doublerRemaining: number;
   freeHintNext: boolean;
   levelStats: Record<number, LevelStats>;
+  adWatchStats: AdWatchStats;
 };
 
 export type Feedback = 'correct' | 'wrong' | 'unknown' | 'hidden' | 'hint' | 'shuffle' | 'seal' | null;
@@ -37,7 +46,7 @@ export type Feedback = 'correct' | 'wrong' | 'unknown' | 'hidden' | 'hint' | 'sh
 // Constants
 // ---------------------------------------------------------------------------
 
-export const CURRENT_SAVE_VERSION = 2;
+export const CURRENT_SAVE_VERSION = 3;
 const SAVE_KEY = 'soz-ustasi-player-v1';
 const LEGACY_STATS_KEY = 'soz-stats-v1';
 
@@ -47,7 +56,7 @@ const LEGACY_STATS_KEY = 'soz-stats-v1';
 
 export function getDefaultSave(): PlayerSave {
   return {
-    version: 2,
+    version: 3,
     currentLevelId: initialLevel.levelId,
     coins: 120,
     completedLevels: [],
@@ -59,6 +68,7 @@ export function getDefaultSave(): PlayerSave {
     soundVolume: 80,
     hapticsEnabled: true,
     reduceMotion: false,
+    calmMode: false,
     levelMastery: {},
     ownedShopItems: [],
     selectedThemeId: null,
@@ -67,6 +77,7 @@ export function getDefaultSave(): PlayerSave {
     doublerRemaining: 0,
     freeHintNext: false,
     levelStats: {},
+    adWatchStats: { date: '', count: 0 },
   };
 }
 
@@ -93,8 +104,14 @@ function migrateV1ToV2(raw: RawSave): RawSave {
   return { ...raw, version: 2, levelStats: { ...(raw.levelStats as object | undefined), ...levelStats } };
 }
 
+/** Lift a v2 save to v3; adWatchStats is filled by sanitize. */
+function migrateV2ToV3(raw: RawSave): RawSave {
+  return { ...raw, version: 3 };
+}
+
 const MIGRATIONS: Record<number, (raw: RawSave) => RawSave> = {
   1: migrateV1ToV2,
+  2: migrateV2ToV3,
 };
 
 /**
@@ -134,9 +151,19 @@ function sanitizeLevelStats(raw: unknown): Record<number, LevelStats> {
       bestStreak: typeof s.bestStreak === 'number' && s.bestStreak >= 0 ? s.bestStreak : 0,
       attempts: typeof s.attempts === 'number' && s.attempts >= 0 ? s.attempts : 0,
       completions: typeof s.completions === 'number' && s.completions >= 0 ? s.completions : 0,
+      ...(typeof s.bestScore === 'number' && s.bestScore >= 0 ? { bestScore: s.bestScore } : {}),
     };
   }
   return result;
+}
+
+function sanitizeAdWatchStats(raw: unknown): AdWatchStats {
+  const s = (raw ?? {}) as Partial<AdWatchStats>;
+  const date = typeof s.date === 'string' ? s.date : '';
+  const count = typeof s.count === 'number' && Number.isFinite(s.count)
+    ? Math.max(0, Math.floor(s.count))
+    : 0;
+  return { date, count };
 }
 
 function sanitize(data: RawSave): PlayerSave {
@@ -156,7 +183,7 @@ function sanitize(data: RawSave): PlayerSave {
   const migratedRewardedWordKeys = levels.flatMap((level) =>
     level.hiddenWords
       .filter((entry) => collectedWords.some((word) => normalizeWord(word) === normalizeWord(entry.word)))
-      .map((entry) => `${level.levelId}:hidden:${normalizeWord(entry.word)}`)
+      .map((entry) => rewardKey(level.levelId, 'hidden', entry.word))
   );
   const rewardedWordKeys = Array.isArray(data.rewardedWordKeys)
     ? [...new Set((data.rewardedWordKeys as unknown[]).filter((key): key is string => typeof key === 'string'))]
@@ -197,7 +224,7 @@ function sanitize(data: RawSave): PlayerSave {
     ? data.selectedSealId : null;
 
   return {
-    version: 2,
+    version: 3,
     currentLevelId,
     coins: typeof data.coins === 'number' && Number.isFinite(data.coins) && data.coins >= 0
       ? Math.floor(data.coins)
@@ -215,6 +242,7 @@ function sanitize(data: RawSave): PlayerSave {
       : 80,
     hapticsEnabled: data.hapticsEnabled !== false,
     reduceMotion: data.reduceMotion === true,
+    calmMode: data.calmMode === true,
     levelMastery,
     ownedShopItems,
     selectedThemeId,
@@ -223,6 +251,7 @@ function sanitize(data: RawSave): PlayerSave {
     doublerRemaining: typeof data.doublerRemaining === 'number' ? Math.max(0, data.doublerRemaining) : 0,
     freeHintNext: data.freeHintNext === true,
     levelStats: sanitizeLevelStats(data.levelStats),
+    adWatchStats: sanitizeAdWatchStats(data.adWatchStats),
   };
 }
 

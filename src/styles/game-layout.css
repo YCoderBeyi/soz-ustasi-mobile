@@ -1,0 +1,23 @@
+/* The ONLY place that decides how the game screen's height is shared between the board and the wheel.
+   Everything is derived from the viewport height, so short phones keep usable tiles and tall phones use their space,
+   and the bottom always keeps a safe margin (gesture bar / notch aware). No per-breakpoint size overrides elsewhere. */
+.screen.gameRef {
+  /* Measured height of everything that is not board or wheel: top bar, stats row, gaps, controls row. */
+  --layout-chrome: 220px;
+  --layout-safe-bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
+  --layout-room: calc(100dvh - var(--layout-chrome) - var(--layout-safe-bottom));
+  --board-h: clamp(140px, calc(var(--layout-room) * 0.5), 340px);
+  --wheel-d: clamp(150px, calc(var(--layout-room) - var(--board-h)), 331px);
+  grid-template-rows: 56px auto minmax(0, 1fr);
+}
+.screen.gameRef .gameGridPanel { min-height: 0; max-height: var(--board-h); }
+.screen.gameRef .wheelRing {
+  width: min(var(--wheel-d), 84cqw);
+  height: min(var(--wheel-d), 84cqw);
+}
+.screen.gameRef .wheelLetter {
+  width: clamp(44px, calc(var(--wheel-d) * 0.185), 60px);
+  height: clamp(44px, calc(var(--wheel-d) * 0.185), 60px);
+}
+.screen.gameRef .wheelLetterChar { font-size: clamp(16px, calc(var(--wheel-d) * 0.075), 26px); }
+.screen.gameRef .wheelControls { margin-top: 28px; }

@@ -5,6 +5,7 @@ import '../styles/seal.css';
 import { useGame } from '../store/GameContext';
 import { levels } from '../data/levels';
 import { normalizeWord } from '../game/normalize';
+import { collectionProgress } from '../game/collectionMilestones';
 import { BottomNav } from '../components/ui/BottomNav';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { TabPill3D } from '../components/TabPill3D';
@@ -25,6 +26,8 @@ export function DictionaryScreen() {
   const { play, setScreen, collectedWords, favoriteWords, toggleFavorite, theme } = useGame();
   const [tab, setTab] = useState<DictTab>('all');
 
+  const progress = collectionProgress(collectedWords.length);
+
   const filtered = tab === 'all' ? collectedWords
     : tab === 'hidden' ? collectedWords.filter((w) => isHiddenWord(w.word))
     : collectedWords.filter((w) => favoriteWords.includes(w.word));
@@ -38,6 +41,23 @@ export function DictionaryScreen() {
         <TabPill3D label="Favoriler" active={tab === 'favorites'} onClick={() => { play('tap'); setTab('favorites'); }} />
       </div>
       <div className="vaultScroll">
+        <section className="collectionProgress" aria-label="Koleksiyon ilerlemesi">
+          <strong>{progress.count} kelime keşfedildi</strong>
+          <div
+            className="collectionBar"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(progress.ratio * 100)}
+          >
+            <span style={{ width: `${Math.round(progress.ratio * 100)}%` }} />
+          </div>
+          <small>
+            {progress.next === null
+              ? 'Tüm kilometre taşlarına ulaştın.'
+              : `Sıradaki kilometre taşı: ${progress.next} kelime`}
+          </small>
+        </section>
         {filtered.length === 0 ? (
           <div className="dictionaryEmptyZone">
             <MeaningCard3D className="emptyMeaningCard">

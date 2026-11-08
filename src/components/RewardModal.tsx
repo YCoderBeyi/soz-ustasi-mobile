@@ -20,7 +20,7 @@ type RewardItem = {
 
 export function RewardModal() {
   const {
-    level, rewardSummary, levelMastery, earnedObjectives, goToNextLevel, play,
+    level, rewardSummary, scoreSummary, levelMastery, earnedObjectives, goToNextLevel, play,
   } = useGame();
   // Both the backdrop/X (onClose) and the primary button advance the level.
   // goToNextLevel has no idempotency guard, so a fast double activation (button
@@ -77,22 +77,6 @@ export function RewardModal() {
           <img src="/assets/reward/v2/history.png" alt="" />
           <div><span>YENİ KEŞİF</span><strong>{story.title}</strong></div>
         </div>
-        <article className="rewardStory">
-          <div className="storyMeta"><span>{story.era}</span><span>{story.place}</span></div>
-          <p>{story.body}</p>
-          {story.impact && (
-            <p className="storyImpact"><b>Neden önemli?</b> {story.impact}</p>
-          )}
-          {story.today && (
-            <p className="storyToday"><b>Bugün nerede?</b> {story.today}</p>
-          )}
-          {story.person && (
-            <div className="storyPerson">
-              <small>Öne çıkan isim: <b>{story.person}</b></small>
-              {story.personInfo && <p>{story.personInfo}</p>}
-            </div>
-          )}
-        </article>
         <section className="rewardMastery" aria-label="Seviye ustalığı">
           <div className="rewardStars3d" aria-label={`${displayedMastery.stars} yıldız`}>
             {[1, 2, 3].map((star) => (
@@ -110,6 +94,15 @@ export function RewardModal() {
             </p>
           ))}
         </section>
+        <section className="rewardScore" aria-label="Seviye puanı">
+          <span>PUAN</span>
+          <strong>{scoreSummary.score}</strong>
+          {scoreSummary.isRecord ? (
+            <small className="rewardScoreRecord">Yeni kişisel rekor! Önceki: {scoreSummary.previousBest}</small>
+          ) : scoreSummary.previousBest > 0 ? (
+            <small>En iyi: {scoreSummary.previousBest}</small>
+          ) : null}
+        </section>
         {rewardItems.length > 0 ? (
           <div className="rewardSummary3d">
             {rewardItems.map((item) => (
@@ -122,6 +115,22 @@ export function RewardModal() {
         ) : (
           <p className="modalWarning">Bu mühür daha önce ödüllendirildi.</p>
         )}
+        <article className="rewardStory">
+          <div className="storyMeta"><span>{story.era}</span><span>{story.place}</span></div>
+          <p>{story.body}</p>
+          {story.impact && (
+            <p className="storyImpact"><b>Neden önemli?</b> {story.impact}</p>
+          )}
+          {story.today && (
+            <p className="storyToday"><b>Bugün nerede?</b> {story.today}</p>
+          )}
+          {story.person && (
+            <div className="storyPerson">
+              <small>Öne çıkan isim: <b>{story.person}</b></small>
+              {story.personInfo && <p>{story.personInfo}</p>}
+            </div>
+          )}
+        </article>
       </div>
       <div className="rewardActions rewardActionsSticky">
         <Button3D variant={isFinal ? 'blue' : 'green'} onClick={advance}>

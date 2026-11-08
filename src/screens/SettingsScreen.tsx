@@ -1,11 +1,12 @@
 import '../styles/settings.css';
 import { useGame } from '../store/GameContext';
 import { ActionIconButton } from '../components/ActionIconButton';
+import { showAdPrivacyOptions } from '../services/admob';
 
 export function SettingsScreen() {
   const {
     setScreen, play, soundEnabled, setSoundEnabled, soundVolume, setSoundVolume,
-    hapticsEnabled, setHapticsEnabled, setModal,
+    hapticsEnabled, setHapticsEnabled, calmMode, setCalmMode, setModal,
   } = useGame();
   const soundActive = soundEnabled && soundVolume > 0;
 
@@ -66,11 +67,20 @@ export function SettingsScreen() {
           <span><strong>Dokunsal Geri Bildirim</strong><small>Dokunuşlarda titreşim kullan</small></span>
           <i className={hapticsEnabled ? 'active' : ''}><b /></i>
         </button>
-        <div className="settingsAbout"><span>Sürüm</span><strong>Söz Ustası 1.0.14</strong></div>
+        <button className="settingsItem" onClick={() => { play('tap'); setCalmMode(!calmMode); }}>
+          <span><strong>Sakin Mod</strong><small>Çarpansız, yalnızca keşfin tadı için oyna</small></span>
+          <i className={calmMode ? 'active' : ''}><b /></i>
+        </button>
+        <button className="settingsItem" onClick={() => { play('tap'); void showAdPrivacyOptions(); }}>
+          <span><strong>Reklam Gizlilik Tercihleri</strong><small>Google reklam gizlilik seçeneklerini yönet</small></span>
+          <b aria-hidden="true">›</b>
+        </button>
+        <div className="settingsAbout"><span>Sürüm</span><strong>Söz Ustası 1.1.0</strong></div>
       </section>
       <footer className="settingsFooter">
         <button onClick={() => { play('tap'); setModal('privacy'); }}>Gizlilik Politikası <b>&gt;</b></button>
         <p>İlerlemen yalnızca bu cihazda saklanır.</p>
+        <p>Bonus kelime adayları hunspell-tr sözlüğünden (MPL 2.0, github.com/tdd-ai/hunspell-tr) derlenip elle denetlenmiştir.</p>
       </footer>
     </main>
   );

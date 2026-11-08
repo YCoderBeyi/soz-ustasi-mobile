@@ -21,7 +21,7 @@ beforeEach(() => {
 describe('getDefaultSave', () => {
   it('returns a valid save with starting values', () => {
     const save = getDefaultSave();
-    expect(save.version).toBe(2);
+    expect(save.version).toBe(3);
     expect(save.coins).toBe(120);
     expect(save.completedLevels).toEqual([]);
     expect(save.soundEnabled).toBe(true);
@@ -33,7 +33,7 @@ describe('getDefaultSave', () => {
 describe('persistPlayerSave / loadPlayerSave', () => {
   it('round-trips a save through localStorage', () => {
     const save: PlayerSave = {
-      version: 2,
+      version: 3,
       currentLevelId: 1,
       coins: 200,
       completedLevels: [1, 2, 3],
@@ -45,6 +45,7 @@ describe('persistPlayerSave / loadPlayerSave', () => {
       soundVolume: 65,
       hapticsEnabled: true,
       reduceMotion: false,
+      calmMode: false,
       levelMastery: { 1: { stars: 3, objectives: ['complete', 'discovery', 'noHint'] } },
       ownedShopItems: [],
       selectedThemeId: null,
@@ -53,6 +54,7 @@ describe('persistPlayerSave / loadPlayerSave', () => {
       doublerRemaining: 0,
       freeHintNext: false,
       levelStats: {},
+      adWatchStats: { date: '', count: 0 },
     };
     persistPlayerSave(save);
     const loaded = loadPlayerSave();
@@ -176,9 +178,9 @@ describe('persistPlayerSave / loadPlayerSave', () => {
   it('migrates collected hidden words into one-time reward keys', () => {
     const loaded = migratePlayerSave({
       version: 2,
-      collectedWords: ['ERK'],
+      collectedWords: ['KAR'],
     });
-    expect(loaded.rewardedWordKeys).toContain('5:hidden:ERK');
+    expect(loaded.rewardedWordKeys).toContain('5:hidden:KAR');
   });
 
   it('1.0.15 -> 1.0.16 update keeps the reached level and all completed progress', () => {

@@ -1,4 +1,5 @@
 import '../styles/game.css';
+import '../styles/game-layout.css';
 import '../styles/topbar.css';
 import '../styles/seal.css';
 import '../styles/modal.css';
@@ -11,13 +12,17 @@ import { HintModal } from '../components/HintModal';
 import { PauseModal } from '../components/PauseModal';
 import { PrivacyModal } from '../components/PrivacyModal';
 import { RewardModal } from '../components/RewardModal';
+import { SecondChanceModal } from '../components/SecondChanceModal';
 import { WaxSeal } from '../components/WaxSeal';
 import { Confetti } from '../components/Confetti';
 import { V2Icon } from '../components/Icon';
 import { FavButton } from '../components/FavButton';
 import { MeaningCard3D } from '../components/MeaningCard3D';
-import { findWheelLetterAtPoint, letterCenterPercent } from '../game/wheelDrag';
+import { letterCenterPercent } from '../game/wheelDrag';
+import { useWheelGesture } from '../hooks/useWheelGesture';
 import { StreakBadge } from '../components/StreakBadge';
+import { ComboRing } from '../components/ComboRing';
+import { skinEvolution, skinForLevel } from '../game/tileSkins';
 import { Modal } from '../components/Modal';
 import { Button3D } from '../components/Button3D';
 
@@ -26,10 +31,10 @@ export function GameScreen() {
     level, theme, letters, selected, found,
     revealedLetters, meaning, toast, setToast,
     feedback, sealOpen, canSeal,
-    streak,
+    streak, score, multiplier, comboTier, comboProgress,
     coins, coinPulse,
     modal,
-    play, setModal, setScreen,
+    play, haptic, setModal, setScreen,
     shuffleLetters,
     currentWord,
     levelTransitionKey,
@@ -38,16 +43,11 @@ export function GameScreen() {
     submitWord,
     manualOpenSeal, selectedSealId,
     hiddenFound, missingHiddenCount, missingHiddenWordLengths,
-    reduceMotion,
+    reduceMotion, calmMode,
+    stallAssistOffer, acceptStallAssist, dismissStallAssist,
   } = useGame();
 
   const ringRef = useRef<HTMLDivElement>(null);
-  const tileSizeRef = useRef(56);
-  const dragSeqRef = useRef<number[]>([]);
-  const draggingRef = useRef(false);
-  const [localSelected, setLocalSelected] = useState<number[]>([]);
-  const [isDragging, setIsDragging] = useState(false);
-  const [pointerPoint, setPointerPoint] = useState<{ x: number; y: number } | null>(null);
   const [sealConfirmationOpen, setSealConfirmationOpen] = useState(false);
   const [a11ySelected, setA11ySelected] = useState<number[]>([]);
   const progressToastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -68,102 +68,20 @@ export function GameScreen() {
     manualOpenSeal();
   }, [manualOpenSeal, missingHiddenCount, play]);
 
-  const getWheelPoint = useCallback((clientX: number, clientY: number) => {
-    const ring = ringRef.current;
-    if (!ring) return null;
-    const rect = ring.getBoundingClientRect();
-    return {
-      x: ((clientX - rect.left) / rect.width) * 100,
-      y: ((clientY - rect.top) / rect.height) * 100,
-    };
-  }, []);
+  const wheel = useWheelGesture({
+    letters,
+    ringRef,
+    onSubmit: submitWord,
+    onCancel: clearSelection,
+    onLetter: () => { play('letter'); haptic(6); },
+  });
+  const { isDragging } = wheel;
 
-  const getLetterPoint = useCallback((index: number) => letterCenterPercent(index, letters.length), [letters.length]);
-
-  const findLetterAtPoint = useCallback((clientX: number, clientY: number, lastIndex: number | null = null): number | null => {
-    const ring = ringRef.current;
-    if (!ring) return null;
-    const ringRect = ring.getBoundingClientRect();
-    const sample = ring.querySelector<HTMLElement>('.wheelLetter');
-    if (sample) {
-      const rect = sample.getBoundingClientRect();
-      tileSizeRef.current = Math.min(rect.width, rect.height);
-    }
-    return findWheelLetterAtPoint(clientX, clientY, ringRect, letters.length, tileSizeRef.current, lastIndex);
-  }, [letters.length]);
-
-  const finishDrag = useCallback((pointerId: number) => {
-    const ring = ringRef.current;
-    if (ring?.hasPointerCapture(pointerId)) ring.releasePointerCapture(pointerId);
-    draggingRef.current = false;
-    setIsDragging(false);
-    setPointerPoint(null);
-  }, []);
-
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    e.preventDefault();
-    const ring = ringRef.current;
-    if (!ring) return;
-    ring.setPointerCapture(e.pointerId);
-    const idx = findLetterAtPoint(e.clientX, e.clientY, null);
-    if (idx === null) return;
-    draggingRef.current = true;
-    setIsDragging(true);
-    dragSeqRef.current = [idx];
-    setLocalSelected([idx]);
-    setPointerPoint(getWheelPoint(e.clientX, e.clientY));
-  }, [findLetterAtPoint, getWheelPoint]);
-
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (!draggingRef.current) return;
-    e.preventDefault();
-    setPointerPoint(getWheelPoint(e.clientX, e.clientY));
-    const lastIndex = dragSeqRef.current[dragSeqRef.current.length - 1] ?? null;
-    const idx = findLetterAtPoint(e.clientX, e.clientY, lastIndex);
-    if (idx === null || idx === lastIndex) return;
-    const previousIndex = dragSeqRef.current[dragSeqRef.current.length - 2];
-    if (idx === previousIndex) {
-      dragSeqRef.current = dragSeqRef.current.slice(0, -1);
-      setLocalSelected(dragSeqRef.current);
-      return;
-    }
-    if (dragSeqRef.current.includes(idx)) return;
-    play('letter');
-    dragSeqRef.current = [...dragSeqRef.current, idx];
-    setLocalSelected(dragSeqRef.current);
-  }, [findLetterAtPoint, getWheelPoint, play]);
-
-  const handlePointerUp = useCallback((e: React.PointerEvent) => {
-    if (!draggingRef.current) return;
-    e.preventDefault();
-    const lastIndex = dragSeqRef.current[dragSeqRef.current.length - 1] ?? null;
-    const idx = findLetterAtPoint(e.clientX, e.clientY, lastIndex);
-    if (idx !== null && idx !== lastIndex && !dragSeqRef.current.includes(idx)) {
-      dragSeqRef.current = [...dragSeqRef.current, idx];
-    }
-    const word = dragSeqRef.current.map((i) => letters[i]).join('');
-    dragSeqRef.current = [];
-    setLocalSelected([]);
-    finishDrag(e.pointerId);
-    if (word.length >= 2) submitWord(word);
-    else clearSelection();
-  }, [findLetterAtPoint, letters, submitWord, clearSelection, finishDrag]);
-
-  const handlePointerCancel = useCallback((e: React.PointerEvent) => {
-    if (!draggingRef.current) return;
-    dragSeqRef.current = [];
-    setLocalSelected([]);
-    finishDrag(e.pointerId);
-    clearSelection();
-  }, [clearSelection, finishDrag]);
-
-  const displaySelected = localSelected.length > 0 ? localSelected : selected;
+  const displaySelected = wheel.selected.length > 0 ? wheel.selected : selected;
   const displayWord = displaySelected.map((index) => letters[index]).join('');
 
   function clearWheelSelection() {
-    dragSeqRef.current = [];
-    setLocalSelected([]);
-    setPointerPoint(null);
+    wheel.reset();
     clearSelection();
   }
 
@@ -187,9 +105,9 @@ export function GameScreen() {
     clearSelection();
   }, [clearSelection]);
 
-  const trailPointsList = displaySelected
-    .map(getLetterPoint)
-    .concat(pointerPoint && draggingRef.current ? [pointerPoint] : []);
+  const trailPointsList = wheel.isDragging
+    ? wheel.trail
+    : displaySelected.map((index) => letterCenterPercent(index, letters.length));
 
   let trailPath = '';
   if (trailPointsList.length > 0) {
@@ -231,6 +149,31 @@ export function GameScreen() {
       </div>
 
       <section className="gameBoard" aria-label="Bulmaca alanı">
+        {stallAssistOffer && !displayWord && !meaning && (
+          <div className="gameStallOffer" role="group" aria-label="Yardım teklifi">
+            <span>Takıldın mı? Bir harfi senin için açayım.</span>
+            <button type="button" className="stallAccept" onClick={() => { play('tap'); acceptStallAssist(); }}>Aç</button>
+            <button type="button" className="stallDismiss" onClick={() => { play('tap'); dismissStallAssist(); }} aria-label="Şimdi değil">×</button>
+          </div>
+        )}
+        {displayWord && (
+          <div className="gamePreviewStrip" aria-hidden="true">
+            {[...displayWord].map((letter, index) => (
+              <span className="previewChip" key={`${index}-${letter}`}>{letter}</span>
+            ))}
+          </div>
+        )}
+        {meaning && (
+          <div className="gameMeaningOverlay">
+            <MeaningCard3D className="visible">
+              <div className="meaningHeader">
+                <strong>{meaning.word}</strong>
+                <FavButton active={favoriteWords.includes(meaning.word)} onClick={() => toggleFavorite(meaning.word)} />
+              </div>
+              <p>{meaning.meaning}</p>
+            </MeaningCard3D>
+          </div>
+        )}
         <div className="gameGridPanel">
           <V2Icon name="gridPanel" className="gameGridPanelBg" />
           <div className="gameGridPanelContent">
@@ -239,6 +182,9 @@ export function GameScreen() {
               found={found}
               revealedLetters={revealedLetters}
               currentWord={displayWord || currentWord}
+              skin={skinForLevel(level.levelId)}
+              evolution={skinEvolution(comboTier)}
+              calm={calmMode || reduceMotion}
             />
           </div>
         </div>
@@ -263,34 +209,30 @@ export function GameScreen() {
             <span className="gameStatChipLabel">Seri</span>
             <strong>{streak > 0 ? streak : '—'}</strong>
           </div>
+          <div className="gameStatChip gameScoreChip" aria-label={`Puan ${score}`}>
+            <V2Icon name="statChip" className="gameStatChipBg" />
+            <span className="gameStatChipLabel">Puan</span>
+            <strong>{score}</strong>
+            {!calmMode && <ComboRing progress={comboProgress} multiplier={multiplier} />}
+          </div>
         </div>
       </section>
 
-      <section className="gameWheelZone" aria-label="Harf çemberi">
-        {meaning && (
-          <div className="gameMeaningOverlay">
-            <MeaningCard3D className="visible">
-              <div className="meaningHeader">
-                <strong>{meaning.word}</strong>
-                <FavButton active={favoriteWords.includes(meaning.word)} onClick={() => toggleFavorite(meaning.word)} />
-              </div>
-              <p>{meaning.meaning}</p>
-            </MeaningCard3D>
-          </div>
-        )}
-        {displayWord && (
-          <div className="wheelWordPill" aria-hidden="true">
-            <span>{displayWord}</span>
-          </div>
-        )}
+      <section
+        className="gameWheelZone"
+        aria-label="Harf çemberi"
+        style={{ touchAction: 'none' }}
+        {...wheel.handlers}
+      >
         {/* Erişilebilir canlı bölgeler — görünmez, ekran okuyucuya açık */}
         <div className="visually-hidden" aria-live="polite" aria-atomic="true">
           {displayWord ? `Seçilen harfler: ${[...displayWord].join(' ')}` : ''}
+          {stallAssistOffer ? ' Takıldın mı? Bir harfi senin için açabilirim.' : ''}
         </div>
         <div className="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
           {feedback === 'correct' ? 'Doğru kelime bulundu' : ''}
           {feedback === 'hidden' ? 'Gizli kelime bulundu' : ''}
-          {feedback === 'unknown' ? 'Kelime sözlükte yok, seri bozulmadı' : ''}
+          {feedback === 'unknown' ? 'Bu giriş ödül kazandırmadı, seri bozulmadı' : ''}
           {feedback === 'wrong' ? 'Yanlış, tekrar deneyin' : ''}
         </div>
         {/* Klavye / ekran-okuyucu için harf seçimi — görünmez alternatif giriş */}
@@ -320,11 +262,6 @@ export function GameScreen() {
             ref={ringRef}
             className="wheelRing"
             data-letters={letters.length}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerCancel}
-            style={{ touchAction: 'none' }}
           >
             <img className="wheelRingFrame" src="/assets/gameplay/wheel-v3/ring.png" alt="" />
             {!displayWord && (
@@ -406,11 +343,10 @@ export function GameScreen() {
         </div>
       </section>
 
-      {toast && <div className="toast">{toast}</div>}
+      {toast && <div className="toast" role="status">{toast}</div>}
       <StreakBadge streak={streak} />
       {!reduceMotion && feedback === 'hidden' && <div className="burst hiddenBurst" aria-hidden="true" />}
       {!reduceMotion && feedback === 'correct' && <div className="burst correctBurst" aria-hidden="true" />}
-      {!reduceMotion && feedback === 'unknown' && <div className="burst hiddenBurst" aria-hidden="true" />}
       {sealOpen && (
         <>
           <div className="sealReveal" role="status" aria-label="Söz Mührü Açıldı">
@@ -430,6 +366,7 @@ export function GameScreen() {
       {modal === 'pause' && <PauseModal />}
       {modal === 'privacy' && <PrivacyModal />}
       {modal === 'reward' && <RewardModal />}
+      {modal === 'secondChance' && <SecondChanceModal />}
       {sealConfirmationOpen && (
         <Modal title="Gizli Kelimeler Kaldı" onClose={() => setSealConfirmationOpen(false)}>
           <p>

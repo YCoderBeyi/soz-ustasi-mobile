@@ -1,9 +1,24 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { SessionProvider, useSession } from './SessionContext';
 import type { LevelData } from '../../types';
 import type { DailyChallenge } from '../../types';
 import { levels } from '../../data/levels';
+import { normalizeWord } from '../../game/normalize';
+import { findBonusDictionaryWord } from '../../game/bonusDictionary';
+import { GENERATED_BONUS_WORDS } from '../../data/bonusWords.generated';
+
+vi.mock('../../services/admob', () => ({
+  showRewardedAd: vi.fn(),
+  initializeAdMob: vi.fn(),
+  showAdPrivacyOptions: vi.fn(),
+  getRewardedAdsLeftToday: vi.fn(() => 6),
+  subscribeRewardedAdsLeft: vi.fn(() => () => undefined),
+}));
+
+import { showRewardedAd } from '../../services/admob';
+
+const mockedShowRewardedAd = vi.mocked(showRewardedAd);
 
 const testLevel: LevelData = {
   levelId: 1, themeId: 'eski-istanbul', sealId: 'balon',
@@ -20,6 +35,7 @@ function createWrapper(options: {
   dailyChallenge?: DailyChallenge | null;
   claimDailyReward?: () => void;
   rewardedWordKeys?: string[];
+  secondChanceEnabled?: boolean;
 } = {}) {
   const spendHint = options.spendHint ?? vi.fn(() => true);
   const addCoins = options.addCoins ?? vi.fn();
@@ -45,10 +61,11 @@ function createWrapper(options: {
           [...rewardedWordKeys].filter((key) => key.startsWith(`${levelId}:bonus:`)).length}
         mergeMastery={vi.fn()}
         addCollectedWord={vi.fn()}
-        updateStats={vi.fn()}
+        updateStats={vi.fn(() => 0)}
         dailyChallenge={options.dailyChallenge ?? null}
         claimDailyReward={options.claimDailyReward ?? vi.fn()}
         selectedThemeId={null}
+        secondChanceEnabled={options.secondChanceEnabled ?? false}
       >
         {children}
       </SessionProvider>
@@ -74,6 +91,25 @@ describe('SessionContext', () => {
     expect(result.current.found).toEqual(['BALON']);
     expect(result.current.currentWord).toBe('');
     expect(result.current.streak).toBe(1);
+  });
+
+  it('keeps every score update when several words land in the same render', () => {
+    const { result } = renderHook(() => useSession(), { wrapper: createWrapper() });
+    act(() => result.current.startLevel({
+      ...testLevel,
+      mainWords: [
+        { word: 'BALON', meaning: 'a' }, { word: 'BAL', meaning: 'b' }, { word: 'ALON', meaning: 'c' },
+      ],
+    }));
+    act(() => {
+      result.current.submitWord('BALON');
+      result.current.submitWord('BAL');
+      result.current.submitWord('ALON');
+    });
+    // 50 + 30 + 40 with no multiplier yet (combo reaches 3 only after the third word).
+    expect(result.current.score).toBe(120);
+    act(() => result.current.submitWord('XXXXX'));
+    expect(result.current.score).toBe(120);
   });
 
   it('submitWord with wrong word resets streak', () => {
@@ -187,6 +223,36 @@ describe('SessionContext', () => {
 
     expect(result.current.revealedLetters.BALON).toHaveLength(1);
     expect(result.current.usedHint).toBe(true);
+  });
+
+  it('letter hint skips a crossword cell already visible through a found crossing word', () => {
+    const crossingLevel: LevelData = {
+      ...testLevel,
+      mainWords: [
+        { word: 'BALON', meaning: 'Birinci kelime' },
+        { word: 'BOL', meaning: 'İkinci kelime' },
+      ],
+    };
+    const { result } = renderHook(() => useSession(), { wrapper: createWrapper() });
+
+    act(() => result.current.startLevel(crossingLevel));
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.revealLetterHint());
+
+    expect(result.current.revealedLetters.BOL).toEqual([1]);
+  });
+
+  it('completes a word and unlocks the seal when its final letter is revealed by hints', () => {
+    const { result } = renderHook(() => useSession(), { wrapper: createWrapper() });
+
+    act(() => result.current.startLevel(testLevel));
+    for (let index = 0; index < testLevel.mainWords[0].word.length; index++) {
+      act(() => result.current.revealLetterHint());
+    }
+
+    expect(result.current.found).toContain('BALON');
+    expect(result.current.complete).toBe(true);
+    expect(result.current.canSeal).toBe(true);
   });
 
   it('accepts a built-in dictionary word as a bonus discovery', () => {
@@ -366,7 +432,7 @@ describe('SessionContext', () => {
     expect(addCoins).toHaveBeenCalledWith(3);
   });
 
-  it('level 34 treats KATİP as a main word and KİL as a hidden discovery', () => {
+  it('level 34 treats KATİP as a main word and TAKİP as a hidden discovery', () => {
     const addCoins = vi.fn();
     const level34 = levels.find((item) => item.levelId === 34);
     expect(level34).toBeDefined();
@@ -376,10 +442,10 @@ describe('SessionContext', () => {
 
     act(() => result.current.startLevel(level34));
     act(() => result.current.submitWord('KATİP'));
-    act(() => result.current.submitWord('KİP'));
+    act(() => result.current.submitWord('TAKİP'));
 
     expect(result.current.found).toContain('KATİP');
-    expect(result.current.hiddenFound.map((entry) => entry.word)).toContain('KİP');
+    expect(result.current.hiddenFound.map((entry) => entry.word)).toContain('TAKİP');
     expect(addCoins).toHaveBeenCalledWith(10);
   });
 
@@ -420,16 +486,62 @@ describe('SessionContext', () => {
     expect(addCoins).toHaveBeenCalledWith(20);
   });
 
-  it('does not break the streak for an unknown but plausible word', () => {
-    const { result } = renderHook(() => useSession(), { wrapper: createWrapper() });
+  it('treats a buildable word outside the reviewed lists as neutral: no streak, no reward, no penalty', () => {
+    const addCoins = vi.fn();
+    const { result } = renderHook(() => useSession(), { wrapper: createWrapper({ addCoins }) });
     act(() => result.current.startLevel(testLevel));
     act(() => result.current.submitWord('BALON'));
     act(() => result.current.submitWord('NALOB'));
 
     expect(result.current.streak).toBe(1);
     expect(result.current.feedback).toBe('unknown');
-    expect(result.current.toast).toContain('sözlüğümüzde');
+    expect(result.current.toast).toContain('listemizde yok');
     expect(result.current.wrongAttempts).toBe(0);
+    expect(addCoins).not.toHaveBeenCalled();
+  });
+
+  it('does not pay a bonus when an already-found main word is submitted again', () => {
+    const addCoins = vi.fn();
+    const { result } = renderHook(() => useSession(), { wrapper: createWrapper({ addCoins }) });
+    act(() => result.current.startLevel(testLevel));
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.submitWord('BALON'));
+
+    expect(result.current.feedback).toBe('unknown');
+    expect(result.current.toast).toContain('zaten bulundu');
+    expect(result.current.streak).toBe(1);
+    expect(result.current.wrongAttempts).toBe(0);
+    expect(addCoins).not.toHaveBeenCalled();
+  });
+
+  it('never pays a bonus for a catalog word that the level letters cannot build', () => {
+    const addCoins = vi.fn();
+    const { result } = renderHook(() => useSession(), { wrapper: createWrapper({ addCoins }) });
+    act(() => result.current.startLevel(testLevel));
+    act(() => result.current.submitWord('KULAK'));
+
+    expect(addCoins).not.toHaveBeenCalled();
+    expect(result.current.streak).toBe(0);
+    expect(result.current.feedback).toBe('wrong');
+  });
+
+  it('rewards a reviewed word without a hand-written meaning and shows no empty meaning card', () => {
+    const authored = new Set(levels.flatMap((item) =>
+      [...item.mainWords, ...item.hiddenWords].map((entry) => normalizeWord(entry.word))));
+    const pick = GENERATED_BONUS_WORDS.find((word) =>
+      [...word].length >= 4 && !authored.has(word) && !findBonusDictionaryWord(word)?.meaning);
+    expect(pick).toBeDefined();
+
+    const addCoins = vi.fn();
+    const { result } = renderHook(() => useSession(), { wrapper: createWrapper({ addCoins }) });
+    act(() => result.current.startLevel({ ...testLevel, letters: [...pick!] }));
+    act(() => result.current.submitWord(pick!));
+
+    expect(result.current.feedback).toBe('hidden');
+    expect(result.current.toast).toContain('Bonus Kelime');
+    expect(result.current.meaning).toBeNull();
+    expect(result.current.streak).toBe(1);
+    expect(addCoins).toHaveBeenCalledTimes(1);
   });
 
   it('awards a matching daily challenge once when the seal opens', () => {
@@ -452,5 +564,192 @@ describe('SessionContext', () => {
 
     expect(addCoins).toHaveBeenCalledWith(100);
     expect(claimDailyReward).toHaveBeenCalledOnce();
+  });
+});
+
+describe('SessionContext - ikinci şans ve reklamlı ipuçları', () => {
+  beforeEach(() => {
+    mockedShowRewardedAd.mockReset();
+    mockedShowRewardedAd.mockResolvedValue(true);
+  });
+
+  it('ilk yanlışta İkinci Şans modalını açar ve cezayı erteler', () => {
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper({ secondChanceEnabled: true }),
+    });
+    act(() => result.current.startLevel(testLevel));
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.submitWord('XXXXX'));
+
+    expect(result.current.modal).toBe('secondChance');
+    expect(result.current.streak).toBe(1);
+    expect(result.current.wrongAttempts).toBe(0);
+  });
+
+  it('reklam izlenirse kusursuz bonus ve seri korunur', async () => {
+    const addCoins = vi.fn();
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper({ secondChanceEnabled: true, addCoins }),
+    });
+    act(() => result.current.startLevel(testLevel));
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.submitWord('XXXXX'));
+    await act(async () => { await result.current.acceptSecondChance(); });
+
+    expect(mockedShowRewardedAd).toHaveBeenCalledOnce();
+    expect(result.current.modal).toBeNull();
+    expect(result.current.streak).toBe(1);
+    expect(result.current.wrongAttempts).toBe(0);
+
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.manualOpenSeal());
+    expect(result.current.rewardSummary.flawless).toBe(true);
+    expect(addCoins).toHaveBeenCalledWith(75); // 50 + %50 (25)
+  });
+
+  it('vazgeçilirse ceza uygulanır ve kusursuz bonus verilmez', () => {
+    const addCoins = vi.fn();
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper({ secondChanceEnabled: true, addCoins }),
+    });
+    act(() => result.current.startLevel(testLevel));
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.submitWord('XXXXX'));
+    act(() => result.current.declineSecondChance());
+
+    expect(result.current.modal).toBeNull();
+    expect(result.current.streak).toBe(0);
+    expect(result.current.wrongAttempts).toBe(1);
+
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.manualOpenSeal());
+    expect(result.current.rewardSummary.flawless).toBe(false);
+    expect(addCoins).toHaveBeenCalledWith(50);
+  });
+
+  it('ikinci şans bir kez kullanıldıktan sonra tekrar teklif edilmez', async () => {
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper({ secondChanceEnabled: true }),
+    });
+    act(() => result.current.startLevel(testLevel));
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.submitWord('XXXXX'));
+    await act(async () => { await result.current.acceptSecondChance(); });
+
+    act(() => result.current.submitWord('YYYYY'));
+    expect(result.current.modal).toBeNull();
+    expect(result.current.wrongAttempts).toBe(1);
+    expect(result.current.streak).toBe(0);
+  });
+
+  it('reklam başarısızsa İkinci Şans modalı açık kalır', async () => {
+    mockedShowRewardedAd.mockResolvedValue(false);
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper({ secondChanceEnabled: true }),
+    });
+    act(() => result.current.startLevel(testLevel));
+    act(() => result.current.submitWord('BALON'));
+    act(() => result.current.submitWord('XXXXX'));
+    await act(async () => { await result.current.acceptSecondChance(); });
+
+    expect(result.current.modal).toBe('secondChance');
+    expect(result.current.toast).toContain('Reklam');
+    expect(result.current.wrongAttempts).toBe(0);
+  });
+
+  it('anlam ipucu reklamla altın harcamadan açılır', async () => {
+    const spendHint = vi.fn(() => true);
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper({ spendHint }),
+    });
+    act(() => result.current.startLevel(testLevel));
+    await act(async () => { await result.current.revealMeaningHintViaAd(); });
+
+    expect(mockedShowRewardedAd).toHaveBeenCalledOnce();
+    expect(spendHint).not.toHaveBeenCalled();
+    expect(result.current.usedHint).toBe(true);
+    expect(result.current.meaning?.meaning).toBe('test');
+  });
+
+  it('harf aç reklamla altın harcamadan bir harf gösterir', async () => {
+    const spendHint = vi.fn(() => true);
+    const { result } = renderHook(() => useSession(), {
+      wrapper: createWrapper({ spendHint }),
+    });
+    act(() => result.current.startLevel(testLevel));
+    await act(async () => { await result.current.revealLetterHintViaAd(); });
+
+    expect(mockedShowRewardedAd).toHaveBeenCalledOnce();
+    expect(spendHint).not.toHaveBeenCalled();
+    expect(result.current.revealedLetters.BALON).toHaveLength(1);
+    expect(result.current.usedHint).toBe(true);
+  });
+
+  describe('stall assist', () => {
+    const twoWordLevel: LevelData = {
+      ...testLevel,
+      mainWords: [{ word: 'BALON', meaning: 'a' }, { word: 'BAL', meaning: 'b' }],
+    };
+
+    beforeEach(() => { vi.useFakeTimers(); });
+    afterEach(() => { vi.useRealTimers(); });
+
+    function setup() {
+      const spendHint = vi.fn(() => true);
+      const hook = renderHook(() => useSession(), { wrapper: createWrapper({ spendHint }) });
+      act(() => hook.result.current.startLevel(twoWordLevel));
+      return { ...hook, spendHint };
+    }
+
+    it('offers a free letter after 40 quiet seconds and gives it without cost or penalty', () => {
+      const { result, spendHint } = setup();
+      act(() => { vi.advanceTimersByTime(39_000); });
+      expect(result.current.stallAssistOffer).toBe(false);
+      act(() => { vi.advanceTimersByTime(2_000); });
+      expect(result.current.stallAssistOffer).toBe(true);
+
+      act(() => result.current.acceptStallAssist());
+      expect(spendHint).not.toHaveBeenCalled();
+      expect(Object.values(result.current.revealedLetters).flat()).toHaveLength(1);
+      expect(result.current.usedHint).toBe(false);
+      expect(result.current.stallAssistOffer).toBe(false);
+    });
+
+    it('resets the idle clock whenever the player finds a word', () => {
+      const { result } = setup();
+      act(() => { vi.advanceTimersByTime(30_000); });
+      act(() => result.current.submitWord('BAL'));
+      act(() => { vi.advanceTimersByTime(30_000); });
+      expect(result.current.stallAssistOffer).toBe(false);
+      act(() => { vi.advanceTimersByTime(12_000); });
+      expect(result.current.stallAssistOffer).toBe(true);
+    });
+
+    it('offers only once per level, even after a dismissal', () => {
+      const { result } = setup();
+      act(() => { vi.advanceTimersByTime(41_000); });
+      expect(result.current.stallAssistOffer).toBe(true);
+      act(() => result.current.dismissStallAssist());
+      act(() => { vi.advanceTimersByTime(120_000); });
+      expect(result.current.stallAssistOffer).toBe(false);
+    });
+
+    it('lets the offer fade away on its own', () => {
+      const { result } = setup();
+      act(() => { vi.advanceTimersByTime(41_000); });
+      expect(result.current.stallAssistOffer).toBe(true);
+      act(() => { vi.advanceTimersByTime(16_000); });
+      expect(result.current.stallAssistOffer).toBe(false);
+    });
+
+    it('gives a fresh budget on the next level', () => {
+      const { result } = setup();
+      act(() => { vi.advanceTimersByTime(41_000); });
+      act(() => result.current.dismissStallAssist());
+      act(() => result.current.startLevel(testLevel));
+      act(() => { vi.advanceTimersByTime(2_000); });
+      act(() => { vi.advanceTimersByTime(41_000); });
+      expect(result.current.stallAssistOffer).toBe(true);
+    });
   });
 });
