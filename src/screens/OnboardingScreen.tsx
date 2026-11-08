@@ -21,8 +21,8 @@ export function OnboardingScreen() {
       <div className="themeBackdrop" />
       <section className="onboardStage" aria-label="Oyun demosu">
         <WaxSeal className="onboardSeal" label="S" />
-        <div className="demoPath" aria-hidden="true" />
         <div className="demoBank">
+          <div className="demoPath" aria-hidden="true" />
           {activeSlide.word.split('').map((letter, index) => (
             <div key={`${letter}-${index}`} className={`demoLetterNode demoLetter${index}`}>
               <V2Icon name="letterNode" className="demoLetterBg" />

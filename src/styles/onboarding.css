@@ -23,8 +23,12 @@
 .onboardNavigation button:disabled { opacity: .45; cursor: default; }
 .onboardStage {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 22px 12px 18px;
   min-height: 280px;
   overflow: hidden;
   border-radius: 18px;
@@ -51,17 +55,17 @@
 }
 
 .onboardSeal {
-  position: absolute;
-  top: 26px;
+  position: relative;
+  flex: none;
   display: grid;
   place-items: center;
-  width: 102px;
-  height: 98px;
+  width: 84px;
+  height: 80px;
   background: transparent;
   border: 0;
   color: #ffe8b7;
   font-family: Georgia, serif;
-  font-size: 47px;
+  font-size: 38px;
   font-weight: 900;
   box-shadow: none;
   text-shadow:
@@ -71,22 +75,24 @@
 
 .demoPath {
   position: absolute;
-  width: 100px;
+  left: 50%;
+  top: 50%;
+  z-index: 0;
+  width: min(100%, 220px);
   height: 4px;
   border-radius: 999px;
   background: linear-gradient(90deg, rgba(241, 201, 106, 0.3), rgba(241, 201, 106, 0.88), rgba(241, 201, 106, 0.3));
-  transform: translateY(4px);
+  transform: translate(-50%, -50%);
   animation: demoTrace 2.4s ease-in-out infinite;
 }
 
 .demoBank {
-  position: absolute;
+  position: relative;
+  flex: none;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
-  top: 128px;
-  width: auto;
   height: 64px;
   margin: 0;
   padding: 0 20px;
@@ -95,6 +101,7 @@
 
 .demoLetterNode {
   position: relative;
+  z-index: 1;
   width: 52px;
   height: 52px;
   display: grid;
@@ -142,8 +149,8 @@
 }
 
 .demoResult {
-  position: absolute;
-  bottom: 0;
+  position: relative;
+  flex: none;
   display: grid;
   gap: 2px;
   min-width: 132px;
