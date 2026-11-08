@@ -1,11 +1,12 @@
 {
   "name": "sozustasi",
   "private": true,
-  "version": "1.0.16",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
+    "generate:bonus-lexicon": "node scripts/generate-bonus-lexicon.mjs",
     "audit:levels": "node scripts/audit-levels.mjs",
     "audit:plan": "node scripts/audit-plan.mjs",
     "audit:release": "node scripts/audit-release.mjs",
@@ -24,12 +25,13 @@
     "android:open": "npx cap open android",
     "android:run": "npm run build && npx cap run android",
     "android:doctor": "node scripts/android-doctor.mjs",
-    "android:install:release": "D:\\Android\\Sdk\\platform-tools\\adb.exe install -r artifacts\\SozUstasi-1.0.16-release.apk",
+    "android:install:release": "D:\\Android\\Sdk\\platform-tools\\adb.exe install -r artifacts\\SozUstasi-1.1.0-release.apk",
     "android:apk:debug": "npm run android:sync && cd android && ./gradlew.bat --no-daemon assembleDebug",
     "android:apk:release": "npm run android:sync && cd android && ./gradlew.bat --no-daemon assembleRelease",
     "android:aab:release": "npm run android:sync && cd android && ./gradlew.bat --no-daemon bundleRelease"
   },
   "dependencies": {
+    "@capacitor-community/admob": "^8.0.0",
     "@capacitor/android": "^8.4.0",
     "@capacitor/cli": "^8.4.0",
     "@capacitor/core": "^8.4.0",
