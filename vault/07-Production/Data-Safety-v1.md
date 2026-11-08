@@ -11,7 +11,8 @@ Söz Ustası kendi sunucusu üzerinden kişisel veya hassas kullanıcı verisi t
 ## Play Console Cevap Taslağı
 
 - Uygulama gerekli kullanıcı veri türlerinden herhangi birini topluyor veya paylaşıyor mu?: Evet (reklam gösterimi için üçüncü taraf SDK)
-- Toplanan veri türleri: Reklam Kimliği (Advertising ID), uygulama etkileşimleri, tanılama verileri (AdMob)
+- Toplanan veri türleri (Play Console'da gönderilen, 2026-11-08): Cihaz veya diğer kimlikler, Yaklaşık konum, Uygulama işlemleri, Uygulama performansıyla ilgili diğer veriler. Hepsi **hem toplanan hem paylaşılan** (Google Mobile Ads SDK), kısa süreli işlenmiyor, zorunlu toplama. Amaçlar: Reklam veya pazarlama, Analiz, Dolandırıcılığı önleme. Uygulama işlevselliği/Geliştirici iletişimi/Kişiselleştirme/Hesap yönetimi işaretlenmedi. Hesap oluşturma ve dış hesapla giriş: yok.
+- Açık kalem: Google'ın "Google Mobile Ads SDK Data safety disclosure" tablosunda listelenen Çökme günlükleri ve Tanılamalar türleri Play formunda seçilmedi; tabloyla karşılaştırılıp gerekirse eklenmeli.
 - Veriler üçüncü taraflarla paylaşılıyor mu?: Evet — Google Mobile Ads SDK (AdMob) kendi gizlilik politikasına tabidir
 - Veriler aktarım sırasında şifreleniyor mu?: Evet (HTTPS)
 - Kullanıcı veri silme talebinde bulunabilir mi?: Sunucuda hesap veya kişisel veri tutulmuyor; Google reklam gizlilik tercihleri uygulama içinden (Ayarlar → Reklam Gizlilik Tercihleri) yönetilebilir
