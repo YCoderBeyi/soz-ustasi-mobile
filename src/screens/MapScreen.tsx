@@ -141,7 +141,7 @@ export function MapScreen() {
 
   return (
     <main className="map-screen map-screen--premium">
-      <img className="map-bg" src="/assets/ui/map/map-diorama-v2.png" alt="" />
+      <img className="map-bg" src="/assets/ui/map/map-diorama-v2.webp" alt="" />
       <div className="map-screen__veil" aria-hidden="true" />
 
       {toast && <div className="map-toast">{toast}</div>}

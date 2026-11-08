@@ -1,5 +1,5 @@
 .mapPath {
-  --map-bg: url('/assets/eski-istanbul-map-bg.png');
+  --map-bg: url('/assets/eski-istanbul-map-bg.webp');
   --map-primary: #2f9cc8;
   --map-secondary: #0d2742;
   position: relative;

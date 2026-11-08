@@ -61,7 +61,7 @@ export const ICON_MAP_V2 = {
   gridPanel: '/assets/ui/v2/34-grid-panel.svg',
   wordPill: '/assets/ui/v2/35-word-pill.svg',
   statChip: '/assets/ui/v2/36-stat-chip.svg',
-  waxSealPng: '/assets/ui/map/09-level-node-locked-wax.png',
+  waxSealPng: '/assets/ui/map/09-level-node-locked-wax.webp',
   resourceBarPng: '/assets/ui/map/03-resource-bar-clean.svg',
 } as const;
 

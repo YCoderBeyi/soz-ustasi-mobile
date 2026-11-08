@@ -6,10 +6,10 @@ export type LevelNodeState = "active" | "completed" | "locked" | "future";
 type Props = { level: number; state: LevelNodeState; label?: string; x: number; y: number; onClick?: () => void };
 
 const assetMap: Record<LevelNodeState, string> = {
-  active: "/assets/ui/map/08-level-node-active-blue.png",
-  completed: "/assets/ui/map/07-level-node-gold.png",
-  locked: "/assets/ui/map/09-level-node-locked-wax.png",
-  future: "/assets/ui/map/09-level-node-locked-wax.png",
+  active: "/assets/ui/map/08-level-node-active-blue.webp",
+  completed: "/assets/ui/map/07-level-node-gold.webp",
+  locked: "/assets/ui/map/09-level-node-locked-wax.webp",
+  future: "/assets/ui/map/09-level-node-locked-wax.webp",
 };
 
 export function LevelNode({ level, state, label, x, y, onClick }: Props) {

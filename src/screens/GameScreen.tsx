@@ -263,7 +263,7 @@ export function GameScreen() {
             className="wheelRing"
             data-letters={letters.length}
           >
-            <img className="wheelRingFrame" src="/assets/gameplay/wheel-v3/ring.png" alt="" />
+            <img className="wheelRingFrame" src="/assets/gameplay/wheel-v3/ring.webp" alt="" />
             {!displayWord && (
               <div className="wheelCurrentWord">
                 {canSeal ? (

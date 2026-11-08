@@ -31,10 +31,10 @@ export function StartScreen3D() {
       <div className="start-screen-content">
         <header className="logo-section">
           <div className="logo-group">
-            <img className="logo-plaque" src="/assets/ui/start/logo-plaque.png" alt="Söz Ustası" />
+            <img className="logo-plaque" src="/assets/ui/start/logo-plaque.webp" alt="Söz Ustası" />
             <div className="logo-title">SÖZ<br />USTASI</div>
             <div className="logo-subtitle">Kelimelerin ustası ol!</div>
-            <img className="wax-seal" src="/assets/ui/start/wax-seal-s.png" alt="" />
+            <img className="wax-seal" src="/assets/ui/start/wax-seal-s.webp" alt="" />
           </div>
         </header>
 
