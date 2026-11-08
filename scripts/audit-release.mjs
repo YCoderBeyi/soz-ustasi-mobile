@@ -59,17 +59,18 @@ function requireResolvedManifestField(label, placeholder) {
   }
 }
 
-if (versionName !== '1.1.0') {
-  errors.push(`Android versionName must be 1.1.0, found ${versionName ?? 'missing'}.`);
+const packageVersion = JSON.parse(read('package.json')).version;
+if (versionName !== packageVersion) {
+  errors.push(`Android versionName (${versionName ?? 'missing'}) must equal package.json version (${packageVersion}).`);
 }
-if (!versionCode || Number(versionCode) !== 24) errors.push(`Android versionCode must be 24, found ${versionCode ?? 'missing'}.`);
+if (!versionCode || !/^\d+$/.test(versionCode)) errors.push(`Android versionCode must be a number, found ${versionCode ?? 'missing'}.`);
 if (applicationId !== 'com.sozustasi.game') errors.push(`Unexpected applicationId: ${applicationId ?? 'missing'}`);
 
-if (releaseManifestVersionName !== '1.1.0') {
-  errors.push(`Release manifest version name must be 1.1.0, found ${releaseManifestVersionName ?? 'missing'}.`);
+if (releaseManifestVersionName !== packageVersion) {
+  errors.push(`Release manifest version name (${releaseManifestVersionName ?? 'missing'}) must equal package.json version (${packageVersion}).`);
 }
-if (releaseManifestVersionCode !== '24') {
-  errors.push(`Release manifest version code must be 24, found ${releaseManifestVersionCode ?? 'missing'}.`);
+if (releaseManifestVersionCode !== versionCode) {
+  errors.push(`Release manifest version code (${releaseManifestVersionCode ?? 'missing'}) must equal Android versionCode (${versionCode ?? 'missing'}).`);
 }
 requireManifestValue('Track', 'Closed test, then production after eligibility');
 requireManifestValue('Data model', 'PlayerSave v3');

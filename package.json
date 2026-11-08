@@ -1,7 +1,7 @@
 {
   "name": "sozustasi",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -25,7 +25,7 @@
     "android:open": "npx cap open android",
     "android:run": "npm run build && npx cap run android",
     "android:doctor": "node scripts/android-doctor.mjs",
-    "android:install:release": "D:\\Android\\Sdk\\platform-tools\\adb.exe install -r artifacts\\SozUstasi-1.1.0-release.apk",
+    "android:install:release": "node scripts/install-release.mjs",
     "android:apk:debug": "npm run android:sync && cd android && ./gradlew.bat --no-daemon assembleDebug",
     "android:apk:release": "npm run android:sync && cd android && ./gradlew.bat --no-daemon assembleRelease",
     "android:aab:release": "npm run android:sync && cd android && ./gradlew.bat --no-daemon bundleRelease"

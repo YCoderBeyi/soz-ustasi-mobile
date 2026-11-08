@@ -83,7 +83,7 @@ export function SettingsScreen() {
           <span><strong>Reklam Gizlilik Tercihleri</strong><small>Google reklam gizlilik seçeneklerini yönet</small></span>
           <b aria-hidden="true">›</b>
         </button>
-        <div className="settingsAbout"><span>Sürüm</span><strong>Söz Ustası 1.1.0</strong></div>
+        <div className="settingsAbout"><span>Sürüm</span><strong>Söz Ustası {__APP_VERSION__}</strong></div>
       </section>
       <footer className="settingsFooter">
         <button onClick={() => { play('tap'); setModal('privacy'); }}>Gizlilik Politikası <b>&gt;</b></button>
