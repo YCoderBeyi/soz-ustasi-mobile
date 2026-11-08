@@ -3,7 +3,6 @@ import '../styles/game-layout.css';
 import '../styles/topbar.css';
 import '../styles/seal.css';
 import '../styles/modal.css';
-import '../styles/level-modal.css';
 import type { CSSProperties } from 'react';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useGame } from '../store/GameContext';
