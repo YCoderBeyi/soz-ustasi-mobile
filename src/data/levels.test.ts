@@ -271,7 +271,7 @@ describe('learning progression quality', () => {
       'ALET',
       'BIÇAK',
       'DİKİŞ',
-      'TEMİZLİK',
+      'SAĞLIK',
       'TEDAVİ',
     ]);
   });

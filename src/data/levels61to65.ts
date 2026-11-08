@@ -12,7 +12,7 @@ export const levels61to65: LevelData[] = [
       { word: 'PARILTI', meaning: 'Bir yüzeyden gelen kısa ve canlı ışık.', difficulty: 4 },
       { word: 'ALTI', meaning: 'Beşten sonra, yediden önce gelen sayı.', difficulty: 1 },
       { word: 'ARTI', meaning: 'Toplama işareti veya olumlu değer.', difficulty: 2 },
-      { word: 'ATIL', meaning: 'İşlevsiz, hareketsiz ve kullanılmayan; ışığın henüz harekete geçmemiş potansiyel hali.', difficulty: 3 },
+      { word: 'TIP', meaning: 'Hastalıkları inceleyen ve tedavi eden bilim dalı.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'ARI', meaning: 'Bal yapan kanatlı küçük böcek.', reward: 17 },
@@ -30,7 +30,7 @@ export const levels61to65: LevelData[] = [
     mainWords: [
       { word: 'GÖRMEK', meaning: 'Işık yardımıyla bir varlığın biçim ve rengini algılamak.', difficulty: 2 },
       { word: 'ÖRMEK', meaning: 'İplik veya benzeri parçaları birbirine geçirerek doku oluşturmak.', difficulty: 3 },
-      { word: 'KÖR', meaning: 'Görme duyusu bulunmayan veya işlemez durumda olan.', difficulty: 2 },
+      { word: 'GÖRE', meaning: 'Bir şeyi ölçü alarak yapılan karşılaştırmayı gösteren söz.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'GÖK', meaning: 'Yeryüzünün üstünde görünen mavi boşluk.', reward: 18 },
@@ -47,7 +47,7 @@ export const levels61to65: LevelData[] = [
     mainWords: [
       { word: 'YANSIMA', meaning: 'Işığın bir yüzeye çarpıp geldiği ortama geri dönmesi.', difficulty: 4 },
       { word: 'SAYI', meaning: 'Bir çokluğu veya sırayı belirten matematiksel değer.', difficulty: 2 },
-      { word: 'SANI', meaning: 'Zihinde oluşan izlenim veya görünüşe dayalı yargı.', difficulty: 3 },
+      { word: 'AMAN', meaning: 'Acıma veya şaşkınlık bildiren söz; merhamet çağrısı.', difficulty: 3 },
       { word: 'MAYA', meaning: 'Hamuru kabartan canlı kültür veya bir şeyin temel özü.', difficulty: 3 },
     ],
     hiddenWords: [
@@ -85,13 +85,11 @@ export const levels61to65: LevelData[] = [
     mainWords: [
       { word: 'MERCEK', meaning: 'Işığı kırarak görüntü oluşturan saydam optik parça.', difficulty: 3 },
       { word: 'KEMER', meaning: 'Giyside bele takılan şerit veya yay biçimli yapı bölümü.', difficulty: 2 },
-      { word: 'EREK', meaning: 'Ulaşılmak istenen hedef veya amaç.', difficulty: 3 },
-      { word: 'KEREM', meaning: 'Cömertlik, iyilik ve yücelik niteliği; bağış.', difficulty: 3 },
+      { word: 'CEMRE', meaning: 'Baharın gelişini müjdeleyen sıcaklık.', difficulty: 3 },
+      { word: 'KREM', meaning: 'Yumuşak kıvamlı bakım veya tatlı karışımı.', difficulty: 3 },
     ],
     hiddenWords: [
-      { word: 'EM', meaning: 'Halk hekimliğinde kullanılan ilaç veya çare.', reward: 15 },
-      { word: 'ERK', meaning: 'Güç, yetki veya iktidar.', reward: 20 },
     ],
-    reward: { baseCoin: 178, hiddenWordBonus: 20 },
+    reward: { baseCoin: 178, hiddenWordBonus: 0 },
   },
 ];

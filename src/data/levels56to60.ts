@@ -11,7 +11,7 @@ export const levels56to60: LevelData[] = [
     mainWords: [
       { word: 'TERCÜME', meaning: 'Bir metni anlamını koruyarak başka bir dile aktarma işi.', difficulty: 4 },
       { word: 'CÜRET', meaning: 'Güç bir işe girişme cesareti.', difficulty: 4 },
-      { word: 'CET', meaning: 'Büyük baba, ata.', difficulty: 3 },
+      { word: 'TÜR', meaning: 'Ortak özellikleri olan varlıkların bölümü.', difficulty: 3 },
       { word: 'TER', meaning: 'Vücudun sıcaklık düzenlemek için deriden çıkardığı sıvı.', difficulty: 2 },
     ],
     hiddenWords: [
@@ -34,7 +34,7 @@ export const levels56to60: LevelData[] = [
       { word: 'KİL', meaning: 'Su ile yoğrulabilen ince taneli toprak.', difficulty: 3 },
     ],
     hiddenWords: [
-      { word: 'ALP', meaning: 'Yiğit ve cesur kişi.', reward: 17 },
+      { word: 'KATİP', meaning: 'Yazı işleriyle uğraşan görevli.', reward: 17 },
       { word: 'İLK', meaning: 'Bir sıranın başında bulunan.', reward: 17 },
     ],
     reward: { baseCoin: 146, hiddenWordBonus: 20 },
@@ -90,7 +90,7 @@ export const levels56to60: LevelData[] = [
       { word: 'İNEK', meaning: 'Sütü için yetiştirilen dişi sığır.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'KİNA', meaning: 'Kına bitkisinin yapraklarından elde edilen kırmızı-turuncu boya; geleneksel törenlerde kullanılır.', reward: 18 },
+      { word: 'EMİN', meaning: 'Güvenilir; şüphesi olmayan.', reward: 18 },
       { word: 'EKİN', meaning: 'Tarlaya ekilmiş tahıl veya ekili ürün.', reward: 18 },
     ],
     reward: { baseCoin: 168, hiddenWordBonus: 22 },

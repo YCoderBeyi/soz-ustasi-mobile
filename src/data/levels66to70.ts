@@ -15,7 +15,7 @@ export const levels66to70: LevelData[] = [
       { word: 'BİLET', meaning: 'Bir taşıt veya etkinliğe giriş hakkı veren belge.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'BİT', meaning: 'İnsan veya hayvan üzerinde yaşayabilen küçük asalak böcek.', reward: 18 },
+      { word: 'İLETİ', meaning: 'Bir yerden bir yere gönderilen haber veya mesaj.', reward: 18 },
       { word: 'İL', meaning: 'Merkezî yönetime bağlı en büyük yerel yönetim birimi.', reward: 18 },
     ],
     reward: { baseCoin: 162, hiddenWordBonus: 22 },
@@ -34,7 +34,7 @@ export const levels66to70: LevelData[] = [
       { word: 'KEMİK', meaning: 'İskeleti oluşturan sert ve dayanıklı doku.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'HİLE', meaning: 'Birini yanıltmak için yapılan düzen veya hile yolu.', reward: 17 },
+      { word: 'KİLİM', meaning: 'Dokunarak yapılan, yere serilen süslü örtü.', reward: 17 },
       { word: 'EKİM', meaning: 'Yılın onuncu ayı; tohumu toprağa atma işi.', reward: 20 },
     ],
     reward: { baseCoin: 166, hiddenWordBonus: 20 },
@@ -49,8 +49,8 @@ export const levels66to70: LevelData[] = [
     mainWords: [
       { word: 'İLAÇ', meaning: 'Tedavi amacıyla kullanılan madde veya karışım.', difficulty: 2 },
       { word: 'ARAÇ', meaning: 'Bir işi yapmaya veya sonuca ulaşmaya yarayan nesne.', difficulty: 2 },
-      { word: 'İLAL', meaning: 'Osmanlı tıbbında hastalık halleri ve belirtilerinin genel adı.', difficulty: 4 },
-      { word: 'LAÇ', meaning: 'Bitkisel maddelerin dövülüp karıştırılmasıyla hazırlanan macun kıvamındaki preparat.', difficulty: 4 },
+      { word: 'LİRA', meaning: 'Türkiye\'de kullanılan para birimi.', difficulty: 4 },
+      { word: 'RALLİ', meaning: 'Zorlu yollarda etaplar hâlinde yapılan otomobil yarışı.', difficulty: 4 },
     ],
     hiddenWords: [
       { word: 'ALA', meaning: 'Karışık renkli veya çok iyi nitelikte olan.', reward: 19 },
@@ -66,7 +66,7 @@ export const levels66to70: LevelData[] = [
     letters: ['A', 'M', 'E', 'L', 'İ', 'Y', 'A', 'T'],
     mainWords: [
       { word: 'AMELİYAT', meaning: 'Bir hastalığı veya yaralanmayı cerrahi yöntemle tedavi etme işlemi.', difficulty: 5 },
-      { word: 'AMEL', meaning: 'Yapılan iş, davranış veya uygulama.', difficulty: 4 },
+      { word: 'AİLE', meaning: 'Birbirine akrabalıkla bağlı kişiler topluluğu.', difficulty: 4 },
       { word: 'İMAL', meaning: 'Hammaddeyi işleyerek ürün üretme işi.', difficulty: 3 },
       { word: 'YAMA', meaning: 'Yırtık veya eksik bölümü kapatmak için eklenen parça.', difficulty: 3 },
     ],
@@ -87,7 +87,6 @@ export const levels66to70: LevelData[] = [
       { word: 'REÇETE', meaning: 'Hekimin ilaç ve kullanım biçimini yazdığı belge.', difficulty: 3 },
       { word: 'TERE', meaning: 'Yaprakları salata olarak kullanılan keskin tatlı bitki.', difficulty: 3 },
       { word: 'RET', meaning: 'Bir öneri veya isteği kabul etmeme, reddetme.', difficulty: 2 },
-      { word: 'ETER', meaning: 'Organik kimyada iki karbon grubunun oksijen köprüsüyle bağlandığı bileşik sınıfı; 19. yüzyılda cerrahi anestezi için kullanılan tarihsel bir ilaçtır.', difficulty: 4 },
     ],
     hiddenWords: [
       { word: 'ET', meaning: 'Kas dokusundan oluşan besin.', reward: 20 },

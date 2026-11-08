@@ -91,4 +91,10 @@ describe('mastery snapshots', () => {
       objectives: ['complete', 'discovery'],
     });
   });
+
+  it('withholds the no-hidden-word discovery star after a mistake', () => {
+    const level = makeLevel({ hiddenWords: [] });
+    expect(getRunObjectives(level, 0, false, 0, false)).toEqual(['complete']);
+    expect(getRunObjectives(level, 0, false, 0, true)).toContain('discovery');
+  });
 });

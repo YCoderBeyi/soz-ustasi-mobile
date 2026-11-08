@@ -35,11 +35,14 @@ export function getRunObjectives(
   hiddenCount: number,
   usedHint: boolean,
   maxStreak: number,
+  perfectRun = true,
 ): ObjectiveKey[] {
   void maxStreak;
   const objectives: ObjectiveKey[] = ['complete'];
+  // Levels without hidden words label this star "Hata yapmadan tamamla", so it must really require a clean run.
   const discoveryComplete = level.hiddenWords.length === 0
-    || hiddenCount === level.hiddenWords.length;
+    ? perfectRun
+    : hiddenCount === level.hiddenWords.length;
   if (discoveryComplete) objectives.push('discovery');
   if (discoveryComplete && !usedHint) objectives.push('noHint');
   return objectives;

@@ -12,7 +12,7 @@ export const levels51to55: LevelData[] = [
       { word: 'ŞİFRELİ', meaning: 'Anlamı özel bir yöntemle gizlenmiş olan.', difficulty: 4 },
       { word: 'ŞİFRE', meaning: 'Bir mesajı gizlemek veya açmak için kullanılan işaret ve kurallar bütünü.', difficulty: 2 },
       { word: 'FİŞ', meaning: 'Bilgi yazılan küçük kâğıt veya elektrik bağlantı parçası.', difficulty: 3 },
-      { word: 'ŞİRE', meaning: 'Meyve veya bitkiden elde edilen, işlenmemiş doğal öz; eski tıpta ilaç hazırlığında kullanılır.', difficulty: 3 },
+      { word: 'ŞİİR', meaning: 'Duyguları ölçülü ve etkili sözlerle anlatan yazı.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'FİL', meaning: 'Hortumlu, iri gövdeli kara memelisi.', reward: 14 },
@@ -34,7 +34,7 @@ export const levels51to55: LevelData[] = [
       { word: 'HER', meaning: 'Bir topluluğun bütün üyelerini tek tek belirten söz.', difficulty: 1 },
     ],
     hiddenWords: [
-      { word: 'FER', meaning: 'Canlılık, güç veya parlaklık.', reward: 15 },
+      { word: 'FERAH', meaning: 'Geniş, hafif ve rahat.', reward: 15 },
       { word: 'HALE', meaning: 'Ay veya ışık kaynağı çevresinde görünen parlak halka.', reward: 16 },
     ],
     reward: { baseCoin: 134, hiddenWordBonus: 18 },
@@ -48,11 +48,11 @@ export const levels51to55: LevelData[] = [
     letters: ['S', 'I', 'K', 'L', 'I', 'K'],
     mainWords: [
       { word: 'SIKLIK', meaning: 'Bir olayın belirli bir aralıkta kaç kez gerçekleştiğini gösteren ölçü.', difficulty: 4 },
-      { word: 'KISKI', meaning: 'İki yüzey arasına sıkıştırılarak tutturan veya sıkıştıran mekanizma.', difficulty: 3 },
+      { word: 'SIKI', meaning: 'Gevşek olmayan; sıkıştırılmış.', difficulty: 3 },
       { word: 'SIK', meaning: 'Aralarında az uzaklık bulunan veya çok kez gerçekleşen.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'SILIK', meaning: 'Rengini veya belirginliğini yitirmiş olan; seyrek kullanılan harfler frekans analizinde silik kalır.', reward: 15 },
+      { word: 'KILIK', meaning: 'Bir kişinin giyim ve görünüş biçimi.', reward: 15 },
     ],
     reward: { baseCoin: 138, hiddenWordBonus: 19 },
   },
@@ -82,7 +82,7 @@ export const levels51to55: LevelData[] = [
     letters: ['A', 'N', 'A', 'H', 'T', 'A', 'R'],
     mainWords: [
       { word: 'ANAHTAR', meaning: 'Bir kilidi açan araç veya bir çözümü mümkün kılan temel bilgi.', difficulty: 3 },
-      { word: 'TARA', meaning: 'Bir metni veya alanı sistematik biçimde inceleme ve arama eylemi.', difficulty: 2 },
+      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 2 },
       { word: 'HAT', meaning: 'Çizgi, ulaşım yolu veya güzel yazı sanatı.', difficulty: 3 },
       { word: 'HATA', meaning: 'Yanlış yapılan iş veya söylenen söz; şifre analizinde düzeltilmesi gereken hatalı işaret.', difficulty: 2 },
     ],

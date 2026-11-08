@@ -66,7 +66,7 @@ export const levels46to50: LevelData[] = [
     letters: ['S', 'A', 'Y', 'M', 'A', 'K'],
     mainWords: [
       { word: 'SAYMAK', meaning: 'Nesnelerin kaç tane olduğunu sayı sırasıyla belirlemek.', difficulty: 3 },
-      { word: 'SAYA', meaning: 'Osmanlı döneminde hayvan sayımı ve buna bağlı vergi uygulaması.', difficulty: 3 },
+      { word: 'AYAK', meaning: 'Bedeni taşıyan, yürümeye yarayan organ.', difficulty: 3 },
       { word: 'MASA', meaning: 'Üzerinde çalışılan veya yemek yenilen ayaklı mobilya.', difficulty: 1 },
       { word: 'KAYA', meaning: 'Yerkabuğunda bulunan sert ve büyük taş kütlesi.', difficulty: 2 },
     ],
