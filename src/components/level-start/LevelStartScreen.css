@@ -30,8 +30,8 @@
   top: 10px;
   right: 10px;
   z-index: 20;
-  width: 48px;
-  height: 48px;
+  width: var(--ui-icon-sm);
+  height: var(--ui-icon-sm);
   border: 0;
   background: transparent;
   padding: 0;
@@ -118,13 +118,6 @@
   line-height: 1.1;
   color: #fff7e6;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-.ls-word-summary {
-  margin: 4px 0 0;
-  font-size: clamp(10px, 2.8vw, 12px);
-  font-weight: 600;
-  color: #c8b88a;
 }
 
 .ls-hero-seal {
@@ -427,11 +420,11 @@
   top: max(28px, env(safe-area-inset-top));
   right: 12px;
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: var(--ui-icon-sm);
+  height: var(--ui-icon-sm);
   place-items: center;
   border: 2px solid var(--brand-gold-soft);
-  border-radius: 12px;
+  border-radius: var(--ui-radius-ctl);
   background:
     radial-gradient(circle at 35% 25%, rgba(255,255,255,.32), transparent 32%),
     linear-gradient(180deg, #b65b4a, #6c261f);
@@ -476,10 +469,9 @@
 }
 
 .ls-hero-left { padding-right: 8px; }
-.ls-level-badge { color: var(--brand-text-muted); font-family: system-ui, sans-serif; font-size: 10px; }
+.ls-level-badge { color: var(--brand-text-muted); font-family: system-ui, sans-serif; font-size: var(--ui-text-micro); }
 .ls-puzzle-type { color: var(--brand-gold-soft); font-size: 11px; }
 .ls-theme-title { font-family: Georgia, serif; font-size: clamp(22px, 6vw, 29px); letter-spacing: 0; }
-.ls-word-summary { color: var(--brand-text-muted); font-size: 11px; }
 .ls-hero-seal { width: clamp(88px, 25vw, 112px); height: clamp(88px, 25vw, 112px); }
 .ls-hero-seal img { filter: drop-shadow(0 10px 10px rgba(0,0,0,.42)); }
 
@@ -519,9 +511,9 @@
   gap: 1px;
 }
 
-.ls-stat-inner strong { color: var(--brand-gold-soft); font-family: system-ui, sans-serif; font-size: 8px; letter-spacing: .2px; }
+.ls-stat-inner strong { color: var(--brand-gold-soft); font-family: system-ui, sans-serif; font-size: var(--ui-text-micro); letter-spacing: .2px; }
 .ls-stat-value { font-family: system-ui, sans-serif; font-size: 13px; }
-.ls-stat-bonus { font-family: system-ui, sans-serif; font-size: 8px; }
+.ls-stat-bonus { font-family: system-ui, sans-serif; font-size: var(--ui-text-micro); }
 
 .ls-modifier {
   min-height: 48px;
@@ -556,7 +548,7 @@
 }
 
 .ls-story-content { position: static; padding: 0; }
-.ls-story-meta { font-family: system-ui, sans-serif; font-size: 9px; }
+.ls-story-meta { font-family: system-ui, sans-serif; font-size: var(--ui-text-micro); }
 .ls-story-title { font-family: Georgia, serif; font-size: 14px; }
 
 .ls-objectives { gap: 7px; padding: 0; }
@@ -574,12 +566,12 @@
 .ls-objective-badge { width: 42px; height: 42px; }
 
 .ls-play {
-  min-height: 58px;
+  min-height: var(--ui-btn-h);
   margin-top: 3px;
   aspect-ratio: auto;
   overflow: hidden;
   border: 2px solid var(--brand-gold-soft);
-  border-radius: 18px;
+  border-radius: var(--ui-radius-ctl);
   background:
     radial-gradient(circle at 50% 0%, rgba(255,255,255,.34), transparent 36%),
     linear-gradient(180deg, #b88335, #8b5c24);
@@ -605,3 +597,13 @@
   .ls-objective-row { min-height: 44px; }
   .ls-objective-badge { width: 36px; height: 36px; }
 }
+
+/* The primary action stays reachable: it sticks to the bottom of the scroll area instead of sinking below the objectives. */
+.ls-play {
+  position: sticky;
+  bottom: 12px;
+  z-index: 5;
+  box-shadow: 0 -14px 18px 6px #070d1a;
+}
+.ls-objectives { gap: 4px; }
+.ls-objective-row { min-height: var(--ui-touch-floor); }

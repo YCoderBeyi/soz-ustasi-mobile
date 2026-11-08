@@ -99,7 +99,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 100%;
-  font-size: 10px;
+  font-size: var(--ui-text-micro);
   font-weight: 700;
   color: rgba(255, 247, 226, 0.62);
   text-transform: uppercase;
@@ -357,33 +357,6 @@
 }
 
 /* Crossword grid */
-.crosswordGrid {
-  --crossword-cell: clamp(calc(40px * var(--ui-scale)), 10cqw, calc(58px * var(--ui-scale)));
-  display: grid;
-  justify-content: center;
-  align-content: center;
-  gap: 4px;
-  max-width: 100%;
-  padding: 0;
-  background: transparent;
-}
-
-.crosswordCell {
-  width: var(--crossword-cell);
-  height: calc(var(--crossword-cell) * 1.5);
-}
-
-.crosswordCell.wordTileCellFilled {
-  animation: slotFill 360ms cubic-bezier(.18,.9,.24,1.2) both;
-}
-
-.crosswordCell.wordTileCellActive {
-  animation: cellPulse 1.2s ease-in-out infinite;
-}
-
-.crossingCell {
-  filter: drop-shadow(0 0 5px rgba(241, 201, 106, 0.22));
-}
 
 .wordGridCorrect .slot.filled {
   animation: slotFill 360ms cubic-bezier(.18,.9,.24,1.2) both, goldGlow 720ms ease;
@@ -435,8 +408,6 @@
 
 .wheelRing {
   position: relative;
-  width: min(calc(248px * var(--ui-scale)), 68cqw);
-  height: min(calc(248px * var(--ui-scale)), 68cqw);
   max-height: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -455,11 +426,7 @@
 /* Harf çoğaldıkça çark biraz daha geniş alan kaplar (yarıçap açılımını tamamlar).
    Attribute özgüllüğü (0,2,0) tüm responsive .wheelRing kurallarını yener;
    min() ve max-height:100% dikey taşmayı sınırlar. */
-.wheelRing[data-letters="7"],
-.wheelRing[data-letters="8"] {
-  width: min(calc(268px * var(--ui-scale)), 74cqw);
-  height: min(calc(268px * var(--ui-scale)), 74cqw);
-}
+
 
 .wheelRing::before {
   content: '';
@@ -519,11 +486,6 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 
-.game .wheelLetter {
-  width: clamp(calc(52px * var(--ui-scale)), 14cqw, var(--ui-letter));
-  height: clamp(calc(52px * var(--ui-scale)), 14cqw, var(--ui-letter));
-}
-
 .wheelLetter {
   position: absolute;
   display: grid;
@@ -549,7 +511,6 @@
 .wheelLetterChar {
   position: relative;
   z-index: 1;
-  font-size: 22px;
   font-weight: 900;
   color: #2b1e13;
   text-shadow: 0 1px 0 rgba(255,255,255,0.35);
@@ -790,12 +751,6 @@
   width: 100%;
   max-width: var(--ui-shell-max);
   min-width: 0;
-  grid-template-rows:
-    auto
-    auto
-    1fr
-    auto
-    var(--ui-bottomnav-h);
   gap: 6px;
   padding-bottom: 0 !important;
   overflow: hidden;
@@ -855,14 +810,11 @@
   display: grid;
   gap: 4px;
   padding: 0 8px;
-  min-height: 0;
   overflow: visible;
-  min-height: 260px;
 }
 
 .gameGridPanel {
   position: relative;
-  min-height: 0;
 }
 
 .gameGridPanelBg {
@@ -905,7 +857,6 @@
 
 /* Final mobile gameplay composition */
 .gameRef {
-  grid-template-rows: auto auto minmax(0, 1fr);
   gap: 4px;
 }
 
@@ -915,25 +866,11 @@
 }
 
 .gameGridPanel {
-  min-height: 142px;
-  max-height: 184px;
   padding: 7px;
   border-radius: 12px;
 }
 
 .gameGridPanelContent { padding: 2px; }
-
-.gameGridPanelContent .crosswordGrid {
-  gap: 1px;
-  padding: 5px;
-  border: 1px solid rgba(92,168,177,.18);
-  border-radius: 5px;
-}
-
-.gameGridPanelContent .crosswordCell {
-  border-radius: 3px;
-  box-shadow: inset 1px 1px 0 rgba(255,255,255,.94), inset -2px -2px 0 rgba(108,74,30,.23), 0 1px 2px rgba(0,0,0,.38);
-}
 
 .gameStatsRow {
   gap: 5px;
@@ -950,7 +887,7 @@
 
 .gameStatChipLabel {
   color: #b9ddd8;
-  font-size: 8px;
+  font-size: var(--ui-text-micro);
   letter-spacing: 0;
 }
 
@@ -958,7 +895,7 @@
 
 .gameStatChipHintLengths {
   color: #b9ddd8;
-  font-size: 9px;
+  font-size: var(--ui-text-micro);
   letter-spacing: 2px;
   line-height: 1;
   margin-top: 1px;
@@ -981,15 +918,10 @@
   margin-top: 0;
 }
 
-.wheelRing {
-  width: min(calc(246px * var(--ui-scale)), 66cqw);
-  height: min(calc(246px * var(--ui-scale)), 66cqw);
-}
-
 .wheelPlaceholder {
   max-width: 82px;
   padding: 5px 7px;
-  font-size: 10px;
+  font-size: var(--ui-text-micro);
   line-height: 1.15;
   text-align: center;
 }
@@ -1008,10 +940,10 @@
   display: grid;
   grid-template-columns: 36px minmax(0, 1fr);
   align-items: center;
-  min-height: 52px;
+  min-height: var(--ui-tab-h);
   gap: 3px;
   padding: 4px 9px 4px 4px;
-  border-radius: 13px;
+  border-radius: var(--ui-radius-ctl);
   background: linear-gradient(180deg, rgba(13,51,62,.95), rgba(3,24,35,.98));
   box-shadow: 0 4px 0 rgba(2,17,25,.9), 0 7px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.13);
 }
@@ -1023,7 +955,7 @@
 
 .wheelCtrlBtn span {
   overflow: hidden;
-  font-size: 11px;
+  font-size: var(--ui-text-min);
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1040,20 +972,14 @@
   margin-top: -5px;
 }
 
-.gameSealAction > span { font-size: 9px; }
+.gameSealAction > span { font-size: var(--ui-text-min); }
 
 @media (max-height: 720px) {
-  .gameGridPanel { min-height: 124px; max-height: 150px; }
   .gameStatChip { min-height: 36px; }
-  .wheelRing {
-    width: min(calc(218px * var(--ui-scale)), 60cqw);
-    height: min(calc(218px * var(--ui-scale)), 60cqw);
-  }
 }
 
 /* Gameplay V6: mobile composition and interaction hierarchy */
 .gameRef {
-  grid-template-rows: auto auto minmax(0, 1fr);
   gap: 4px;
 }
 
@@ -1063,29 +989,12 @@
 }
 
 .gameGridPanel {
-  min-height: 142px;
-  max-height: 184px;
   padding: 7px;
   border-radius: 12px;
 }
 
 .gameGridPanelContent {
   padding: 2px;
-}
-
-.gameGridPanelContent .crosswordGrid {
-  gap: 1px;
-  padding: 5px;
-  border: 1px solid rgba(92, 168, 177, .18);
-  border-radius: 5px;
-}
-
-.gameGridPanelContent .crosswordCell {
-  border-radius: 3px;
-  box-shadow:
-    inset 1px 1px 0 rgba(255,255,255,.94),
-    inset -2px -2px 0 rgba(108,74,30,.23),
-    0 1px 2px rgba(0,0,0,.38);
 }
 
 .gameStatsRow {
@@ -1103,7 +1012,7 @@
 
 .gameStatChipLabel {
   color: #b9ddd8;
-  font-size: 8px;
+  font-size: var(--ui-text-micro);
 }
 
 .gameStatChip strong {
@@ -1125,15 +1034,10 @@
   margin-top: 0;
 }
 
-.wheelRing {
-  width: min(calc(246px * var(--ui-scale)), 66cqw);
-  height: min(calc(246px * var(--ui-scale)), 66cqw);
-}
-
 .wheelPlaceholder {
   max-width: 82px;
   padding: 5px 7px;
-  font-size: 10px;
+  font-size: var(--ui-text-micro);
   line-height: 1.15;
   text-align: center;
 }
@@ -1150,9 +1054,9 @@
 .wheelCtrlBtn {
   display: grid;
   grid-template-columns: 36px minmax(0, 1fr);
-  min-height: 52px;
+  min-height: var(--ui-tab-h);
   padding: 4px 9px 4px 4px;
-  border-radius: 13px;
+  border-radius: var(--ui-radius-ctl);
   background: linear-gradient(180deg, rgba(13,51,62,.95), rgba(3,24,35,.98));
   box-shadow: 0 4px 0 rgba(2,17,25,.9), 0 7px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.13);
 }
@@ -1163,7 +1067,7 @@
 }
 
 .wheelCtrlBtn span {
-  font-size: 11px;
+  font-size: var(--ui-text-min);
   text-align: left;
 }
 
@@ -1179,21 +1083,15 @@
 }
 
 .gameSealAction > span {
-  font-size: 9px;
+  font-size: var(--ui-text-min);
 }
 
 @media (max-height: 720px) {
-  .gameGridPanel { min-height: 124px; max-height: 150px; }
   .gameStatChip { min-height: 36px; }
-  .wheelRing {
-    width: min(calc(218px * var(--ui-scale)), 60cqw);
-    height: min(calc(218px * var(--ui-scale)), 60cqw);
-  }
 }
 
 /* Gameplay V3: high-readability production HUD */
 .gameRef {
-  grid-template-rows: auto minmax(220px, 1fr) auto;
   gap: 6px;
 }
 
@@ -1211,9 +1109,7 @@
 
 .gameTopIdentity { display: grid; min-width: 0; gap: 1px; }
 .gameTopIdentity strong { color: #fff7df; font-size: 14px; font-weight: 900; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,.72); }
-.gameTopIdentity span { overflow: hidden; color: #9fe3d6; font-size: 10px; font-weight: 800; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
-
-.gameBoard { min-height: 225px; }
+.gameTopIdentity span { overflow: hidden; color: #9fe3d6; font-size: var(--ui-text-micro); font-weight: 800; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
 .gameGridPanel {
   overflow: hidden;
   border: 1px solid rgba(242,196,95,.4);
@@ -1233,12 +1129,11 @@
   background: linear-gradient(180deg, rgba(20,57,70,.97), rgba(5,24,38,.98));
   box-shadow: 0 5px 11px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.1);
 }
-.gameStatChipLabel { color: #a7e7db; font-size: 10px; letter-spacing: 0; }
+.gameStatChipLabel { color: #a7e7db; font-size: var(--ui-text-micro); letter-spacing: 0; }
 .gameStatChip strong { color: #ffd66d; font-size: 17px; text-shadow: 0 2px 4px rgba(0,0,0,.65); }
 
 .gameWheelZone { gap: 8px; padding-inline: 10px; }
 .wheelPlaceholder { color: #fff8e8; font-size: 12px; font-weight: 900; }
-.wheelLetterChar { font-size: 24px; }
 
 .wheelControls {
   display: grid;
@@ -1254,11 +1149,11 @@
   grid-template-columns: 38px minmax(0, 1fr);
   align-items: center;
   min-width: 0;
-  min-height: 55px;
+  min-height: var(--ui-tab-h);
   gap: 3px;
   padding: 4px 8px 4px 4px;
   border: 1px solid rgba(242,196,95,.58);
-  border-radius: 15px;
+  border-radius: var(--ui-radius-ctl);
   background: linear-gradient(180deg, rgba(26,76,84,.98), rgba(7,37,50,.98));
   color: #fff8e8;
   font-size: 12px;
@@ -1279,7 +1174,7 @@
   border: 0;
   background: transparent;
   color: #fff3d0;
-  font-size: 10px;
+  font-size: var(--ui-text-min);
   font-weight: 900;
   text-shadow: 0 2px 4px rgba(0,0,0,.75);
 }
@@ -1287,13 +1182,10 @@
 .gameSealAction > span { align-self: end; }
 
 @media (max-height: 760px) {
-  .gameRef { grid-template-rows: auto minmax(190px, 1fr) auto; }
   .gameTopBar { min-height: 48px; }
-  .gameBoard { min-height: 195px; }
   .gameGridPanelContent { padding-block: 4px; }
   .gameStatChip { min-height: 46px; padding-block: 5px; }
   .gameWheelZone { gap: 4px; }
-  .wheelRing { width: min(calc(224px * var(--ui-scale)), 62cqw); height: min(calc(224px * var(--ui-scale)), 62cqw); }
   .wheelControls { padding-bottom: 4px; }
 }
 
@@ -1335,7 +1227,6 @@
 .wheelLetterChar {
   color: #42301d;
   font-family: Inter, system-ui, sans-serif;
-  font-size: 25px;
   text-shadow: 0 1px 0 rgba(255,255,255,.65), 0 2px 2px rgba(92,61,24,.2);
 }
 .wheelSelected .wheelLetterChar { color: #3d2b16; }
@@ -1470,7 +1361,7 @@
   box-shadow: 0 7px 18px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.15);
   animation: sealTitleReveal .7s .42s cubic-bezier(.16,1,.3,1) both;
 }
-.sealRevealTitle span { color: #83e1d3; font-size: 10px; font-weight: 900; letter-spacing: 1.2px; }
+.sealRevealTitle span { color: #83e1d3; font-size: var(--ui-text-micro); font-weight: 900; letter-spacing: 1.2px; }
 .sealRevealTitle strong { color: #fff1b7; font-family: Georgia, serif; font-size: 23px; line-height: 1; text-shadow: 0 2px 4px rgba(0,0,0,.7); }
 
 @keyframes meaningCardReveal {
@@ -1523,67 +1414,24 @@
   .sealRevealRing { width: 110px; height: 110px; }
   .sealRevealTitle { min-width: min(150px, calc(100vw - 48px)); padding: 5px 14px 6px; }
   .sealRevealTitle strong { font-size: 15px; }
-  .sealRevealTitle span { font-size: 8px; }
+  .sealRevealTitle span { font-size: var(--ui-text-micro); }
 }
 
 /* Gameplay V5: compact puzzle board and premium reward flow */
 .gameBoard {
   align-content: start;
-  min-height: 0;
   padding: 0 10px;
 }
 
 .gameGridPanel {
   display: grid;
   align-items: center;
-  min-height: 148px;
-  max-height: 238px;
   padding: 10px;
 }
 
 .gameGridPanelContent {
   min-height: 0;
   padding: 4px;
-}
-
-.crosswordGrid {
-  --crossword-cell: clamp(42px, 11cqw, 56px);
-  gap: 5px;
-}
-
-.crosswordCell {
-  width: var(--crossword-cell);
-  height: var(--crossword-cell);
-}
-
-.wordTileCell {
-  width: var(--crossword-cell, var(--ui-word-tile));
-  height: var(--crossword-cell, var(--ui-word-tile));
-}
-
-.wordTileBg {
-  object-fit: contain;
-  filter: drop-shadow(0 6px 5px rgba(0,0,0,.34));
-}
-
-.wordTileChar {
-  color: #43301b;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: clamp(19px, 5cqw, 25px);
-  text-shadow: 0 1px 0 rgba(255,255,255,.7), 0 2px 2px rgba(90,58,18,.22);
-}
-
-.wordTileCellFilled {
-  animation: tileResolve 420ms cubic-bezier(.16,1,.3,1) both;
-}
-
-.wordTileCellActive {
-  filter: drop-shadow(0 0 11px rgba(71,220,210,.7));
-  animation: tileCandidate 1s ease-in-out infinite;
-}
-
-.crossingCell {
-  filter: drop-shadow(0 0 8px rgba(242,196,95,.38));
 }
 
 .gameStatsRow {
@@ -1598,7 +1446,7 @@
 }
 
 .gameStatChipLabel {
-  font-size: 9px;
+  font-size: var(--ui-text-micro);
   font-weight: 900;
 }
 
@@ -1666,7 +1514,7 @@
 
 .rewardHero span {
   color: #7ee0d2;
-  font-size: 9px;
+  font-size: var(--ui-text-micro);
   font-weight: 900;
   letter-spacing: .9px;
 }
@@ -1803,8 +1651,6 @@
 }
 
 @media (max-height: 760px) {
-  .gameGridPanel { min-height: 128px; max-height: 198px; }
-  .crosswordGrid { --crossword-cell: clamp(36px, 9.5cqw, 48px); gap: 4px; }
   .gameStatChip { min-height: 42px; }
   .modal:has(.rewardHero) { padding: 12px; gap: 7px; max-height: calc(100dvh - 12px); }
   .modal:has(.rewardHero) > h2 { font-size: 21px; }
@@ -1832,7 +1678,7 @@
   .modal:has(.rewardHero) .rewardStory p { -webkit-line-clamp: 2; }
   .rewardStars3d { min-height: 38px; }
   .rewardStars3d img { width: 38px; height: 38px; }
-  .rewardMastery p { min-height: 19px; font-size: 10px; }
+  .rewardMastery p { min-height: 19px; font-size: var(--ui-text-micro); }
   .rewardSummary3d { gap: 5px; }
   .rewardItem3d { min-height: 36px; }
   .rewardItem3d img { width: 34px; height: 34px; }
@@ -1910,60 +1756,6 @@
   to { filter: drop-shadow(0 0 20px var(--accent)); }
 }
 
-.gameGridPanelContent .crosswordGrid {
-  gap: 2px;
-  padding: 7px;
-  border-radius: 8px;
-  background: rgba(2, 16, 29, .3);
-}
-
-.gameGridPanelContent .crosswordCell {
-  position: relative;
-  aspect-ratio: 1;
-  height: var(--crossword-cell);
-  overflow: hidden;
-  border: 1px solid rgba(255, 236, 187, .82);
-  border-radius: 4px;
-  background: linear-gradient(145deg, #fffbed 0%, #eee0bd 70%, #c8a762 100%);
-  box-shadow:
-    inset 1px 1px 0 rgba(255,255,255,.95),
-    inset -2px -3px 0 rgba(108,74,30,.24),
-    0 2px 3px rgba(0,0,0,.42);
-}
-
-.gameGridPanelContent .crosswordCell .wordTileBg {
-  display: none;
-}
-
-.gameGridPanelContent .crosswordCell.wordTileCellFilled {
-  border-color: #f5d77d;
-  background: linear-gradient(145deg, #67dac1, #239d91 72%, #126b69);
-}
-
-.gameGridPanelContent .crosswordCell.crossingCell {
-  border-color: #ffd66b;
-  box-shadow:
-    inset 0 0 0 2px rgba(255,218,113,.38),
-    0 0 8px rgba(242,196,95,.45);
-}
-
-.wordTileNumber {
-  position: absolute;
-  top: 2px;
-  left: 3px;
-  z-index: 2;
-  color: #5b3d1b;
-  font: 800 8px/1 Inter, system-ui, sans-serif;
-  text-shadow: 0 1px rgba(255,255,255,.8);
-}
-
-.gameGridPanelContent .crosswordCell .wordTileChar {
-  z-index: 1;
-  color: #143a3a;
-  font-size: clamp(18px, 5cqw, 24px);
-  text-shadow: 0 1px 0 rgba(255,255,255,.55);
-}
-
 .gameStatsRow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1993,7 +1785,7 @@
 .gameStatChipLabel {
   position: relative;
   z-index: 1;
-  font-size: 9px;
+  font-size: var(--ui-text-micro);
   font-weight: 800;
   color: rgba(255, 247, 226, 0.55);
   text-transform: uppercase;
@@ -2016,22 +1808,6 @@
   min-height: 0;
   padding: 0 10px;
   margin-top: auto;
-}
-
-.wheelWordPill {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 20px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #c0392b, #e74c3c);
-  color: #fff;
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  box-shadow: 0 2px 12px rgba(192, 57, 43, 0.4);
-  min-width: 80px;
-  min-height: 40px;
 }
 
 .gameSealMark {
@@ -2084,34 +1860,29 @@
 }
 
 /* Keep this cascade last: production mobile gameplay layout. */
-.gameRef{grid-template-rows:auto auto minmax(0,1fr);gap:4px}
+.gameRef{gap:4px}
 .gameBoard{gap:6px;padding-inline:8px}
-.gameGridPanel{min-height:142px;max-height:184px;padding:7px;border-radius:12px}
+.gameGridPanel{padding:7px;border-radius:12px}
 .gameGridPanelContent{padding:2px}
-.gameGridPanelContent .crosswordGrid{max-width:100%;max-height:100%;gap:1px;padding:5px;border:1px solid rgba(92,168,177,.18);border-radius:5px;box-sizing:border-box;margin:0 auto;justify-content:center}
-.gameGridPanelContent .crosswordCell{position:relative;display:grid;place-items:center;width:var(--crossword-cell-fit);height:var(--crossword-cell-fit);border-radius:3px;box-sizing:border-box;box-shadow:inset 1px 1px 0 rgba(255,255,255,.94),inset -2px -2px 0 rgba(108,74,30,.23),0 1px 2px rgba(0,0,0,.38)}
-.gameGridPanelContent .crosswordCellEmpty{display:block;width:var(--crossword-cell-fit);height:var(--crossword-cell-fit)}
 .gameStatsRow{gap:5px;margin-top:0}
 .gameStatChip{min-height:40px;padding:4px 3px;border-color:rgba(100,204,198,.24);border-radius:9px;box-shadow:0 3px 8px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08)}
-.gameStatChipLabel{color:#b9ddd8;font-size:8px;letter-spacing:0}
+.gameStatChipLabel{color:#b9ddd8;font-size:var(--ui-text-micro);letter-spacing:0}
 .gameStatChip strong{font-size:14px}
 .gameWheelZone{display:grid;grid-template-rows:auto auto;align-content:start;justify-items:center;width:100%;gap:0;margin-top:0;padding:12px 10px max(8px,env(safe-area-inset-bottom))}
 .letterWheel{align-self:start;margin-top:0}
-.wheelWordPill{position:absolute;top:3px;left:50%;z-index:8;min-height:32px;padding:4px 16px;transform:translateX(-50%);pointer-events:none}
-.wheelRing{width:min(calc(246px * var(--ui-scale)),66cqw);height:min(calc(246px * var(--ui-scale)),66cqw)}
-.wheelPlaceholder{max-width:82px;padding:5px 7px;font-size:10px;line-height:1.15;text-align:center}
+.wheelPlaceholder{max-width:82px;padding:5px 7px;font-size:var(--ui-text-micro);line-height:1.15;text-align:center}
 .wheelControls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 70px;align-items:center;justify-content:initial;width:100%;gap:7px;margin-top:48px;padding:0}
-.wheelCtrlBtn{display:grid;grid-template-columns:36px minmax(0,1fr);align-items:center;min-height:52px;gap:3px;padding:4px 9px 4px 4px;border-radius:13px;background:linear-gradient(180deg,rgba(13,51,62,.95),rgba(3,24,35,.98));box-shadow:0 4px 0 rgba(2,17,25,.9),0 7px 12px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.13)}
+.wheelCtrlBtn{display:grid;grid-template-columns:36px minmax(0,1fr);align-items:center;min-height:var(--ui-tab-h);gap:3px;padding:4px 9px 4px 4px;border-radius:var(--ui-radius-ctl);background:linear-gradient(180deg,rgba(13,51,62,.95),rgba(3,24,35,.98));box-shadow:0 4px 0 rgba(2,17,25,.9),0 7px 12px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.13)}
 .wheelCtrlBtn img{width:36px;height:36px}
-.wheelCtrlBtn span{overflow:hidden;font-size:11px;text-align:left;text-overflow:ellipsis;white-space:nowrap}
+.wheelCtrlBtn span{overflow:hidden;font-size:var(--ui-text-min);text-align:left;text-overflow:ellipsis;white-space:nowrap}
 .gameSealAction{grid-template-rows:48px 12px;min-height:58px}
 .gameSealMark{width:60px;height:60px;margin-top:-5px}
-.gameSealAction>span{font-size:9px}
-.gameWheelZone .gameMeaningOverlay{position:absolute;top:16px;left:14px;right:14px;bottom:auto;z-index:20;pointer-events:none}
-.gameWheelZone .meaningCard3d{min-height:76px;border-radius:10px}
-.gameWheelZone .meaningCard3dContent{padding:25px 14px 11px}
-.gameWheelZone .meaningHeader,.gameWheelZone .meaningCard3dContent p{pointer-events:auto}
-@media(max-height:720px){.gameGridPanel{min-height:124px;max-height:150px}.gameStatChip{min-height:36px}.wheelRing{width:min(calc(218px * var(--ui-scale)),60cqw);height:min(calc(218px * var(--ui-scale)),60cqw)}.wheelControls{margin-top:24px}}
+.gameSealAction>span{font-size:var(--ui-text-min)}
+.gameBoard .gameMeaningOverlay{position:absolute;top:8px;left:14px;right:14px;bottom:auto;z-index:20;pointer-events:none}
+.gameBoard .meaningCard3d{min-height:76px;border-radius:10px}
+.gameBoard .meaningCard3dContent{padding:25px 14px 11px}
+.gameBoard .meaningHeader,.gameBoard .meaningCard3dContent p{pointer-events:auto}
+@media(max-height:720px){.gameStatChip{min-height:36px}.wheelControls{margin-top:24px}}
 
 /* Wheel Center Seal Button Styles */
 .wheelCenterSealBtn {
@@ -2139,7 +1910,7 @@
 .wheelCenterSealLabel {
   margin-top: 2px;
   color: #fff4d1;
-  font-size: 10px;
+  font-size: var(--ui-text-micro);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -2156,3 +1927,152 @@
     filter: drop-shadow(0 0 26px rgba(169, 39, 49, 1.0)) brightness(1.25);
   }
 }
+
+.gameMultiplier { color: #ffd166; font-size: 11px; font-weight: 800; animation: multiplierPop 320ms ease-out; }
+@keyframes multiplierPop { from { transform: scale(1.6); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .gameMultiplier { animation: none; } }
+
+.comboRing { width: 30px; height: 30px; flex: none; }
+.comboRingTrack { fill: none; stroke: rgba(255, 255, 255, 0.18); stroke-width: 3; }
+.comboRingFill { fill: none; stroke: #7dd3fc; stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 280ms ease-out; }
+.comboRing text { fill: #fff; font-size: 11px; font-weight: 800; }
+.comboRing { background: radial-gradient(circle, rgba(8, 36, 48, 0.95) 60%, transparent 62%); border-radius: 50%; }
+.comboRing.active .comboRingFill { stroke: #ffd166; }
+.comboRing.active { animation: multiplierPop 320ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .comboRing, .comboRingFill { animation: none; transition: none; } }
+
+/* Four stat chips (target, hidden, streak, score) share one row; the ring sits in the score chip's corner. */
+.gameStatsRow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.gameScoreChip { position: relative; overflow: visible; }
+.gameScoreChip .comboRing { position: absolute; top: -9px; right: -5px; width: 32px; height: 32px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); }
+.gameScoreChip .comboRingTrack { stroke: rgba(10, 30, 40, 0.9); }
+
+/* Meaning card: sits exactly over the stats row (hidden for 3.5 s), so it never covers the board or the wheel controls. */
+.gameBoard .gameMeaningOverlay {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  z-index: 20;
+  pointer-events: auto;
+}
+.gameBoard .gameMeaningOverlay .meaningCard3dContent { display: flex; align-items: center; gap: 10px; }
+.gameBoard .gameMeaningOverlay .meaningHeader { flex: none; gap: 6px; }
+.gameBoard .gameMeaningOverlay p { flex: 1; min-width: 0; margin: 0; }
+.gameBoard .gameMeaningOverlay .meaningHeader strong { font-size: 15px; }
+.gameBoard .gameMeaningOverlay p { margin: 2px 0 0; font-size: 13px; line-height: 1.3; }
+.gameBoard .gameMeaningOverlay .meaningCard3d { min-height: 0; }
+.gameBoard .gameMeaningOverlay .meaningCard3d::before,
+.gameBoard .gameMeaningOverlay .meaningCard3d::after { display: none; }
+.gameBoard .gameMeaningOverlay .meaningCard3dContent { padding: 10px 14px; }
+.gameBoard .gameMeaningOverlay .meaningCard3dContent p { margin-right: 0; }
+
+/* The center seal already says "Mühürle" below it; the dark "BAS" overprint was unreadable on the wax. */
+.wheelCenterSealBtn .waxSealLabel { display: none; }
+
+/* Wider board: bigger gap between cells reads better at the larger size, letters scale with the cell. */
+
+/* ---------- Premium letter board: drawn in CSS so no raster is stretched on any screen ---------- */
+.gameGridPanelBg, .gameStatChipBg { display: none !important; }
+.gameGridPanel {
+  border: 1px solid rgba(214, 170, 80, 0.5);
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(80, 140, 170, 0.22), transparent 60%),
+    linear-gradient(180deg, #11304a 0%, #0a1e30 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 0 3px rgba(8, 20, 32, 0.6), 0 10px 24px rgba(0, 0, 0, 0.4);
+}
+/* Found tiles (classic skin): warm parchment gold with dark ink, 7:1+ contrast. */
+
+/* Wider, easier letter wheel. */
+.wheelLetter { transition: transform 60ms linear, filter 90ms ease; }
+
+/* Meaning card = one compact strip exactly the height of the stats row; the decorative medal is dropped. */
+.gameBoard .gameMeaningOverlay { top: auto; bottom: 0; max-height: 48px; }
+.gameBoard .gameMeaningOverlay .meaningCard3d { max-height: 48px; overflow: hidden; }
+.gameBoard .gameMeaningOverlay .meaningCard3dContent { padding: 4px 12px; }
+.gameBoard .gameMeaningOverlay img, .gameBoard .gameMeaningOverlay [class*='medal'], .gameBoard .gameMeaningOverlay [class*='Medal'] { display: none; }
+.gameBoard .gameMeaningOverlay p { font-size: 12px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.gameBoard .gameMeaningOverlay, .gameBoard .gameMeaningOverlay .meaningCard3d { min-height: 54px; max-height: 54px; }
+.gameBoard .gameMeaningOverlay .meaningCard3d { background: linear-gradient(180deg, #0f3446, #0a2230); display: flex; align-items: center; }
+
+/* Tall phones have spare height under the wheel: let the board grow so tiles are bigger.
+   Short phones keep the compact board so the wheel is never squeezed. */
+
+/* Live word preview: a strip over the stats row, well above the thumb, so the player always sees what is being joined. */
+.gameBoard .gamePreviewStrip {
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  z-index: 22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 54px;
+  max-height: 54px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #0f3446, #0a2230);
+  border: 1px solid rgba(214, 170, 80, 0.55);
+  pointer-events: none;
+}
+.previewChip {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 38px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: linear-gradient(160deg, #fff3d0, #e8bd62);
+  color: #3a2508;
+  font-weight: 900;
+  font-size: 22px;
+  line-height: 1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 3px 0 #a9741c, 0 5px 6px rgba(0, 0, 0, 0.4);
+  animation: previewPop 120ms ease-out both;
+}
+@keyframes previewPop { from { transform: translateY(-4px) scale(0.85); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .previewChip { animation: none; } }
+
+/* Stall assist: a quiet one-line offer in the same slot as the meaning card, never over the board or the wheel. */
+.gameBoard .gameStallOffer {
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  z-index: 21;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  max-height: 54px;
+  padding: 0 10px 0 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #0f3446, #0a2230);
+  border: 1px solid rgba(214, 170, 80, 0.55);
+  color: #f5efdf;
+  font-size: 13px;
+  line-height: 1.25;
+  animation: stallOfferIn 220ms ease-out both;
+}
+.gameStallOffer span { flex: 1; min-width: 0; }
+.gameStallOffer button {
+  flex: none;
+  min-height: 40px;
+  min-width: 44px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.gameStallOffer .stallAccept {
+  padding: 0 16px;
+  background: linear-gradient(160deg, #fff3d0, #e8bd62);
+  color: #3a2508;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 3px 0 #a9741c;
+}
+.gameStallOffer .stallDismiss { background: transparent; color: #cfe3e8; font-size: 22px; }
+@keyframes stallOfferIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .gameStallOffer { animation: none; } }

@@ -212,7 +212,7 @@
 
 .statBlockInner strong {
   color: #ffe39a;
-  font-size: 8px;
+  font-size: var(--ui-text-micro);
   letter-spacing: 0.06em;
 }
 
@@ -222,7 +222,7 @@
 }
 
 .statBlockInner small {
-  font-size: 9px;
+  font-size: var(--ui-text-micro);
   font-weight: 700;
   color: #ffd966;
 }
@@ -255,7 +255,7 @@
 .themeModifierTag p {
   margin: 2px 0 0;
   color: #b9c2c9;
-  font-size: 10px;
+  font-size: var(--ui-text-micro);
 }
 
 /* ── Story ── */
@@ -302,7 +302,7 @@
 
 .levelStoryMeta span {
   color: #70d7b1;
-  font-size: 10px;
+  font-size: var(--ui-text-micro);
   font-weight: 900;
   text-transform: uppercase;
 }

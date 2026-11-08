@@ -39,16 +39,6 @@ export function ProfileScreen() {
             <span><strong>Ayarlar</strong><small>Ses ve oyun tercihleri</small></span>
             <b aria-hidden="true">›</b>
           </button>
-          <button className="profileAction" onClick={() => { play('tap'); setScreen('dictionary'); }}>
-            <span className="profileActionIcon"><img src="/assets/map/nav-3d/nav-dictionary.png" alt="" /></span>
-            <span><strong>Sözlük</strong><small>Topladığın kelimeler</small></span>
-            <b aria-hidden="true">›</b>
-          </button>
-          <button className="profileAction" onClick={() => { play('tap'); setScreen('shop'); }}>
-            <span className="profileActionIcon"><img src="/assets/map/nav-3d/nav-shop.png" alt="" /></span>
-            <span><strong>Mağaza</strong><small>Güçlendirmeler ve ödüller</small></span>
-            <b aria-hidden="true">›</b>
-          </button>
         </div>
 
         <p className="profileInfo">İlerlemen bu cihazda güvenle saklanır.</p>

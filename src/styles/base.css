@@ -21,7 +21,7 @@
   --ui-native-btn-h: 86px;
 
   /* Display tokens @390pt × --ui-scale */
-  --ui-icon: calc(80px * var(--ui-scale));
+  --ui-icon: calc(56px * var(--ui-scale));
   --ui-icon-md: calc(56px * var(--ui-scale));
   --ui-icon-sm: calc(44px * var(--ui-scale));
   --ui-icon-nav: calc(72px * var(--ui-scale));
@@ -31,7 +31,7 @@
   --ui-pill-w-compact: calc(168px * var(--ui-scale));
   --ui-pill-h-compact: calc(58px * var(--ui-scale));
   --ui-action-h: calc(86px * var(--ui-scale));
-  --ui-btn-h: calc(86px * var(--ui-scale));
+  --ui-btn-h: calc(60px * var(--ui-scale));
   --ui-letter: calc(72px * var(--ui-scale));
   --ui-word-tile: calc(60px * var(--ui-scale));
   --ui-tab-w: calc(172px * var(--ui-scale));
@@ -41,6 +41,14 @@
   --ui-topbar-h: calc(80px * var(--ui-scale));
   --ui-bottomnav-h: calc(100px * var(--ui-scale));
   --ui-close: calc(56px * var(--ui-scale));
+
+  /* Control scale (single source): touch floor 44, compact 52, primary 60, list row 68. */
+  --ui-row-h: calc(68px * var(--ui-scale));
+  --ui-radius-ctl: 14px;
+  --ui-radius-card: 16px;
+  --ui-text-min: 12px; /* text on controls */
+  --ui-text-micro: 11px; /* passive captions and chip labels */
+  --ui-touch-floor: 44px; /* absolute: never scaled below the accessibility minimum */
 
   /* Splash @390pt */
   --splash-logo-w: calc(370px * var(--ui-scale-total));
@@ -481,7 +489,7 @@ p {
 }
 
 .levelDetailStat span:last-child {
-  font-size: 10px;
+  font-size: var(--ui-text-micro);
   color: rgba(255,249,239,0.5);
   text-transform: uppercase;
   font-weight: 700;
@@ -763,13 +771,13 @@ p {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   overflow: hidden;
-  border-radius: calc(20px * var(--ui-scale)); /* Matching SVG border-radius */
+  border-radius: var(--ui-radius-ctl); /* Matching SVG border-radius */
 }
 
 .btn3dFull { width: 100%; }
 
 .btn3dCompact {
-  --ui-btn-h: calc(64px * var(--ui-scale));
+  --ui-btn-h: calc(52px * var(--ui-scale));
   min-height: var(--ui-btn-h);
   height: var(--ui-btn-h);
 }
@@ -952,40 +960,6 @@ p {
 }
 
 /* ===== 3D Word Tiles ===== */
-.wordTileCell {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: var(--crossword-cell, var(--ui-word-tile));
-  height: calc(var(--crossword-cell, var(--ui-word-tile)) * 1.4);
-}
-
-.wordTileBg {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-  pointer-events: none;
-}
-
-.wordTileChar {
-  position: relative;
-  z-index: 1;
-  font-size: clamp(18px, 4.2vw, 24px);
-  font-weight: 900;
-  color: #2b1e13;
-}
-
-.wordTileCellFilled .wordTileChar { color: #4b3323; }
-
-.wordTileCellActive {
-  filter: drop-shadow(0 0 8px rgba(241, 201, 106, 0.45));
-}
-
-.wordTileCellEmpty {
-  background: transparent;
-  pointer-events: none;
-}
 
 /* ===== 3D Stars & Fav ===== */
 .starRating3d {

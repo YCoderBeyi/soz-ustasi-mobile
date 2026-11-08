@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useGame } from '../store/GameContext';
 import { Modal } from './Modal';
 
 export function PauseModal() {
   const { play, setModal, setScreen, startLevel, level, soundEnabled, setSoundEnabled, hapticsEnabled, setHapticsEnabled, reduceMotion, setReduceMotion } = useGame();
+  const [confirmRestart, setConfirmRestart] = useState(false);
   const action = (label: string, detail: string, kind: string, onClick: () => void) => (
     <button className={`pauseAction pauseAction--${kind}`} onClick={onClick}>
       <span><strong>{label}</strong><small>{detail}</small></span><b aria-hidden="true">›</b>
@@ -21,10 +23,12 @@ export function PauseModal() {
             <span>Titreşim</span><strong>{hapticsEnabled ? 'Açık' : 'Kapalı'}</strong>
           </button>
           <button className={reduceMotion ? 'active' : ''} aria-pressed={reduceMotion} onClick={() => { play('tap'); setReduceMotion(!reduceMotion); }}>
-            <span>Hareketi Azalt</span><strong>{reduceMotion ? 'Açık' : 'Kapalı'}</strong>
+            <span>Hareket</span><strong>{reduceMotion ? 'Az' : 'Normal'}</strong>
           </button>
         </div>
-        {action('Leveli Yeniden Başlat', 'Mevcut ilerleme sıfırlanır', 'secondary', () => { play('tap'); startLevel(level); })}
+        {confirmRestart
+          ? action('Emin misin? Yeniden başlat', 'Bu levelde bulduğun kelimeler sıfırlanır', 'danger', () => { play('tap'); startLevel(level); })
+          : action('Leveli Yeniden Başlat', 'Bu leveldeki ilerleme sıfırlanır', 'secondary', () => { play('tap'); setConfirmRestart(true); })}
         {action('Ana Haritaya Dön', 'İlerlemen korunur', 'secondary', () => { play('tap'); setScreen('map'); })}
         <button className="pausePrivacy" onClick={() => { play('tap'); setModal('privacy'); }}>Gizlilik Politikası</button>
       </div>

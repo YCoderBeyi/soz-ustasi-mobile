@@ -258,7 +258,7 @@
 }
 
 .collectionProgress .panel3dContent > div:last-child { display: grid; gap: 4px; }
-.collectionProgress span { color: #9ed9ca; font-size: 10px; font-weight: 900; }
+.collectionProgress span { color: #9ed9ca; font-size: var(--ui-text-micro); font-weight: 900; }
 .collectionProgress strong { color: #fff7e6; font-size: 16px; }
 .collectionProgress.complete .collectionSeal { background: #237e62; color: white; }
 

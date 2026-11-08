@@ -18,13 +18,17 @@
   gap: 6px;
 }
 
+/* Size floor only. :where() keeps specificity at zero so every control family can set its own token size. */
+:where(.iconButton, .coin, .bottomNav button, .tabs button, .modal button:not(.close):not(.actionBtn)) {
+  min-height: var(--ui-touch-floor);
+  border-radius: var(--ui-radius-ctl);
+}
+
 .iconButton,
 .coin,
 .bottomNav button,
 .tabs button,
 .modal button:not(.close):not(.actionBtn) {
-  min-height: 48px;
-  border-radius: 8px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)),
     rgba(10, 17, 30, 0.66);

@@ -58,9 +58,6 @@ export function LevelStartScreen() {
               <span className="ls-level-badge">LEVEL {level.levelId}</span>
               <span className="ls-puzzle-type">{puzzleLabel}</span>
               <h2 className="ls-theme-title">{theme.title}</h2>
-              <p className="ls-word-summary">
-                {level.mainWords.length} ana kelime · {level.hiddenWords.length} gizli keşif
-              </p>
             </div>
             <div className="ls-hero-seal">
               <img src={`${ASSETS_V2}/seal-lock.png`} alt="" />
@@ -108,7 +105,7 @@ export function LevelStartScreen() {
           <div className="ls-story-content">
             <div className="ls-story-meta">
               <span>{story.era}</span>
-              <span>{story.place.toUpperCase()}</span>
+              <span>{story.place.toLocaleUpperCase('tr-TR')}</span>
             </div>
             <strong className="ls-story-title">{story.title}</strong>
           </div>

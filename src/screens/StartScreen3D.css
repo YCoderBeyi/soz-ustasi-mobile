@@ -166,7 +166,6 @@
 }
 
 .main-start-btn {
-  --ui-btn-h: 72px;
   filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.32));
 }
 
@@ -227,7 +226,7 @@
 
 .loading-text {
   margin-top: 10px;
-  font-size: 10px;
+  font-size: var(--ui-text-micro);
   font-weight: 900;
   text-transform: uppercase;
   color: var(--brand-gold-soft);

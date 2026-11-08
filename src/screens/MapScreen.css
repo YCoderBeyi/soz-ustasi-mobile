@@ -75,10 +75,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 36px;
+  min-height: var(--ui-icon-sm);
   padding: 7px 14px;
   border: 1px solid rgba(241, 201, 106, 0.72);
-  border-radius: 14px;
+  border-radius: var(--ui-radius-ctl);
   background: linear-gradient(135deg, rgba(16, 32, 51, 0.95), rgba(91, 45, 31, 0.94));
   color: #fff8e8;
   box-shadow: 0 8px 20px rgba(4, 10, 18, 0.35);
@@ -154,7 +154,7 @@
 }
 
 .map-topbar-subtitle {
-  font-size: 9px;
+  font-size: var(--ui-text-micro);
   font-weight: 600;
   color: rgba(244, 230, 200, 0.7);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
@@ -260,36 +260,59 @@
   z-index: 15;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0;
 }
 
 .map-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(244, 230, 200, 0.35);
+  position: relative;
+  width: 28px;
+  height: var(--ui-touch-floor);
+  border: 0;
+  border-radius: 0;
   background: transparent;
   cursor: pointer;
   padding: 0;
+}
+
+/* The visible dot is a pseudo-element, so the tap area can be 44px high while the dot stays 10px. */
+.map-dot::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1.5px solid rgba(244, 230, 200, 0.7);
+  background: transparent;
   transition: all 0.2s ease;
 }
 
-.map-dot--active {
+.map-dot--active::before {
+  width: 24px;
+  border-radius: 5px;
   background: #d9a441;
   border-color: #d9a441;
   box-shadow: 0 0 8px rgba(217, 164, 65, 0.5);
-  width: 28px;
-  border-radius: 5px;
 }
 
-.map-dot--completed {
+.map-dot--completed::before {
   border-color: #3fbf7f;
   background: #3fbf7f;
 }
 
 .map-dot--locked {
-  opacity: 0.3;
   cursor: not-allowed;
+}
+
+.map-dot--locked::before {
+  opacity: 0.5;
+}
+
+.map-dot:focus-visible::before {
+  outline: 2px solid #f2cf77;
+  outline-offset: 3px;
 }
 
 .map-mastery {

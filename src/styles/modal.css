@@ -117,7 +117,8 @@
   text-align: left;
 }
 
-.modal button:not(.svgBtn):not(.btn3d):not(.actionBtn) {
+/* Legacy allow-list: modal buttons are hidden unless they opt in here. New control families must be added to it. */
+.modal button:not(.svgBtn):not(.btn3d):not(.actionBtn):not(.hintPay) {
   display: none;
 }
 
@@ -134,7 +135,7 @@
   padding-top: 4px;
 }
 .rewardDiscoveryPrompt{display:grid;gap:5px;padding:12px 14px;border:1px solid rgba(103,210,187,.42);border-radius:10px;background:linear-gradient(180deg,rgba(28,95,101,.35),rgba(8,42,53,.58));text-align:left}
-.rewardDiscoveryPrompt strong{color:#ffe4a0;font-size:14px}.rewardDiscoveryPrompt p{margin:0;color:#e9faf5;font-size:12px;line-height:1.45}.rewardDiscoveryPrompt small{color:#91c9c1;font-size:10px}
+.rewardDiscoveryPrompt strong{color:#ffe4a0;font-size:14px}.rewardDiscoveryPrompt p{margin:0;color:#e9faf5;font-size:12px;line-height:1.45}.rewardDiscoveryPrompt small{color:#91c9c1;font-size:var(--ui-text-micro)}
 
 @media (max-width: 380px) {
   .modal {
@@ -215,6 +216,15 @@
 
 .modal:has(.pauseMenu){max-width:390px;padding:22px 18px 18px;border-radius:14px;border-color:rgba(238,197,94,.42);background:linear-gradient(180deg,#102c3a,#061722 72%);box-shadow:0 24px 60px rgba(0,0,0,.62),inset 0 1px rgba(255,255,255,.12)}
 .modal:has(.pauseMenu)>h2{margin:0 50px 4px 0;color:#ffe6a5;font:700 22px/1.2 Georgia,serif}
-.pauseMenu{display:grid;gap:10px}.pauseAction{display:grid!important;grid-template-columns:1fr auto;align-items:center;min-height:61px;padding:8px 14px!important;border:1px solid rgba(238,197,94,.4)!important;border-radius:8px!important;background:linear-gradient(180deg,#174859,#082735)!important;color:#fff8e7!important;text-align:left;box-shadow:0 4px 0 #03141d,inset 0 1px rgba(255,255,255,.13)}
-.pauseAction--primary{background:linear-gradient(180deg,#69d9ae,#289c7d)!important;border-color:#f6d878!important;box-shadow:0 4px 0 #12634f!important}.pauseAction span{display:grid;gap:2px}.pauseAction strong{font-size:15px}.pauseAction small{color:#b8d8d4;font-size:10px}.pauseAction b{color:#f2ca65;font-size:27px}
-.pauseToggles{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pauseToggles button{display:grid!important;grid-template-columns:1fr auto;align-items:center;min-height:52px;padding:8px 10px!important;border:1px solid #405c68!important;border-radius:8px!important;background:#0a202d!important;color:#b5cece!important}.pauseToggles button.active{border-color:#5ed4bd!important;color:#fff}.pauseToggles strong{color:#f1ca68;font-size:11px}.pausePrivacy{display:block!important;min-height:38px!important;border:0!important;background:transparent!important;color:#91b6b4!important;font-size:11px!important;text-decoration:underline}
+.pauseMenu{display:grid;gap:10px}.pauseAction{display:grid!important;grid-template-columns:1fr auto;align-items:center;min-height:var(--ui-row-h);padding:8px 14px!important;border:1px solid rgba(238,197,94,.4)!important;border-radius:var(--ui-radius-ctl)!important;background:linear-gradient(180deg,#174859,#082735)!important;color:#fff8e7!important;text-align:left;box-shadow:0 4px 0 #03141d,inset 0 1px rgba(255,255,255,.13)}
+.pauseAction--primary{background:linear-gradient(180deg,#69d9ae,#289c7d)!important;border-color:#f6d878!important;box-shadow:0 4px 0 #12634f!important}.pauseAction span{display:grid;gap:2px}.pauseAction strong{font-size:15px}.pauseAction small{color:#b8d8d4;font-size:var(--ui-text-min)}.pauseAction b{color:#f2ca65;font-size:27px}
+.pauseToggles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.pauseToggles button{display:grid!important;grid-template-columns:1fr;justify-items:center;align-content:center;gap:2px;min-height:var(--ui-tab-h);padding:6px 6px!important;text-align:center;border:1px solid #405c68!important;border-radius:8px!important;background:#0a202d!important;color:#b5cece!important}.pauseToggles button.active{border-color:#5ed4bd!important;color:#fff}.pauseToggles strong{color:#f1ca68;font-size:var(--ui-text-min)}.pauseToggles span{font-size:var(--ui-text-min)}.pauseAction--danger{background:linear-gradient(180deg,#8f3434,#4d1515)!important;border-color:#ffb4a8!important;color:#fff!important}.pausePrivacy{display:block!important;min-height:var(--ui-icon-sm)!important;border:0!important;background:transparent!important;color:#91b6b4!important;font-size:var(--ui-text-min)!important;text-decoration:underline}
+
+.rewardScore { display: grid; justify-items: center; gap: 2px; margin: 8px 0; }
+.rewardScore span { font-size: 12px; letter-spacing: 0.12em; opacity: 0.75; }
+.rewardScore strong { font-size: 32px; line-height: 1.1; }
+.rewardScore small { font-size: 13px; opacity: 0.8; }
+.rewardScore .rewardScoreRecord { color: #ffd166; font-weight: 800; opacity: 1; }
+
+/* Keep the close button from sitting on top of the hero card. */
+.rewardHero { margin-right: 52px; }

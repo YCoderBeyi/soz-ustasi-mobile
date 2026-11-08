@@ -44,7 +44,7 @@
   border: 0;
   background: transparent;
   color: rgba(255, 244, 209, 0.78);
-  font-size: 9px;
+  font-size: var(--ui-text-min);
   font-weight: 900;
   line-height: 1;
   text-shadow: 0 2px 5px #000;
