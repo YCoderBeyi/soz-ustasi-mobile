@@ -7,8 +7,9 @@ import {
   subscribeAdBudget,
 } from '../game/adBudget';
 
-// Ödüllü reklam birimi ID'si (AdMob → Söz Ustası → Ad units → sozustasi_rewarded).
-const REWARDED_AD_ID = 'ca-app-pub-2784764635828379/7996501862';
+// Ödüllü reklam birimi ID'si. AdMob'da "Söz Ustası - Kelime Oyunu" (com.sozustasi.game, uygulama kimliği ~5793638649) uygulamasına aittir;
+// strings.xml içindeki admob_app_id ile aynı AdMob uygulamasından olmalıdır (audit:release denetler).
+const REWARDED_AD_ID = 'ca-app-pub-2784764635828379/5235235447';
 
 // Geliştirmede test reklamı gösterilir; üretim derlemesinde gerçek reklam.
 const IS_TESTING = import.meta.env.DEV;

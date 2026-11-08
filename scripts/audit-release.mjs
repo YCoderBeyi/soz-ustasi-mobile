@@ -145,6 +145,9 @@ if (adsMode && !/^none$/i.test(adsMode)) {
   const PUBLISHER = 'pub-2784764635828379';
   const APP_ADS_LINE = `google.com, ${PUBLISHER}, DIRECT, f08c47fec0942fa0`;
   const GOOGLE_TEST_ID = '3940256099942544';
+  // AdMob ids registered for com.sozustasi.game (AdMob app "Söz Ustası - Kelime Oyunu"). The sibling "(Windows PC)" app is a different AdMob record.
+  const ADMOB_APP_ID = 'ca-app-pub-2784764635828379~5793638649';
+  const ADMOB_REWARDED_UNIT = 'ca-app-pub-2784764635828379/5235235447';
 
   // app-ads.txt must exist in both places with exactly the publisher line.
   for (const file of ['app-ads.txt', 'public/app-ads.txt']) {
@@ -164,6 +167,10 @@ if (adsMode && !/^none$/i.test(adsMode)) {
       if (id !== `ca-app-pub-${publisherDigits}`) errors.push(`${label}: ad id ${id} does not belong to ${PUBLISHER}.`);
     }
   }
+
+  if (!stringsForAds.includes(`>${ADMOB_APP_ID}<`)) errors.push(`strings.xml admob_app_id must be ${ADMOB_APP_ID} (the AdMob app for com.sozustasi.game).`);
+  if (!adSource.includes(`'${ADMOB_REWARDED_UNIT}'`)) errors.push(`admob.ts rewarded unit must be ${ADMOB_REWARDED_UNIT} (a unit of the same AdMob app).`);
+  // The unit must belong to the same AdMob app as the app id: units of other apps are rejected above because only this one is allowed.
 
   // The audience declaration must exist and match the store listing (13+, not child-directed).
   if (!/tagForChildDirectedTreatment:\s*false/.test(adSource)) errors.push('admob.ts must declare tagForChildDirectedTreatment: false (13+ audience).');
