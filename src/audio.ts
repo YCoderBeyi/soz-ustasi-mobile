@@ -7,7 +7,10 @@ export type SfxName =
   | 'seal'
   | 'reward'
   | 'shuffle'
-  | 'hint';
+  | 'hint'
+  | 'combo1'
+  | 'combo2'
+  | 'combo3';
 
 type Tone = {
   frequency: number;
@@ -64,6 +67,22 @@ const tones: Record<SfxName, Tone[]> = {
     { frequency: 440, duration: 0.08, type: 'triangle', gain: 0.04 },
     { frequency: 660, duration: 0.17, delay: 0.07, type: 'sine', gain: 0.032 },
   ],
+  // Each multiplier tier rises a step higher so the player hears the climb.
+  combo1: [
+    { frequency: 784, duration: 0.07, delay: 0.2, type: 'sine', gain: 0.03, pan: -0.1 },
+    { frequency: 988, duration: 0.14, delay: 0.26, type: 'sine', gain: 0.03, pan: 0.1 },
+  ],
+  combo2: [
+    { frequency: 880, duration: 0.07, delay: 0.2, type: 'sine', gain: 0.032, pan: -0.12 },
+    { frequency: 1109, duration: 0.07, delay: 0.25, type: 'sine', gain: 0.032 },
+    { frequency: 1319, duration: 0.16, delay: 0.3, type: 'sine', gain: 0.03, pan: 0.12 },
+  ],
+  combo3: [
+    { frequency: 988, duration: 0.07, delay: 0.2, type: 'sine', gain: 0.034, pan: -0.14 },
+    { frequency: 1245, duration: 0.07, delay: 0.25, type: 'sine', gain: 0.034 },
+    { frequency: 1480, duration: 0.07, delay: 0.3, type: 'sine', gain: 0.032, pan: 0.14 },
+    { frequency: 1976, duration: 0.24, delay: 0.35, type: 'sine', gain: 0.028 },
+  ],
 };
 
 let context: AudioContext | null = null;
@@ -79,21 +98,32 @@ function getContext() {
   return context;
 }
 
-export function playSfx(name: SfxName, enabled: boolean, volume = 80) {
-  if (!enabled || volume <= 0) return;
+// One shared compressor per audio context: building a new one for every sound made fast letter
+// swipes allocate a node graph per letter. Overlapping sounds now also compress together.
+let outputBus: GainNode | null = null;
 
-  const audio = getContext();
-  const now = audio.currentTime;
-  const master = audio.createGain();
+function getOutputBus(audio: AudioContext): GainNode {
+  if (outputBus) return outputBus;
   const compressor = audio.createDynamicsCompressor();
   compressor.threshold.value = -16;
   compressor.knee.value = 22;
   compressor.ratio.value = 5;
   compressor.attack.value = 0.003;
   compressor.release.value = 0.18;
-  master.gain.value = 1.9 * volumePercentToGain(volume);
-  master.connect(compressor);
   compressor.connect(audio.destination);
+  outputBus = audio.createGain();
+  outputBus.connect(compressor);
+  return outputBus;
+}
+
+export function playSfx(name: SfxName, enabled: boolean, volume = 80) {
+  if (!enabled || volume <= 0) return;
+
+  const audio = getContext();
+  const now = audio.currentTime;
+  const master = audio.createGain();
+  master.gain.value = 1.9 * volumePercentToGain(volume);
+  master.connect(getOutputBus(audio));
 
   for (const tone of tones[name]) {
     const oscillator = audio.createOscillator();

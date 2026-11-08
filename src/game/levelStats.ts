@@ -25,6 +25,7 @@ export function updateLevelStats(
   time: number,
   streak: number,
   success: boolean,
+  score = 0,
 ): Record<number, LevelStats> {
   const prev = stats[levelId];
   const entry: LevelStats = {
@@ -32,6 +33,7 @@ export function updateLevelStats(
     bestStreak: prev ? Math.max(prev.bestStreak, streak) : streak,
     attempts: prev ? prev.attempts + 1 : 1,
     completions: prev ? prev.completions + (success ? 1 : 0) : (success ? 1 : 0),
+    bestScore: Math.max(prev?.bestScore ?? 0, score),
   };
   return { ...stats, [levelId]: entry };
 }

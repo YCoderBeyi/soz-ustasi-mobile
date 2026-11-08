@@ -125,17 +125,36 @@ describe('playSfx', () => {
     expect(FakeAudioContext.instances).toHaveLength(0);
   });
 
-  it('routes enabled sounds through the compressor with the current gain curve', () => {
-    playSfx('reward', true, 50);
+  // The module caches its audio context, so each test loads a fresh copy and stays order-independent.
+  async function freshAudio() {
+    vi.resetModules();
+    return import('./audio');
+  }
+
+  it('routes enabled sounds through one shared compressor with the current gain curve', async () => {
+    const { playSfx: play, volumePercentToGain: curve } = await freshAudio();
+    play('reward', true, 50);
 
     const audio = FakeAudioContext.lastInstance();
     expect(audio).toBeDefined();
     expect(audio?.compressors).toHaveLength(1);
     expect(audio?.oscillators).toHaveLength(4);
-    expect(audio?.gains[0]?.gain.value).toBeCloseTo(1.9 * volumePercentToGain(50), 5);
+    const expectedGain = 1.9 * curve(50);
+    const master = audio?.gains.find((g) => Math.abs(g.gain.value - expectedGain) < 1e-5);
+    expect(master).toBeDefined();
     expect(audio?.compressors[0]?.threshold.value).toBe(-16);
     expect(audio?.compressors[0]?.ratio.value).toBe(5);
-    expect(audio?.gains[0]?.connections[0]).toBe(audio?.compressors[0]);
+    const bus = master?.connections[0] as { connections: unknown[] } | undefined;
+    expect(bus?.connections[0]).toBe(audio?.compressors[0]);
     expect(audio?.compressors[0]?.connections[0]).toBe(audio?.destination);
+  });
+
+  it('does not build a new compressor for every sound (fast letter swipes stay cheap)', async () => {
+    const { playSfx: play } = await freshAudio();
+    play('letter', true, 50);
+    play('letter', true, 50);
+    play('letter', true, 50);
+
+    expect(FakeAudioContext.lastInstance()?.compressors).toHaveLength(1);
   });
 });
