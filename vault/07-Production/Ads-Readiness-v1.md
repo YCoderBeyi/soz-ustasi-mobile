@@ -31,3 +31,10 @@ Yayıncı kimliği: `pub-2784764635828379`. Reklam türü: yalnızca ödüllü r
 ## Bilinen sınırlar
 - Günlük sınır cihaz saatine bağlı, saati değiştiren oyuncu aşabilir (politika ihlali değil).
 - Web sürümünde reklam ve rıza akışı sessizce atlanır; yalnızca Android'de çalışır.
+
+## app-ads.txt doğrulaması ve yayın adresleri (2026-11-08, ölçüldü)
+- **Dosya kusursuz:** `https://ycoderbeyi.github.io/app-ads.txt` -> `200 OK`, `text/plain; charset=utf-8`, yönlendirme yok, BOM yok, CR yok, 59 bayt, içerik birebir `google.com, pub-2784764635828379, DIRECT, f08c47fec0942fa0`. `http://` adresi `https://`'e 301 ile gidiyor.
+- **Kök site başka bir uygulamanındır.** `YCoderBeyi.github.io` deposundaki `privacy.html` **TırıVırı Puantaj** uygulamasının politikasıdır. Söz Ustası metniyle ÜZERİNE YAZILMAZ. `app-ads.txt` yayıncı düzeyindedir, tek satır iki uygulamaya da yeter.
+- **Söz Ustası gizlilik politikası adresi:** `https://ycoderbeyi.github.io/soz-ustasi-mobile/privacy.html` (güncel, 13+ beyanı yayında). Play Console'a bu adresi gir.
+- AdMob "bilgileriniz eşleşmiyor" derse neden dosya değil, şunlardan biridir: (1) Play mağaza girişindeki **Web sitesi** alanı `https://ycoderbeyi.github.io` ile aynı alan adı değil ya da boş, (2) uygulamanın herkese açık mağaza girişi henüz yok (kapalı testte AdMob web sitesini okuyamaz), (3) tarama gecikmesi (24 saate kadar).
+
