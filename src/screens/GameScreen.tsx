@@ -235,7 +235,7 @@ export function GameScreen() {
           {feedback === 'wrong' ? 'Yanlış, tekrar deneyin' : ''}
         </div>
         {/* Klavye / ekran-okuyucu için harf seçimi — görünmez alternatif giriş */}
-        <div className="visually-hidden">
+        <div className="visually-hidden keyboardLetterInput">
           <h2>Harf çemberi — klavye ile seçim</h2>
           <p>Harflere odaklanıp Enter ile seçin, sonra "Kelimeyi onayla" düğmesine basın.</p>
           <ul>

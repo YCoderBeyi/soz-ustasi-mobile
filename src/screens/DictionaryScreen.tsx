@@ -63,7 +63,11 @@ export function DictionaryScreen() {
             <MeaningCard3D className="emptyMeaningCard">
               <div className="emptyMeaningContent">
                 <strong>{tab === 'favorites' ? 'Henüz favori yok' : 'Henüz kelime yok'}</strong>
-                <p>Kelimeleri buldukça Söz Hazinesi burada kalıcı olarak büyür.</p>
+                <p>{tab === 'favorites'
+                  ? 'Keşfettiğin kelimelerin yanındaki kalp düğmesi ile favorilerini oluştur.'
+                  : tab === 'hidden'
+                    ? 'Bulmacalardaki gizli kelimeleri keşfettikçe burada göreceksin.'
+                    : 'Kelimeleri buldukça Söz Hazinesi burada kalıcı olarak büyür.'}</p>
               </div>
             </MeaningCard3D>
           </div>

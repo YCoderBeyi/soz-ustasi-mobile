@@ -36,15 +36,16 @@ export function OnboardingScreen() {
         </div>
       </section>
 
-      <section className="onboardCopy">
+      <section className="onboardCopy" aria-live="polite" aria-atomic="true">
         <p className="eyebrow">Söz Ustası</p>
         <h1>{activeSlide.title}</h1>
         <p>{activeSlide.body}</p>
       </section>
 
       <div className="onboardSteps" aria-label="Tanıtım ilerlemesi">
+        <span className="visually-hidden" role="status">{step + 1} / {slides.length}</span>
         {slides.map((slide, index) => (
-          <span className={index === step ? 'active' : ''} key={slide.title} />
+          <span className={index === step ? 'active' : ''} key={slide.title} aria-hidden="true" />
         ))}
       </div>
 
@@ -54,6 +55,10 @@ export function OnboardingScreen() {
       >
         {step === slides.length - 1 ? 'Haritaya Geç' : 'Devam Et'}
       </Button3D>
+      <div className="onboardNavigation">
+        <button type="button" disabled={step === 0} onClick={() => { play('tap'); setStep(step - 1); }}>Önceki</button>
+        <button type="button" onClick={() => { play('tap'); setScreen('map'); }}>Tanıtımı Atla</button>
+      </div>
     </main>
   );
 }

@@ -1,12 +1,14 @@
 import '../styles/settings.css';
 import { useGame } from '../store/GameContext';
 import { ActionIconButton } from '../components/ActionIconButton';
+import { PrivacyModal } from '../components/PrivacyModal';
 import { showAdPrivacyOptions } from '../services/admob';
 
 export function SettingsScreen() {
   const {
     setScreen, play, soundEnabled, setSoundEnabled, soundVolume, setSoundVolume,
     hapticsEnabled, setHapticsEnabled, calmMode, setCalmMode, setModal,
+    reduceMotion, setReduceMotion, modal,
   } = useGame();
   const soundActive = soundEnabled && soundVolume > 0;
 
@@ -20,6 +22,8 @@ export function SettingsScreen() {
       <section className="settingsList">
         <button
           className="settingsItem"
+          role="switch"
+          aria-checked={soundActive}
           onClick={() => {
             if (soundActive) {
               setSoundEnabled(false);
@@ -63,13 +67,17 @@ export function SettingsScreen() {
           />
           <div className="settingsVolumeScale"><span>Sessiz</span><span>Güçlü</span></div>
         </div>
-        <button className="settingsItem" onClick={() => { play('tap'); setHapticsEnabled(!hapticsEnabled); }}>
+        <button className="settingsItem" role="switch" aria-checked={hapticsEnabled} onClick={() => { play('tap'); setHapticsEnabled(!hapticsEnabled); }}>
           <span><strong>Dokunsal Geri Bildirim</strong><small>Dokunuşlarda titreşim kullan</small></span>
           <i className={hapticsEnabled ? 'active' : ''}><b /></i>
         </button>
-        <button className="settingsItem" onClick={() => { play('tap'); setCalmMode(!calmMode); }}>
+        <button className="settingsItem" role="switch" aria-checked={calmMode} onClick={() => { play('tap'); setCalmMode(!calmMode); }}>
           <span><strong>Sakin Mod</strong><small>Çarpansız, yalnızca keşfin tadı için oyna</small></span>
           <i className={calmMode ? 'active' : ''}><b /></i>
+        </button>
+        <button className="settingsItem" role="switch" aria-checked={reduceMotion} onClick={() => setReduceMotion(!reduceMotion)}>
+          <span><strong>Hareketi Azalt</strong><small>Animasyonları ve hareketli efektleri azalt</small></span>
+          <i className={reduceMotion ? 'active' : ''} aria-hidden="true"><b /></i>
         </button>
         <button className="settingsItem" onClick={() => { play('tap'); void showAdPrivacyOptions(); }}>
           <span><strong>Reklam Gizlilik Tercihleri</strong><small>Google reklam gizlilik seçeneklerini yönet</small></span>
@@ -82,6 +90,7 @@ export function SettingsScreen() {
         <p>İlerlemen yalnızca bu cihazda saklanır.</p>
         <p>Bonus kelime adayları hunspell-tr sözlüğünden (MPL 2.0, github.com/tdd-ai/hunspell-tr) derlenip elle denetlenmiştir.</p>
       </footer>
+      {modal === 'privacy' && <PrivacyModal />}
     </main>
   );
 }

@@ -120,3 +120,5 @@
   .bottom-nav__icon-shell img { width: 44px; height: 44px; }
   .bottom-nav button.active::before { width: 56px; height: 58px; }
 }
+.bottom-nav__soon { display: block; font-size: var(--ui-text-micro); line-height: 1.1; }
+.bottom-nav button:disabled { opacity: .55; cursor: default; }

@@ -4,7 +4,7 @@
 .profileHeader{position:relative;z-index:3;display:grid;grid-template-columns:52px 1fr 52px;align-items:center;min-height:66px;padding:max(28px,env(safe-area-inset-top)) 12px 4px}
 .profileHeader h1{margin:0;color:#ffe5a3;font-family:Georgia,"Times New Roman",serif;font-size:21px;line-height:1.2;text-align:center;text-shadow:0 2px 4px #000}
 .profileHeaderSpacer{width:52px}
-.profileContent{position:relative;z-index:1;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;align-content:start;gap:16px;min-height:0;padding:8px 18px 12px}
+.profileContent{position:relative;z-index:1;display:grid;grid-template-rows:auto auto minmax(min-content,1fr) auto;align-content:start;gap:16px;min-height:0;padding:8px 18px 12px;overflow-y:auto;overscroll-behavior:contain}
 .profileAvatar{display:grid;justify-items:center;gap:4px}
 .profileSealHalo{display:grid;place-items:center;width:116px;height:116px;margin-bottom:2px;border:1px solid rgba(246,201,94,.35);border-radius:50%;background:radial-gradient(circle,rgba(227,184,73,.18),rgba(15,62,72,.2) 56%,transparent 57%);box-shadow:0 0 30px rgba(50,203,192,.13)}
 .profileSeal{width:94px;height:94px;font-size:29px;filter:drop-shadow(0 9px 8px rgba(0,0,0,.48))}

@@ -21,3 +21,21 @@
 }
 .screen.gameRef .wheelLetterChar { font-size: clamp(16px, calc(var(--wheel-d) * 0.075), 26px); }
 .screen.gameRef .wheelControls { margin-top: 28px; }
+
+/* Sighted keyboard users must see the controls that currently own focus. */
+.screen.gameRef .keyboardLetterInput:focus-within {
+  position: fixed !important;
+  inset: 12px;
+  z-index: 80;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 20px;
+  clip: auto;
+  white-space: normal;
+  overflow-y: auto;
+  background: var(--brand-bg);
+  border: 2px solid var(--brand-gold-soft);
+  border-radius: var(--ui-radius-ctl);
+}
+.keyboardLetterInput button { min-width: 44px; min-height: 44px; padding: 8px; }

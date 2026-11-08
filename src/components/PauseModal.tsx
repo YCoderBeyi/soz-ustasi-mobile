@@ -16,10 +16,10 @@ export function PauseModal() {
       <div className="pauseMenu">
         {action('Devam Et', 'Bulmacaya geri dön', 'primary', () => { play('tap'); setModal(null); })}
         <div className="pauseToggles">
-          <button className={soundEnabled ? 'active' : ''} onClick={() => { play('tap'); setSoundEnabled(!soundEnabled); }}>
+          <button className={soundEnabled ? 'active' : ''} aria-pressed={soundEnabled} onClick={() => { play('tap'); setSoundEnabled(!soundEnabled); }}>
             <span>Ses</span><strong>{soundEnabled ? 'Açık' : 'Kapalı'}</strong>
           </button>
-          <button className={hapticsEnabled ? 'active' : ''} onClick={() => { play('tap'); setHapticsEnabled(!hapticsEnabled); }}>
+          <button className={hapticsEnabled ? 'active' : ''} aria-pressed={hapticsEnabled} onClick={() => { play('tap'); setHapticsEnabled(!hapticsEnabled); }}>
             <span>Titreşim</span><strong>{hapticsEnabled ? 'Açık' : 'Kapalı'}</strong>
           </button>
           <button className={reduceMotion ? 'active' : ''} aria-pressed={reduceMotion} onClick={() => { play('tap'); setReduceMotion(!reduceMotion); }}>

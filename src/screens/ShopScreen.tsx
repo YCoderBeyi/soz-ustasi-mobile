@@ -23,9 +23,9 @@ export function ShopScreen() {
         <div className="shopWallet"><img src="/assets/map/topbar-3d/topbar-coin.png" alt="" /><strong>{coins}</strong></div>
       </header>
       <div className="shopTabs">
-        <button className={tab === 'theme' ? 'active' : ''} onClick={() => setTab('theme')}>Temalar</button>
-        <button className={tab === 'seal' ? 'active' : ''} onClick={() => setTab('seal')}>Mühürler</button>
-        <button className={tab === 'power_up' ? 'active' : ''} onClick={() => setTab('power_up')}>Güç</button>
+        <button className={tab === 'theme' ? 'active' : ''} aria-pressed={tab === 'theme'} onClick={() => setTab('theme')}>Temalar</button>
+        <button className={tab === 'seal' ? 'active' : ''} aria-pressed={tab === 'seal'} onClick={() => setTab('seal')}>Mühürler</button>
+        <button className={tab === 'power_up' ? 'active' : ''} aria-pressed={tab === 'power_up'} onClick={() => setTab('power_up')}>Güç</button>
       </div>
       {tab === 'power_up' ? (
         <div className="shopList">
@@ -41,6 +41,7 @@ export function ShopScreen() {
                 </div>
                 <button
                   className="shopBuy"
+                  aria-label={`${item.name}: ${item.price} altın karşılığında satın al${coins < item.price ? ', yetersiz altın' : ''}`}
                   onClick={() => buyShopItem(item.id)}
                   disabled={coins < item.price}
                 >
@@ -67,6 +68,7 @@ export function ShopScreen() {
               <div className="shopInfo"><strong>{item.name}</strong><p>{item.description}</p></div>
               <button
                 className={`shopBuy ${owned ? 'shopUse' : ''}`}
+                aria-label={owned ? `${item.name}: ${selected ? 'seçili' : 'kullan'}` : `${item.name}: ${item.price} altın karşılığında satın al${coins < item.price ? ', yetersiz altın' : ''}`}
                 onClick={() => owned ? selectShopItem(item.id) : buyShopItem(item.id)}
                 disabled={selected || (!owned && coins < item.price)}
               >
@@ -79,7 +81,7 @@ export function ShopScreen() {
         })}
       </div>
       )}
-      {toast && <div className="toast shopToast">{toast}</div>}
+      {toast && <div className="toast shopToast" role="status">{toast}</div>}
     </main>
   );
 }

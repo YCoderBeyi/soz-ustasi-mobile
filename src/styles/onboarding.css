@@ -4,7 +4,23 @@
   align-content: start;
   gap: 14px;
   text-align: center;
+  overflow-y: auto;
 }
+
+.onboardNavigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.onboardNavigation button {
+  min-height: var(--ui-touch-floor, 44px);
+  padding: 8px 12px;
+  border: 1px solid var(--brand-border-strong);
+  border-radius: var(--ui-radius-ctl);
+  background: var(--brand-bg);
+  color: var(--brand-text);
+}
+.onboardNavigation button:disabled { opacity: .45; cursor: default; }
 .onboardStage {
   position: relative;
   display: grid;

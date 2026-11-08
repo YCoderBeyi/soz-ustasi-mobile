@@ -18,15 +18,11 @@ const items: NavItem[] = [
 ];
 
 export function BottomNav({ active = 'map' }: { active?: string }) {
-  const { setScreen, setToast, play } = useGame();
+  const { setScreen, play } = useGame();
 
   const handleNav = (item: NavItem) => {
     play('tap');
-    if (!item.screen) {
-      setToast('Görevler yakında açılacak');
-      window.setTimeout(() => setToast(''), 1400);
-      return;
-    }
+    if (!item.screen) return;
     setScreen(item.screen);
   };
 
@@ -38,13 +34,14 @@ export function BottomNav({ active = 'map' }: { active?: string }) {
           key={item.key}
           className={active === item.key ? 'active' : ''}
           onClick={() => handleNav(item)}
-          aria-label={item.label}
+          disabled={!item.screen}
+          aria-label={item.screen ? item.label : `${item.label} (yakında)`}
           aria-current={active === item.key ? 'page' : undefined}
         >
           <span className="bottom-nav__icon-shell">
             <img src={item.icon} alt="" />
           </span>
-          <span>{item.label}</span>
+          <span>{item.label}{!item.screen && <small className="bottom-nav__soon">Yakında</small>}</span>
         </button>
       ))}
     </nav>
