@@ -2,6 +2,17 @@
 
 ## Yapılan Geliştirmeler
 
+### 10 Ağustos 2026
+- **AdMob Ödüllü Reklam Entegrasyonu (1.1.0):**
+  - `@capacitor-community/admob@8` eklendi; `strings.xml`'e `admob_app_id` ve manifest'e `APPLICATION_ID` meta-data + `INTERNET` izni tanımlandı.
+  - `src/services/admob.ts` servisi: UMP/GDPR izin akışı, rewarded ön yükleme, reklam erken kapatıldığında promise'in asılı kalmasını önleyen event tabanlı sonuç çözümü.
+  - Ödül yerleşimleri: Anlam İpucu ve Harf Aç için "reklamla ücretsiz" seçeneği (altın yol korunur), yanlış cevapta "İkinci Şans" (kusursuz bonus + seri korunur, bölüm başına bir kez).
+  - Günlük ödüllü reklam limiti: 6 (PlayerSave v3 `adWatchStats` alanıyla cihazda saklanır).
+  - Ayarlara "Reklam Gizlilik Tercihleri" (Google UMP privacy options) eklendi.
+  - Release kapısı güncellendi: `Release-Manifest` Ads: Rewarded (AdMob), `audit-release.mjs` reklam modunda INTERNET/App ID/SDK doğrulaması, Data Safety ve gizlilik politikası AdMob ile uyumlu hale getirildi.
+  - AdMob doğrulaması için `app-ads.txt` (pub-2784764635828379) kök dizine ve `public/`'a eklendi; geliştirici web sitesinin kök dizinine yayınlanması gerekiyor.
+  - Üretim derlemesi gerçek AdMob App ID ve Ad Unit ID kullanır; geliştirme (`import.meta.env.DEV`) test reklamı gösterir.
+
 ### 18 Haziran 2026
 - **Profesyonel Oyun Geliştirme Kararları Vault'a Eklendi:**
   - Oyunu daha faydalı, daha oynanabilir, daha heyecanlı ve uzun süre tutulacak hale getirmek için alınan ürün kararları [Professional-Game-Improvement-Decisions-v1.md](../vault/07-Production/Professional-Game-Improvement-Decisions-v1.md) dosyasına kaydedildi.

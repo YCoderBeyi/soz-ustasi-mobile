@@ -59,22 +59,22 @@ function requireResolvedManifestField(label, placeholder) {
   }
 }
 
-if (versionName !== '1.0.16') {
-  errors.push(`Android versionName must be 1.0.16, found ${versionName ?? 'missing'}.`);
+if (versionName !== '1.1.0') {
+  errors.push(`Android versionName must be 1.1.0, found ${versionName ?? 'missing'}.`);
 }
-if (!versionCode || Number(versionCode) !== 19) errors.push(`Android versionCode must be 19, found ${versionCode ?? 'missing'}.`);
+if (!versionCode || Number(versionCode) !== 24) errors.push(`Android versionCode must be 24, found ${versionCode ?? 'missing'}.`);
 if (applicationId !== 'com.sozustasi.game') errors.push(`Unexpected applicationId: ${applicationId ?? 'missing'}`);
 
-if (releaseManifestVersionName !== '1.0.16') {
-  errors.push(`Release manifest version name must be 1.0.16, found ${releaseManifestVersionName ?? 'missing'}.`);
+if (releaseManifestVersionName !== '1.1.0') {
+  errors.push(`Release manifest version name must be 1.1.0, found ${releaseManifestVersionName ?? 'missing'}.`);
 }
-if (releaseManifestVersionCode !== '19') {
-  errors.push(`Release manifest version code must be 19, found ${releaseManifestVersionCode ?? 'missing'}.`);
+if (releaseManifestVersionCode !== '24') {
+  errors.push(`Release manifest version code must be 24, found ${releaseManifestVersionCode ?? 'missing'}.`);
 }
 requireManifestValue('Track', 'Closed test, then production after eligibility');
-requireManifestValue('Data model', 'PlayerSave v2');
-requireManifestValue('Network access', 'None');
-requireManifestValue('Ads', 'None');
+requireManifestValue('Data model', 'PlayerSave v3');
+requireManifestValue('Network access', 'Internet (AdMob)');
+requireManifestValue('Ads', 'Rewarded (AdMob)');
 requireManifestValue('In-app purchases', 'None');
 requireManifestValue('Account/login', 'None');
 requireManifestValue('Supported locale', 'tr-TR');
@@ -85,7 +85,6 @@ requireResolvedManifestField('AAB SHA-256', 'pending build');
 requireResolvedManifestField('APK SHA-256', 'pending build');
 
 const forbiddenPermissions = [
-  'android.permission.INTERNET',
   'android.permission.CAMERA',
   'android.permission.RECORD_AUDIO',
   'android.permission.ACCESS_FINE_LOCATION',
@@ -95,6 +94,28 @@ for (const permission of forbiddenPermissions) {
   if (manifest.includes(permission)) errors.push(`Unexpected permission: ${permission}`);
 }
 if (!manifest.includes('android:allowBackup="false"')) errors.push('Android backup must remain disabled for local-only save.');
+
+// Reklam etkinse AdMob SDK'sı ve kimliği zorunludur; reklamsız modda INTERNET
+// izni yasaktır. Kapı "önce manifest, sonra SDK" felsefesini korur.
+const adsValue = releaseManifest.get('Ads');
+if (adsValue && adsValue !== 'None') {
+  if (!manifest.includes('android.permission.INTERNET')) {
+    errors.push('AdMob için android.permission.INTERNET bildirilmelidir.');
+  }
+  if (!manifest.includes('com.google.android.gms.ads.APPLICATION_ID')) {
+    errors.push('AdMob APPLICATION_ID meta-data bildirilmelidir.');
+  }
+  const stringsXml = read('android/app/src/main/res/values/strings.xml');
+  if (!stringsXml.includes('admob_app_id') || !stringsXml.includes('ca-app-pub-')) {
+    errors.push('AdMob app id (admob_app_id) strings.xml içinde tanımlı olmalıdır.');
+  }
+  const pkgJson = read('package.json');
+  if (!pkgJson.includes('@capacitor-community/admob')) {
+    errors.push('@capacitor-community/admob bağımlılığı package.json içinde olmalıdır.');
+  }
+} else if (manifest.includes('android.permission.INTERNET')) {
+  errors.push('Ads: None iken android.permission.INTERNET bildirilmemelidir.');
+}
 
 for (const text of ['Reklam İzle', '2x Ödül Al', 'Günlük keşif ödülü']) {
   if (playerSaveSource.includes(text)) errors.push(`Unimplemented promise remains in UI: ${text}`);

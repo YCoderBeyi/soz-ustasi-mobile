@@ -22,8 +22,8 @@ Her bölümde harfleri doğru sırayla birleştir, çengel bulmaca düzenindeki 
 - Kelime anlamları ve kısa öğrenme kartları
 - Gizli kelimeler ve Söz Hazinesi koleksiyonu
 - Eski İstanbul, Kapadokya, Ege ve Anadolu temaları
-- İnternet bağlantısı gerektirmeyen oynanış
-- Zorunlu reklam veya kullanıcı takibi içermeyen ilk sürüm
+- İsteğe bağlı ödüllü reklamlar: ipucu ve harf açma reklamla ücretsiz, yanlış cevapta İkinci Şans
+- Zorunlu interstitial/banner reklam ve kullanıcı takibi içermez; reklamlar yalnızca oyuncunun isteğiyle gösterilir
 
 Kelimeleri bul. Anlamlarını keşfet. Mührü aç.
 
@@ -48,4 +48,4 @@ Kelimeleri bul. Anlamlarını keşfet. Mührü aç.
 
 ## Politika Notu
 
-Mağaza açıklaması yalnızca mevcut sürümde çalışan özellikleri anlatmalıdır. Reklam, cloud save, günlük görev veya ödeme sistemi etkin değilse listing metnine eklenmemelidir.
+Mağaza açıklaması yalnızca mevcut sürümde çalışan özellikleri anlatmalıdır. Cloud save, günlük görev veya ödeme sistemi etkin değilse listing metnine eklenmemelidir. Reklam özellikleri yayınlanan sürümle birebir aynı olmalıdır.
