@@ -86,3 +86,37 @@ export function findWheelLetterAtPoint(
 
   return bestIndex;
 }
+
+/**
+ * Letters crossed by a finger segment, in order. Touch events arrive in discrete samples, so a fast swipe can jump
+ * over a whole tile between two events; walking the segment in sub-tile steps means no letter is ever skipped.
+ */
+export function wheelLettersAlongSegment(
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  ringRect: Pick<DOMRect, 'left' | 'top' | 'width' | 'height'>,
+  letterCount: number,
+  tilePx: number,
+  lastIndex: number | null,
+): number[] {
+  const step = Math.max(4, wheelHitRadius(tilePx) / 2);
+  const steps = Math.max(1, Math.ceil(Math.hypot(to.x - from.x, to.y - from.y) / step));
+  const crossed: number[] = [];
+  let last = lastIndex;
+  for (let i = 1; i <= steps; i += 1) {
+    const t = i / steps;
+    const hit = findWheelLetterAtPoint(
+      from.x + (to.x - from.x) * t,
+      from.y + (to.y - from.y) * t,
+      ringRect,
+      letterCount,
+      tilePx,
+      last,
+    );
+    if (hit !== null && hit !== last) {
+      crossed.push(hit);
+      last = hit;
+    }
+  }
+  return crossed;
+}

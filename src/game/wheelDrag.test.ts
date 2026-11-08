@@ -4,6 +4,7 @@ import {
   letterCenterPercent,
   letterCenterPx,
   wheelHitRadius,
+  wheelLettersAlongSegment,
   wheelRadius,
 } from './wheelDrag';
 
@@ -62,5 +63,36 @@ describe('wheelDrag', () => {
 
   it('returns null in empty space', () => {
     expect(findWheelLetterAtPoint(ring.left + 100, ring.top + 100, ring, 5, 56, null)).toBeNull();
+  });
+});
+
+describe('wheelLettersAlongSegment', () => {
+  const rect = { left: 0, top: 0, width: 300, height: 300 };
+  const tile = 56;
+  const center = (i: number, n: number) => letterCenterPx(rect, i, n);
+
+  it('does not skip a letter lying between two far-apart samples', () => {
+    const a = center(0, 6);
+    const c = center(2, 6);
+    // One single jump from letter 0 to letter 2 (a fast flick): letter 1 sits on the rim between them.
+    const crossed = wheelLettersAlongSegment(a, c, rect, 6, tile, null);
+    expect(crossed[0]).toBe(0);
+    expect(crossed.at(-1)).toBe(2);
+  });
+
+  it('starts a word when the finger slides in from outside the ring', () => {
+    const outside = { x: 150, y: 420 };
+    const inside = center(3, 6);
+    const crossed = wheelLettersAlongSegment(outside, inside, rect, 6, tile, null);
+    expect(crossed).toContain(3);
+  });
+
+  it('returns nothing when the segment never touches a letter', () => {
+    expect(wheelLettersAlongSegment({ x: 150, y: 150 }, { x: 160, y: 150 }, rect, 6, tile, null)).toEqual([]);
+  });
+
+  it('never repeats the letter the finger is already on', () => {
+    const p = center(1, 6);
+    expect(wheelLettersAlongSegment(p, { x: p.x + 2, y: p.y }, rect, 6, tile, 1)).toEqual([]);
   });
 });
