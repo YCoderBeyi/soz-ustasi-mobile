@@ -140,7 +140,18 @@ if (unapproved) findings.minor.push(`§16.3 ${unapproved}/${scored.length} kart 
 
 // §6.2 gizli kelimesiz
 const noHidden = scored.filter(({ l }) => l.hiddenWords.length === 0).map((x) => x.id);
-if (noHidden.length) findings.minor.push(`§6.2 gizli kelimesi olmayan seviyeler: ${noHidden.join(', ')} (L1 girişte kabul)`);
+const approvedNoHidden = new Map([
+  [1, 'onboarding seviyesi'],
+  [4, 'harf havuzunda kalan onaylı sözcükler ana hedeflerde kullanılıyor'],
+  [9, 'harf havuzunda kalan onaylı sözcükler ana hedeflerde kullanılıyor'],
+  [61, 'harf havuzunda kalan onaylı sözcükler ana hedeflerde kullanılıyor'],
+]);
+const unexpectedNoHidden = noHidden.filter((id) => !approvedNoHidden.has(id));
+if (unexpectedNoHidden.length) findings.major.push(`§6.2 gerekçesiz gizli kelimesiz seviye: ${unexpectedNoHidden.join(', ')}`);
+if (noHidden.length) {
+  const reasons = noHidden.map((id) => `L${id} (${approvedNoHidden.get(id) ?? 'gerekçesiz'})`).join(', ');
+  findings.minor.push(`§6.2 gizli hedefi olmayan seviyeler: ${reasons}`);
+}
 
 // §18.1 katalog büyüklüğü
 if (levels.length < TARGET_CATALOG) findings.major.push(`§18.1 Katalog ${levels.length}/${TARGET_CATALOG} seviye. Eksik ana yol içeriği: ${TARGET_CATALOG - levels.length}.`);

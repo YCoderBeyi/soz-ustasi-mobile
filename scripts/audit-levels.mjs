@@ -192,9 +192,9 @@ function loadGeneratedLevels() {
 function normalizeWord(word) {
   return word
     .trim()
+    .normalize('NFC')
     .toLocaleUpperCase('tr-TR')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
+    .normalize('NFC');
 }
 
 function letterBag(value) {
@@ -204,24 +204,9 @@ function letterBag(value) {
   }, {});
 }
 
-// Oyunun gerçek normalize'ı (src/game/normalize.ts): NFC, diacritic STRIP YOK.
-// Türkçede Ü/U, Ş/S, Ç/C, Ö/O, Ğ/G, İ/I AYRI harftir. Buildability bu kurala
-// göre kontrol edilmeli; aksi halde audit oyunda kurulamayan kelimeyi geçirir
-// (örn. M,Ü,H,Ü,R,U havuzunda UMUR: tek U var, iki Ü ayrı harf → kurulamaz).
-function gameNormalize(word) {
-  return word.trim().toLocaleUpperCase('tr-TR').normalize('NFC');
-}
-
-function gameLetterBag(value) {
-  return [...gameNormalize(value)].reduce((bag, char) => {
-    bag[char] = (bag[char] ?? 0) + 1;
-    return bag;
-  }, {});
-}
-
 function canBuildWord(word, letters) {
-  const source = gameLetterBag(letters.join(''));
-  const target = gameLetterBag(word);
+  const source = letterBag(letters.join(''));
+  const target = letterBag(word);
   return Object.entries(target).every(([char, count]) => (source[char] ?? 0) >= count);
 }
 
@@ -441,16 +426,10 @@ levels.forEach((level) => {
   }
 });
 
-levels.slice(0, 45).forEach((level, index) => {
-  if (index > 0) {
-    const prev = levels[index - 1];
-    const prevTot = prev.mainWords.reduce((s, w) => s + w.word.length, 0);
-    const curTot = level.mainWords.reduce((s, w) => s + w.word.length, 0);
-    if (curTot < prevTot - 1 && index > 3) {
-      warnings.push(`Level ${level.levelId}: toplam harf yükü bir önceki seviyeden düşük (${curTot} < ${prevTot}).`);
-    }
-  }
-});
+// Difficulty pacing is audited with the runtime formula in audit-plan.mjs and
+// difficultyCurve.test.ts. Main-word character totals are not a reliable proxy:
+// moving a repeated objective to an optional bonus word lowers this sum without
+// necessarily making the actual level easier or less rewarding.
 
 if (warnings.length) {
   console.warn(`Level audit warnings (${warnings.length}):`);

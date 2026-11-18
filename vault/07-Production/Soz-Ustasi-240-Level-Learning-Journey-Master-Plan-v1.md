@@ -231,6 +231,7 @@ Gizli kelime:
 - Oyuncunun gerçekten keşfedebileceği mantıklı bir kelime olmalı.
 - Sırf sayıyı artırmak için aşırı nadir sözcük kullanılmamalı.
 - Çok kısa iki harfli kelimeler yalnızca ilk bölümlerde ve sınırlı kullanılmalı.
+- Harf havuzunda doğal ve doğrulanabilir bir hedef yoksa gizli kelime zorlanmamalı; boş hedef oyuncuya doğru gösterilmeli.
 - Gizli kelime sayısı seviye başlamadan oyuncuya gösterilmeli.
 - Kelimenin kendisi oyuncuya açıklanmamalı.
 

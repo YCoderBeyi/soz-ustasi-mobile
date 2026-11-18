@@ -135,8 +135,7 @@ const baseLevels: LevelData[] = [
     themeId: 'anatolian_autumn',
     sealId: 'seal_anatolia_01',
     puzzleType: 'anagram',
-    // İkinci 'U', gizli kelime UMUR için gerekli (UMUR iki U içerir). Türkçe
-    // harfler ayrı eşleştiği için Ü artık U yerine geçmiyor.
+    // İkinci U, onaylı hedefleri değiştirmeden UMUR'u isteğe bağlı sözlük bonusu yapar.
     letters: ["M","Ü","H","Ü","R","U","U"],
     mainWords: [
       { word: 'MÜHÜR', meaning: 'Bir belgeye iz bırakmak için kullanılan damga.', difficulty: 3 },
