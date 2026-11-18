@@ -66,13 +66,13 @@ export const levels66to70: LevelData[] = [
     letters: ['A', 'M', 'E', 'L', 'İ', 'Y', 'A', 'T'],
     mainWords: [
       { word: 'AMELİYAT', meaning: 'Bir hastalığı veya yaralanmayı cerrahi yöntemle tedavi etme işlemi.', difficulty: 5 },
-      { word: 'AİLE', meaning: 'Birbirine akrabalıkla bağlı kişiler topluluğu.', difficulty: 4 },
       { word: 'İMAL', meaning: 'Hammaddeyi işleyerek ürün üretme işi.', difficulty: 3 },
       { word: 'YAMA', meaning: 'Yırtık veya eksik bölümü kapatmak için eklenen parça.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'TEMA', meaning: 'Bir eserin veya düşüncenin temel konusu.', reward: 20 },
       { word: 'ELMA', meaning: 'Yuvarlak ve sulu bir meyve; Rosaceae familyasındandır.', reward: 18 },
+      { word: 'AİLE', meaning: 'Birbirine akrabalıkla bağlı kişiler topluluğu.', reward: 14 },
     ],
     reward: { baseCoin: 176, hiddenWordBonus: 23 },
   },

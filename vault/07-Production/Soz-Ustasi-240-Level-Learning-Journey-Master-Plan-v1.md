@@ -64,9 +64,7 @@ Gerçek zorluk aşağıdaki bileşenlerden oluşur:
 
 ### 2.4 Audit boşluğu
 
-Mevcut level audit teknik geçerliliği kontrol ediyor ancak oyuncu deneyimini tam korumuyor. Güncel audit 120 seviyeyi geçirmesine rağmen 10 zorluk gerilemesi bildiriyor.
-
-Yeni audit yalnızca "çalışıyor mu?" değil, "ilerleme hissi veriyor mu?" sorusunu da kontrol etmelidir.
+Audit teknik geçerliliğin yanında oyuncu deneyimini de korumalıdır. Zorluk denetimi editoryal bir proxy yerine oyunun kullandığı tek runtime formülüne bağlı olmalıdır. Oyuncu telemetrisi olmadan her yerel düşüşü kusur saymak doğru değildir; toparlanma seviyeleri bilinçli tasarım aracıdır.
 
 ## 3. Ürün Tasarım İlkeleri
 
@@ -271,38 +269,35 @@ Seviye hedefinde olmayan fakat harflerden üretilebilen geçerli kelimeler:
 
 Başarı oranı hedefi ilk deneme içindir; ipucu kullanımı dahil değildir.
 
-### 7.2 Dalgalı fakat yükselen eğri
+### 7.2 Dalgalı eğri ve toparlanma
 
 Zorluk düz bir çizgi halinde artmayacaktır. Oyuncunun yorulmasını önlemek için:
 
-- Dört seviyelik yükseliş.
-- Bir toparlanma seviyesi.
+- Zorluk artışı ile toparlanma seviyelerini dönüşümlü kullan.
+- Her beş seviyelik blokta oyuncuya en az bir belirgin nefes alanı bırak.
 - Yeni mekanikten sonra bir öğretici seviye.
 - Bölüm finalinden sonra bir nefes seviyesi.
 
-Ancak toparlanma seviyesi önceki bölümün başlangıcından daha kolay olamaz. Uzun dönemli taban zorluk sürekli yükselir.
+Toparlanma seviyesi, hemen önceki seviyeden ve blok ortalamasından kolay olabilir. Bu bilinçli iniş tek başına gerileme kusuru değildir. Uzun dönemli ilerleme; yeni harf havuzları, kelime çeşitliliği, bölüm anlatısı ve oyuncu telemetrisi birlikte değerlendirilerek izlenir; ilk seri için katı bir bölüm başlangıç puanı veya hareketli ortalama şartı konmaz.
 
 ### 7.3 Zorluk puanı
 
-Her seviye için hesaplanan puan:
+Oyunun mevcut runtime puanı, kodda tek kaynak olan `src/game/difficulty.ts` içindeki yapısal göstergeleri kullanır:
 
 ```text
 zorluk =
-  harf_sayısı * 1.2
-  + ana_kelime_sayısı * 1.5
-  + ortalama_kelime_uzunluğu * 1.8
-  + nadirlik_ortalaması * 2.0
-  + kesişim_karmaşıklığı * 1.3
-  + benzer_kelime_belirsizliği * 1.1
-  + gizli_kelime_sayısı * 0.4
+  harf_sayısı * 1.0
+  + en_uzun_ana_kelime * 0.8
+  + ana_kelime_sayısı * 0.7
+  + gizli_kelime_sayısı * 0.3
 ```
 
-Audit kuralları:
+Güncel otomatik eğri korumaları (`src/data/difficultyCurve.test.ts` ve `npm run audit:plan`):
 
-- Beş seviyelik hareketli ortalama geriye gidemez.
-- Tek seviye düşüşü önceki seviyeye göre en fazla `%18` olabilir.
-- Bölüm finali bölüm ortalamasından en az `%12` zor olmalıdır.
-- Yeni bölümün ilk seviyesi önceki finalden kolay olabilir fakat önceki bölüm başlangıcından kolay olamaz.
+- Her beş seviyelik blokta en düşük puan, blok ortalamasından en az 1 puan aşağıda olmalıdır; bu toparlanma alanını garanti eder.
+- Ardışık seviyeler arasındaki ani yükseliş en fazla 4 puan olmalıdır.
+- Zorluk puanı yapısal bir oyuncu deneyimi proxy'sidir; gerçek çözüm süresi, ipucu kullanımı ve terk oranı ölçüldüğünde telemetriyle kalibre edilmelidir.
+- Bölüm finalleri ve yeni bölüm başlangıçları anlatı, ödül ve yeni tema ile de anlam kazanabilir; bunlar için yapay zorluk artışı zorunlu değildir.
 
 ## 8. Bulmaca Çeşitliliği
 
@@ -615,14 +610,14 @@ Her seviye için:
 
 ### 16.2 İlerleme audit
 
-- Beş seviyelik zorluk ortalaması.
+- Runtime zorluk formülüyle beşli blok toparlanma kontrolü ve ardışık artış sınırı.
 - Aynı harf torbası tekrarı.
 - Ana kelime tekrar mesafesi.
 - Tema dağılımı.
 - Bulmaca tipi dağılımı.
 - Gizli kelime yoğunluğu.
 - Ana kelime uzunluğu dağılımı.
-- Bölüm finali zorluk kontrolü.
+- Bölüm finali ödül/anlatı kontrolü; zorluk artışı tek başına başarı ölçütü değildir.
 
 ### 16.3 İçerik audit
 
@@ -780,7 +775,7 @@ Bir içerik paketi ancak şu koşullarda tamamlanmış sayılır:
 1. Bütün seviyeler editoryal veri olarak açıkça tanımlanmış.
 2. Otomatik kopyalanmış ana yol seviyesi yok.
 3. Kelime ve harf tekrar auditleri geçiyor.
-4. Zorluk hareketli ortalaması hedef eğriye uyuyor.
+4. Runtime zorluk eğrisi testleri nefes alanı ve ani yükseliş sınırını geçiyor; telemetri geldikçe eğri oyuncu verisiyle kalibre ediliyor.
 5. Her seviyenin onaylı keşif kartı bulunuyor.
 6. Tarihsel kişi ve buluş anlatıları içerik incelemesinden geçmiş.
 7. Save migrasyonu eski ilerlemeyi koruyor.

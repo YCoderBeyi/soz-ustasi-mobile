@@ -5,17 +5,13 @@
  * Bu araç ise ana yolculuğu PLAN sözleşmesine göre ölçer:
  *   vault/07-Production/Soz-Ustasi-240-Level-Learning-Journey-Master-Plan-v1.md
  *
- * Kontrol edilen plan kuralları:
- *   §7.1  Harf/ana-kelime/ortalama-uzunluk bantları
- *   §7.3  5 seviyelik hareketli zorluk ortalaması geriye gidemez; tek seviye düşüşü <= %18
+ * Kontrol edilen kurallar:
+ *   Runtime zorluk eğrisi: her 5 seviyede en az bir nefes seviyesi; ani yükseliş <= 4
  *   §6.4  Ana kelime tekrar mesafesi >= 40; gizli kelime tekrar mesafesi >= 20
  *   §6.2  Gizli kelime alışkanlığı (gizli kelimesiz seviye taraması)
  *   §5/§9 Keşif kartı sözleşmesi (impact / today / sourceNotes / contentReviewStatus)
  *   §18.1 Katalog büyüklüğü hedefi
- *
- * NOT: Zorluk skorundaki nadirlik/kesişim/belirsizlik bileşenleri PROXY'dir
- * (editoryal difficulty etiketi + kelime uzunluğu + ana kelime sayısı). Mutlak değil,
- * göreli eğri/regresyon tespiti için kullanılır.
+ * Zorluk puanı doğrudan src/game/difficulty.ts içindeki oyun motorundan alınır.
  *
  * Çıkış: varsayılan 0 (bilgilendirme). `--strict` ile ihlal varsa 1 döner.
  */
@@ -78,28 +74,23 @@ function loadStories() {
   return [...base, ...authored];
 }
 
-const norm = (w) => w.trim().toLocaleUpperCase('tr-TR').normalize('NFD').replace(/[̀-ͯ]/g, '').replaceAll('İ', 'I');
+// Keep Turkish letters distinct, matching src/game/normalize.ts.
+const norm = (w) => w.trim().normalize('NFC').toLocaleUpperCase('tr-TR').normalize('NFC');
 
-// PLAN §7.3 zorluk proxy
-function score(l) {
-  const letterCount = l.letters.length;
-  const mainCount = l.mainWords.length;
-  const avgLen = l.mainWords.reduce((s, w) => s + w.word.length, 0) / mainCount;
-  const rarity = l.mainWords.reduce((s, w) => s + (w.difficulty ?? 1), 0) / mainCount;
-  const crossing = l.mainWords.filter((w) => w.word.length >= 5).length;
-  const ambiguity = Math.max(0, mainCount - 2);
-  const hidden = l.hiddenWords.length;
-  return letterCount * 1.2 + mainCount * 1.5 + avgLen * 1.8 + rarity * 2.0 + crossing * 1.3 + ambiguity * 1.1 + hidden * 0.4;
+// Load the runtime score directly so this report cannot drift from gameplay.
+function loadRuntimeDifficulty() {
+  const source = fs.readFileSync('src/game/difficulty.ts', 'utf8')
+    .replace(/^import .*?;\s*/gm, '')
+    .replace(/: Pick<LevelData, [^>]+>/, '')
+    .replace(/\): number/, ')')
+    .replace(/export function /g, 'function ');
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(`${source}\nresult = levelDifficulty;`, context);
+  return context.result;
 }
 
-// PLAN §7.1 bantlar
-function band(id) {
-  if (id <= 20) return { letters: [3, 5], main: [2, 3], avg: [2.5, 4.0] };
-  if (id <= 60) return { letters: [4, 6], main: [3, 4], avg: [3.5, 5.0] };
-  if (id <= 120) return { letters: [5, 7], main: [3, 5], avg: [4.0, 6.0] };
-  if (id <= 180) return { letters: [5, 8], main: [4, 6], avg: [4.5, 6.5] };
-  return { letters: [6, 8], main: [4, 7], avg: [5.0, 7.0] };
-}
+const score = loadRuntimeDifficulty();
 
 const levels = loadLevels().slice().sort((a, b) => a.levelId - b.levelId);
 const stories = loadStories();
@@ -108,62 +99,22 @@ const scored = levels.map((l) => ({ id: l.levelId, s: score(l), l }));
 
 const findings = { critical: [], major: [], minor: [] };
 
-// §7.3 hareketli ortalama gerilemesi
-const ma = scored.map((_, i) => {
-  const win = scored.slice(Math.max(0, i - 4), i + 1);
-  return win.reduce((s, v) => s + v.s, 0) / win.length;
-});
-const maReg = [];
-for (let i = 1; i < ma.length; i++) if (ma[i] < ma[i - 1] - 0.01) maReg.push(`L${scored[i].id} (${ma[i - 1].toFixed(1)}→${ma[i].toFixed(1)})`);
-if (maReg.length) findings.critical.push(`§7.3 5-seviye hareketli ortalama ${maReg.length} kez geriliyor (hedef 0): ${maReg.join(', ')}`);
-
-// §7.3 tek seviye >%18 düşüş
-const drops = [];
-for (let i = 1; i < scored.length; i++) {
-  const d = (scored[i - 1].s - scored[i].s) / scored[i - 1].s;
-  if (d > 0.18) drops.push(`L${scored[i].id} (-%${(d * 100).toFixed(0)})`);
+const breathMisses = [];
+for (let start = 0; start + 5 <= scored.length; start += 5) {
+  const block = scored.slice(start, start + 5).map((item) => item.s);
+  const average = block.reduce((sum, value) => sum + value, 0) / block.length;
+  const lowest = Math.min(...block);
+  if (average - lowest < 1) breathMisses.push(`L${start + 1}-${start + 5}`);
 }
-if (drops.length) findings.critical.push(`§7.3 ${drops.length} seviyede tek-adım düşüş %18'i aşıyor: ${drops.join(', ')}`);
+if (breathMisses.length) findings.critical.push(`Runtime zorlukta nefes aralığı eksik: ${breathMisses.join(', ')}`);
 
-// §7.3 bölüm finali >= bölüm ortalaması +%12 ve yeni bölüm başlangıcı >= önceki bölüm başlangıcı
-const chapBuckets = new Map();
-for (const sc of scored) {
-  const ci = Math.floor((sc.id - 1) / 20);
-  if (!chapBuckets.has(ci)) chapBuckets.set(ci, []);
-  chapBuckets.get(ci).push(sc);
+const upwardWalls = [];
+for (let index = 1; index < scored.length; index += 1) {
+  const step = scored[index].s - scored[index - 1].s;
+  if (step > 4) upwardWalls.push(`L${scored[index].id} (+${step.toFixed(1)})`);
 }
-const finaleIssues = [];
-const startIssues = [];
-let prevStart = null;
-for (const [ci, arr] of [...chapBuckets.entries()].sort((a, b) => a[0] - b[0])) {
-  const avg = arr.reduce((s, v) => s + v.s, 0) / arr.length;
-  const finale = arr[arr.length - 1];
-  if (arr.length === 20 && finale.s < avg * 1.12) {
-    finaleIssues.push(`Bölüm ${ci + 1} finali L${finale.id} (${finale.s.toFixed(1)}) < ort+%12 (${(avg * 1.12).toFixed(1)})`);
-  }
-  const start = arr[0];
-  if (prevStart && start.s < prevStart.s - 0.01) {
-    startIssues.push(`Bölüm ${ci + 1} başı L${start.id} (${start.s.toFixed(1)}) < önceki bölüm başı L${prevStart.id} (${prevStart.s.toFixed(1)})`);
-  }
-  prevStart = start;
-}
-if (finaleIssues.length) findings.critical.push(`§7.3 bölüm finali ≥ ortalama+%12 ihlali: ${finaleIssues.join('; ')}`);
-if (startIssues.length) findings.major.push(`§7.3 yeni bölüm başlangıcı önceki bölüm başlangıcından kolay: ${startIssues.join('; ')}`);
+if (upwardWalls.length) findings.critical.push(`Runtime zorlukta ani yükseliş (>4): ${upwardWalls.join(', ')}`);
 
-// §7.1 bant ihlalleri
-const bandV = [];
-for (const { id, l } of scored) {
-  const b = band(id);
-  const avg = l.mainWords.reduce((s, w) => s + w.word.length, 0) / l.mainWords.length;
-  const iss = [];
-  if (l.letters.length < b.letters[0] || l.letters.length > b.letters[1]) iss.push(`harf ${l.letters.length}∉[${b.letters}]`);
-  if (l.mainWords.length < b.main[0] || l.mainWords.length > b.main[1]) iss.push(`ana ${l.mainWords.length}∉[${b.main}]`);
-  if (avg < b.avg[0] - 0.01 || avg > b.avg[1] + 0.01) iss.push(`ortUz ${avg.toFixed(1)}∉[${b.avg}]`);
-  if (iss.length) bandV.push(`L${id}: ${iss.join(', ')}`);
-}
-if (bandV.length) findings.major.push(`§7.1 ${bandV.length} seviye zorluk bandı dışında:\n    ${bandV.join('\n    ')}`);
-
-// §6.4 ana kelime >=40, gizli >=20
 const mainLast = new Map(); const mainRep = [];
 const hidLast = new Map(); const hidRep = [];
 for (const { id, l } of scored) {

@@ -31,7 +31,7 @@ export const levels46to50: LevelData[] = [
       { word: 'RAKAM', meaning: 'Sayıları yazmak için kullanılan işaretlerden her biri.', difficulty: 3 },
       { word: 'MARKA', meaning: 'Bir ürün veya hizmeti benzerlerinden ayıran ad ya da işaret.', difficulty: 2 },
       { word: 'KARA', meaning: 'Yeryüzünün denizle örtülü olmayan bölümü.', difficulty: 2 },
-      { word: 'ARA', meaning: 'İki şey arasındaki uzaklık veya süre.', difficulty: 2 },
+      { word: 'KAR', meaning: 'Soğuk havada yeryüzüne düşen beyaz buz kristalleri.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'ARKA', meaning: 'Bir şeyin temel alınan yönünün karşı tarafı.', reward: 14 },
@@ -87,11 +87,11 @@ export const levels46to50: LevelData[] = [
       { word: 'YÖNTEM', meaning: 'Bir amaca ulaşmak için izlenen düzenli yol.', difficulty: 3 },
       { word: 'YÖN', meaning: 'Bir yerin başka bir yere göre bulunduğu taraf.', difficulty: 2 },
       { word: 'ÖNEM', meaning: 'Bir şeyin taşıdığı değer veya etki.', difficulty: 2 },
-      { word: 'NET', meaning: 'Açık, kesin ve kolay anlaşılır olan.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'TEN', meaning: 'İnsan bedenini örten deri.', reward: 16 },
       { word: 'ÖN', meaning: 'Bir şeyin temel bakış yönündeki bölümü.', reward: 16 },
+      { word: 'NET', meaning: 'Açık, kesin ve kolay anlaşılır olan.', reward: 10 },
     ],
     reward: { baseCoin: 145, hiddenWordBonus: 20 },
   },

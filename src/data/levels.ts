@@ -238,12 +238,12 @@ const baseLevels: LevelData[] = [
     letters: ["S","A","R","A","Y"],
     mainWords: [
       { word: 'SARAY', meaning: 'Hükümdarların yaşadığı büyük yapı.', difficulty: 2 },
-      { word: 'ARA', meaning: 'İki şey arasındaki uzaklık veya süre.', difficulty: 2 },
+      { word: 'YASA', meaning: 'Toplum yaşamını düzenleyen, uyulması gereken kural.', difficulty: 2 },
       { word: 'ARSA', meaning: 'Üzerine yapı yapılabilecek toprak parçası.', difficulty: 3 },
       { word: 'AYAR', meaning: 'Bir şeyin ölçüsü veya düzeni.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'YASA', meaning: 'Toplum yaşamını düzenleyen, uyulması gereken kural.', reward: 8 },
+      { word: 'ARA', meaning: 'İki şey arasındaki uzaklık veya süre.', reward: 8 },
       { word: 'YAR', meaning: 'Derin ve dik yamaç; uçurum.', reward: 9 },
     ],
     reward: { baseCoin: 54, hiddenWordBonus: 10 },
@@ -377,12 +377,12 @@ const baseLevels: LevelData[] = [
     puzzleType: 'crossword',
     letters: ["K","İ","T","A","P"],
     mainWords: [
-      { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', difficulty: 2 },
       { word: 'TAKİP', meaning: 'Ardından gitme veya izleme işi.', difficulty: 3 },
       { word: 'PATİK', meaning: 'Bebekler için örülen sıcak tutan ayakkabı.', difficulty: 3 },
       { word: 'PATİ', meaning: 'Hayvan ayağı.', difficulty: 2 }
     ],
     hiddenWords: [
+      { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', reward: 10 },
       { word: 'AİT', meaning: 'İlgili, ilişkin, dair.', reward: 12 },
       { word: 'TİP', meaning: 'Ortak özellikleri olan örnek veya çeşit.', reward: 12 },
     ],
@@ -470,7 +470,7 @@ const baseLevels: LevelData[] = [
       { word: 'ŞART', meaning: 'Bir işin gerçekleşmesi için gereken koşul.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'ARA', meaning: 'İki şey arasında kalan yer veya süre.', reward: 10 },
+      { word: 'ALA', meaning: 'Birden çok rengi olan, alaca.', reward: 10 },
     ],
     reward: { baseCoin: 85, hiddenWordBonus: 10 },
   },
@@ -517,12 +517,12 @@ const baseLevels: LevelData[] = [
     letters: ["P","A","T","İ","K","A","I"],
     mainWords: [
       { word: 'PATİKA', meaning: 'Dağlarda yürüyüş için kullanılan dar yol.', difficulty: 3 },
-      { word: 'KAPI', meaning: 'Bir yere girip çıkmaya yarayan açıklık.', difficulty: 4 },
       { word: 'ATA', meaning: 'Geçmişte yaşamış aile büyüğü veya ecdat.', difficulty: 4 },
       { word: 'KAT', meaning: 'Bir yapının, yüksekliği boyunca ayrılan bölümlerinden her biri.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'TAKI', meaning: 'Bilezik, kolye veya küpe gibi süs amacıyla kullanılan mücevher eşyası.', reward: 12 }
+      { word: 'TAKI', meaning: 'Bilezik, kolye veya küpe gibi süs amacıyla kullanılan mücevher eşyası.', reward: 12 },
+      { word: 'KAPI', meaning: 'Bir yere girip çıkmaya yarayan açıklık.', reward: 10 }
     ],
     reward: { baseCoin: 89, hiddenWordBonus: 12 },
   },
@@ -554,12 +554,13 @@ const baseLevels: LevelData[] = [
     letters: ["D","E","Ğ","E","R"],
     mainWords: [
       { word: 'DEĞER', meaning: 'Bir şeyin önemi veya karşılığı.', difficulty: 2 },
-      { word: 'DERE', meaning: 'Küçük akarsu.', difficulty: 3 },
       { word: 'EĞER', meaning: 'Koşul bildiren söz.', difficulty: 2 },
       { word: 'DER', meaning: 'Bir şeyi söylemek veya adlandırmak.', difficulty: 3 }
     ],
-    hiddenWords: [],
-    reward: { baseCoin: 93, hiddenWordBonus: 0 },
+    hiddenWords: [
+      { word: 'DERE', meaning: 'Küçük akarsu.', reward: 10 }
+    ],
+    reward: { baseCoin: 93, hiddenWordBonus: 10 },
   },
   {
     levelId: 34,
@@ -570,7 +571,7 @@ const baseLevels: LevelData[] = [
     letters: ["K","İ","T","A","P","L"],
     mainWords: [
       { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', difficulty: 4 },
-      { word: 'KALP', meaning: 'Kan dolaşımını sağlayan organ.', difficulty: 4 },
+      { word: 'AİT', meaning: 'Bir kimseye ya da şeye bağlı olan, onun olan.', difficulty: 2 },
       { word: 'KATİP', meaning: 'Yazı işleriyle uğraşan görevli.', difficulty: 4 },
       { word: 'PİL', meaning: 'Elektrik enerjisi sağlayan küçük araç.', difficulty: 2 }
     ],
@@ -590,12 +591,12 @@ const baseLevels: LevelData[] = [
     letters: ["D","E","S","E","N"],
     mainWords: [
       { word: 'DESEN', meaning: 'Süsleme veya düzenli çizgi örüntüsü.', difficulty: 3 },
-      { word: 'DENE', meaning: 'Bir şeyi sınamak veya yoklamak.', difficulty: 2 },
       { word: 'SENE', meaning: 'Yıl anlamında kullanılan söz.', difficulty: 2 },
       { word: 'ENSE', meaning: 'Boynun arka bölümü.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'SEN', meaning: 'Karşıdaki kişiyi gösteren söz.', reward: 12 }
+      { word: 'SEN', meaning: 'Karşıdaki kişiyi gösteren söz.', reward: 12 },
+      { word: 'DENE', meaning: 'Bir şeyi sınamak veya yoklamak.', reward: 10 }
     ],
     reward: { baseCoin: 98, hiddenWordBonus: 12 },
   },
@@ -648,11 +649,11 @@ const baseLevels: LevelData[] = [
       { word: 'SAAT', meaning: 'Zamanı gösteren araç.', difficulty: 2 },
       { word: 'SERT', meaning: 'Kolay bükülmeyen veya katı olan.', difficulty: 3 },
       { word: 'RAST', meaning: 'Tesadüf, rastlantı, denk gelme.', difficulty: 4 },
-      { word: 'ARSA', meaning: 'Üzerine yapı yapılabilecek toprak parçası.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'TERS', meaning: 'Düz olmayan veya karşıt yönde olan.', reward: 13 },
-      { word: 'TERAS', meaning: 'Binanın önünde veya üstünde yer alan açık oturma alanı.', reward: 5 }
+      { word: 'TERAS', meaning: 'Binanın önünde veya üstünde yer alan açık oturma alanı.', reward: 5 },
+      { word: 'ARSA', meaning: 'Üzerine yapı yapılabilecek toprak parçası.', reward: 10 }
     ],
     reward: { baseCoin: 103, hiddenWordBonus: 14 },
   },
@@ -740,13 +741,13 @@ const baseLevels: LevelData[] = [
     letters: ["A","D","A","L","E","T"],
     mainWords: [
       { word: 'ADALET', meaning: 'Hakkı gözetme ve doğruluk ilkesi.', difficulty: 2 },
-      { word: 'ALET', meaning: 'Bir işte kullanılan araç.', difficulty: 3 },
       { word: 'DAL', meaning: 'Ağacın veya bitkinin gövdesinden çıkan kol.', difficulty: 4 },
       { word: 'ELA', meaning: 'Yeşile çalan açık kahverengi göz rengi.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'ADET', meaning: 'Görenek; bir şeyin sayıca tutarı.', reward: 13 },
       { word: 'DELTA', meaning: 'Akarsuyun denize döküldüğü yerde oluşan üçgen ova.', reward: 14 },
+      { word: 'ALET', meaning: 'Bir işte kullanılan araç.', reward: 10 },
     ],
     reward: { baseCoin: 114, hiddenWordBonus: 15 },
   },
@@ -759,13 +760,13 @@ const baseLevels: LevelData[] = [
     letters: ["Z","A","M","A","N"],
     mainWords: [
       { word: 'ZAMAN', meaning: 'Olayların geçtiği süre.', difficulty: 2 },
-      { word: 'AMAN', meaning: 'Acıma veya şaşkınlık bildiren söz; merhamet çağrısı.', difficulty: 3 },
       { word: 'NAZ', meaning: 'Cilve, işve, kırıtma.', difficulty: 3 },
       { word: 'ZAM', meaning: 'Fiyata yapılan artış.', difficulty: 3 }
     ],
     hiddenWords: [
       { word: 'ANA', meaning: 'Anne veya temel kaynak.', reward: 14 },
-      { word: 'MANA', meaning: 'Bir söz veya olayın anlattığı şey, anlam.', reward: 8 }
+      { word: 'MANA', meaning: 'Bir söz veya olayın anlattığı şey, anlam.', reward: 8 },
+      { word: 'AMAN', meaning: 'Acıma veya şaşkınlık bildiren söz; merhamet çağrısı.', reward: 10 }
     ],
     reward: { baseCoin: 115, hiddenWordBonus: 15 },
   },
@@ -778,13 +779,13 @@ const baseLevels: LevelData[] = [
     letters: ["B","O","R","A","N"],
     mainWords: [
       { word: 'BORA', meaning: 'Ani ve güçlü soğuk rüzgâr; kısa süreli şiddetli fırtına.', difficulty: 3 },
-      { word: 'ORAN', meaning: 'İki büyüklüğün birbirine göre durumu veya aralarındaki bağıntı.', difficulty: 3 },
-      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 2 }
+      { word: 'ORAN', meaning: 'İki büyüklüğün birbirine göre durumu veya aralarındaki bağıntı.', difficulty: 3 }
     ],
     hiddenWords: [
       { word: 'OBA', meaning: 'Göçebe çadır topluluğu veya geçici yerleşim birimi.', reward: 14 },
       { word: 'BAR', meaning: 'Basınç birimi; ağır yük; toplantı veya eğlence mekânı.', reward: 12 },
-      { word: 'AN', meaning: 'Çok kısa zaman dilimi; şu an.', reward: 10 }
+      { word: 'AN', meaning: 'Çok kısa zaman dilimi; şu an.', reward: 10 },
+      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', reward: 10 }
     ],
     reward: { baseCoin: 117, hiddenWordBonus: 14 },
   }
