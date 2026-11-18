@@ -9,6 +9,8 @@ export const levelStories66to70: LevelStory[] = [
     body: 'Tıbbi gözlem, hastanın anlattıklarını bedendeki işaretlerle birlikte değerlendirmeyi gerektirir. Belirtinin ne zaman başladığı ve nasıl değiştiği kaydedildiğinde tek bir an yerine hastalığın seyri görülebilir.',
     person: 'İbn Sina',
     personInfo: 'Tıp ve felsefeyi bir arada ele alarak hastalık belirtilerini gözlemleyip kayıt altına almayı sistemleştiren bilim insanıydı.',
+    impact: 'Belirtileri zaman içinde kaydetmek, hastanın durumunu daha iyi anlatmasına yardım eder.',
+    today: 'Sağlık uzmanları değerlendirme yaparken belirtilerin ne zaman başladığını da sorar.',
   },
   {
     levelId: 67,
@@ -18,6 +20,8 @@ export const levelStories66to70: LevelStory[] = [
     body: 'İbn Sina genç yaşta tıp eğitimi aldı ve hastaları tedavi etti. Hekimlik deneyimini mantık, doğa bilimleri ve önceki tıp metinleriyle birleştirerek bilgiyi geniş bir sistem içinde değerlendirdi.',
     person: 'İbn Sina',
     personInfo: 'Tıp, felsefe, geometri, astronomi, aritmetik ve müzik üzerine çalışan; hekimlik yapan çok yönlü bilim insanıydı.',
+    impact: 'Dikkatli gözlem, hekimlerin hastanın durumunu ayrı ayrı değerlendirmesine katkı sağlar.',
+    today: 'Günümüzde sağlık kararları eğitim, muayene ve bilimsel kanıtlarla desteklenir.',
   },
   {
     levelId: 68,
@@ -25,6 +29,8 @@ export const levelStories66to70: LevelStory[] = [
     place: 'Hemedan ve İsfahan',
     title: 'İlacın Ölçüsü',
     body: 'Bir ilacın adı kadar miktarı, hazırlanışı ve uygulanma biçimi de önemlidir. Tıp kitaplarında maddeleri sınıflandırmak, gözlenen etkileri karşılaştırmayı ve tedavi bilgisini başkalarına aktarmayı kolaylaştırdı.',
+    impact: 'İlaçların etkisi kullanım biçimine bağlı olabildiği için doğru bilgi önem taşır.',
+    today: 'İlaçlar yalnız sağlık uzmanının önerdiği ve ürün bilgisinde yazan şekilde kullanılmalıdır.',
   },
   {
     levelId: 69,
@@ -32,6 +38,8 @@ export const levelStories66to70: LevelStory[] = [
     place: 'İslam dünyası',
     title: 'Dikkatli Müdahale',
     body: 'Cerrahi müdahale yalnız cesaret değil, anatomi bilgisi, uygun araç ve planlı adımlar ister. Tıp bilgisinin yazılı hâle gelmesi, uygulamaların karşılaştırılması ve sonraki hekimlerin deneyimden öğrenmesi için temel oluşturdu.',
+    impact: 'Cerrahi bilgiyi düzenli aktarmak, uygulamaların dikkatle değerlendirilmesini sağlar.',
+    today: 'Modern cerrahi ekip çalışması, eğitim ve steril araçlarla yürütülür.',
   },
   {
     levelId: 70,
@@ -41,6 +49,8 @@ export const levelStories66to70: LevelStory[] = [
     body: 'İbn Sina’nın El-Kanun fi’t-Tıbb eseri tıp bilgisini geniş ve düzenli bir yapı içinde topladı. Eserin sınıflandırma yaklaşımı, hastalıklar ve tedaviler arasında bağlantı kurmayı kolaylaştırdı ve yüzyıllarca etkili oldu.',
     person: 'İbn Sina',
     personInfo: 'El-Kanun fi’t-Tıbb ve Kitabü’ş-Şifa gibi kapsamlı eserlerinde tıp ile farklı bilim alanlarını sistemli biçimde ele alan bilgindi.',
+    impact: 'El-Kanun, tıp bilgisini bölümlere ayırıp bir araya getiren kapsamlı bir eserdi.',
+    today: 'Tıp öğrencileri bilgiyi ders kitapları, kaynaklar ve araştırmalar üzerinden öğrenir.',
   },
 ];
 

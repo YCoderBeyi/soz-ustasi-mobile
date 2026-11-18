@@ -15,7 +15,6 @@ export const levels61to65: LevelData[] = [
       { word: 'TIP', meaning: 'Hastalıkları inceleyen ve tedavi eden bilim dalı.', difficulty: 3 },
     ],
     hiddenWords: [
-      { word: 'ARI', meaning: 'Bal yapan kanatlı küçük böcek.', reward: 17 },
       { word: 'TIR', meaning: 'Uzun yol yük taşımacılığında kullanılan büyük araç.', reward: 18 },
     ],
     reward: { baseCoin: 152, hiddenWordBonus: 20 },
@@ -47,7 +46,7 @@ export const levels61to65: LevelData[] = [
     mainWords: [
       { word: 'YANSIMA', meaning: 'Işığın bir yüzeye çarpıp geldiği ortama geri dönmesi.', difficulty: 4 },
       { word: 'SAYI', meaning: 'Bir çokluğu veya sırayı belirten matematiksel değer.', difficulty: 2 },
-      { word: 'AMAN', meaning: 'Acıma veya şaşkınlık bildiren söz; merhamet çağrısı.', difficulty: 3 },
+      { word: 'YASA', meaning: 'Toplum düzenini sağlayan ve uyulması gereken kural.', difficulty: 3 },
       { word: 'MAYA', meaning: 'Hamuru kabartan canlı kültür veya bir şeyin temel özü.', difficulty: 3 },
     ],
     hiddenWords: [
@@ -88,7 +87,7 @@ export const levels61to65: LevelData[] = [
       { word: 'KREM', meaning: 'Yumuşak kıvamlı bakım veya tatlı karışımı.', difficulty: 3 },
     ],
     hiddenWords: [
-      { word: 'CEMRE', meaning: 'Baharın gelişini müjdeleyen sıcaklık.', reward: 10 },
+      { word: 'CEMRE', meaning: 'Halk inanışında, şubatta sırayla havada, suda ve toprakta görüldüğü düşünülen sıcaklık artışı.', reward: 10 },
     ],
     reward: { baseCoin: 178, hiddenWordBonus: 10 },
   },

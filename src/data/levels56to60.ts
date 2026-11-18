@@ -29,7 +29,7 @@ export const levels56to60: LevelData[] = [
     letters: ['K', 'İ', 'T', 'A', 'P', 'L', 'I', 'K'],
     mainWords: [
       { word: 'KİTAPLIK', meaning: 'Kitapların düzenli biçimde saklandığı raf veya bölüm.', difficulty: 3 },
-      { word: 'KİTAP', meaning: 'Bir araya getirilmiş yazılı veya basılı sayfalar bütünü.', difficulty: 2 },
+      { word: 'KALIP', meaning: 'Bir şeye biçim vermeye yarayan araç veya biçim.', difficulty: 2 },
       { word: 'KAT', meaning: 'Bir yapının iki döşeme arasında kalan bölümü.', difficulty: 2 },
       { word: 'KİL', meaning: 'Su ile yoğrulabilen ince taneli toprak.', difficulty: 3 },
     ],

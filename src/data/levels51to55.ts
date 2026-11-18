@@ -82,12 +82,11 @@ export const levels51to55: LevelData[] = [
     letters: ['A', 'N', 'A', 'H', 'T', 'A', 'R'],
     mainWords: [
       { word: 'ANAHTAR', meaning: 'Bir kilidi açan araç veya bir çözümü mümkün kılan temel bilgi.', difficulty: 3 },
-      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 2 },
+      { word: 'RAHAT', meaning: 'Sıkıntı veya gerginlik duymayan, huzurlu durumda olan.', difficulty: 2 },
       { word: 'HAT', meaning: 'Çizgi, ulaşım yolu veya güzel yazı sanatı.', difficulty: 3 },
       { word: 'HATA', meaning: 'Yanlış yapılan iş veya söylenen söz; şifre analizinde düzeltilmesi gereken hatalı işaret.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'RAHAT', meaning: 'Sıkıntısız, huzurlu ve dingin olma durumu.', reward: 17 },
       { word: 'ATA', meaning: 'Geçmişte yaşamış aile büyüğü veya ecdat.', reward: 17 },
     ],
     reward: { baseCoin: 155, hiddenWordBonus: 21 },

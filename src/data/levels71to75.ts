@@ -15,7 +15,7 @@ export const levels71to75: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'ELA', meaning: 'Yeşile çalan açık kahverengi göz rengi.', reward: 20 },
-      { word: 'ART', meaning: 'Bir şeyin geride kalan ya da arta kalan bölümü.', reward: 20 },
+      { word: 'ALT', meaning: 'Bir şeyin yere bakan yanı veya aşağıda kalan bölümü.', reward: 20 },
     ],
     reward: { baseCoin: 174, hiddenWordBonus: 23 },
   },

@@ -6,7 +6,9 @@ export const levelStories56to60: LevelStory[] = [
     era: '9. yüzyıl',
     place: 'Bağdat',
     title: 'Diller Arasında Köprü',
-    body: 'Bilgelik Evi çevresinde farklı dillerdeki bilim ve felsefe metinleri Arapçaya aktarıldı. Çeviri, eski bilgiyi yalnız korumadı; yeni açıklamaların, eleştirilerin ve özgün çalışmaların başlayacağı ortak bir zemin kurdu.',
+    body: 'Abbasi döneminde Bağdat’ta farklı dillerdeki bilim ve felsefe metinleri Arapçaya aktarıldı. Bu çeviriler, eski bilgiyi korurken yeni açıklama ve araştırmalar için de kaynak oluşturdu.',
+    impact: 'Çeviri, farklı dillerde üretilen bilginin paylaşılmasını ve yeniden incelenmesini sağlar.',
+    today: 'Bilim, edebiyat ve günlük iletişim için çeviriye hâlâ ihtiyaç duyulur.',
   },
   {
     levelId: 57,
@@ -14,6 +16,8 @@ export const levelStories56to60: LevelStory[] = [
     place: 'Bağdat',
     title: 'Yazmaların Toplandığı Yer',
     body: 'Bağdat’taki bilim ortamında farklı bölgelerden getirilen yazmalar bir araya geldi. Kitaplık, çevirmenlerin ve araştırmacıların aynı probleme ait farklı metinleri karşılaştırabildiği yaşayan bir çalışma alanıydı.',
+    impact: 'Kaynakları bir araya getirmek, araştırmacıların önceki çalışmaları karşılaştırmasına imkân verir.',
+    today: 'Kütüphaneler ve dijital arşivler, bilgiye erişimi ve kaynakların korunmasını destekler.',
   },
   {
     levelId: 58,
@@ -23,6 +27,8 @@ export const levelStories56to60: LevelStory[] = [
     body: 'Benu Musa kardeşlerin geometri çalışmaları düzlem ve küresel şekillerin ölçümünü ele aldı. Alan ve hacmi sayısal ilişkilerle anlatmaları, eski yöntemleri inceleyip yeni matematiksel yaklaşımlara dönüştürdüklerini gösterir.',
     person: 'Benu Musa kardeşler',
     personInfo: 'Muhammed, Ahmed ve Hasan’dan oluşan; geometri, astronomi ve mekanik alanlarında birlikte ve ayrı uzmanlıklarla çalışan üç kardeşti.',
+    impact: 'Geometri, şekillerin ölçülebilir özelliklerini ortak yöntemlerle incelemeyi sağlar.',
+    today: 'Mimarlık, haritacılık ve mühendislikte geometri kullanılır.',
   },
   {
     levelId: 59,
@@ -32,6 +38,8 @@ export const levelStories56to60: LevelStory[] = [
     body: 'Bilgelik Evi çevresinde gözlemevleri de kuruldu. Benu Musa kardeşler Güneş ve Ay gözlemleri yaptı, bir enlem derecesini ölçmeye katıldı ve yılın uzunluğunu hesaplamak için düzenli veriler topladı.',
     person: 'Benu Musa kardeşler',
     personInfo: 'Astronomik gözlemler ve ölçümler yapan, bilimsel çalışmayı geometri ve mekanikle birleştiren Bağdatlı araştırmacılardı.',
+    impact: 'Düzenli gözlem ve kayıt, gök olaylarını zaman içinde karşılaştırılabilir kılar.',
+    today: 'Astronomlar teleskop ve ölçüm araçlarıyla gök cisimlerini izlemeyi sürdürür.',
   },
   {
     levelId: 60,
@@ -41,6 +49,8 @@ export const levelStories56to60: LevelStory[] = [
     body: 'Benu Musa kardeşlerden Muhammed daha çok geometri ve astronomiyle, Ahmed mekanikle, Hasan ise geometriyle ilgilendi. Birlikte çalışmaları, farklı uzmanlıkların aynı soruna bağlandığında nasıl daha güçlü sonuçlar üretebildiğini gösterdi.',
     person: 'Benu Musa kardeşler',
     personInfo: 'Bilgelik Evi çevresinde yetişen ve geometri, astronomi ile mekanik çalışmalarını ortak bir üretim kültüründe buluşturan bilim insanlarıydı.',
+    impact: 'Uzmanlıkları paylaşmak, tek kişinin çözemeyeceği sorunlara farklı yollar açar.',
+    today: 'Bilim ve mühendislik projeleri çoğunlukla farklı uzmanlıkların ortak çalışmasıyla yürür.',
   },
 ];
 

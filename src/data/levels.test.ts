@@ -6,6 +6,12 @@ import { buildCrosswordLayout } from '../game/crossword';
 import { normalizeWord } from '../game/normalize';
 
 describe('level data integrity', () => {
+  it('starts with familiar goals and uses the level-two tutorial example', () => {
+    expect(levels[0].mainWords.map((entry) => entry.word)).toEqual(['ARI', 'ARA']);
+    expect(levels[0].letters.map(normalizeWord).sort()).toEqual(['A', 'A', 'I', 'R']);
+    expect(levels[0].mainWords[1].meaning).toMatch(/aramak/u);
+  });
+
   for (const level of levels) {
     it(`Level ${level.levelId}: geçerli tema referansı`, () => {
       expect(getTheme(level.themeId).themeId).toBe(level.themeId);

@@ -9,6 +9,9 @@ export const levelStories46to50: LevelStory[] = [
     body: 'Harezmi, bilinmeyen değerlerle kurulan denklemleri düzenli çözüm yolları altında topladı. Eserinin adındaki “el-cebr” sözü zamanla cebir adına dönüştü; matematiksel ilişkiler ortak bir anlatım kazandı.',
     person: 'Harezmi',
     personInfo: 'Bağdat’taki bilim çevresinde matematik, astronomi ve coğrafya üzerine çalışan; cebir ve hesap yöntemlerini sistemleştiren bilgindi.',
+    impact: 'Harezmi’nin “el-cebr” adlı eseri, denklem çözme yöntemlerini düzenli biçimde anlatarak cebirin ayrı bir çalışma alanı olarak gelişmesine katkı verdi.',
+    today: 'Cebir bugün bilinmeyenleri bulmak ve nicelikler arasındaki ilişkileri modellemek için okulda ve bilim dallarında kullanılır.',
+    sourceNotes: ['https://mathshistory.st-andrews.ac.uk/Biographies/Al-Khwarizmi/'],
   },
   {
     levelId: 47,
@@ -18,6 +21,9 @@ export const levelStories46to50: LevelStory[] = [
     body: 'Harezmi’nin hesap çalışmaları, Hint kökenli onluk sayı yazımının geniş bir coğrafyada öğrenilmesine katkı verdi. Basamak değeri sayesinde çok büyük sayılar az sayıda işaretle yazılıp işlenebildi.',
     person: 'Harezmi',
     personInfo: 'Hesap yöntemlerini açıklayan eserleri, onluk sayı sisteminin sonraki bilim çevrelerinde tanınmasına katkı sağlayan matematikçiydi.',
+    impact: 'Basamak değerine dayalı Hint-Arap rakamlarıyla hesap yöntemlerinin açıklanması, bu yazım biçiminin farklı bölgelere aktarılmasına katkı verdi.',
+    today: 'Bugün kullandığımız 0–9 rakamları ve basamak değeri, büyük sayıları kısa biçimde yazıp işlemeyi sağlar.',
+    sourceNotes: ['https://mathshistory.st-andrews.ac.uk/Biographies/Al-Khwarizmi/'],
   },
   {
     levelId: 48,
@@ -27,13 +33,19 @@ export const levelStories46to50: LevelStory[] = [
     body: 'Erken cebir metinlerinde bugünkü semboller yerine sözcükler kullanılıyordu. Harezmi denklem türlerini sınıflandırdı ve her tür için izlenebilen çözüm adımları anlattı; böylece yöntem başkalarınca tekrar uygulanabildi.',
     person: 'Harezmi',
     personInfo: 'Doğrusal ve ikinci derece denklem türlerini sözel örneklerle düzenleyen ve çözüm adımlarını açıklayan matematikçiydi.',
+    impact: 'Denklem türlerini sınıflandırıp çözüm adımlarını açıklamak, aynı yöntemin benzer problemlerde yeniden kullanılabilmesini sağladı.',
+    today: 'Denklem kurmak, bilinmeyen bir miktarı ölçüler ve bilinen değerler arasındaki ilişkiyle bulmaya yarar.',
+    sourceNotes: ['https://mathshistory.st-andrews.ac.uk/Biographies/Al-Khwarizmi/'],
   },
   {
     levelId: 49,
     era: '9. yüzyıl',
     place: 'Abbasi dünyası',
     title: 'Gündelik Soruların Hesabı',
-    body: 'Cebir yalnız soyut bir uğraş değildi. Paylaşım, ticaret, arazi ölçümü ve kanal yapımı gibi gündelik sorunlar, bilinmeyen miktarı düzenli adımlarla bulmayı gerektiriyordu; yöntem gerçek ihtiyaçlara cevap veriyordu.',
+    body: 'Cebir yalnız soyut bir uğraş değildi. Miras paylaşımı, ticaret ve arazi ölçümü gibi gündelik sorunlar, bilinmeyen miktarı düzenli adımlarla bulmayı gerektiriyordu; yöntem gerçek ihtiyaçlara cevap veriyordu.',
+    impact: 'Harezmi’nin cebir kitabı, miras paylaşımı, ticaret ve arazi ölçümü gibi pratik sorular için hesap örnekleri de içeriyordu.',
+    today: 'Ölçü, miktar ve paylaşım gerektiren pek çok günlük problem bugün de denklem kurarak çözülebilir.',
+    sourceNotes: ['https://mathshistory.st-andrews.ac.uk/Biographies/Al-Khwarizmi/', 'https://www.islam.museum/en/concept/algebra/'],
   },
   {
     levelId: 50,
@@ -43,6 +55,9 @@ export const levelStories46to50: LevelStory[] = [
     body: 'Harezmi’nin adının Latince metinlerde aldığı biçim, zamanla “algoritma” sözcüğüne kaynak oldu. Bugün algoritma, bir problemi sonlu ve açık adımlarla çözmek için kullanılan düzenli yöntemi anlatır.',
     person: 'Harezmi',
     personInfo: 'Adının Latinceleşmiş biçimi algoritma teriminin tarihine bağlanan; hesap ve cebir yöntemleriyle kalıcı etki bırakan bilgindi.',
+    impact: 'Harezmi’nin adının Latinceleşmiş biçimi, hesap yöntemlerini anlatan metinler üzerinden “algoritma” sözcüğünün tarihine kaynak oldu.',
+    today: 'Bilgisayar programları, görevleri belirli ve izlenebilir adımlarla yerine getiren algoritmalardan yararlanır.',
+    sourceNotes: ['https://mathshistory.st-andrews.ac.uk/Biographies/Al-Khwarizmi/'],
   },
 ];
 

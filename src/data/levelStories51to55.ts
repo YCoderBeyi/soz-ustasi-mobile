@@ -7,6 +7,8 @@ export const levelStories51to55: LevelStory[] = [
     place: 'Bağdat',
     title: 'Saklı Yazının Sorusu',
     body: 'Bir mesajın harfleri başka işaretlerle değiştirildiğinde anlam gözden kaybolur, fakat dilin düzeni bütünüyle yok olmaz. Çözüm, tahminleri ölçülebilir ipuçlarıyla sınamayı gerektirir.',
+    impact: 'Harf sıklığını karşılaştırmak, şifreli metinlerde olası eşleşmeleri bulmaya yardım eder.',
+    today: 'Şifreleme, çevrim içi iletilerin ve hesap bilgilerinin korunmasında kullanılır.',
   },
   {
     levelId: 52,
@@ -14,6 +16,8 @@ export const levelStories51to55: LevelStory[] = [
     place: 'Bağdat',
     title: 'Harfleri Saymak',
     body: 'Uzun bir metindeki işaretler sayıldığında bazıları diğerlerinden daha sık görünür. Harf sıklığını karşılaştırmak, kapalı bir yazıdaki olası eşleşmeleri daraltan sistemli bir inceleme yoludur.',
+    impact: 'Sayma ve karşılaştırma, tahmin yerine kanıta dayalı çözüm üretmenin temel yollarındandır.',
+    today: 'Arama ve yazım araçları, metinlerdeki harf ve sözcük örüntülerini inceler.',
   },
   {
     levelId: 53,
@@ -23,6 +27,8 @@ export const levelStories51to55: LevelStory[] = [
     body: 'El-Kindi matematik, sayı sistemi, geometri ve optik üzerine çalışan geniş ilgi alanlı bir bilgindi. Ölçme ve karşılaştırma yaklaşımı, bir soruyu yalnız sezgiyle değil düzenli kanıtlarla inceleme kültürünü yansıtır.',
     person: 'El-Kindi',
     personInfo: 'Kûfe’de yetişen, Bağdat’taki Bilgelik Evi çevresinde felsefe, matematik, sayı sistemi, geometri ve optik üzerine çalışan bilgindi.',
+    impact: 'El-Kindi’nin şifre çözümüne dair yaklaşımı, dil örüntülerini ölçerek incelemeye dayanıyordu.',
+    today: 'Metin analizi, arşiv ve güvenlik çalışmalarında örüntüleri bulmaya yardımcı olur.',
   },
   {
     levelId: 54,
@@ -30,6 +36,8 @@ export const levelStories51to55: LevelStory[] = [
     place: 'Bağdat',
     title: 'Tekrarlayan Örüntü',
     body: 'Tek bir işaret çok az bilgi verir. Aynı işaretin nerede tekrarlandığı, hangi işaretlerle yan yana geldiği ve kelime içindeki yeri birlikte incelendiğinde daha güçlü bir örüntü ortaya çıkar.',
+    impact: 'Tekrarları fark etmek, uzun ve karmaşık bir bilgiyi anlaşılır parçalara ayırır.',
+    today: 'Örüntü tanıma, yazıların yanı sıra ses ve görüntü verilerinin incelenmesinde de kullanılır.',
   },
   {
     levelId: 55,
@@ -37,6 +45,8 @@ export const levelStories51to55: LevelStory[] = [
     place: 'Bağdat',
     title: 'Anahtarın Dönüşü',
     body: 'Şifre çözmek bir kapıyı zorlamak değil, kilidin kuralını anlamaktır. Tutarlı bir anahtar bulunduğunda aynı dönüşüm bütün metne uygulanır ve dağınık işaretler yeniden anlamlı bir mesaja dönüşür.',
+    impact: 'Doğru anahtar, şifreli metni çözmek için kullanılan kuralı açıklar.',
+    today: 'Dijital şifrelemede anahtarlar, veriyi yetkisiz erişime karşı korur.',
   },
 ];
 
