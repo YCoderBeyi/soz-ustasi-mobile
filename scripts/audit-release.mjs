@@ -75,7 +75,7 @@ if (releaseManifestVersionCode !== versionCode) {
 requireManifestValue('Track', 'Closed test, then production after eligibility');
 requireManifestValue('Data model', 'PlayerSave v3');
 requireManifestValue('Network access', 'Internet (AdMob)');
-requireManifestValue('Ads', 'Rewarded + Map Banner (AdMob)');
+requireManifestValue('Ads', 'Rewarded + Rewarded Interstitial + Map Banner (AdMob)');
 requireManifestValue('In-app purchases', 'None');
 requireManifestValue('Account/login', 'None');
 requireManifestValue('Supported locale', 'tr-TR');
@@ -151,7 +151,8 @@ if (adsMode && !/^none$/i.test(adsMode)) {
   const GOOGLE_TEST_BANNER_UNIT = 'ca-app-pub-3940256099942544/9214589741';
   // AdMob ids registered for com.sozustasi.game (AdMob app "Söz Ustası - Kelime Oyunu"). The sibling "(Windows PC)" app is a different AdMob record.
   const ADMOB_APP_ID = 'ca-app-pub-2784764635828379~5793638649';
-  const ADMOB_REWARDED_UNIT = 'ca-app-pub-2784764635828379/5235235447';
+const ADMOB_REWARDED_UNIT = 'ca-app-pub-2784764635828379/5235235447';
+const ADMOB_REWARDED_INTERSTITIAL_UNIT = 'ca-app-pub-2784764635828379/3642213482';
   const ADMOB_BANNER_UNIT = process.env.VITE_ADMOB_BANNER_ID ?? readOptionalEnv('VITE_ADMOB_BANNER_ID');
 
   // app-ads.txt must exist in both places with exactly the publisher line.
@@ -183,6 +184,9 @@ if (adsMode && !/^none$/i.test(adsMode)) {
 
   if (!stringsForAds.includes(`>${ADMOB_APP_ID}<`)) errors.push(`strings.xml admob_app_id must be ${ADMOB_APP_ID} (the AdMob app for com.sozustasi.game).`);
   if (!adSource.includes(`'${ADMOB_REWARDED_UNIT}'`)) errors.push(`admob.ts rewarded unit must be ${ADMOB_REWARDED_UNIT} (a unit of the same AdMob app).`);
+  if (!adSource.includes(`'${ADMOB_REWARDED_INTERSTITIAL_UNIT}'`)) errors.push(`admob.ts rewarded interstitial unit must be ${ADMOB_REWARDED_INTERSTITIAL_UNIT}.`);
+  if (!adSource.includes('prepareRewardInterstitialAd') || !adSource.includes('showRewardInterstitialAd')) errors.push('Rewarded interstitial unit must use its dedicated SDK format APIs.');
+  if (!read('src/screens/ShopScreen.tsx').includes('showRewardedInterstitialAd')) errors.push('The shop coin reward must use the rewarded-interstitial ad unit.');
   if (!/^ca-app-pub-2784764635828379\/\d+$/.test(ADMOB_BANNER_UNIT ?? '')) {
     errors.push('Set VITE_ADMOB_BANNER_ID in .env.production.local to a real banner unit from publisher pub-2784764635828379.');
   } else if (ADMOB_BANNER_UNIT === ADMOB_REWARDED_UNIT) {

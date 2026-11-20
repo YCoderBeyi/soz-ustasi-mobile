@@ -5,7 +5,7 @@
 - Track: Closed test, then production after eligibility
 - Data model: PlayerSave v3
 - Network access: Internet (AdMob)
-- Ads: Rewarded + Map Banner (AdMob)
+- Ads: Rewarded + Rewarded Interstitial + Map Banner (AdMob)
 - In-app purchases: None
 - Account/login: None
 - Supported locale: tr-TR

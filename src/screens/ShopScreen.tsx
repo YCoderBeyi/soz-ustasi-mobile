@@ -3,7 +3,7 @@ import '../styles/shop.css';
 import { useGame } from '../store/GameContext';
 import { REWARDED_COIN_AMOUNT, shopItems } from '../data/shop';
 import { ActionIconButton } from '../components/ActionIconButton';
-import { showRewardedAd } from '../services/admob';
+import { showRewardedInterstitialAd } from '../services/admob';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 import { DAILY_REWARDED_AD_LIMIT } from '../game/adBudget';
 
@@ -25,7 +25,7 @@ export function ShopScreen() {
     adPendingRef.current = true;
     setAdPending(true);
     try {
-      const earned = await showRewardedAd();
+      const earned = await showRewardedInterstitialAd();
       if (!earned) {
         setToast('Reklam açılamadı. Altınların korunuyor; oyuna devam edebilir ve sonra yeniden deneyebilirsin.');
         return;

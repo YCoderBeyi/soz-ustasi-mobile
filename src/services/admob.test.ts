@@ -6,6 +6,8 @@ const admob = vi.hoisted(() => ({
   showConsentForm: vi.fn(),
   prepareRewardVideoAd: vi.fn<() => Promise<{ adUnitId: string }>>(async () => ({ adUnitId: 'test-rewarded-unit' })),
   showRewardVideoAd: vi.fn(),
+  prepareRewardInterstitialAd: vi.fn<() => Promise<{ adUnitId: string }>>(async () => ({ adUnitId: 'test-rewarded-interstitial-unit' })),
+  showRewardInterstitialAd: vi.fn(),
   showBanner: vi.fn(async () => undefined),
   hideBanner: vi.fn(async () => undefined),
   addListener: vi.fn(),
@@ -22,6 +24,10 @@ vi.mock('@capacitor-community/admob', () => ({
     Rewarded: 'rewarded', Dismissed: 'dismissed', FailedToShow: 'failedToShow',
     FailedToLoad: 'failedToLoad', Showed: 'showed',
   },
+  RewardInterstitialAdPluginEvents: {
+    Rewarded: 'interstitialRewarded', Dismissed: 'interstitialDismissed', FailedToShow: 'interstitialFailedToShow',
+    FailedToLoad: 'interstitialFailedToLoad', Showed: 'interstitialShowed',
+  },
 }));
 vi.mock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => true } }));
 
@@ -35,6 +41,7 @@ describe('admob service', () => {
     Object.values(admob).forEach((fn) => fn.mockClear());
     admob.requestConsentInfo.mockResolvedValue({ canRequestAds: true, isConsentFormAvailable: false });
     admob.prepareRewardVideoAd.mockResolvedValue({ adUnitId: 'test-rewarded-unit' });
+    admob.prepareRewardInterstitialAd.mockResolvedValue({ adUnitId: 'test-rewarded-interstitial-unit' });
     admob.addListener.mockResolvedValue({ remove: vi.fn() });
   });
 
@@ -51,6 +58,37 @@ describe('admob service', () => {
     const { initializeAdMob } = await freshAdmob();
     await initializeAdMob();
     expect(admob.prepareRewardVideoAd).toHaveBeenCalledOnce();
+  });
+
+  it('preloads the separately configured rewarded-interstitial format after consent', async () => {
+    const { initializeAdMob } = await freshAdmob();
+    await initializeAdMob();
+    expect(admob.prepareRewardInterstitialAd).toHaveBeenCalledOnce();
+    expect(admob.prepareRewardInterstitialAd).toHaveBeenCalledWith(expect.objectContaining({
+      adId: 'ca-app-pub-2784764635828379/3642213482',
+    }));
+  });
+
+  it('only accepts the rewarded-interstitial reward callback and serializes ad formats', async () => {
+    admob.showRewardInterstitialAd.mockReturnValue(new Promise(() => undefined));
+    const { initializeAdMob, showRewardedInterstitialAd } = await freshAdmob();
+    await initializeAdMob();
+    const request = showRewardedInterstitialAd();
+    await vi.waitFor(() => expect(admob.showRewardInterstitialAd).toHaveBeenCalledOnce());
+    await expect(showRewardedInterstitialAd()).resolves.toBe(false);
+    admob.addListener.mock.calls.find(([event]) => event === 'interstitialRewarded')?.[1]?.({ type: 'coin', amount: 1 });
+    await expect(request).resolves.toBe(true);
+    expect(admob.showRewardVideoAd).not.toHaveBeenCalled();
+  });
+
+  it('does not count a dismissed rewarded interstitial as a reward', async () => {
+    admob.showRewardInterstitialAd.mockReturnValue(new Promise(() => undefined));
+    const { initializeAdMob, showRewardedInterstitialAd } = await freshAdmob();
+    await initializeAdMob();
+    const request = showRewardedInterstitialAd();
+    await vi.waitFor(() => expect(admob.showRewardInterstitialAd).toHaveBeenCalledOnce());
+    admob.addListener.mock.calls.find(([event]) => event === 'interstitialDismissed')?.[1]?.();
+    await expect(request).resolves.toBe(false);
   });
 
   it('never requests an ad when consent was declined', async () => {

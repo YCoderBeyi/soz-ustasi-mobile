@@ -1,6 +1,7 @@
 import {
   AdMob, BannerAdPluginEvents, BannerAdPosition, BannerAdSize, MaxAdContentRating,
   RewardAdPluginEvents, type RewardAdOptions,
+  RewardInterstitialAdPluginEvents,
 } from '@capacitor-community/admob';
 import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
 import {
@@ -13,6 +14,8 @@ import {
 // Ödüllü reklam birimi ID'si. AdMob'da "Söz Ustası - Kelime Oyunu" (com.sozustasi.game, uygulama kimliği ~5793638649) uygulamasına aittir;
 // strings.xml içindeki admob_app_id ile aynı AdMob uygulamasından olmalıdır (audit:release denetler).
 const REWARDED_AD_ID = 'ca-app-pub-2784764635828379/5235235447';
+// Separate AdMob unit for the rewarded-interstitial format. Never pass this to prepareRewardVideoAd.
+const REWARDED_INTERSTITIAL_AD_ID = 'ca-app-pub-2784764635828379/3642213482';
 // Create a separate Banner unit in AdMob and provide its ID at build time.
 // The rewarded unit above must never be reused for banner requests.
 const BANNER_AD_ID = import.meta.env.VITE_ADMOB_BANNER_ID ?? '';
@@ -37,6 +40,8 @@ let initPromise: Promise<void> | null = null;
 let adsAllowed = false;
 let rewardedAdReady = false;
 let rewardedLoadPromise: Promise<void> | null = null;
+let rewardedInterstitialReady = false;
+let rewardedInterstitialLoadPromise: Promise<void> | null = null;
 let rewardedAdInFlight = false;
 let bannerVisible = false;
 let bannerAttached = false;
@@ -76,6 +81,7 @@ export function initializeAdMob(): Promise<void> {
         console.error('AdMob izin hatası:', error);
       }
       await preloadRewardedAd();
+      await preloadRewardedInterstitialAd();
     })().catch((error) => {
       console.error('AdMob başlatma hatası:', error);
       initPromise = null;
@@ -83,6 +89,104 @@ export function initializeAdMob(): Promise<void> {
     });
   }
   return initPromise;
+}
+
+async function preloadRewardedInterstitialAd(): Promise<void> {
+  if (!isNative() || !adsAllowed || rewardedInterstitialReady) return;
+  if (rewardedInterstitialLoadPromise) return rewardedInterstitialLoadPromise;
+  rewardedInterstitialLoadPromise = (async () => {
+    try {
+      const ad = await AdMob.prepareRewardInterstitialAd({
+        adId: REWARDED_INTERSTITIAL_AD_ID,
+        isTesting: IS_TESTING,
+        immersiveMode: true,
+      });
+      if (!ad?.adUnitId) throw new Error('Rewarded interstitial yükleme yanıtı boş.');
+      rewardedInterstitialReady = true;
+      console.info('Rewarded interstitial hazır.', { adUnitId: ad.adUnitId, isTesting: IS_TESTING });
+    } catch (error) {
+      rewardedInterstitialReady = false;
+      console.error('Rewarded interstitial yüklenemedi:', error);
+    } finally {
+      rewardedInterstitialLoadPromise = null;
+    }
+  })();
+  return rewardedInterstitialLoadPromise;
+}
+
+async function showRewardedInterstitialWithEvents(): Promise<boolean> {
+  return new Promise<boolean>((resolve) => {
+    let settled = false;
+    let dismissalTimer: ReturnType<typeof setTimeout> | null = null;
+    let showTimeout: ReturnType<typeof setTimeout> | null = null;
+    const handles: PluginListenerHandle[] = [];
+    const finish = (value: boolean) => {
+      if (settled) return;
+      settled = true;
+      if (dismissalTimer) clearTimeout(dismissalTimer);
+      if (showTimeout) clearTimeout(showTimeout);
+      void Promise.all(handles.map((handle) => handle.remove()));
+      resolve(value);
+    };
+
+    void Promise.all([
+      AdMob.addListener(RewardInterstitialAdPluginEvents.Rewarded, (reward) => {
+        finish(Number.isFinite(reward.amount) && reward.amount > 0);
+      }),
+      AdMob.addListener(RewardInterstitialAdPluginEvents.Dismissed, () => {
+        dismissalTimer = setTimeout(() => finish(false), 500);
+      }),
+      AdMob.addListener(RewardInterstitialAdPluginEvents.FailedToShow, (error) => {
+        console.error('Rewarded interstitial gösterilemedi:', error);
+        finish(false);
+      }),
+      AdMob.addListener(RewardInterstitialAdPluginEvents.FailedToLoad, (error) => {
+        console.error('Rewarded interstitial hazır değildi:', error);
+        finish(false);
+      }),
+      AdMob.addListener(RewardInterstitialAdPluginEvents.Showed, () => console.info('Rewarded interstitial gösterildi.')),
+    ]).then((listeners) => {
+      if (settled) {
+        void Promise.all(listeners.map((listener) => listener.remove()));
+        return;
+      }
+      handles.push(...listeners);
+      showTimeout = setTimeout(() => finish(false), 120_000);
+      void AdMob.showRewardInterstitialAd()
+        .then((item) => finish(Number.isFinite(item?.amount) && item.amount > 0))
+        .catch((error) => {
+          console.error('Rewarded interstitial çağrısı başarısız:', error);
+          finish(false);
+        });
+    }).catch((error) => {
+      console.error('Rewarded interstitial olay dinleyicileri kurulamadı:', error);
+      finish(false);
+    });
+  });
+}
+
+/** Optional shop reward: the shop card is the required reward disclosure/skip surface. */
+export async function showRewardedInterstitialAd(): Promise<boolean> {
+  if (!isNative() || rewardedAdInFlight || !canWatchRewardedAd()) return false;
+  rewardedAdInFlight = true;
+  try {
+    try {
+      await initializeAdMob();
+    } catch (error) {
+      console.error('Rewarded interstitial ön koşulu başarısız:', error);
+      return false;
+    }
+    if (!adsAllowed) return false;
+    if (!rewardedInterstitialReady) await preloadRewardedInterstitialAd();
+    if (!rewardedInterstitialReady) return false;
+    rewardedInterstitialReady = false;
+    const earned = await showRewardedInterstitialWithEvents();
+    if (earned) consumeRewardedAd();
+    void preloadRewardedInterstitialAd();
+    return earned;
+  } finally {
+    rewardedAdInFlight = false;
+  }
 }
 
 /** Show a banner only on the map, away from the high-touch puzzle surface. */
