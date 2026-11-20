@@ -1,7 +1,7 @@
 {
   "name": "sozustasi",
   "private": true,
-  "version": "1.2.2",
+  "version": "1.2.3",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -19,6 +19,7 @@
     "generate:play-store-assets": "node scripts/generate-play-store-assets.mjs",
     "lint": "eslint .",
     "test": "vitest run",
+    "test:gameplay": "vitest run --pool=threads --maxWorkers=1 src/App.test.tsx src/screens/screenFlows.test.tsx src/store/contexts/SessionContext.test.tsx src/components/PauseModal.test.tsx src/components/RewardModal.test.ts src/screens/ShopScreen.test.tsx src/services/admob.test.ts",
     "test:watch": "vitest",
     "preview": "vite preview --host 0.0.0.0",
     "android:add": "npx cap add android",

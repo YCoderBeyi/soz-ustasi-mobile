@@ -24,6 +24,15 @@ describe('ResourceContext', () => {
     const { result } = renderHook(() => useResource(), { wrapper });
     act(() => result.current.addCoins(50));
     expect(result.current.coins).toBe(170);
+    const saved = JSON.parse(window.localStorage.getItem('soz-ustasi-player-v1') ?? '{}');
+    expect(saved.coins).toBe(170);
+  });
+
+  it('ignores invalid coin grants', () => {
+    const { result } = renderHook(() => useResource(), { wrapper });
+    act(() => result.current.addCoins(Number.NaN));
+    act(() => result.current.addCoins(-30));
+    expect(result.current.coins).toBe(120);
   });
 
   it('spendCoins returns false when insufficient', () => {

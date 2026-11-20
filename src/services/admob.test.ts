@@ -4,7 +4,7 @@ const admob = vi.hoisted(() => ({
   initialize: vi.fn(async () => undefined),
   requestConsentInfo: vi.fn(),
   showConsentForm: vi.fn(),
-  prepareRewardVideoAd: vi.fn(async () => undefined),
+  prepareRewardVideoAd: vi.fn<() => Promise<{ adUnitId: string }>>(async () => ({ adUnitId: 'test-rewarded-unit' })),
   showRewardVideoAd: vi.fn(),
   showBanner: vi.fn(async () => undefined),
   hideBanner: vi.fn(async () => undefined),
@@ -18,7 +18,10 @@ vi.mock('@capacitor-community/admob', () => ({
   BannerAdPosition: { TOP_CENTER: 'TOP_CENTER' },
   BannerAdSize: { ADAPTIVE_BANNER: 'ADAPTIVE_BANNER' },
   MaxAdContentRating: { General: 'General', ParentalGuidance: 'ParentalGuidance', Teen: 'Teen', MatureAudience: 'MatureAudience' },
-  RewardAdPluginEvents: { Rewarded: 'rewarded', Dismissed: 'dismissed', FailedToShow: 'failedToShow' },
+  RewardAdPluginEvents: {
+    Rewarded: 'rewarded', Dismissed: 'dismissed', FailedToShow: 'failedToShow',
+    FailedToLoad: 'failedToLoad', Showed: 'showed',
+  },
 }));
 vi.mock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => true } }));
 
@@ -31,6 +34,7 @@ describe('admob service', () => {
   beforeEach(() => {
     Object.values(admob).forEach((fn) => fn.mockClear());
     admob.requestConsentInfo.mockResolvedValue({ canRequestAds: true, isConsentFormAvailable: false });
+    admob.prepareRewardVideoAd.mockResolvedValue({ adUnitId: 'test-rewarded-unit' });
     admob.addListener.mockResolvedValue({ remove: vi.fn() });
   });
 
@@ -67,6 +71,50 @@ describe('admob service', () => {
     await initializeAdMob();
     expect(admob.prepareRewardVideoAd).not.toHaveBeenCalled();
     await expect(showRewardedAd()).resolves.toBe(false);
+  });
+
+  it('grants a rewarded ad result once and ignores a concurrent second request', async () => {
+    admob.showRewardVideoAd.mockReturnValue(new Promise(() => undefined));
+    const { initializeAdMob, showRewardedAd } = await freshAdmob();
+    await initializeAdMob();
+
+    const firstRequest = showRewardedAd();
+    await vi.waitFor(() => expect(admob.showRewardVideoAd).toHaveBeenCalledOnce());
+    await expect(showRewardedAd()).resolves.toBe(false);
+
+    const rewardListener = admob.addListener.mock.calls.find(([event]) => event === 'rewarded')?.[1];
+    expect(rewardListener).toBeTypeOf('function');
+    rewardListener?.({ type: 'coin', amount: 1 });
+    await expect(firstRequest).resolves.toBe(true);
+    expect(admob.showRewardVideoAd).toHaveBeenCalledOnce();
+  });
+
+  it('does not grant a reward when the player closes the ad early', async () => {
+    admob.showRewardVideoAd.mockReturnValue(new Promise(() => undefined));
+    const { initializeAdMob, showRewardedAd } = await freshAdmob();
+    await initializeAdMob();
+
+    const request = showRewardedAd();
+    await vi.waitFor(() => expect(admob.showRewardVideoAd).toHaveBeenCalledOnce());
+    const dismissedListener = admob.addListener.mock.calls.find(([event]) => event === 'dismissed')?.[1];
+    expect(dismissedListener).toBeTypeOf('function');
+    dismissedListener?.();
+
+    await expect(request).resolves.toBe(false);
+  });
+
+  it('accepts a reward event that arrives just after the dismiss event', async () => {
+    admob.showRewardVideoAd.mockReturnValue(new Promise(() => undefined));
+    const { initializeAdMob, showRewardedAd } = await freshAdmob();
+    await initializeAdMob();
+
+    const request = showRewardedAd();
+    await vi.waitFor(() => expect(admob.showRewardVideoAd).toHaveBeenCalledOnce());
+    const eventListener = (event: string) => admob.addListener.mock.calls.find(([name]) => name === event)?.[1];
+    eventListener('dismissed')?.();
+    eventListener('rewarded')?.({ type: 'coin', amount: 1 });
+
+    await expect(request).resolves.toBe(true);
   });
 
   it('reserves the map banner slot only after consent allows and the banner is attached', async () => {

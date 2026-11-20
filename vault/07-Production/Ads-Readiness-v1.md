@@ -1,6 +1,6 @@
 # Reklam yayın hazırlığı v1 (2026-11-08)
 
-Yayıncı kimliği: `pub-2784764635828379`. Reklam türü: yalnızca ödüllü reklam (oyuncu isteğiyle).
+Yayıncı kimliği: `pub-2784764635828379`. Reklam türleri: oyuncu isteğiyle ödüllü reklam ve yalnızca harita ekranında gösterilen banner.
 
 ## Kodda doğrulananlar (otomatik: `npm run audit:release`)
 | Konu | Durum | Nasıl doğrulandı |
@@ -23,6 +23,8 @@ Yayıncı kimliği: `pub-2784764635828379`. Reklam türü: yalnızca ödüllü r
 8. **IARC içerik derecelendirme anketi.**
 
 ## Gerçek cihazda denenmesi gerekenler
+- Banner birimi: `ca-app-pub-2784764635828379/3651252114` (Söz Ustası Android AdMob kaydı). Üretim derlemesi bu kimliği `.env.production.local` içindeki `VITE_ADMOB_BANNER_ID` değerinden alır.
+- Banner yalnızca harita ekranında üstte gösterilir; oyun ekranına geçişte gizlenir. Banner yeni oluşturulduğu için canlı envanterin etkinleşmesi bir saate kadar sürebilir.
 - Yeni bir release paketi üret ve kur. Mevcut `artifacts/SozUstasi-1.1.0-release.apk` **29 Ekim** tarihli, bugünkü reklam kodunu (rıza koruması, kitle beyanı) içermiyor.
 - Rıza formu çıkıyor mu, reddedince hiç reklam istenmiyor mu?
 - Ödüllü reklam: izle (ödül verilir), erken kapat (ödül yok), reklam yok/hata (oyun devam eder, bilgi mesajı).
@@ -31,6 +33,34 @@ Yayıncı kimliği: `pub-2784764635828379`. Reklam türü: yalnızca ödüllü r
 ## Bilinen sınırlar
 - Günlük sınır cihaz saatine bağlı, saati değiştiren oyuncu aşabilir (politika ihlali değil).
 - Web sürümünde reklam ve rıza akışı sessizce atlanır; yalnızca Android'de çalışır.
+
+## Ödüllü Reklam Düzeltmeleri ve Test Düzeni (20 Kasım 2026)
+
+- Ödüllü reklam için tekil istek kilidi eklendi; aynı anda gelen ikinci istek reklamı/ödülü çoğaltamaz.
+- Yükleme, hazır olma, gösterim, erken kapatma, gösterim hatası ve ödül olayları tanılama kayıtlarına yazılır. Erken kapatma ödül vermez; reklam tamamlandığında ödül yalnızca bir kez işlenir.
+- Reklam hazır değilse yeniden yükleme denenir. Başarısızlıkta ipucu ve ikinci şans akışları oyuncuya açıklama gösterir; reklam izlemeden devam yolu korunur.
+- İpucu ekranında ve ikinci şansta reklam başlatılırken çift dokunma engellenir. Mağazaya isteğe bağlı “Reklam izle, 30 altın kazan” seçeneği eklendi; 30 altın sadece ödül callback'i geldikten sonra verilir.
+- Tüm reklam yerleşimleri ortak günlük 6 izleme bütçesini kullanır. Ödüllü altın miktarı `src/data/shop.ts` içindeki `REWARDED_COIN_AMOUNT` sabitinden yönetilir.
+- `npm run test:gameplay` oyunun DOM tabanlı etkileşim, reklam servisinin izin/ödül, mağaza ödülü ve modal senaryolarını tekrar çalıştırır. Gerçek reklam kreatifi veya görünsel tarayıcı denetimi yerine geçmez.
+- Android debug derlemesinde eklentinin test modu Google'ın örnek rewarded reklam kimliğine yönlendirir; gerçek reklam kimliğine debug tıklaması gönderilmemelidir.
+- Kullanıcının 15 Kasım ekran görüntüsünde Play Console sürümü `27 (1.2.2)`, yerel proje ise `versionCode 28 / 1.2.3` idi. Yayın öncesi Play Console'daki en güncel track/sürüm yeniden kontrol edilmeli; bu ekran görüntüsü bugünkü canlı durumu kanıtlamaz.
+
+### Cihazda ödüllü reklam kabul kontrolü
+
+1. `npm run test:gameplay` çalıştır; tüm senaryolar yeşil olmalı.
+2. `npm run android:apk:debug` ile debug APK üret ve Android test cihazına kur. İlk açılışta rıza formu varsa seçim yap.
+3. İpucu ekranından reklamı aç: test reklamı görünmeli; tamamlanınca yalnızca seçilen ipucu uygulanmalı.
+4. Reklamı erken kapat: hiçbir ipucu/altın verilmemeli; normal oyun devamı çalışmalı.
+5. Mağaza → Altın: “30 altın” açıklamasını gör; tamamlanan test reklamı +30 eklemeli, kapatılan/başarısız reklam eklememeli.
+6. İkinci şansı iki hızlı dokunuşla tetikle: tek reklam açılmalı; reklamsız devam düğmesi reklam sırasında devre dışı olmalı.
+7. Rızayı reddet veya reklamı yükleyemeyecek duruma getir: uygulama çökmemeli, ödül oluşmamalı, oyuncu normal akışa devam edebilmeli.
+8. Günlük altı hak bitince tüm reklam seçenekleri kullanılamaz olmalı; yeni takvim gününde cihaz saatini değiştirerek değil, ertesi gün gerçek cihazda yeniden kontrol et.
+
+Bu cihaz kabul kontrolü bu oturumda çalıştırılmadı. Google Play'e yükleme/yayınlama ve canlı Ad Inspector doğrulaması ayrıca yapılmalıdır.
+
+### Play Store için sürüm notu taslağı
+
+Söz Ustası'nda isteğe bağlı ödüllü reklam seçenekleri eklendi ve iyileştirildi. Reklamı tamamladığında ipucunu kullanabilir veya mağazada 30 altın kazanabilirsin. Reklam açılamaz ya da erken kapanırsa ödül verilmez; oyuna kaldığın yerden devam edebilirsin. Günlük reklam hakları tüm seçenekler arasında ortaktır.
 
 ## app-ads.txt doğrulaması ve yayın adresleri (2026-11-08, ölçüldü)
 - **Dosya kusursuz:** `https://ycoderbeyi.github.io/app-ads.txt` -> `200 OK`, `text/plain; charset=utf-8`, yönlendirme yok, BOM yok, CR yok, 59 bayt, içerik birebir `google.com, pub-2784764635828379, DIRECT, f08c47fec0942fa0`. `http://` adresi `https://`'e 301 ile gidiyor.

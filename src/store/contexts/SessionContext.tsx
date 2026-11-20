@@ -6,7 +6,8 @@ import { normalizeWord } from '../../game/normalize';
 import { shuffle } from '../../game/shuffle';
 import { createCleanupRegistry } from '../../game/cleanup';
 import { getTheme } from '../../data/themes';
-import { initialLevel, levels } from '../../data/levels';
+import { initialLevel } from '../../data/levels';
+import { getLevelById, MAX_LEVEL_ID } from '../../data/endlessLevels';
 import type { ObjectiveKey } from '../../game/objectives';
 import { getRunObjectives } from '../../game/objectives';
 import { useStallAssist } from '../../hooks/useStallAssist';
@@ -184,7 +185,7 @@ export function SessionProvider({
   calmMode?: boolean;
 }) {
   const [level, setLevelState] = useState<LevelData>(
-    () => levels.find((item) => item.levelId === initialLevelId) ?? initialLevel,
+    () => getLevelById(initialLevelId) ?? initialLevel,
   );
   const [letters, setLetters] = useState<string[]>([]);
   const [selected, setSelected] = useState<number[]>([]);
@@ -423,6 +424,16 @@ export function SessionProvider({
       return;
     }
 
+    if (calmMode) {
+      setFeedback('unknown');
+      setToast('Bu kelimeyi daha sonra tekrar deneyebilirsin');
+      play('tap');
+      clearSelection();
+      cleanup.safeTimeout(() => setFeedback(null), 700);
+      cleanup.safeTimeout(() => setToast(''), 2200);
+      return;
+    }
+
     if (secondChanceEnabled && secondChance === 'available' && perfectRun && !usedHint) {
       setModal('secondChance');
     } else {
@@ -472,13 +483,12 @@ export function SessionProvider({
 
   const goToNextLevel = useCallback(() => {
     setModal(null);
-    const currentIndex = levels.findIndex((item) => item.levelId === level.levelId);
-    const nextLevel = levels[currentIndex + 1];
+    const nextLevel = level.levelId < MAX_LEVEL_ID ? getLevelById(level.levelId + 1) : undefined;
     if (nextLevel) {
       startLevel(nextLevel);
     } else {
       setScreen('map');
-      setToast('Tüm yayın seviyeleri tamamlandı');
+      setToast('Bu yolculuğun son durağına ulaştın');
       cleanup.safeTimeout(() => setToast(''), 1600);
     }
   }, [level, startLevel, setScreen, cleanup]);
@@ -487,7 +497,7 @@ export function SessionProvider({
   const acceptSecondChance = useCallback(async () => {
     const rewarded = await showRewardedAd();
     if (!rewarded) {
-      setToast('Reklam izlenemedi, tekrar dene');
+      setToast('Reklam açılamadı. İlerlemen korunuyor; dilersen tekrar deneyebilirsin.');
       cleanup.safeTimeout(() => setToast(''), 2000);
       return;
     }
@@ -536,7 +546,7 @@ export function SessionProvider({
     }
     const rewarded = await showRewardedAd();
     if (!rewarded) {
-      setToast('Reklam izlenemedi, tekrar dene');
+      setToast('Reklam açılamadı. İpucunu altınla alabilir veya oyuna devam edebilirsin.');
       return;
     }
     applyMeaningHint(target);
@@ -625,7 +635,7 @@ export function SessionProvider({
     }
     const rewarded = await showRewardedAd();
     if (!rewarded) {
-      setToast('Reklam izlenemedi, tekrar dene');
+      setToast('Reklam açılamadı. İlerlemen korunuyor; dilersen tekrar deneyebilirsin.');
       return;
     }
     applyLetterHint(target);

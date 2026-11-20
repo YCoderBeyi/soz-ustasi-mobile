@@ -99,7 +99,11 @@ export function ResourceProvider({
   }, []);
 
   const addCoins = useCallback((amount: number) => {
-    setCoins((v) => Math.floor(Math.max(0, v + amount)));
+    if (!Number.isFinite(amount) || amount <= 0) return;
+    const latestSave = loadPlayerSave();
+    const nextCoins = Math.floor(Math.max(0, latestSave.coins + amount));
+    persistPlayerSave({ ...latestSave, coins: nextCoins });
+    setCoins(nextCoins);
   }, []);
 
   const spendCoins = useCallback((amount: number): boolean => {

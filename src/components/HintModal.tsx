@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import '../styles/hint.css';
 import { useGame } from '../store/GameContext';
 import { Modal } from './Modal';
@@ -10,7 +11,7 @@ interface HintOption {
   title: string;
   description: string;
   pay: () => void;
-  payWithAd: () => void;
+  payWithAd: () => Promise<void>;
 }
 
 export function HintModal() {
@@ -20,6 +21,17 @@ export function HintModal() {
   } = useGame();
   const adsLeft = useRewardedAdsLeftToday();
   const canAfford = coins >= HINT_COST;
+  const [adPending, setAdPending] = useState<HintOption['id'] | null>(null);
+
+  const useAd = async (option: HintOption) => {
+    if (adPending) return;
+    setAdPending(option.id);
+    try {
+      await option.payWithAd();
+    } finally {
+      setAdPending(null);
+    }
+  };
 
   const options: HintOption[] = [
     {
@@ -27,14 +39,14 @@ export function HintModal() {
       title: 'Harf Aç',
       description: 'Bir kelimenin bir harfini tahtada göster.',
       pay: revealLetterHint,
-      payWithAd: () => { void revealLetterHintViaAd(); },
+      payWithAd: revealLetterHintViaAd,
     },
     {
       id: 'meaning',
       title: 'Anlam İpucu',
       description: 'Bulamadığın bir kelimenin anlamını oku.',
       pay: revealMeaningHint,
-      payWithAd: () => { void revealMeaningHintViaAd(); },
+      payWithAd: revealMeaningHintViaAd,
     },
   ];
 
@@ -62,11 +74,13 @@ export function HintModal() {
                 <button
                   type="button"
                   className="hintPay hintPay--ad"
-                  onClick={() => { play('tap'); option.payWithAd(); }}
+                  onClick={() => { play('tap'); void useAd(option); }}
+                  disabled={adPending !== null}
+                  aria-busy={adPending === option.id}
                   aria-label={`${option.title}, reklam izleyerek, bugün ${adsLeft} hak kaldı`}
                 >
                   <span aria-hidden="true">▶</span>
-                  <b>Reklam</b>
+                  <b>{adPending === option.id ? 'Reklam açılıyor…' : 'Reklam izle'}</b>
                   <small>{adsLeft}</small>
                 </button>
               )}

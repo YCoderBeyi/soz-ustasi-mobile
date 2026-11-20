@@ -35,6 +35,9 @@ export const AD_AUDIENCE = {
 let initPromise: Promise<void> | null = null;
 /** Ads may only be requested once the consent flow says so (declined consent or a failed flow means no ads). */
 let adsAllowed = false;
+let rewardedAdReady = false;
+let rewardedLoadPromise: Promise<void> | null = null;
+let rewardedAdInFlight = false;
 let bannerVisible = false;
 let bannerAttached = false;
 let bannerWanted = false;
@@ -151,16 +154,27 @@ export async function hideMapBanner(): Promise<void> {
 
 async function preloadRewardedAd(): Promise<void> {
   if (!isNative() || !adsAllowed) return;
-  try {
-    const options: RewardAdOptions = {
-      adId: REWARDED_AD_ID,
-      isTesting: IS_TESTING,
-      immersiveMode: true,
-    };
-    await AdMob.prepareRewardVideoAd(options);
-  } catch (error) {
-    console.error('Rewarded reklam hazırlanamadı:', error);
-  }
+  if (rewardedAdReady) return;
+  if (rewardedLoadPromise) return rewardedLoadPromise;
+  rewardedLoadPromise = (async () => {
+    try {
+      const options: RewardAdOptions = {
+        adId: REWARDED_AD_ID,
+        isTesting: IS_TESTING,
+        immersiveMode: true,
+      };
+      const ad = await AdMob.prepareRewardVideoAd(options);
+      if (!ad?.adUnitId) throw new Error('Rewarded reklam yükleme yanıtı boş.');
+      rewardedAdReady = true;
+      console.info('Rewarded reklam hazır.', { adUnitId: ad.adUnitId, isTesting: IS_TESTING });
+    } catch (error) {
+      rewardedAdReady = false;
+      console.error('Rewarded reklam yüklenemedi:', error);
+    } finally {
+      rewardedLoadPromise = null;
+    }
+  })();
+  return rewardedLoadPromise;
 }
 
 /**
@@ -172,10 +186,14 @@ async function preloadRewardedAd(): Promise<void> {
 async function showRewardedAdWithEvents(): Promise<boolean> {
   return new Promise<boolean>((resolve) => {
     let settled = false;
+    let dismissalTimer: ReturnType<typeof setTimeout> | null = null;
+    let showTimeout: ReturnType<typeof setTimeout> | null = null;
     const handles: PluginListenerHandle[] = [];
     const finish = (value: boolean) => {
       if (settled) return;
       settled = true;
+      if (dismissalTimer) clearTimeout(dismissalTimer);
+      if (showTimeout) clearTimeout(showTimeout);
       if (handles.length > 0) {
         void Promise.all(handles.map((handle) => handle.remove()));
       }
@@ -183,9 +201,25 @@ async function showRewardedAdWithEvents(): Promise<boolean> {
     };
 
     void Promise.all([
-      AdMob.addListener(RewardAdPluginEvents.Rewarded, () => finish(true)),
-      AdMob.addListener(RewardAdPluginEvents.Dismissed, () => finish(false)),
-      AdMob.addListener(RewardAdPluginEvents.FailedToShow, () => finish(false)),
+      AdMob.addListener(RewardAdPluginEvents.Rewarded, (reward) => {
+        const earned = Number.isFinite(reward.amount) && reward.amount > 0;
+        console.info('Rewarded reklam ödül olayı.', { type: reward.type, amount: reward.amount, earned });
+        finish(earned);
+      }),
+      AdMob.addListener(RewardAdPluginEvents.Dismissed, () => {
+        console.info('Rewarded reklam kapatıldı.');
+        // Mediation callbacks can arrive in a different order; allow a late reward event to win.
+        dismissalTimer = setTimeout(() => finish(false), 500);
+      }),
+      AdMob.addListener(RewardAdPluginEvents.FailedToShow, (error) => {
+        console.error('Rewarded reklam gösterilemedi:', error);
+        finish(false);
+      }),
+      AdMob.addListener(RewardAdPluginEvents.FailedToLoad, (error) => {
+        console.error('Rewarded reklam gösterim sırasında hazır değildi:', error);
+        finish(false);
+      }),
+      AdMob.addListener(RewardAdPluginEvents.Showed, () => console.info('Rewarded reklam gösterildi.')),
     ])
       .then((listeners) => {
         if (settled) {
@@ -193,11 +227,25 @@ async function showRewardedAdWithEvents(): Promise<boolean> {
           return;
         }
         handles.push(...listeners);
+        showTimeout = setTimeout(() => {
+          console.error('Rewarded reklam sonucu zaman aşımına uğradı.');
+          finish(false);
+        }, 120_000);
         void AdMob.showRewardVideoAd()
-          .then((item) => finish(Boolean(item && item.amount > 0)))
-          .catch(() => finish(false));
+          .then((item) => {
+            const earned = Number.isFinite(item?.amount) && item.amount > 0;
+            console.info('Rewarded reklam çağrısı tamamlandı.', { type: item?.type, amount: item?.amount, earned });
+            finish(earned);
+          })
+          .catch((error) => {
+            console.error('Rewarded reklam çağrısı başarısız:', error);
+            finish(false);
+          });
       })
-      .catch(() => finish(false));
+      .catch((error) => {
+        console.error('Rewarded reklam olay dinleyicileri kurulamadı:', error);
+        finish(false);
+      });
   });
 }
 
@@ -207,19 +255,36 @@ async function showRewardedAdWithEvents(): Promise<boolean> {
  */
 export async function showRewardedAd(): Promise<boolean> {
   if (!isNative()) return false;
-  if (!canWatchRewardedAd()) return false;
-  try {
-    await initializeAdMob();
-  } catch (error) {
-    console.error('Rewarded ön koşul hatası:', error);
-    void preloadRewardedAd();
+  if (rewardedAdInFlight) {
+    console.warn('Rewarded reklam isteği yok sayıldı: başka bir reklam işlemi sürüyor.');
     return false;
   }
-  if (!adsAllowed) return false;
-  const rewarded = await showRewardedAdWithEvents();
-  if (rewarded) consumeRewardedAd();
-  void preloadRewardedAd();
-  return rewarded;
+  rewardedAdInFlight = true;
+  try {
+    if (!canWatchRewardedAd()) {
+      console.info('Rewarded reklam isteği günlük sınır nedeniyle reddedildi.');
+      return false;
+    }
+    try {
+      await initializeAdMob();
+    } catch (error) {
+      console.error('Rewarded reklam ön koşulu başarısız:', error);
+      return false;
+    }
+    if (!adsAllowed) return false;
+    if (!rewardedAdReady) await preloadRewardedAd();
+    if (!rewardedAdReady) {
+      console.warn('Rewarded reklam hazır değil; oyuncu reklam izlemeden oyuna devam edebilir.');
+      return false;
+    }
+    rewardedAdReady = false;
+    const rewarded = await showRewardedAdWithEvents();
+    if (rewarded) consumeRewardedAd();
+    void preloadRewardedAd();
+    return rewarded;
+  } finally {
+    rewardedAdInFlight = false;
+  }
 }
 
 export async function showAdPrivacyOptions(): Promise<void> {

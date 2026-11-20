@@ -14,6 +14,8 @@ const { state } = vi.hoisted(() => ({ state: {} as Record<string, unknown> }));
 vi.mock('../store/GameContext', () => ({ useGame: () => state }));
 vi.mock('../services/admob', () => ({
   showAdPrivacyOptions: vi.fn(),
+  getRewardedAdsLeftToday: () => 6,
+  subscribeRewardedAdsLeft: () => () => {},
   hasMapBannerSlot: vi.fn(() => false),
   isMapBannerVisible: vi.fn(() => false),
   subscribeMapBannerState: vi.fn(() => () => {}),
