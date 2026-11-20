@@ -103,6 +103,9 @@ if (adsValue && adsValue !== 'None') {
   if (!manifest.includes('android.permission.INTERNET')) {
     errors.push('AdMob için android.permission.INTERNET bildirilmelidir.');
   }
+  if (!manifest.includes('com.google.android.gms.permission.AD_ID')) {
+    errors.push('AdMob reklam kimliği kullanımı beyan ediliyorsa AD_ID izni Android manifestinde bulunmalıdır.');
+  }
   if (!manifest.includes('com.google.android.gms.ads.APPLICATION_ID')) {
     errors.push('AdMob APPLICATION_ID meta-data bildirilmelidir.');
   }
