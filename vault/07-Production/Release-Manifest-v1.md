@@ -1,7 +1,7 @@
 # Release Manifest
 
-- Version name: 1.2.8
-- Version code: 33
+- Version name: 1.2.9
+- Version code: 34
 - Track: Closed test, then production after eligibility
 - Data model: PlayerSave v3
 - Network access: Internet (AdMob)
@@ -11,12 +11,12 @@
 - Supported locale: tr-TR
 - Level catalog: 75 authored levels
 - Release owner: Yasar Derebasi
-- AAB SHA-256: 3D04D2794AEEC47908925A1C50D2657942F8093969F71624B6240D6A411F7860
-- APK SHA-256: B67C623C9C61C9C6A4445DC515E1AE23DDA3698D425177A5DEA1EB3EEA2E2083
+- AAB SHA-256: E603C477315671CED3E0978288D0526EF5E7E00758376D000A2DFDB221A87D74
+- APK SHA-256: A031DD2A1CA9698A788941733B6547EE84CBF8D773D8CF211986CD35B38A3BA2
 
 ## Play Release Notes
 
-Söz Ustası 1.2.8:
+Söz Ustası 1.2.9:
 - Yeni Modern Anadolu karşılama ekranı: Kapadokya atmosferi, mühür ve net “Oyuna Başla / Devam Et” akışı.
 - Harita yenilendi: Kapadokya masal diyagramı; seviye noktaları taş pedlere hizalandı.
 - Daha sakin oyun geri bildirimi: doğru kelime izi, gizli kelime parıltısı ve mühür açılış dokunuşu.
@@ -25,6 +25,7 @@ Söz Ustası 1.2.8:
 - 75. seviyeden sonra yeni bulmacalarla devam et; kişisel rekorlarını profilde gör.
 - Harita banner’ı oyun alanından ayrı; reklamı reddederek de oynamaya devam edebilirsin.
 - Sakin Mod, erişilebilirlik, kayıtlı ilerleme ve Android reklam kimliği uyumluluğu iyileştirildi.
+- Kullanılmayan görsel kaynaklar kurulum paketinden çıkarılarak indirme boyutu azaltıldı.
 
 ## Play Console (tr-TR, kısa)
 

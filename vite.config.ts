@@ -9,6 +9,12 @@ export default defineConfig({
   plugins: [react()],
   // The version shown in Settings comes from package.json (the single source); build.gradle and the release manifest are audited against it.
   define: { __APP_VERSION__: JSON.stringify(version) },
+  server: {
+    // Android release intermediates (AAB) lock files on Windows and crash Vite's watcher.
+    watch: {
+      ignored: ['**/android/**', '**/tmp/**', '**/.git/**'],
+    },
+  },
   test: {
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     environment: 'jsdom',

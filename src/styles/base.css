@@ -59,20 +59,46 @@
   --splash-actions-bottom: calc(44px + var(--ui-safe-bottom));
   --splash-footer-bottom: calc(14px + var(--ui-safe-bottom));
 
-  /* Warm premium atmosphere */
+  /* === Modern Anadolu (SSOT) — mobile game visual system === */
+  --anadolu-petrol: #133d36;
+  --anadolu-petrol-deep: #0c2823;
+  --anadolu-ivory: #f5e8ce;
+  --anadolu-copper: #bf8744;
+  --anadolu-burgundy: #6f3928;
+  --anadolu-gold: #d5ad57;
+  --anadolu-gold-soft: #f2cf77;
+  --anadolu-ink: #263028;
+  --anadolu-mist: rgba(245, 232, 206, 0.72);
+  --anadolu-shadow: 0 14px 28px rgba(8, 20, 18, 0.42);
+  --anadolu-shadow-press: 0 4px 10px rgba(8, 20, 18, 0.35);
+  --anadolu-border: rgba(213, 173, 87, 0.42);
+  --anadolu-border-strong: rgba(213, 173, 87, 0.72);
+  --anadolu-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --anadolu-ease-tap: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --anadolu-tap-ms: 140ms;
+  --anadolu-transition-ms: 240ms;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Warm premium atmosphere (legacy brand_* kept; gold/text bridge to Anadolu) */
   --brand-bg: #0d1321;
   --brand-surface: #162238;
   --brand-surface-soft: #1f2d46;
-  --brand-gold: #d8ab45;
-  --brand-gold-soft: #f2cf77;
-  --brand-bronze: #a8742d;
+  --brand-gold: var(--anadolu-gold);
+  --brand-gold-soft: var(--anadolu-gold-soft);
+  --brand-bronze: var(--anadolu-copper);
   --brand-stone: #2a3447;
   --brand-text: #f4ecd8;
   --brand-text-muted: #c8b99a;
-  --brand-shadow: 0 22px 50px rgba(0, 0, 0, 0.38);
-  --brand-glow: 0 0 28px rgba(216, 171, 69, 0.28);
-  --brand-border: rgba(242, 207, 119, 0.18);
-  --brand-border-strong: rgba(242, 207, 119, 0.34);
+  --brand-shadow: var(--anadolu-shadow);
+  --brand-glow: 0 0 28px rgba(213, 173, 87, 0.28);
+  --brand-border: var(--anadolu-border);
+  --brand-border-strong: var(--anadolu-border-strong);
   --brand-surface-gradient:
     linear-gradient(180deg, rgba(31, 45, 70, 0.96), rgba(13, 19, 33, 0.98));
   --brand-shell-gradient:

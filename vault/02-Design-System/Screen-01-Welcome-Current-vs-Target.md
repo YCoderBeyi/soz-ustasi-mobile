@@ -3,7 +3,7 @@
 **Date:** 2026-11-21  
 **Brief:** [[Modern-Anadolu-Production-Prompt-v2]]  
 **Gate:** 1 Visual — revised (2026-11-21). Approved presentation art direction applied in code with generated BG + title plaque; existing wax seal kept.  
-**Assets:** `public/assets/ui/start/welcome-cappadocia-anadolu.jpg`, `welcome-title-plaque.jpg`, `wax-seal-s.webp`
+**Assets:** Runtime assets live in `public/assets/ui/start/kit/`; unused source and reference images were removed from the project. The existing seal remains in `public/assets/ui/start/wax-seal-s.webp`.
 
 ---
 

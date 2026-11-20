@@ -16,3 +16,5 @@ Rahatlatıcı oyunlarda zaman baskısı, cezalandırıcı geri bildirim, zorunlu
 Motor önerisini aktif render yolundan çıkar; kullanılmayan 3D bileşenleri optimize ederek aktif ekran hızlandı deme. Önce tekrar hesaplama, giriş işleme, yaşam döngüsü ve varlık yükünü incele. SSOT: kayıt/tercih PersistenceContext, kelime gönderimi SessionContext, geometri wheelDrag, kelime verisi mevcut data modüllerinde kalır. SOLID: ortak sorunu ortak bileşende çöz, ekranlara kopyalama.
 
 Kabul/ertele/ret kararını gerekçesi ve kabul ölçütüyle raporla. Yetkilendirilmiş, geri alınabilir düzeltmeleri uygula; test, lint ve build sonuçlarını gerçekten çalıştırarak bildir. Görsel kullanım testini kaynak incelemesiyle eşitleme.
+
+Asset hygiene: Before adding or retaining assets, search runtime references and inspect production bundle contents. Remove confirmed-unused, superseded, intermediate, and generated preview files; do not move them into archives merely to avoid deletion. Keep only assets with a verified runtime or documented source/provenance purpose. Recheck APK/AAB size after asset changes.

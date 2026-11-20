@@ -1,6 +1,8 @@
 # Global UI Tasarım Sistemi
 
-**Aktif production brief (2026-11-21):** [[Modern-Anadolu-Production-Prompt-v2]] — çark/tahta kilitli; Modern Anadolu token’ları ve ekran sırası orada. Aşağıdaki renkler legacy referans; yeni iş `--anadolu-*` token setini kullanır.
+**Aktif production brief (2026-11-21):** [[Modern-Anadolu-Production-Prompt-v2]] — çark/tahta kilitli; Modern Anadolu token’ları ve ekran sırası orada.
+
+**CSS SSOT:** `src/styles/base.css` içindeki `--anadolu-*` (petrol, ivory, copper, burgundy, gold, ink, spacing, motion). Eski `--brand-*` köprülenir; yeni UI Anadolu token’larını kullanır.
 
 ## Frame
 
@@ -8,33 +10,33 @@
 - Render target: 1080 x 2340 px
 - Orientation: portrait only
 - Safe area: iPhone notch ve Android navigation bar destekli
+- Touch floor: `--ui-touch-floor` ≥ 44px
 
-## Renkler
+## Renkler (Modern Anadolu)
 
-- Background Deep Navy: `#101827`
-- Seal Gold: `#D9A441`
-- Warm Parchment: `#F4E6C8`
-- Ink Brown: `#4B3323`
-- Success Emerald: `#3FBF7F`
-- Error Ruby: `#D94A4A`
-- Soft White: `#FFF9EF`
-- Muted Text: `#B8A98B`
+- Petrol: `#133D36` / deep `#0C2823`
+- Ivory parchment: `#F5E8CE`
+- Copper: `#BF8744`
+- Wax burgundy: `#6F3928`
+- Gold: `#D5AD57` / soft `#F2CF77`
+- Ink: `#263028`
+- Legacy navy/gold referansları yalnızca geriye dönük yüzeylerde
 
 ## Tipografi
 
-- Başlık: serif hissi, Playfair Display veya Cormorant Garamond tarzı
-- Gövde: Inter, SF Pro veya Noto Sans
+- Başlık / marka: Georgia / serif display
+- Gövde / UI: Inter, SF Pro veya Noto Sans
 - Kelime kutuları: bold, yüksek kontrast
-- Harf halkası: semibold, büyük puntolu
+- Harf halkası: semibold, büyük puntolu (geometri kilitli)
 
 ## Animasyon
 
-- Tap feedback: 0.94 scale -> 1.00, 120 ms
+- Tap: `--anadolu-tap-ms` (140ms) + `--anadolu-ease-tap`
+- Küçük geçiş: `--anadolu-transition-ms` (240ms) + `--anadolu-ease-out`
 - Word found: glow + kısa hareket, 280 ms
 - Meaning card: slide/fade, 2.2 sn görünür
 - Seal open: ışık halkası + altın partikül, 900 ms
-- Story banner: storyIn (fade + translateY -8px → 0), 300 ms
-- FavStar: active scale(1.2), 120 ms
+- `prefers-reduced-motion` / `html.reduce-motion` zorunlu
 
 ## Özel Bileşen Stilleri
 

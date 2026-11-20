@@ -7,15 +7,6 @@
   background: #133d36;
 }
 
-.start-screen--anadolu {
-  --anadolu-petrol: #133d36;
-  --anadolu-ivory: #f5e8ce;
-  --anadolu-copper: #bf8744;
-  --anadolu-burgundy: #6f3928;
-  --anadolu-gold: #d5ad57;
-  --anadolu-ink: #263028;
-}
-
 .bg {
   position: absolute;
   inset: 0;

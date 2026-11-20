@@ -9,15 +9,15 @@
   align-items: end;
   height: 88px;
   padding: 5px 8px 7px;
-  border: 1px solid rgba(250, 208, 103, 0.44);
+  border: 1px solid var(--anadolu-border);
   border-radius: 14px;
   background:
-    linear-gradient(180deg, rgba(22, 61, 75, 0.97), rgba(5, 25, 39, 0.98)),
-    #071d2b;
+    linear-gradient(180deg, rgba(19, 61, 54, 0.97), rgba(12, 40, 35, 0.98)),
+    var(--anadolu-petrol-deep);
   box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.46),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    inset 0 -3px 0 rgba(0, 0, 0, 0.32);
+    var(--anadolu-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.3);
 }
 
 .bottom-nav::before {
@@ -25,7 +25,7 @@
   position: absolute;
   inset: 4px;
   z-index: -1;
-  border: 1px solid rgba(55, 194, 191, 0.18);
+  border: 1px solid rgba(245, 232, 206, 0.14);
   border-radius: 10px;
   pointer-events: none;
 }
