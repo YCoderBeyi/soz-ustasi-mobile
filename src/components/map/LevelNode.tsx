@@ -17,7 +17,7 @@ const stateLabels: Record<LevelNodeState, string> = {
 
 export function LevelNode({ level, state, label, x, y, k, onClick }: Props) {
   return (
-    <button className={`level-node level-node--${state}`} style={{ left: `${x}%`, top: `${y}%`, ...(k ? { '--k': k } : {}) } as CSSProperties} onClick={onClick} aria-label={`Seviye ${level}, ${stateLabels[state]}`}>
+    <button className={`level-node level-node--${state}`} style={{ left: `${x}%`, top: `${y}%`, '--node-y': `${y}%`, ...(k ? { '--k': k } : {}) } as CSSProperties} onClick={onClick} aria-label={`Seviye ${level}, ${stateLabels[state]}`}>
       <img className="level-node__asset" src={assetMap[state]} alt="" />
       <span className="level-node__number">{level}</span>
       {(state === "locked" || state === "future") && <img className="level-node__badge" src="/assets/map/icon-lock.svg" alt="" />}

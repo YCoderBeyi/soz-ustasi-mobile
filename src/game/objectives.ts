@@ -25,8 +25,10 @@ export function chooseBestMastery(
 export function getObjectiveLabels(level: LevelData) {
   return {
     complete: 'Mührü aç',
-    discovery: level.hiddenWords.length > 0 ? 'Tüm gizli kelimeleri bul' : 'Hata yapmadan tamamla',
-    noHint: 'Tüm gizlileri ipucusuz bul',
+    discovery: level.hiddenWords.length > 0 ? 'Tüm gizli kelimeleri bul' : 'Kusursuz tamamla',
+    noHint: level.hiddenWords.length > 0
+      ? 'Tüm gizlileri ipucusuz bul'
+      : 'Kusursuz ve ipucusuz ustalık',
   } satisfies Record<ObjectiveKey, string>;
 }
 
@@ -39,7 +41,7 @@ export function getRunObjectives(
 ): ObjectiveKey[] {
   void maxStreak;
   const objectives: ObjectiveKey[] = ['complete'];
-  // Levels without hidden words label this star "Hata yapmadan tamamla", so it must really require a clean run.
+  // Levels without hidden words label this star as a flawless run, so it must really require a clean run.
   const discoveryComplete = level.hiddenWords.length === 0
     ? perfectRun
     : hiddenCount === level.hiddenWords.length;

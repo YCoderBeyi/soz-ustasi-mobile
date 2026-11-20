@@ -72,7 +72,7 @@ export function SettingsScreen() {
           <i className={hapticsEnabled ? 'active' : ''}><b /></i>
         </button>
         <button className="settingsItem" role="switch" aria-checked={calmMode} onClick={() => { play('tap'); setCalmMode(!calmMode); }}>
-          <span><strong>Sakin Mod</strong><small>Çarpansız, yalnızca keşfin tadı için oyna</small></span>
+          <span><strong>Sakin Mod</strong><small>Yanlış denemeler serini ve kusursuz hedefini bozmaz</small></span>
           <i className={calmMode ? 'active' : ''}><b /></i>
         </button>
         <button className="settingsItem" role="switch" aria-checked={reduceMotion} onClick={() => setReduceMotion(!reduceMotion)}>

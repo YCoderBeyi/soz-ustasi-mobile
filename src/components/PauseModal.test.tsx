@@ -31,7 +31,7 @@ describe('PauseModal', () => {
 
   it('asks before restarting the level and restarts only on the second tap', () => {
     render(<PauseModal />);
-    fireEvent.click(screen.getByText('Leveli Yeniden Başlat'));
+    fireEvent.click(screen.getByText('Seviyeyi Yeniden Başlat'));
     expect(game.startLevel).not.toHaveBeenCalled();
 
     fireEvent.click(screen.getByText('Emin misin? Yeniden başlat'));

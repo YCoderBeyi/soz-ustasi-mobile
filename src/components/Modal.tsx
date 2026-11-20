@@ -2,7 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { V2Icon } from './Icon';
 import '../styles/modal.css';
 
-export function Modal({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) {
+export function Modal({ title, children, onClose, closeLabel = 'Kapat' }: { title: string; children: ReactNode; onClose: () => void; closeLabel?: string }) {
   const dialogRef = useRef<HTMLElement>(null);
   const onCloseRef = useRef(onClose);
   useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
@@ -41,7 +41,7 @@ export function Modal({ title, children, onClose }: { title: string; children: R
   return (
     <div className="modalShade">
       <section ref={dialogRef} tabIndex={-1} className="modal" role="dialog" aria-modal="true" aria-label={title}>
-        <button className="svgBtn modalClose3d" onClick={onClose} aria-label="Kapat"><V2Icon name="closeButton" /></button>
+        <button className="svgBtn modalClose3d" onClick={onClose} aria-label={closeLabel}><V2Icon name="closeButton" /></button>
         <h2>{title}</h2>
         {children}
       </section>

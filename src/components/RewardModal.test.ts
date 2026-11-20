@@ -1,10 +1,12 @@
 import { createElement, type ReactNode } from 'react';
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { levels } from '../data/levels';
+import { MAX_LEVEL_ID } from '../data/endlessLevels';
 import { RewardModal, isFinalLevel } from './RewardModal';
 
 const useGameMock = vi.fn();
+afterEach(cleanup);
 
 vi.mock('../store/GameContext', () => ({
   useGame: () => useGameMock(),
@@ -36,9 +38,10 @@ vi.mock('../game/objectives', async () => {
 });
 
 vi.mock('./Modal', () => ({
-  Modal: ({ title, children }: { title: string; children: ReactNode }) => (
+  Modal: ({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) => (
     createElement('section', null,
       createElement('h2', null, title),
+      createElement('button', { type: 'button', onClick: onClose, 'aria-label': 'Kapat' }),
       children,
     )
   ),
@@ -55,9 +58,48 @@ describe('isFinalLevel', () => {
     expect(isFinalLevel(45, levels)).toBe(false);
     expect(isFinalLevel(75, levels)).toBe(true);
   });
+
+  it('does not mistake the currently generated catalog end for the game finale', () => {
+    expect(isFinalLevel(78)).toBe(false);
+    expect(isFinalLevel(MAX_LEVEL_ID)).toBe(true);
+  });
 });
 
 describe('RewardModal', () => {
+  it('closes to the map without skipping a level', () => {
+    const goToNextLevel = vi.fn();
+    const setModal = vi.fn();
+    const setScreen = vi.fn();
+    useGameMock.mockReturnValue({
+      level: { levelId: 1, mainWords: ['SOZ'], hiddenWords: [] },
+      rewardSummary: { base: 0, hidden: 0, region: 0 },
+      scoreSummary: { score: 0, previousBest: 0, isRecord: false },
+      levelMastery: {}, earnedObjectives: [], goToNextLevel, setModal, setScreen, play: vi.fn(),
+    });
+    render(createElement(RewardModal));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Kapat' }));
+
+    expect(goToNextLevel).not.toHaveBeenCalled();
+    expect(setModal).toHaveBeenCalledWith(null);
+    expect(setScreen).toHaveBeenCalledWith('map');
+  });
+
+  it('advances only when the explicit next-level action is chosen', () => {
+    const goToNextLevel = vi.fn();
+    useGameMock.mockReturnValue({
+      level: { levelId: 1, mainWords: ['SOZ'], hiddenWords: [] },
+      rewardSummary: { base: 0, hidden: 0, region: 0 },
+      scoreSummary: { score: 0, previousBest: 0, isRecord: false },
+      levelMastery: {}, earnedObjectives: [], goToNextLevel, setModal: vi.fn(), setScreen: vi.fn(), play: vi.fn(),
+    });
+    render(createElement(RewardModal));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Sonraki Seviye' }));
+
+    expect(goToNextLevel).toHaveBeenCalledOnce();
+  });
+
   it('does not render zero-value reward rows', () => {
     useGameMock.mockReturnValue({
       level: {

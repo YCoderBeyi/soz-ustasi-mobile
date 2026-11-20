@@ -10,7 +10,6 @@ type NavItem = {
 };
 
 const items: NavItem[] = [
-  { key: 'missions', label: 'Görevler', icon: '/assets/map/nav-3d/nav-missions.png' },
   { key: 'dictionary', label: 'Sözlük', icon: '/assets/map/nav-3d/nav-dictionary.png', screen: 'dictionary' as const },
   { key: 'map', label: 'Harita', icon: '/assets/map/nav-3d/nav-map.png', screen: 'map' as const },
   { key: 'shop', label: 'Mağaza', icon: '/assets/map/nav-3d/nav-shop.png', screen: 'shop' as const },
@@ -35,13 +34,13 @@ export function BottomNav({ active = 'map' }: { active?: string }) {
           className={active === item.key ? 'active' : ''}
           onClick={() => handleNav(item)}
           disabled={!item.screen}
-          aria-label={item.screen ? item.label : `${item.label} (yakında)`}
+          aria-label={item.label}
           aria-current={active === item.key ? 'page' : undefined}
         >
           <span className="bottom-nav__icon-shell">
             <img src={item.icon} alt="" />
           </span>
-          <span>{item.label}{!item.screen && <small className="bottom-nav__soon">Yakında</small>}</span>
+          <span>{item.label}</span>
         </button>
       ))}
     </nav>

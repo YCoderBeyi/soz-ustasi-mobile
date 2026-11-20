@@ -15,6 +15,14 @@
 .profileStatItem+.profileStatItem{border-left:1px solid rgba(148,217,208,.16)}
 .profileStatItem strong{color:#ffd66b;font-size:20px;line-height:1;text-shadow:0 2px 3px #000}
 .profileStatItem span{color:#b9dcd7;font-size:var(--ui-text-micro);font-weight:900;text-transform:uppercase}
+.profileRecords{padding:11px 12px;border:1px solid rgba(116,206,195,.24);border-radius:9px;background:linear-gradient(180deg,rgba(15,53,65,.82),rgba(5,25,37,.88))}
+.profileRecordsHeading{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:9px}
+.profileRecordsHeading h3{margin:0;color:#f7e5b6;font-size:13px}
+.profileRecordsHeading span{color:#9ac9c3;font-size:11px;font-weight:700}
+.profileRecordGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.profileRecordGrid>div{display:grid;gap:3px;min-width:0;text-align:center}
+.profileRecordGrid strong{color:#ffd66b;font-size:16px;font-variant-numeric:tabular-nums}
+.profileRecordGrid span{color:#b9dcd7;font-size:11px;line-height:1.2}
 .profileActions{display:grid;align-content:center;gap:10px;min-height:0}
 .profileAction{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr) 24px;align-items:center;min-height:var(--ui-row-h);padding:5px 12px 5px 5px;overflow:visible;border:1px solid rgba(234,192,89,.46);border-radius:var(--ui-radius-ctl);background:linear-gradient(180deg,#16495a,#082737 72%);color:#fff8e7;text-align:left;box-shadow:0 5px 0 #03151f,0 10px 18px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.14);transition:transform 120ms ease,filter 120ms ease,box-shadow 120ms ease}
 .profileAction::after{content:"";position:absolute;inset:4px;border:1px solid rgba(94,210,201,.12);border-radius:5px;pointer-events:none}

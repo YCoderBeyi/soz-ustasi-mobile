@@ -4,11 +4,11 @@ import { OBJECTIVE_KEYS, chooseBestMastery, getObjectiveLabels } from '../game/o
 import { getLevelStory } from '../data/levelStories';
 import { Modal } from './Modal';
 import { Button3D } from './Button3D';
-import { levels } from '../data/levels';
+import { MAX_LEVEL_ID } from '../data/endlessLevels';
 import type { LevelData } from '../types';
 
-export function isFinalLevel(levelId: number, catalog: LevelData[] = levels): boolean {
-  return levelId === catalog.at(-1)?.levelId;
+export function isFinalLevel(levelId: number, catalog?: LevelData[]): boolean {
+  return levelId === (catalog ? catalog.at(-1)?.levelId : MAX_LEVEL_ID);
 }
 
 type RewardItem = {
@@ -20,17 +20,24 @@ type RewardItem = {
 
 export function RewardModal() {
   const {
-    level, rewardSummary, scoreSummary, levelMastery, earnedObjectives, goToNextLevel, play,
+    level, rewardSummary, scoreSummary, levelMastery, earnedObjectives,
+    goToNextLevel, play, setModal, setScreen,
   } = useGame();
-  // Both the backdrop/X (onClose) and the primary button advance the level.
-  // goToNextLevel has no idempotency guard, so a fast double activation (button
-  // tap + backdrop dismiss) could skip a level. This ref collapses them to one.
+  // Closing the reward summary returns to the map; only its named primary action
+  // advances, so X/Escape can never skip the next level.
   const advancingRef = useRef(false);
   const advance = () => {
     if (advancingRef.current) return;
     advancingRef.current = true;
     play('tap');
     goToNextLevel();
+  };
+  const closeReward = () => {
+    if (advancingRef.current) return;
+    advancingRef.current = true;
+    play('tap');
+    setModal(null);
+    setScreen('map');
   };
   const story = getLevelStory(level.levelId);
   const objectiveLabels = getObjectiveLabels(level);
@@ -71,7 +78,7 @@ export function RewardModal() {
   ].filter((item): item is RewardItem => item !== null);
 
   return (
-    <Modal title="Mühür Açıldı!" onClose={advance}>
+    <Modal title="Mühür Açıldı!" onClose={closeReward}>
       <div className="rewardModalBody">
         <div className="rewardHero">
           <img src="/assets/reward/v2/history.png" alt="" />

@@ -180,3 +180,4 @@
 /* Three tabs must fit side by side on a phone; the default pill width pushed "Favoriler" off screen. */
 .vaultScreen .tabs3d { overflow-x: visible; }
 .vaultScreen .tabs3d .tabPill3d { flex: 1 1 0; min-width: 0; }
+.vaultScreen .tabs3d .tabPill3dLabel { font-size: 12px; letter-spacing: -0.015em; }

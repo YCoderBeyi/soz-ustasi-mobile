@@ -5,7 +5,7 @@
   bottom: calc(8px + env(safe-area-inset-bottom));
   z-index: 30;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: end;
   height: 88px;
   padding: 5px 8px 7px;
@@ -122,3 +122,12 @@
 }
 .bottom-nav__soon { display: block; font-size: var(--ui-text-micro); line-height: 1.1; }
 .bottom-nav button:disabled { opacity: .55; cursor: default; }
+
+@media (max-height: 640px) {
+  .bottom-nav { height: 72px; padding-top: 3px; padding-bottom: 4px; }
+  .bottom-nav button { min-height: 62px; grid-template-rows: 44px 13px; }
+  .bottom-nav__icon-shell { width: 42px; height: 42px; }
+  .bottom-nav__icon-shell img { width: 40px; height: 40px; }
+  .bottom-nav button.active::before { top: -3px; width: 50px; height: 50px; }
+  .bottom-nav button.active .bottom-nav__icon-shell { transform: translateY(-3px) scale(1.06); }
+}

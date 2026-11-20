@@ -2,6 +2,7 @@ import type { LevelMastery, LevelStats, WordEntry } from '../types';
 import type { ObjectiveKey } from './objectives';
 import { toRunMastery } from './objectives';
 import { levels, initialLevel } from '../data/levels';
+import { ensureLevelsThrough, MAX_LEVEL_ID } from '../data/endlessLevels';
 import { normalizeWord } from './normalize';
 import { rewardKey } from './lexicon';
 
@@ -167,11 +168,29 @@ function sanitizeAdWatchStats(raw: unknown): AdWatchStats {
 }
 
 function sanitize(data: RawSave): PlayerSave {
+  const rawCompletedIds = Array.isArray(data.completedLevels)
+    ? (data.completedLevels as unknown[]).filter(
+        (id): id is number => typeof id === 'number' && Number.isSafeInteger(id) && id >= 1 && id <= MAX_LEVEL_ID,
+      )
+    : [];
+  const requestedCurrentId = typeof data.currentLevelId === 'number'
+    && Number.isSafeInteger(data.currentLevelId)
+    && data.currentLevelId >= 1
+    && data.currentLevelId <= MAX_LEVEL_ID
+    ? data.currentLevelId
+    : 1;
+  const hasRequestedCurrentId = typeof data.currentLevelId === 'number'
+    && Number.isSafeInteger(data.currentLevelId)
+    && data.currentLevelId >= 1
+    && data.currentLevelId <= MAX_LEVEL_ID;
+  const highestSavedLevelId = rawCompletedIds.reduce((highest, id) => Math.max(highest, id), requestedCurrentId);
+  const catalogTarget = !hasRequestedCurrentId && highestSavedLevelId < MAX_LEVEL_ID
+    ? highestSavedLevelId + 1
+    : highestSavedLevelId;
+  ensureLevelsThrough(catalogTarget);
   const validLevelIds = new Set(levels.map((e) => e.levelId));
 
-  const completedLevels = Array.isArray(data.completedLevels)
-    ? (data.completedLevels as unknown[]).filter((id): id is number => typeof id === 'number' && validLevelIds.has(id))
-    : [];
+  const completedLevels = rawCompletedIds.filter((id) => validLevelIds.has(id));
 
   const awardedLevels = Array.isArray(data.awardedLevels)
     ? (data.awardedLevels as unknown[]).filter((id): id is number => typeof id === 'number' && validLevelIds.has(id))
@@ -195,8 +214,8 @@ function sanitize(data: RawSave): PlayerSave {
   );
   const inferredCurrentLevelId = nextUncompletedLevel?.levelId
     ?? (validLevelIds.has(highestCompletedId) ? highestCompletedId : initialLevel.levelId);
-  const currentLevelId = typeof data.currentLevelId === 'number' && validLevelIds.has(data.currentLevelId)
-    ? data.currentLevelId
+  const currentLevelId = hasRequestedCurrentId && validLevelIds.has(requestedCurrentId)
+    ? requestedCurrentId
     : inferredCurrentLevelId;
 
   const rawLevelMastery = (data.levelMastery ?? {}) as Record<string, unknown>;

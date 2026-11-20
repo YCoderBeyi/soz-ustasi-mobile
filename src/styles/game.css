@@ -61,8 +61,8 @@
 }
 
 .gameTopBar .svgBtn img {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
 }
 
 .gameTopBar .topToolsGame {
@@ -1720,31 +1720,14 @@
   }
 }
 
-.gameSealAction.canSealActive {
-  transform: scale(1.18);
-  filter: drop-shadow(0 0 15px var(--accent));
-}
-
-.gameSealAction.canSealActive::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-  opacity: 0.3;
-  animation: pulseAura 2s infinite ease-in-out;
+.gameSealAction {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  width: 70px;
+  text-align: center;
   pointer-events: none;
-}
-
-@keyframes pulseAura {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(1.1); }
-}
-
-.gameSealAction:active {
-  transform: scale(0.92);
+  user-select: none;
 }
 
 .gameSealMark.glowing {
@@ -1944,7 +1927,25 @@
 /* Four stat chips (target, hidden, streak, score) share one row; the ring sits in the score chip's corner. */
 .gameStatsRow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .gameScoreChip { position: relative; overflow: visible; }
-.gameScoreChip .comboRing { position: absolute; top: -9px; right: -5px; width: 32px; height: 32px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); }
+.gameScoreChip {
+  grid-template-columns: minmax(0, 1fr) 25px;
+  grid-template-rows: auto auto;
+  justify-items: stretch;
+  column-gap: 2px;
+  padding-inline: 7px 4px;
+  text-align: center;
+}
+.gameScoreChip .gameStatChipLabel,
+.gameScoreChip > strong { grid-column: 1; }
+.gameScoreChip .comboRing {
+  position: static;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 25px;
+  height: 25px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.6));
+}
 .gameScoreChip .comboRingTrack { stroke: rgba(10, 30, 40, 0.9); }
 
 /* Meaning card: sits exactly over the stats row (hidden for 3.5 s), so it never covers the board or the wheel controls. */

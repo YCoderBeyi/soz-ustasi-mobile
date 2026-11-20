@@ -121,10 +121,20 @@ describe('persistPlayerSave / loadPlayerSave', () => {
     expect(save.levelMastery[1]).toEqual({ stars: 1, objectives: ['complete'] });
   });
 
-  it('removes unknown levelIds from completedLevels', () => {
-    window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({ completedLevels: [999, 1] }));
+  it('removes out-of-range levelIds from completedLevels', () => {
+    window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({ completedLevels: [10001, 1] }));
     const loaded = loadPlayerSave();
-    expect(loaded.completedLevels).not.toContain(999);
+    expect(loaded.completedLevels).not.toContain(10001);
+  });
+
+  it('preserves progress in generated levels across save loading', () => {
+    window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({
+      currentLevelId: 76,
+      completedLevels: [76],
+    }));
+    const loaded = loadPlayerSave();
+    expect(loaded.currentLevelId).toBe(76);
+    expect(loaded.completedLevels).toContain(76);
   });
 
   it('deduplicates completedLevels', () => {
@@ -173,6 +183,15 @@ describe('persistPlayerSave / loadPlayerSave', () => {
     });
     expect(loaded.currentLevelId).toBe(6);
     expect(loaded.completedLevels).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it('continues into generated levels when an old save completed the authored catalog', () => {
+    window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({
+      completedLevels: Array.from({ length: 75 }, (_, index) => index + 1),
+    }));
+    const loaded = loadPlayerSave();
+    expect(loaded.currentLevelId).toBe(76);
+    expect(loaded.completedLevels).toHaveLength(75);
   });
 
   it('migrates collected hidden words into one-time reward keys', () => {

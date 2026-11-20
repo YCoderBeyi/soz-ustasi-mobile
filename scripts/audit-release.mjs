@@ -75,7 +75,7 @@ if (releaseManifestVersionCode !== versionCode) {
 requireManifestValue('Track', 'Closed test, then production after eligibility');
 requireManifestValue('Data model', 'PlayerSave v3');
 requireManifestValue('Network access', 'Internet (AdMob)');
-requireManifestValue('Ads', 'Rewarded (AdMob)');
+requireManifestValue('Ads', 'Rewarded + Map Banner (AdMob)');
 requireManifestValue('In-app purchases', 'None');
 requireManifestValue('Account/login', 'None');
 requireManifestValue('Supported locale', 'tr-TR');
@@ -145,9 +145,11 @@ if (adsMode && !/^none$/i.test(adsMode)) {
   const PUBLISHER = 'pub-2784764635828379';
   const APP_ADS_LINE = `google.com, ${PUBLISHER}, DIRECT, f08c47fec0942fa0`;
   const GOOGLE_TEST_ID = '3940256099942544';
+  const GOOGLE_TEST_BANNER_UNIT = 'ca-app-pub-3940256099942544/9214589741';
   // AdMob ids registered for com.sozustasi.game (AdMob app "Söz Ustası - Kelime Oyunu"). The sibling "(Windows PC)" app is a different AdMob record.
   const ADMOB_APP_ID = 'ca-app-pub-2784764635828379~5793638649';
   const ADMOB_REWARDED_UNIT = 'ca-app-pub-2784764635828379/5235235447';
+  const ADMOB_BANNER_UNIT = process.env.VITE_ADMOB_BANNER_ID ?? readOptionalEnv('VITE_ADMOB_BANNER_ID');
 
   // app-ads.txt must exist in both places with exactly the publisher line.
   for (const file of ['app-ads.txt', 'public/app-ads.txt']) {
@@ -157,19 +159,35 @@ if (adsMode && !/^none$/i.test(adsMode)) {
   }
   if (read('app-ads.txt') !== read('public/app-ads.txt')) errors.push('app-ads.txt and public/app-ads.txt differ.');
 
-  // Ad ids must be real, from this publisher, and never Google's sample ids.
+  // Production must use this publisher's real banner unit. The sole Google sample unit
+  // allowed in source is the explicit development-only banner ID.
   const adSource = read('src/services/admob.ts');
   const stringsForAds = read('android/app/src/main/res/values/strings.xml');
   const publisherDigits = PUBLISHER.replace('pub-', '');
   for (const [label, text] of [['admob.ts', adSource], ['strings.xml', stringsForAds]]) {
-    if (text.includes(GOOGLE_TEST_ID)) errors.push(`${label} contains a Google sample ad id.`);
+    if (text.includes(GOOGLE_TEST_ID)) {
+      const testIds = text.match(/ca-app-pub-3940256099942544\/\d+/g) ?? [];
+      if (label !== 'admob.ts' || testIds.length !== 1 || testIds[0] !== GOOGLE_TEST_BANNER_UNIT) {
+        errors.push(`${label} contains an unexpected Google sample ad id.`);
+      }
+    }
     for (const id of text.match(/ca-app-pub-\d+/g) ?? []) {
-      if (id !== `ca-app-pub-${publisherDigits}`) errors.push(`${label}: ad id ${id} does not belong to ${PUBLISHER}.`);
+      if (id !== `ca-app-pub-${publisherDigits}` && id !== 'ca-app-pub-3940256099942544') {
+        errors.push(`${label}: ad id ${id} does not belong to ${PUBLISHER}.`);
+      }
     }
   }
 
   if (!stringsForAds.includes(`>${ADMOB_APP_ID}<`)) errors.push(`strings.xml admob_app_id must be ${ADMOB_APP_ID} (the AdMob app for com.sozustasi.game).`);
   if (!adSource.includes(`'${ADMOB_REWARDED_UNIT}'`)) errors.push(`admob.ts rewarded unit must be ${ADMOB_REWARDED_UNIT} (a unit of the same AdMob app).`);
+  if (!/^ca-app-pub-2784764635828379\/\d+$/.test(ADMOB_BANNER_UNIT ?? '')) {
+    errors.push('Set VITE_ADMOB_BANNER_ID in .env.production.local to a real banner unit from publisher pub-2784764635828379.');
+  } else if (ADMOB_BANNER_UNIT === ADMOB_REWARDED_UNIT) {
+    errors.push('VITE_ADMOB_BANNER_ID must be a separate AdMob banner unit, not the rewarded unit.');
+  }
+  if (!/VITE_ADMOB_BANNER_ID/.test(adSource) || !/showBanner\(/.test(adSource) || !/hideBanner\(/.test(adSource)) {
+    errors.push('Map banner must use the configured unit and be shown/hidden through the shared AdMob service.');
+  }
   // The unit must belong to the same AdMob app as the app id: units of other apps are rejected above because only this one is allowed.
 
   // The audience declaration must exist and match the store listing (13+, not child-directed).
@@ -184,6 +202,17 @@ if (adsMode && !/^none$/i.test(adsMode)) {
 
   // Production builds must not run in test mode.
   if (!/IS_TESTING\s*=\s*import\.meta\.env\.DEV/.test(adSource)) errors.push('admob.ts test mode must come from import.meta.env.DEV only.');
+}
+
+function readOptionalEnv(name) {
+  for (const file of ['.env.production.local', '.env.production', '.env.local', '.env']) {
+    if (!existsSync(join(root, file))) continue;
+    const line = read(file).split(/\r?\n/).find((item) => item.match(new RegExp(`^\\s*(?:export\\s+)?${name}\\s*=`)));
+    if (!line) continue;
+    const value = line.slice(line.indexOf('=') + 1).trim().replace(/^(['"])(.*)\1$/, '$2');
+    if (value) return value;
+  }
+  return '';
 }
 
 for (const warning of warnings) console.warn(`WARN ${warning}`);

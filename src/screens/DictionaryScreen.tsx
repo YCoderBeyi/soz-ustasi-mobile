@@ -36,7 +36,7 @@ export function DictionaryScreen() {
     <main className="screen vaultScreen" style={{ '--accent': theme.primaryColor } as CSSProperties}>
       <ScreenHeader title="Söz Hazinesi" onBack={() => { play('tap'); setScreen('map'); }} showSound={false} />
       <div className="tabs tabs3d">
-        <TabPill3D label="Tüm Kelimeler" active={tab === 'all'} onClick={() => { play('tap'); setTab('all'); }} />
+        <TabPill3D label="Kelimeler" active={tab === 'all'} onClick={() => { play('tap'); setTab('all'); }} />
         <TabPill3D label="Gizli" active={tab === 'hidden'} onClick={() => { play('tap'); setTab('hidden'); }} />
         <TabPill3D label="Favoriler" active={tab === 'favorites'} onClick={() => { play('tap'); setTab('favorites'); }} />
       </div>

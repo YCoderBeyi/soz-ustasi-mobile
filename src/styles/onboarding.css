@@ -14,13 +14,41 @@
 }
 .onboardNavigation button {
   min-height: var(--ui-touch-floor, 44px);
+  min-width: 96px;
   padding: 8px 12px;
-  border: 1px solid var(--brand-border-strong);
+  border: 1px solid rgba(106, 183, 187, .28);
   border-radius: var(--ui-radius-ctl);
-  background: var(--brand-bg);
-  color: var(--brand-text);
+  background: rgba(7, 28, 40, .58);
+  color: #c8ddd8;
+  font-weight: 700;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }
-.onboardNavigation button:disabled { opacity: .45; cursor: default; }
+.onboardNavigation button:hover:not(:disabled) {
+  border-color: rgba(106, 208, 199, .48);
+  background: rgba(11, 47, 58, .76);
+  color: #f0e4c7;
+}
+.onboardNavigation button:focus-visible,
+.onboarding .btn3d:focus-visible {
+  outline: 3px solid #76e3d5;
+  outline-offset: 3px;
+}
+.onboardNavigation button:disabled {
+  border-color: rgba(200, 221, 216, .12);
+  background: rgba(7, 20, 29, .22);
+  color: rgba(200, 221, 216, .42);
+  cursor: default;
+}
+.onboardNavigation button:last-child {
+  border-color: transparent;
+  background: transparent;
+  color: rgba(231, 224, 208, .76);
+}
+.onboardNavigation button:last-child:hover {
+  border-color: rgba(106, 183, 187, .22);
+  background: rgba(7, 28, 40, .34);
+  color: #e7e0d0;
+}
 .onboardStage {
   position: relative;
   display: flex;
@@ -205,6 +233,17 @@
   border-radius: 999px;
   background: rgba(244, 230, 200, 0.28);
   transition: width 180ms ease, background 180ms ease;
+}
+
+.onboardSteps .onboardStepCount {
+  width: auto;
+  height: auto;
+  margin-right: 4px;
+  color: rgba(255, 246, 222, 0.84);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .onboardSteps .active {

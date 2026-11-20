@@ -29,11 +29,16 @@ describe('getObjectiveLabels', () => {
 
   it('shows discovery objective as "hata yapmadan tamamla" when no hidden words', () => {
     const level = makeLevel({ hiddenWords: [] });
-    expect(getObjectiveLabels(level).discovery).toBe('Hata yapmadan tamamla');
+    expect(getObjectiveLabels(level).discovery).toBe('Kusursuz tamamla');
   });
 
-  it('returns "Tüm gizlileri ipucusuz bul" for noHint', () => {
-    expect(getObjectiveLabels(makeLevel()).noHint).toBe('Tüm gizlileri ipucusuz bul');
+  it('uses a no-hint objective that can be completed when a level has no hidden words', () => {
+    expect(getObjectiveLabels(makeLevel()).noHint).toBe('Kusursuz ve ipucusuz ustalık');
+  });
+
+  it('keeps the hidden-word no-hint objective when hidden words exist', () => {
+    const level = makeLevel({ hiddenWords: [{ word: 'BALON', meaning: 'Test' }] });
+    expect(getObjectiveLabels(level).noHint).toBe('Tüm gizlileri ipucusuz bul');
   });
 });
 

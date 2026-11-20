@@ -28,7 +28,7 @@ import { Button3D } from '../components/Button3D';
 export function GameScreen() {
   const {
     level, theme, letters, selected, found,
-    revealedLetters, meaning, toast, setToast,
+    revealedLetters, meaning, toast,
     feedback, sealOpen, canSeal,
     streak, score, multiplier, comboTier, comboProgress,
     coins, coinPulse,
@@ -49,12 +49,6 @@ export function GameScreen() {
   const ringRef = useRef<HTMLDivElement>(null);
   const [sealConfirmationOpen, setSealConfirmationOpen] = useState(false);
   const [a11ySelected, setA11ySelected] = useState<number[]>([]);
-  const progressToastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => () => {
-    if (progressToastTimerRef.current) clearTimeout(progressToastTimerRef.current);
-  }, []);
-
   // Seviye değişiminde klavye seçimini temizle (stale harf indeksi kalmasın)
   useEffect(() => { setA11ySelected([]); }, [levelTransitionKey]);
 
@@ -142,7 +136,7 @@ export function GameScreen() {
           <img src="/assets/map/topbar-3d/topbar-coin.png" alt="" />
           <strong>{coins}</strong>
         </div>
-        <button className="svgBtn" onClick={() => { play('tap'); setModal('pause'); }} aria-label="Ayarlar">
+        <button className="svgBtn" onClick={() => { play('tap'); setModal('pause'); }} aria-label="Duraklatma ve oyun ayarları">
           <V2Icon name="settings" />
         </button>
       </div>
@@ -196,7 +190,7 @@ export function GameScreen() {
           <div className="gameStatChip">
             <V2Icon name="statChip" className="gameStatChipBg" />
             <span className="gameStatChipLabel">Gizli</span>
-            <strong>{hiddenFound.length}/{level.hiddenWords.length}</strong>
+            <strong>{level.hiddenWords.length === 0 ? 'Yok' : `${hiddenFound.length}/${level.hiddenWords.length}`}</strong>
             {missingHiddenWordLengths.length > 0 && (
               <span className="gameStatChipHintLengths" aria-label="Kalan gizli kelime uzunlukları">
                 {missingHiddenWordLengths.map((len) => '_'.repeat(len)).join('  ')}
@@ -206,7 +200,7 @@ export function GameScreen() {
           <div className="gameStatChip">
             <V2Icon name="statChip" className="gameStatChipBg" />
             <span className="gameStatChipLabel">Seri</span>
-            <strong>{streak > 0 ? streak : '—'}</strong>
+            <strong>{streak}</strong>
           </div>
           <div className="gameStatChip gameScoreChip" aria-label={`Puan ${score}`}>
             <V2Icon name="statChip" className="gameStatChipBg" />
@@ -232,7 +226,7 @@ export function GameScreen() {
           {feedback === 'correct' ? 'Doğru kelime bulundu' : ''}
           {feedback === 'hidden' ? 'Gizli kelime bulundu' : ''}
           {feedback === 'unknown' ? 'Bu giriş ödül kazandırmadı, seri bozulmadı' : ''}
-          {feedback === 'wrong' ? 'Yanlış, tekrar deneyin' : ''}
+          {feedback === 'wrong' ? 'Bu kelime olmadı; başka harflerle yeniden deneyebilirsin.' : ''}
         </div>
         {/* Klavye / ekran-okuyucu için harf seçimi — görünmez alternatif giriş */}
         <div className="visually-hidden keyboardLetterInput">
@@ -325,20 +319,15 @@ export function GameScreen() {
           </button>
           {/* Mühürleme tek yoldan yapılır: çark merkezindeki wheelCenterSealBtn (yalnız canSeal).
               Bu buton yalnızca ilerleme göstergesidir; canSeal'de gizlenir. */}
-          <button
+          <div
             className="gameSealAction"
             style={canSeal ? { display: 'none' } : undefined}
-            onClick={() => {
-              play('tap');
-              setToast(`Mühür: ${found.length}/${level.mainWords.length}`);
-              if (progressToastTimerRef.current) clearTimeout(progressToastTimerRef.current);
-              progressToastTimerRef.current = setTimeout(() => setToast(''), 1400);
-            }}
-            aria-label="Mühür ilerlemesi"
+            role="status"
+            aria-label={`Mühür ilerlemesi: ${found.length} / ${level.mainWords.length}`}
           >
             <WaxSeal className="gameSealMark" label={`${found.length}`} variant={selectedSealId} />
-            <span>Mühür</span>
-          </button>
+            <span>{found.length}/{level.mainWords.length}</span>
+          </div>
         </div>
       </section>
 
@@ -360,7 +349,7 @@ export function GameScreen() {
           {!reduceMotion && <Confetti count={34} />}
         </>
       )}
-      {!reduceMotion && feedback === 'wrong' && <div className="shakeOverlay" aria-hidden="true" />}
+      {!reduceMotion && !calmMode && feedback === 'wrong' && <div className="shakeOverlay" aria-hidden="true" />}
       {modal === 'hint' && <HintModal />}
       {modal === 'pause' && <PauseModal />}
       {modal === 'privacy' && <PrivacyModal />}

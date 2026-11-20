@@ -11,7 +11,7 @@ export const themes: ThemeData[] = [
     modifier: {
       type: 'old_istanbul',
       label: 'Tarihî Rehber',
-      description: 'Her level\'da bir harf önceden açılır',
+      description: 'Her seviyede bir harf önceden açılır',
       icon: '🏛️',
     },
   },

@@ -27,8 +27,8 @@ export function PauseModal() {
           </button>
         </div>
         {confirmRestart
-          ? action('Emin misin? Yeniden başlat', 'Bu levelde bulduğun kelimeler sıfırlanır', 'danger', () => { play('tap'); startLevel(level); })
-          : action('Leveli Yeniden Başlat', 'Bu leveldeki ilerleme sıfırlanır', 'secondary', () => { play('tap'); setConfirmRestart(true); })}
+          ? action('Emin misin? Yeniden başlat', 'Bu seviyede bulduğun kelimeler sıfırlanır', 'danger', () => { play('tap'); startLevel(level); })
+          : action('Seviyeyi Yeniden Başlat', 'Bu seviyedeki ilerleme sıfırlanır', 'secondary', () => { play('tap'); setConfirmRestart(true); })}
         {action('Ana Haritaya Dön', 'İlerlemen korunur', 'secondary', () => { play('tap'); setScreen('map'); })}
         <button className="pausePrivacy" onClick={() => { play('tap'); setModal('privacy'); }}>Gizlilik Politikası</button>
       </div>

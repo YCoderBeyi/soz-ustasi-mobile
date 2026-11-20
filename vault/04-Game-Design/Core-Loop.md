@@ -9,6 +9,15 @@
 7. Ödül alınır (baseCoin her levelde artar).
 8. Sonraki level veya harita akışına dönülür.
 
+## 76. Seviyeden Sonra Süreklilik
+
+- 1–75. seviyeler editoryal olarak hazırlanmış ana katalogdur. 76. seviyeden itibaren aynı `levels` kataloğu, `src/data/endlessLevels.ts` tarafından ihtiyaç oldukça genişletilir; kayıt, harita ve oyun ekranları aynı seviye kaynağını kullanır.
+- Üretici, `src/data/easyEndlessWords.ts` içindeki incelenmiş adayları `src/game/bonusDictionary.ts` içindeki anlamlarla eşleştirir. Anlamı olmayan kelime hedef olamaz.
+- Her üretilen bulmaca iki ana hedef verir. Daha kısa eş kelime, harf torbasından oluşturulabildiği için ilk seviyelerde hızlı başarı ritmi korunur; en fazla üç ek kelime isteğe bağlı keşif sunar.
+- Üretici yeni sözlük maddesi icat etmez. Doğrulanmış kelime havuzundan farklı bulmaca çiftleri üretir; çiftler tükendiğinde tarifler yeniden kullanılabilir. Yeni, tekrarsız kelime içeriği editoryal sözlük eklemesi gerektirir.
+- Sonsuz seviye bilgi kartı, tarihsel olay iddiası yerine bulunan iki kelimenin kısa anlamını gösterir.
+- Tasarım hedefi: kolay giriş, sık tamamlanma ve küçük ödül artışı. Bunun oyunculara gerçekten daha eğlenceli gelip gelmediği analitik/oyuncu testiyle ölçülmelidir.
+
 ## Ek Döngüler
 
 - Gizli kelime -> Söz Hazinesi koleksiyonuna eklenir.
