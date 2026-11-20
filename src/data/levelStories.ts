@@ -1,5 +1,5 @@
 import type { LevelStory } from '../types';
-import { getLevelById, FIRST_ENDLESS_LEVEL } from './endlessLevels';
+import { getLevelById, getEndlessRecipeCount, FIRST_ENDLESS_LEVEL } from './endlessLevels';
 import { levelStories46to50 } from './levelStories46to50';
 import { levelStories51to55 } from './levelStories51to55';
 import { levelStories56to60 } from './levelStories56to60';
@@ -73,15 +73,19 @@ export function getLevelStory(levelId: number): LevelStory {
     const level = getLevelById(levelId);
     const words = level?.mainWords ?? [];
     const definitions = words.map((entry) => `${entry.word}: ${entry.meaning}`).join('  ');
+    const recipeCount = getEndlessRecipeCount();
+    const isReplay = recipeCount > 0 && Math.floor((levelId - FIRST_ENDLESS_LEVEL) / recipeCount) > 0;
     return {
       levelId,
       era: 'Kelime bilgisi',
       place: 'Söz Hazinesi',
-      title: 'Yeni kelimeler keşfettin',
-      body: `Bu turda ${words.map((entry) => entry.word).join(' ve ')} kelimelerini buldun. ${definitions} Her tamamlanan seviye, kelime hazineni biraz daha büyütür.`,
-      impact: 'İki kısa hedefi tamamlayıp yolculuğuna devam ettin.',
-      today: 'Bu kelimeler Söz Hazinesi’nde tekrar karşına çıkabilir.',
-      contentReviewStatus: 'approved',
+      title: isReplay ? 'Ustalık tekrarı tamamlandı' : 'Kelime turu tamamlandı',
+      body: isReplay
+        ? `Bu turdaki hedefleri yeniden tamamladın. ${definitions} Bu harf havuzu ustalık turunda yeniden kullanıldı.`
+        : `Bu turdaki ${words.map((entry) => entry.word).join(' ve ')} hedeflerini tamamladın. ${definitions}`,
+      impact: 'Bir harf havuzundaki hedefleri tamamlayıp turun mührünü açtın.',
+      today: 'Bu turda bulunan kelimeleri Söz Hazinesi’nde yeniden inceleyebilirsin.',
+      contentReviewStatus: 'draft',
     };
   }
 

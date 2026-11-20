@@ -1,4 +1,7 @@
-import { AdMob, MaxAdContentRating, RewardAdPluginEvents, type RewardAdOptions } from '@capacitor-community/admob';
+import {
+  AdMob, BannerAdPluginEvents, BannerAdPosition, BannerAdSize, MaxAdContentRating,
+  RewardAdPluginEvents, type RewardAdOptions,
+} from '@capacitor-community/admob';
 import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
 import {
   canWatchRewardedAd,
@@ -10,6 +13,10 @@ import {
 // Ödüllü reklam birimi ID'si. AdMob'da "Söz Ustası - Kelime Oyunu" (com.sozustasi.game, uygulama kimliği ~5793638649) uygulamasına aittir;
 // strings.xml içindeki admob_app_id ile aynı AdMob uygulamasından olmalıdır (audit:release denetler).
 const REWARDED_AD_ID = 'ca-app-pub-2784764635828379/5235235447';
+// Create a separate Banner unit in AdMob and provide its ID at build time.
+// The rewarded unit above must never be reused for banner requests.
+const BANNER_AD_ID = import.meta.env.VITE_ADMOB_BANNER_ID ?? '';
+const GOOGLE_TEST_BANNER_ID = 'ca-app-pub-3940256099942544/9214589741';
 
 // Geliştirmede test reklamı gösterilir; üretim derlemesinde gerçek reklam.
 const IS_TESTING = import.meta.env.DEV;
@@ -28,6 +35,18 @@ export const AD_AUDIENCE = {
 let initPromise: Promise<void> | null = null;
 /** Ads may only be requested once the consent flow says so (declined consent or a failed flow means no ads). */
 let adsAllowed = false;
+let bannerVisible = false;
+let bannerAttached = false;
+let bannerWanted = false;
+let bannerRequest: Promise<void> | null = null;
+let bannerEventHandles: PluginListenerHandle[] = [];
+const bannerStateListeners = new Set<() => void>();
+
+function setBannerVisible(visible: boolean): void {
+  if (bannerVisible === visible) return;
+  bannerVisible = visible;
+  for (const listener of bannerStateListeners) listener();
+}
 
 function isNative(): boolean {
   return Capacitor.isNativePlatform();
@@ -61,6 +80,73 @@ export function initializeAdMob(): Promise<void> {
     });
   }
   return initPromise;
+}
+
+/** Show a banner only on the map, away from the high-touch puzzle surface. */
+export function hasMapBannerSlot(): boolean {
+  return isNative() && (import.meta.env.DEV || Boolean(BANNER_AD_ID));
+}
+
+export function isMapBannerVisible(): boolean {
+  return bannerVisible;
+}
+
+export function subscribeMapBannerState(listener: () => void): () => void {
+  bannerStateListeners.add(listener);
+  return () => bannerStateListeners.delete(listener);
+}
+
+export async function showMapBanner(): Promise<void> {
+  if (!hasMapBannerSlot()) return;
+  bannerWanted = true;
+  if (bannerVisible || bannerRequest) return;
+  bannerRequest = (async () => {
+    try {
+      await initializeAdMob();
+      if (!adsAllowed || !bannerWanted) return;
+      bannerEventHandles = await Promise.all([
+        AdMob.addListener(BannerAdPluginEvents.Loaded, () => {
+          setBannerVisible(true);
+          console.info('Harita banner reklamı yüklendi.');
+        }),
+        AdMob.addListener(BannerAdPluginEvents.FailedToLoad, (error) => {
+          setBannerVisible(false);
+          console.error(`Harita banner reklamı yüklenemedi (${error.code}):`, error.message);
+        }),
+      ]);
+      await AdMob.showBanner({
+        adId: import.meta.env.DEV ? GOOGLE_TEST_BANNER_ID : BANNER_AD_ID,
+        adSize: BannerAdSize.ADAPTIVE_BANNER,
+        position: BannerAdPosition.TOP_CENTER,
+        margin: 0,
+        isTesting: import.meta.env.DEV,
+      });
+      bannerAttached = true;
+    } catch (error) {
+      console.error('Harita banner reklamı yüklenemedi:', error);
+    } finally {
+      bannerRequest = null;
+    }
+  })();
+  await bannerRequest;
+}
+
+export async function hideMapBanner(): Promise<void> {
+  if (!isNative()) return;
+  bannerWanted = false;
+  try {
+    if (bannerRequest) await bannerRequest;
+    if (bannerAttached && !bannerWanted) {
+      await AdMob.hideBanner();
+      bannerAttached = false;
+    }
+    await Promise.all(bannerEventHandles.map((handle) => handle.remove()));
+    bannerEventHandles = [];
+  } catch (error) {
+    console.error('Harita banner reklamı kapatılamadı:', error);
+  } finally {
+    if (!bannerWanted) setBannerVisible(false);
+  }
 }
 
 async function preloadRewardedAd(): Promise<void> {

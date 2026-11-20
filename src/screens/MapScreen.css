@@ -42,7 +42,7 @@
 
 .map-topbar {
   position: absolute;
-  top: max(28px, env(safe-area-inset-top));
+  top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px));
   left: 12px;
   right: 12px;
   z-index: 20;
@@ -67,7 +67,7 @@
 .map-daily-card {
   position: absolute;
   z-index: 19;
-  top: calc(max(28px, env(safe-area-inset-top)) + 76px);
+  top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px) + 76px);
   left: 50%;
   width: min(calc(100% - 32px), 340px);
   transform: translateX(-50%);
@@ -83,6 +83,9 @@
   color: #fff8e8;
   box-shadow: 0 8px 20px rgba(4, 10, 18, 0.35);
 }
+
+/* The native banner occupies its own top strip; map controls stay clear of it. */
+.map-screen--banner { --map-banner-offset: 58px; }
 
 .map-daily-card span {
   color: #f1c96a;
@@ -220,7 +223,7 @@
   .map-topbar-title { font-size: 12px; }
 
   .map-daily-card {
-    top: calc(max(28px, env(safe-area-inset-top)) + 74px);
+    top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px) + 74px);
     width: calc(100% - 20px);
     gap: 8px;
     padding-inline: 10px;
@@ -282,6 +285,17 @@
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
+  scrollbar-color: rgba(216, 171, 69, .72) rgba(13, 19, 33, .55);
+}
+
+.map-theme-dots::-webkit-scrollbar { height: 4px; }
+.map-theme-dots::-webkit-scrollbar-track { background: rgba(13, 19, 33, .55); border-radius: 999px; }
+.map-theme-dots::-webkit-scrollbar-thumb { background: rgba(216, 171, 69, .72); border-radius: 999px; }
+
+@media (max-height: 640px) {
+  .map-stage .level-node--active { top: calc(var(--node-y) - 42px) !important; }
+  .map-stage .level-node--active .level-node__label { display: none; }
+  .map-mastery { bottom: 84px; }
 }
 
 .map-dot {

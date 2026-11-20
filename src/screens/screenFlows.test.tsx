@@ -12,7 +12,14 @@ import { OnboardingScreen } from './OnboardingScreen';
 
 const { state } = vi.hoisted(() => ({ state: {} as Record<string, unknown> }));
 vi.mock('../store/GameContext', () => ({ useGame: () => state }));
-vi.mock('../services/admob', () => ({ showAdPrivacyOptions: vi.fn() }));
+vi.mock('../services/admob', () => ({
+  showAdPrivacyOptions: vi.fn(),
+  hasMapBannerSlot: vi.fn(() => false),
+  isMapBannerVisible: vi.fn(() => false),
+  subscribeMapBannerState: vi.fn(() => () => {}),
+  showMapBanner: vi.fn(async () => undefined),
+  hideMapBanner: vi.fn(async () => undefined),
+}));
 
 afterEach(cleanup);
 beforeEach(() => {
@@ -92,6 +99,14 @@ describe('screen flows', () => {
     expect(regions[0].getAttribute('aria-current')).toBeNull();
   });
 
+  it('prepares the full next region after the last authored level', () => {
+    state.level = levels[74];
+    state.currentLevelId = 75;
+    render(<MapScreen />);
+    const nextRegion = screen.getByRole('button', { name: /Bölge 13:/ });
+    expect(nextRegion.getAttribute('aria-label')).toMatch(/seviyeler 73.*78/);
+  });
+
   it('does not treat a mainly vertical swipe as a region change', () => {
     render(<MapScreen />);
     const journey = screen.getByRole('region', { name: /seviyeleri/ });
@@ -104,6 +119,7 @@ describe('screen flows', () => {
   it('allows going back or skipping onboarding and announces progress', () => {
     render(<OnboardingScreen />);
     expect(screen.getByRole('status').textContent).toContain('1 / 3');
+    expect(screen.getByText(levels[0].mainWords[1].word)).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
     fireEvent.click(screen.getByRole('button', { name: 'Önceki' }));
     expect(screen.getByRole('heading', { name: 'Harfleri Birleştir' })).toBeTruthy();
@@ -111,8 +127,18 @@ describe('screen flows', () => {
     expect(state.setScreen).toHaveBeenCalledWith('map');
   });
 
-  it('marks the unavailable missions destination before a player activates it', () => {
+  it('sends the final onboarding step straight to level one briefing', () => {
+    render(<OnboardingScreen />);
+    fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
+    expect(screen.getByRole('heading', { name: 'Mührü Doldur' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'İlk Seviyeye Başla' }));
+    expect(state.setLevel).toHaveBeenCalledWith(levels[0]);
+    expect(state.setScreen).toHaveBeenCalledWith('level-start');
+  });
+
+  it('does not tease a missions destination that has no playable screen', () => {
     render(<DictionaryScreen />);
-    expect((screen.getByRole('button', { name: 'Görevler (yakında)' }) as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.queryByRole('button', { name: 'Görevler (yakında)' })).toBeNull();
   });
 });

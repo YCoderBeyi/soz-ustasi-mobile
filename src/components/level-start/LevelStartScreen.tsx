@@ -11,6 +11,15 @@ const ASSETS_V2 = `${ASSETS}/v2`;
 // puzzleType veride korunur; oyuncuya ayrı bir oyun tipi gibi sunulmaz.
 const PUZZLE_BADGE_LABEL = 'Kelime Bulmaca';
 
+function BriefingStatIcon({ kind }: { kind: 'main' | 'secret' | 'reward' }) {
+  const sources = {
+    main: '/assets/map/nav-3d/nav-dictionary.png',
+    secret: `${ASSETS_V2}/briefing-secret-v2.png`,
+    reward: `${ASSETS_V2}/briefing-reward.png`,
+  };
+  return <img className={`ls-stat-icon ls-stat-icon--${kind}`} src={sources[kind]} alt="" />;
+}
+
 export function LevelStartScreen() {
   const { level, levelMastery, startLevel, setScreen, play } = useGame();
   const theme = getTheme(level.themeId);
@@ -55,37 +64,46 @@ export function LevelStartScreen() {
         <div className="ls-hero-card">
           <div className="ls-hero-content">
             <div className="ls-hero-left">
-              <span className="ls-level-badge">LEVEL {level.levelId}</span>
+              <span className="ls-level-badge">SEVİYE {level.levelId}</span>
               <span className="ls-puzzle-type">{puzzleLabel}</span>
               <h2 className="ls-theme-title">{theme.title}</h2>
             </div>
             <div className="ls-hero-seal">
-              <img src={`${ASSETS_V2}/seal-lock.png`} alt="" />
+              <img src="/assets/ui/start/wax-seal-s.webp" alt="" />
             </div>
           </div>
         </div>
 
+        {level.levelId === 76 && !mastery && (
+          <p className="ls-route-note" role="note">
+            Yeni rota başladı: {level.mainWords.length} ana kelimeyi tamamla;
+            {level.hiddenWords.length > 0 ? ' gizli kelimeler isteğe bağlı keşif ve bonus sağlar.' : ' ek gizli hedef yok.'}
+          </p>
+        )}
+
         <div className="ls-stats">
           <div className="ls-stat ls-stat-card">
-            <img className="ls-stat-icon" src={`${ASSETS_V2}/main-words.png`} alt="" />
+            <BriefingStatIcon kind="main" />
             <div className="ls-stat-inner">
               <strong>Ana Kelimeler</strong>
               <span className="ls-stat-value">{level.mainWords.length} Kelime</span>
             </div>
           </div>
           <div className="ls-stat ls-stat-card ls-stat-card-secret">
-            <img className="ls-stat-icon" src={`${ASSETS_V2}/secret-words.png`} alt="" />
+            <BriefingStatIcon kind="secret" />
             <div className="ls-stat-inner">
-              <strong>Gizli Kelimeler</strong>
-              <span className="ls-stat-value">{level.hiddenWords.length} Adet</span>
+              <strong>{level.hiddenWords.length > 0 ? 'Gizli Kelimeler' : 'Ek Hedef'}</strong>
+              <span className="ls-stat-value">{level.hiddenWords.length > 0 ? `${level.hiddenWords.length} Adet` : 'Kusursuz tur'}</span>
             </div>
           </div>
           <div className="ls-stat ls-stat-reward">
-            <img className="ls-stat-icon" src={`${ASSETS_V2}/reward.png`} alt="" />
+            <BriefingStatIcon kind="reward" />
             <div className="ls-stat-inner">
               <strong>Ödül</strong>
               <span className="ls-stat-value">{level.reward.baseCoin} Altın</span>
-              <span className="ls-stat-bonus">+ Gizli Bonus</span>
+              {level.hiddenWords.length > 0 && level.reward.hiddenWordBonus > 0 && (
+                <span className="ls-stat-bonus">+ Gizli Bonus</span>
+              )}
             </div>
           </div>
         </div>

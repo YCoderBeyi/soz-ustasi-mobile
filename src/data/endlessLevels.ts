@@ -3,14 +3,23 @@ import { EASY_ENDLESS_WORDS } from './easyEndlessWords';
 import { levels } from './levels';
 import { themes } from './themes';
 import { findBonusDictionaryWord } from '../game/bonusDictionary';
+import { levelDifficulty } from '../game/difficulty';
 import { normalizeWord } from '../game/normalize';
+import approvedWordData from '../../vault/07-Production/word-quality-v1/approved-words.json';
 
 export const FIRST_ENDLESS_LEVEL = 76;
 export const MAX_LEVEL_ID = 10_000;
 
 type Recipe = { anchor: WordEntry; companion: WordEntry; hidden: WordEntry[] };
 
-const easyWordOrder = new Map(EASY_ENDLESS_WORDS.map((word, index) => [normalizeWord(word), index]));
+// The independent word-quality review is the single gate for required targets.
+// Bonus-dictionary membership alone is not enough to make a word a seal/star objective.
+const approvedWordSet = new Set(approvedWordData.words.map(normalizeWord));
+const easyWordSet = new Set(EASY_ENDLESS_WORDS.map(normalizeWord));
+const endlessWordOrder = new Map(
+  [...EASY_ENDLESS_WORDS, ...approvedWordData.words.filter((word) => !easyWordSet.has(normalizeWord(word)))]
+    .map((word, index) => [normalizeWord(word), index]),
+);
 const authoredPairs = new Set(
   levels.flatMap((level) => level.mainWords.flatMap((first, index) => (
     level.mainWords.slice(index + 1).map((second) => (
@@ -30,26 +39,26 @@ function canBuildWord(word: string, letters: readonly string[]): boolean {
   return true;
 }
 
-function buildEasyWordBank(): WordEntry[] {
+function buildReviewedWordBank(): WordEntry[] {
   const byWord = new Map<string, WordEntry>();
   for (const level of levels) {
     for (const entry of level.mainWords) {
       const key = normalizeWord(entry.word);
-      if (easyWordOrder.has(key) && entry.meaning.length >= 10) byWord.set(key, entry);
+      if (approvedWordSet.has(key) && entry.meaning.length >= 10) byWord.set(key, entry);
     }
   }
-  for (const word of EASY_ENDLESS_WORDS) {
+  for (const word of approvedWordData.words) {
     const key = normalizeWord(word);
     const entry = findBonusDictionaryWord(key);
     if (entry?.meaning && entry.meaning.length >= 10 && !byWord.has(key)) byWord.set(key, entry);
   }
   return [...byWord.values()].sort(
-    (a, b) => (easyWordOrder.get(normalizeWord(a.word)) ?? 0) - (easyWordOrder.get(normalizeWord(b.word)) ?? 0),
+    (a, b) => (endlessWordOrder.get(normalizeWord(a.word)) ?? 0) - (endlessWordOrder.get(normalizeWord(b.word)) ?? 0),
   );
 }
 
 function buildRecipes(): Recipe[] {
-  const words = buildEasyWordBank();
+  const words = buildReviewedWordBank();
   const recipes: Recipe[] = [];
   const seen = new Set<string>();
 
@@ -79,17 +88,45 @@ function buildRecipes(): Recipe[] {
         .slice(0, 3)
         .map((entry) => ({ ...entry, reward: 5 }));
       recipes.push({
-        anchor: { ...anchor, difficulty: 1 },
-        companion: { ...companion, difficulty: 1 },
+        anchor,
+        companion,
         hidden,
       });
     }
   }
 
   if (recipes.length < 12) {
-    throw new Error(`Endless level bank needs at least 12 easy recipes; found ${recipes.length}.`);
+    throw new Error(`Endless level bank needs at least 12 approved recipes; found ${recipes.length}.`);
   }
-  return recipes;
+  const recipeDifficulty = (recipe: Recipe) => levelDifficulty({
+    letters: Array.from(normalizeWord(recipe.anchor.word)),
+    mainWords: [recipe.anchor, recipe.companion],
+    hiddenWords: recipe.hidden,
+  });
+  const sorted = recipes.sort((a, b) => recipeDifficulty(a) - recipeDifficulty(b));
+  const recovery = sorted.filter((recipe) => recipeDifficulty(recipe) <= 9.5);
+  const rising = sorted.filter((recipe) => recipeDifficulty(recipe) > 9.5);
+  const paced: Recipe[] = [];
+  while (recovery.length > 0) {
+    const low = recovery[0];
+    const lowScore = recipeDifficulty(low);
+    const candidates = rising.filter((recipe) => {
+      const increase = recipeDifficulty(recipe) - lowScore;
+      return increase >= 1.25 && increase <= 4;
+    });
+    if (candidates.length < 4) {
+      recovery.shift();
+      continue;
+    }
+    const selected = candidates.slice(-4);
+    selected.forEach((recipe) => rising.splice(rising.indexOf(recipe), 1));
+    paced.push(low, ...selected.sort((a, b) => recipeDifficulty(a) - recipeDifficulty(b)));
+    recovery.shift();
+  }
+  if (paced.length < 175) {
+    throw new Error(`Endless level bank needs at least 175 runtime-paced approved recipes; found ${paced.length}.`);
+  }
+  return paced;
 }
 
 const recipes = buildRecipes();

@@ -11,6 +11,7 @@ export const levelStories71to75: LevelStory[] = [
     personInfo: 'Endülüs’te çalışan, El-Tasrif eserinde tıp ve cerrahi uygulamalarını araç çizimleriyle birlikte ele alan hekimdi.',
     impact: 'Araçları çizimlerle anlatmak, uygulamalı bilginin metinden daha açık aktarılmasına yardım eder.',
     today: 'Tıp eğitiminde anatomi çizimleri ve araç görselleri öğrenmeyi destekler.',
+    sourceNotes: ['https://islamansiklopedisi.org.tr/et-tasrif--zehravi', 'https://islamansiklopedisi.org.tr/zehravi'],
   },
   {
     levelId: 72,
@@ -20,6 +21,7 @@ export const levelStories71to75: LevelStory[] = [
     body: 'Cerrahi bir araç, ancak yapacağı işe uygun biçimde seçildiğinde yararlı olur. Kesme, tutma veya inceleme gibi farklı görevler için ayrı araçlar tanımlamak, uygulamanın adımlarını daha açık hâle getirdi.',
     impact: 'Her aracı amacına uygun seçmek, işlemlerin planlı yapılmasına katkı sağlar.',
     today: 'Cerrahi ekipler işlem türüne uygun araçları eğitim ve güvenlik kurallarına göre seçer.',
+    sourceNotes: ['https://islamansiklopedisi.org.tr/et-tasrif--zehravi'],
   },
   {
     levelId: 73,
@@ -29,6 +31,7 @@ export const levelStories71to75: LevelStory[] = [
     body: 'Cerrahi dikiş, ayrılmış dokuları iyileşme sürecinde bir arada tutmayı amaçlar. Malzeme, yerleşim ve gerginlik seçimi aynı işlemin farklı durumlara göre uyarlanması gerektiğini gösterir.',
     impact: 'Dikiş, yara kenarlarının iyileşme sürecinde bir arada kalmasına yardımcı olur.',
     today: 'Dikiş yöntemi ve malzemesi, yaranın durumuna göre sağlık uzmanlarınca belirlenir.',
+    sourceNotes: ['https://www.medlineplus.gov/ency/patientinstructions/000498.htm', 'https://www.merckmanuals.com/professional/injuries-poisoning/how-to-care-for-wounds-and-lacerations/how-to-repair-a-laceration-with-simple-interrupted-sutures'],
   },
   {
     levelId: 74,
@@ -38,17 +41,19 @@ export const levelStories71to75: LevelStory[] = [
     body: 'Modern mikrop bilgisi daha sonra gelişti; buna rağmen düzenli araç kullanımı, çalışma alanının hazırlanması ve işlem adımlarının kaydedilmesi cerrahi güvenliğin temel parçaları hâline geldi.',
     impact: 'Temiz ve düzenli çalışma, cerrahi işlemlerde enfeksiyon riskini azaltmaya yardımcı olur.',
     today: 'Sağlık kuruluşları cerrahi araçları steril eder ve enfeksiyon önleme kurallarını uygular.',
+    sourceNotes: ['https://www.cdc.gov/infection-control/hcp/disinfection-sterilization/sterilizing-practices.html', 'https://www.cdc.gov/infection-control/hcp/disinfection-sterilization/summary-recommendations.html'],
   },
   {
     levelId: 75,
     era: '10-11. yüzyıl',
     place: 'Endülüs’ten farklı dillere',
     title: 'El-Tasrif’in Çizimleri',
-    body: 'El-Tasrif’in cerrahi bölümleri sonraki dönemlerde farklı dillere aktarıldı. Metinle birlikte araç çizimlerinin kullanılması, uygulamalı bilginin uzak coğrafyalarda anlaşılmasına yardımcı oldu.',
+    body: 'El-Tasrif’in cerrahi bölümleri sonraki dönemlerde farklı dillere çevrildi. Eserdeki araç çizimleri, cerrahi aletlerin biçimini metinle birlikte gösteriyordu.',
     person: 'Zehravi',
     personInfo: 'Tıbbi uygulamaları sistemli bir eserde toplayan ve cerrahi araçları çizimlerle açıklayan Endülüslü hekimdi.',
     impact: 'Resimli anlatım, cerrahi araçların biçim ve kullanımını başka okuyuculara aktardı.',
     today: 'Tıp kitapları ve eğitim materyalleri bilgiyi çizim, fotoğraf ve açıklamalarla paylaşır.',
+    sourceNotes: ['https://searcharchives.bl.uk/catalog/032-002055067', 'https://islamansiklopedisi.org.tr/et-tasrif--zehravi'],
   },
 ];
 

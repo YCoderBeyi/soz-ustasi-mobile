@@ -7,6 +7,9 @@ vi.mock('./audio', () => ({ playSfx: vi.fn() }));
 vi.mock('./services/admob', () => ({
   initializeAdMob: vi.fn(), showRewardedAd: vi.fn(), showAdPrivacyOptions: vi.fn(),
   getRewardedAdsLeftToday: () => 0, subscribeRewardedAdsLeft: () => () => {},
+  hasMapBannerSlot: vi.fn(() => false), isMapBannerVisible: vi.fn(() => false),
+  subscribeMapBannerState: vi.fn(() => () => {}), showMapBanner: vi.fn(async () => undefined),
+  hideMapBanner: vi.fn(async () => undefined),
 }));
 
 beforeEach(() => {
@@ -28,12 +31,11 @@ describe('routed screen walkthrough (DOM, not a visual browser test)', () => {
     expect(screen.getByRole('heading', { name: 'Harfleri Birleştir' })).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
     fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Haritaya Geç' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Seviye 1, oynanabilir' }));
+    fireEvent.click(screen.getByRole('button', { name: 'İlk Seviyeye Başla' }));
     fireEvent.click(screen.getByRole('button', { name: 'OYNA' }));
     act(() => { vi.advanceTimersByTime(300); });
     expect(screen.getByRole('region', { name: 'Bulmaca alanı' })).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: 'Ayarlar' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Duraklatma ve oyun ayarları' }));
     expect(screen.getByRole('dialog', { name: 'Oyun Duraklatıldı' })).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /Ana Haritaya Dön/ }));
     fireEvent.click(screen.getByRole('button', { name: 'Sözlük' }));

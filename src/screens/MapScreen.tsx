@@ -1,9 +1,11 @@
-import { useMemo, useState, useRef, useCallback, useEffect } from 'react';
+import { useMemo, useState, useRef, useCallback, useEffect, useSyncExternalStore } from 'react';
 import { useGame } from '../store/GameContext';
 import { levels } from '../data/levels';
+import { ensureLevelsThrough, getLevelById } from '../data/endlessLevels';
 import { themes } from '../data/themes';
 import { LevelNode } from '../components/map/LevelNode';
 import { BottomNav } from '../components/ui/BottomNav';
+import { hideMapBanner, isMapBannerVisible, showMapBanner, subscribeMapBannerState } from '../services/admob';
 import './MapScreen.css';
 import '../styles/map.css';
 
@@ -38,11 +40,24 @@ function getNodeState(
 }
 
 export function MapScreen() {
+  const bannerVisible = useSyncExternalStore(subscribeMapBannerState, isMapBannerVisible, () => false);
   const {
-    play, level, setLevel, completedLevels,
+    play, level, currentLevelId, setLevel, completedLevels,
     levelMastery, toast, setToast, coins,
     isLevelUnlocked, setScreen, dailyChallenge,
   } = useGame();
+
+  const [catalogVersion, setCatalogVersion] = useState(levels.length);
+  const visibleThrough = currentLevelId >= 75
+    ? currentLevelId + (LEVELS_PER_REGION - 1 - ((currentLevelId - 1) % LEVELS_PER_REGION))
+    : levels.length;
+
+  useEffect(() => {
+    if (currentLevelId < 75) return;
+    const previousLength = levels.length;
+    ensureLevelsThrough(visibleThrough);
+    if (levels.length !== previousLength) setCatalogVersion(levels.length);
+  }, [currentLevelId, visibleThrough]);
 
   const regionGroups = useMemo(() => {
     const sorted = [...levels].sort((a, b) => a.levelId - b.levelId);
@@ -61,7 +76,7 @@ export function MapScreen() {
         isCompleted: regionLevels.every((item) => completedLevels.includes(item.levelId)),
       };
     });
-  }, [completedLevels, isLevelUnlocked, levelMastery]);
+  }, [catalogVersion, completedLevels, currentLevelId, isLevelUnlocked, levelMastery]);
 
   const initialIndex = Math.floor((level.levelId - 1) / LEVELS_PER_REGION);
 
@@ -73,6 +88,11 @@ export function MapScreen() {
 
   const activeGroup = regionGroups[activeIndex] ?? regionGroups[0];
   const activeTheme = activeGroup.theme;
+
+  useEffect(() => {
+    void showMapBanner();
+    return () => { void hideMapBanner(); };
+  }, []);
 
   const handleSwipe = useCallback(
     (direction: 'left' | 'right') => {
@@ -138,7 +158,7 @@ export function MapScreen() {
 
   const handleDailyChallenge = () => {
     if (!dailyChallenge || dailyChallenge.completed) return;
-    const dailyLevel = levels.find((item) => item.levelId === dailyChallenge.levelId);
+    const dailyLevel = getLevelById(dailyChallenge.levelId);
     if (!dailyLevel) return;
     play('tap');
     setLevel(dailyLevel);
@@ -146,7 +166,7 @@ export function MapScreen() {
   };
 
   return (
-    <main className="map-screen map-screen--premium">
+    <main className={`map-screen map-screen--premium${bannerVisible ? ' map-screen--banner' : ''}`}>
       <img className="map-bg" src="/assets/ui/map/map-diorama-v2.webp" alt="" />
       <div className="map-screen__veil" aria-hidden="true" />
 
@@ -182,13 +202,13 @@ export function MapScreen() {
           className={`map-daily-card ${dailyChallenge.completed ? 'map-daily-card--done' : ''}`}
           onClick={handleDailyChallenge}
           disabled={dailyChallenge.completed}
-          aria-label={dailyChallenge.completed ? 'Günün görevi tamamlandı' : `Günün görevi: Level ${dailyChallenge.levelId}`}
+          aria-label={dailyChallenge.completed ? 'Günün görevi tamamlandı' : `Günün görevi: Seviye ${dailyChallenge.levelId}`}
         >
           <span>GÜNÜN GÖREVİ</span>
           <strong>
             {dailyChallenge.completed
               ? 'Tamamlandı'
-              : `Level ${dailyChallenge.levelId} · +${dailyChallenge.reward} altın`}
+              : `Seviye ${dailyChallenge.levelId} · +${dailyChallenge.reward} altın`}
           </strong>
         </button>
       )}
