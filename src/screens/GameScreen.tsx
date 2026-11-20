@@ -14,6 +14,7 @@ import { RewardModal } from '../components/RewardModal';
 import { SecondChanceModal } from '../components/SecondChanceModal';
 import { WaxSeal } from '../components/WaxSeal';
 import { Confetti } from '../components/Confetti';
+import { ResourcePill } from '../components/ResourcePill';
 import { SEAL_CONFETTI_COUNT, shouldShowSealConfetti } from '../game/sealRevealFx';
 import { V2Icon } from '../components/Icon';
 import { FavButton } from '../components/FavButton';
@@ -135,10 +136,11 @@ export function GameScreen() {
           <strong>Seviye {level.levelId}</strong>
           <span>{theme.title}</span>
         </div>
-        <div className={`gameCoinPill ${coinPulse ? 'coinPulse' : ''}`} aria-label={`Altın: ${coins}`}>
-          <img src="/assets/map/topbar-3d/topbar-coin.png" alt="" />
-          <strong>{coins}</strong>
-        </div>
+        <ResourcePill
+          type="coin"
+          value={coins}
+          className={`gameCoinPill ${coinPulse ? 'coinPulse' : ''}`}
+        />
         <button className="svgBtn" onClick={() => { play('tap'); setModal('pause'); }} aria-label="Duraklatma ve oyun ayarları">
           <V2Icon name="settings" />
         </button>

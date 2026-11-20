@@ -1,7 +1,7 @@
 # Release Manifest
 
-- Version name: 1.2.6
-- Version code: 31
+- Version name: 1.2.7
+- Version code: 32
 - Track: Closed test, then production after eligibility
 - Data model: PlayerSave v3
 - Network access: Internet (AdMob)
@@ -11,12 +11,12 @@
 - Supported locale: tr-TR
 - Level catalog: 75 authored levels
 - Release owner: Yasar Derebasi
-- AAB SHA-256: B49643EF555EE7C0762DEB763B898661E44AC2619EDB51D7B9A110DE57F86DA8
-- APK SHA-256: 444F28078855760611A520A13075F32A8A11B1C92023C2218823FD56D749D986
+- AAB SHA-256: 2ABC8288D74E61F22DFC33AC876C27F2E045068B39C9A2447A70A91421042AF6
+- APK SHA-256: 69DC1E7A7C7B17F959432C380221076475B7378F8DA3A1B71978DD05920D30C6
 
 ## Play Release Notes
 
-Söz Ustası 1.2.6:
+Söz Ustası 1.2.7:
 - İsteğe bağlı ödüllü reklamı tamamlayarak ipucu veya mağazada 30 altın kazan.
 - 75. seviyeden sonra yeni bulmacalarla oynamaya devam et.
 - Kişisel rekorlarını profilde gör.
@@ -24,3 +24,4 @@ Söz Ustası 1.2.6:
 - Harita ekranındaki banner reklam oyun alanından ayrı gösterilir; reklamı reddederek de oynamaya devam edebilirsin.
 - Sakin Mod, erişilebilirlik ve kayıtlı ilerleme iyileştirmeleri.
 - Android reklam kimliği uyumluluğu ve reklam akışı düzeltmeleri.
+- Ödüllü reklam ve ödüllü geçiş reklamı birimleri doğru SDK akışlarına bağlandı.

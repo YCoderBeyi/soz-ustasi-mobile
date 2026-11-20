@@ -5,6 +5,7 @@ import { ensureLevelsThrough, getLevelById } from '../data/endlessLevels';
 import { themes } from '../data/themes';
 import { LevelNode } from '../components/map/LevelNode';
 import { BottomNav } from '../components/ui/BottomNav';
+import { ResourcePill } from '../components/ResourcePill';
 import { hideMapBanner, isMapBannerVisible, showMapBanner, subscribeMapBannerState } from '../services/admob';
 import './MapScreen.css';
 import '../styles/map.css';
@@ -189,10 +190,7 @@ export function MapScreen() {
         </div>
 
         <div className="map-topbar-resources">
-          <div className="map-resource-pill map-resource-coin" aria-label={`${coins} altın`}>
-            <img className="map-resource-icon" src="/assets/map/topbar-3d/topbar-coin.png" alt="" />
-            <span className="map-resource-value">{coins}</span>
-          </div>
+          <ResourcePill type="coin" value={coins} />
         </div>
       </header>
 

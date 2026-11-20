@@ -170,44 +170,6 @@
   gap: 7px;
 }
 
-.map-resource-pill {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 58px;
-  height: 31px;
-  padding: 0 9px 0 25px;
-  border-radius: 11px;
-  border: 1px solid rgba(250, 208, 103, .38);
-  background:
-    linear-gradient(180deg, rgba(22, 53, 66, .94), rgba(4, 19, 30, .96));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .12),
-    inset 0 -2px 0 rgba(0, 0, 0, .28),
-    0 4px 8px rgba(0, 0, 0, .25);
-}
-
-.map-resource-icon {
-  position: absolute;
-  left: -7px;
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, .38));
-}
-
-.map-resource-value {
-  color: #fff7d4;
-  font-size: 12px;
-  font-weight: 900;
-  text-shadow: 0 2px 3px rgba(0, 0, 0, .75);
-}
-
-.map-resource-gem {
-  border-color: rgba(190, 122, 240, .38);
-}
-
 @media (max-width: 370px) {
   .map-topbar {
     left: 8px;
@@ -218,8 +180,8 @@
   }
 
   .map-topbar-avatar { width: 50px; height: 50px; }
-  .map-resource-pill { min-width: 50px; padding-right: 6px; padding-left: 22px; }
-  .map-resource-icon { width: 32px; height: 32px; }
+  .map-resource-pill { min-width: 64px; height: 30px; padding: 0 8px 0 5px; }
+  .map-resource-icon { width: 24px; height: 24px; }
   .map-topbar-title { font-size: 12px; }
 
   .map-daily-card {
