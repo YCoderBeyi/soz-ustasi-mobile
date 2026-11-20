@@ -4,7 +4,7 @@
 
 Paket: `com.sozustasi.game`
 
-Son kodla eşleştirilen yerel sürüm: `1.2.7` (versionCode `32`); Play Console beyanı bu sürümün gerçek SDK davranışıyla yeniden karşılaştırılmalıdır.
+Son kodla eşleştirilen yerel sürüm: `1.2.8` (versionCode `33`); Play Console beyanı bu sürümün gerçek SDK davranışıyla yeniden karşılaştırılmalıdır.
 
 Söz Ustası kendi sunucusu üzerinden kişisel veya hassas kullanıcı verisi toplamaz ve satmaz. Oyun ilerlemesi ve ayarlar yalnızca cihazdaki local storage'da tutulur. Reklam gösterimi için Google AdMob SDK'sı (ve UMP/GDPR izin modülü) kullanılır; reklam kimliği ve cihaz bilgisi Google'ın kendi politikalarına göre işlenebilir.
 

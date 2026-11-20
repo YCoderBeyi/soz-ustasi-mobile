@@ -5,7 +5,7 @@ import App from './App';
 
 vi.mock('./audio', () => ({ playSfx: vi.fn() }));
 vi.mock('./services/admob', () => ({
-  initializeAdMob: vi.fn(), showRewardedAd: vi.fn(), showAdPrivacyOptions: vi.fn(),
+  initializeAdMob: vi.fn(), showRewardedAd: vi.fn(), showAdPrivacyOptions: vi.fn(), getLastAdFailureDetail: () => '',
   getRewardedAdsLeftToday: () => 0, subscribeRewardedAdsLeft: () => () => {},
   hasMapBannerSlot: vi.fn(() => false), isMapBannerVisible: vi.fn(() => false),
   subscribeMapBannerState: vi.fn(() => () => {}), showMapBanner: vi.fn(async () => undefined),
@@ -27,7 +27,7 @@ afterEach(() => {
 describe('routed screen walkthrough (DOM, not a visual browser test)', () => {
   it('navigates all nine routed screens and settings privacy using the real providers', () => {
     const { container } = render(<App />);
-    fireEvent.click(screen.getByRole('button', { name: 'BAŞLA' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Oyuna Başla' }));
     expect(screen.getByRole('heading', { name: 'Harfleri Birleştir' })).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
     fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));

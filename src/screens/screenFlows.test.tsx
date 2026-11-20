@@ -14,6 +14,7 @@ const { state } = vi.hoisted(() => ({ state: {} as Record<string, unknown> }));
 vi.mock('../store/GameContext', () => ({ useGame: () => state }));
 vi.mock('../services/admob', () => ({
   showAdPrivacyOptions: vi.fn(),
+  getLastAdFailureDetail: () => '',
   getRewardedAdsLeftToday: () => 6,
   subscribeRewardedAdsLeft: () => () => {},
   hasMapBannerSlot: vi.fn(() => false),
@@ -66,14 +67,14 @@ describe('screen flows', () => {
 
   it('starts the first visit immediately with onboarding', () => {
     render(<StartScreen3D />);
-    fireEvent.click(screen.getByRole('button', { name: 'BAŞLA' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Oyuna Başla' }));
     expect(state.setScreen).toHaveBeenCalledWith('onboarding');
   });
 
   it('continues an existing collection immediately on the map', () => {
     state.collectedWords = [{ word: 'ARI', meaning: 'Bir böcek.' }];
     render(<StartScreen3D />);
-    fireEvent.click(screen.getByRole('button', { name: 'DEVAM ET' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
     expect(state.setScreen).toHaveBeenCalledWith('map');
   });
 

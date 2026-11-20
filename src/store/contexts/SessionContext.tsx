@@ -19,7 +19,7 @@ import {
   type ScoreKind, type ScoreState,
 } from '../../game/score';
 import { buildCrosswordLayout, type CrosswordLayout } from '../../game/crossword';
-import { showRewardedAd } from '../../services/admob';
+import { getLastAdFailureDetail, showRewardedAd } from '../../services/admob';
 
 type Modal = 'level' | 'hint' | 'pause' | 'privacy' | 'reward' | 'secondChance' | null;
 
@@ -497,7 +497,7 @@ export function SessionProvider({
   const acceptSecondChance = useCallback(async () => {
     const rewarded = await showRewardedAd();
     if (!rewarded) {
-      setToast('Reklam açılamadı. İlerlemen korunuyor; dilersen tekrar deneyebilirsin.');
+      setToast(`Reklam açılamadı. İlerlemen korunuyor.${getLastAdFailureDetail() ? ` Tanı: ${getLastAdFailureDetail()}` : ''}`);
       cleanup.safeTimeout(() => setToast(''), 2000);
       return;
     }
@@ -546,7 +546,7 @@ export function SessionProvider({
     }
     const rewarded = await showRewardedAd();
     if (!rewarded) {
-      setToast('Reklam açılamadı. İpucunu altınla alabilir veya oyuna devam edebilirsin.');
+      setToast(`Reklam açılamadı. İpucunu altınla alabilir veya oyuna devam edebilirsin.${getLastAdFailureDetail() ? ` Tanı: ${getLastAdFailureDetail()}` : ''}`);
       return;
     }
     applyMeaningHint(target);
@@ -635,7 +635,7 @@ export function SessionProvider({
     }
     const rewarded = await showRewardedAd();
     if (!rewarded) {
-      setToast('Reklam açılamadı. İlerlemen korunuyor; dilersen tekrar deneyebilirsin.');
+      setToast(`Reklam açılamadı. İlerlemen korunuyor.${getLastAdFailureDetail() ? ` Tanı: ${getLastAdFailureDetail()}` : ''}`);
       return;
     }
     applyLetterHint(target);

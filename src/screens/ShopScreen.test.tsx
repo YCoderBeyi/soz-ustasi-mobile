@@ -16,7 +16,10 @@ vi.mock('../store/GameContext', () => ({ useGame: () => ({
   isItemOwned: () => false, selectedThemeId: null, selectedSealId: null, toast: '',
   coins: 120, doublerRemaining: 0, addCoins: state.addCoins, setToast: state.setToast,
 }) }));
-vi.mock('../services/admob', () => ({ showRewardedInterstitialAd: state.showRewardedInterstitialAd }));
+vi.mock('../services/admob', () => ({
+  showRewardedInterstitialAd: state.showRewardedInterstitialAd,
+  getLastAdFailureDetail: () => 'Reklam yüklenemedi: test',
+}));
 vi.mock('../services/useRewardedAdsLeft', () => ({ useRewardedAdsLeftToday: () => state.adsLeft }));
 
 afterEach(cleanup);

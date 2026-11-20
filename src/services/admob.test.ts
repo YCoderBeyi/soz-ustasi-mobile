@@ -91,6 +91,19 @@ describe('admob service', () => {
     await expect(request).resolves.toBe(false);
   });
 
+  it('retries consent on an ad tap after a temporary consent request failure', async () => {
+    admob.requestConsentInfo
+      .mockRejectedValueOnce(new Error('temporary network error'))
+      .mockResolvedValue({ canRequestAds: true, isConsentFormAvailable: false });
+    admob.showRewardInterstitialAd.mockResolvedValue({ type: 'coin', amount: 1 });
+    const { initializeAdMob, showRewardedInterstitialAd } = await freshAdmob();
+
+    await initializeAdMob();
+    await expect(showRewardedInterstitialAd()).resolves.toBe(true);
+    expect(admob.requestConsentInfo).toHaveBeenCalledTimes(2);
+    expect(admob.prepareRewardInterstitialAd).toHaveBeenCalledTimes(2); // initial retry + next-ad preload
+  });
+
   it('never requests an ad when consent was declined', async () => {
     admob.requestConsentInfo.mockResolvedValue({ canRequestAds: false, isConsentFormAvailable: true });
     admob.showConsentForm.mockResolvedValue({ canRequestAds: false, isConsentFormAvailable: true });

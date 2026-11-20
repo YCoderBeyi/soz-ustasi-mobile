@@ -10,17 +10,16 @@ import { hideMapBanner, isMapBannerVisible, showMapBanner, subscribeMapBannerSta
 import './MapScreen.css';
 import '../styles/map.css';
 
-// Level nodes live in the coordinate space of map-diorama-v2 (941x1672), not of the screen: x/y are percentages of the
-// image and k is the platform width as a fraction of the image width. The map stage reproduces the background's
-// "cover" crop, so a node stays on its platform at every screen shape. The image has seven platforms; the lowest one
-// sits behind the bottom navigation, so levels 1-6 use platforms 2-7 (measured from the image).
+// Level nodes live in the coordinate space of kapadokya-masal-haritasi (941x1672), not of the screen: x/y are
+// percentages of the image and k is the platform width as a fraction of the image width. The map stage reproduces
+// the background's "cover" crop, so a node stays on its circular stone pad at every screen shape.
 const PLATFORMS = [
-  { x: 49.0, y: 69.6, k: 0.148 },
-  { x: 59.6, y: 56.8, k: 0.117 },
-  { x: 51.1, y: 46.8, k: 0.117 },
-  { x: 66.2, y: 38.7, k: 0.09 },
-  { x: 52.0, y: 32.4, k: 0.083 },
-  { x: 64.4, y: 26.7, k: 0.072 },
+  { x: 50.5, y: 69.2, k: 0.135 },
+  { x: 65.5, y: 56.8, k: 0.115 },
+  { x: 47.5, y: 47.6, k: 0.105 },
+  { x: 68.5, y: 38.8, k: 0.09 },
+  { x: 49.5, y: 30.8, k: 0.08 },
+  { x: 70.5, y: 24.2, k: 0.075 },
 ];
 const LEVELS_PER_REGION = PLATFORMS.length;
 
@@ -168,7 +167,6 @@ export function MapScreen() {
 
   return (
     <main className={`map-screen map-screen--premium${bannerVisible ? ' map-screen--banner' : ''}`}>
-      <img className="map-bg" src="/assets/ui/map/map-diorama-v2.webp" alt="" />
       <div className="map-screen__veil" aria-hidden="true" />
 
       {toast && <div className="map-toast" role="status">{toast}</div>}
@@ -220,6 +218,7 @@ export function MapScreen() {
         onTouchCancel={() => { touchStartRef.current = null; touchDeltaRef.current = 0; touchVerticalRef.current = 0; }}
       >
         <div className="map-stage">
+          <img className="map-bg" src="/assets/ui/map/kapadokya-masal-haritasi.webp" alt="" />
         {themeLevels.map((item, index) => {
           const state = getNodeState(
             item.levelId, completedLevels, level.levelId, isLevelUnlocked(item),

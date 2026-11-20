@@ -10,6 +10,7 @@ import { GENERATED_BONUS_WORDS } from '../../data/bonusWords.generated';
 
 vi.mock('../../services/admob', () => ({
   showRewardedAd: vi.fn(),
+  getLastAdFailureDetail: () => 'test',
   initializeAdMob: vi.fn(),
   showAdPrivacyOptions: vi.fn(),
   getRewardedAdsLeftToday: vi.fn(() => 6),

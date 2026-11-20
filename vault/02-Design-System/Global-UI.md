@@ -1,5 +1,7 @@
 # Global UI Tasarım Sistemi
 
+**Aktif production brief (2026-11-21):** [[Modern-Anadolu-Production-Prompt-v2]] — çark/tahta kilitli; Modern Anadolu token’ları ve ekran sırası orada. Aşağıdaki renkler legacy referans; yeni iş `--anadolu-*` token setini kullanır.
+
 ## Frame
 
 - Design frame: 390 x 844 pt

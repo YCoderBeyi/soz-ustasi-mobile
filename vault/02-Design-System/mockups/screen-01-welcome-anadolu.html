@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Screen 01 — Welcome Mockup (Modern Anadolu) · Gate 1</title>
+  <style>
+    :root {
+      --anadolu-petrol: #133D36;
+      --anadolu-ivory: #F5E8CE;
+      --anadolu-copper: #BF8744;
+      --anadolu-burgundy: #6F3928;
+      --anadolu-gold: #D5AD57;
+      --anadolu-ink: #263028;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      gap: 16px;
+      padding: 24px;
+      background: #1a1a1a;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: #eee;
+    }
+    .meta {
+      max-width: 390px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #bbb;
+    }
+    .meta strong { color: var(--anadolu-gold); }
+    .phone {
+      width: 390px;
+      height: 844px;
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,.55);
+      border: 2px solid #333;
+    }
+
+    /* --- Screen --- */
+    .screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      color: var(--anadolu-ink);
+      background: var(--anadolu-petrol);
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(19,61,54,.25) 0%, rgba(19,61,54,.55) 42%, rgba(15,40,36,.88) 100%),
+        radial-gradient(ellipse 120% 70% at 50% 18%, #c4a574 0%, #8a6a3e 35%, #4a6a58 70%, #133D36 100%);
+    }
+    .bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.18;
+      background-image: repeating-linear-gradient(
+        -12deg,
+        transparent 0 11px,
+        rgba(245,232,206,.07) 11px 12px
+      );
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px 22px 36px;
+    }
+
+    .brand {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      min-height: 0;
+    }
+
+    .seal-wrap {
+      position: relative;
+      width: 148px;
+      height: 148px;
+      display: grid;
+      place-items: center;
+    }
+    .seal {
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 28%, #8a4a38, var(--anadolu-burgundy) 55%, #3d1e16 100%);
+      border: 4px solid var(--anadolu-gold);
+      box-shadow:
+        0 14px 28px rgba(0,0,0,.4),
+        inset 0 2px 0 rgba(255,255,255,.2);
+      display: grid;
+      place-items: center;
+      color: var(--anadolu-gold);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: -2px;
+    }
+    .seal small {
+      position: absolute;
+      bottom: 28px;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .title-card {
+      width: min(100%, 300px);
+      padding: 16px 20px 14px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #faf1dc, var(--anadolu-ivory));
+      border: 1.5px solid var(--anadolu-copper);
+      box-shadow: 0 10px 0 rgba(38,48,40,.22), 0 16px 28px rgba(0,0,0,.25);
+      text-align: center;
+    }
+    .title-card h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      line-height: 1.05;
+      color: var(--anadolu-petrol);
+      font-weight: 800;
+    }
+    .title-card p {
+      margin: 8px 0 0;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--anadolu-copper);
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 8px;
+    }
+
+    .welcome-line {
+      width: min(100%, 260px);
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(245,232,206,.92);
+      border: 1px solid rgba(191,135,68,.55);
+      box-shadow: 0 6px 14px rgba(0,0,0,.2);
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--anadolu-ink);
+      line-height: 1.35;
+    }
+
+    .cta {
+      width: min(100%, 280px);
+      height: 58px;
+      border: 0;
+      border-radius: 14px;
+      cursor: default;
+      font-family: Georgia, serif;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--anadolu-ivory);
+      background: linear-gradient(180deg, #1f5a4f 0%, var(--anadolu-petrol) 48%, #0d2c27 100%);
+      box-shadow:
+        0 5px 0 #0a1f1c,
+        0 12px 22px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.22);
+      text-shadow: 0 1px 2px rgba(0,0,0,.45);
+    }
+    .cta span {
+      display: block;
+      transform: translateY(-1px);
+    }
+
+    .note {
+      font-size: 10px;
+      letter-spacing: 0.4px;
+      color: rgba(245,232,206,.7);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <p class="meta">
+    <strong>MOCKUP ONLY — Gate 1</strong><br />
+    Screen 01 Welcome · 390×844 · Modern Anadolu<br />
+    Not implemented in app. Copy lock: BAŞLA / DEVAM ET
+  </p>
+
+  <div class="phone" aria-label="Welcome screen mockup 390 by 844">
+    <div class="screen">
+      <div class="bg" aria-hidden="true"></div>
+      <div class="content">
+        <div class="brand">
+          <div class="seal-wrap">
+            <div class="seal" aria-hidden="true">S</div>
+          </div>
+          <div class="title-card">
+            <h1>Söz<br />Ustası</h1>
+            <p>Kelimelerin ustası ol</p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <div class="welcome-line">
+            Herkese merhaba,<br />kelimelere merhaba!
+          </div>
+          <button type="button" class="cta" tabindex="-1"><span>BAŞLA</span></button>
+          <p class="note">İlerleme varsa etiket: DEVAM ET · tek birincil CTA</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

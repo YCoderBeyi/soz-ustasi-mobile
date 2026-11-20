@@ -12,8 +12,9 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   pointer-events: none;
+  z-index: 0;
 }
 
 .map-toast {
@@ -211,8 +212,7 @@
   /* Only the level nodes catch taps; the swipe handlers stay on this element. */
 }
 
-/* The stage reproduces object-fit: cover (centered) for a 941x1672 image, so percentages inside it are image
-   coordinates and every node stays on its platform. */
+/* Stage = cover box for 941x1672. BG + nodes share this box so % coords stay locked to pads. */
 .map-stage {
   position: absolute;
   left: 50%;
@@ -224,6 +224,7 @@
 }
 
 .map-stage .level-node.level-node {
+  z-index: 4;
   width: max(var(--ui-touch-floor), calc(var(--k, 0.1) * 100cqw));
   height: max(var(--ui-touch-floor), calc(var(--k, 0.1) * 100cqw));
 }
@@ -255,8 +256,12 @@
 .map-theme-dots::-webkit-scrollbar-thumb { background: rgba(216, 171, 69, .72); border-radius: 999px; }
 
 @media (max-height: 640px) {
-  .map-stage .level-node--active { top: calc(var(--node-y) - 42px) !important; }
-  .map-stage .level-node--active .level-node__label { display: none; }
+  /* Keep node centered on the stone pad; only tuck the caption on short screens. */
+  .map-stage .level-node--active .level-node__label {
+    top: calc(100% + 2px);
+    font-size: 9px;
+    padding: 2px 6px;
+  }
   .map-mastery { bottom: 84px; }
 }
 

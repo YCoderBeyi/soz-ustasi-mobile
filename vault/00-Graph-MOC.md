@@ -9,6 +9,8 @@
 ## Tasarım Sistemi
 
 - [[02-Design-System/Global-UI]]
+- [[02-Design-System/Modern-Anadolu-Production-Prompt-v2]]
+- [[02-Design-System/Screen-01-Welcome-Current-vs-Target]]
 - [[02-Design-System/Asset-Usage-Rules]]
 - [[02-Design-System/Audio-Animation-Decisions]]
 
