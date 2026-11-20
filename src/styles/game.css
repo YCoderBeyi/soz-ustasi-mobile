@@ -641,6 +641,32 @@
   animation: burstOut 680ms ease-out both;
 }
 
+/* Doğru kelime ışık izi: sıcak amber, kısa (360ms), sert efekt yok */
+.correctTrail {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  width: min(70vw, 280px);
+  height: 3px;
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scaleX(.2);
+  background: linear-gradient(90deg, transparent, rgba(255, 214, 128, .95), rgba(241, 201, 106, .6), transparent);
+  box-shadow: 0 0 14px 2px rgba(241, 201, 106, .45);
+  opacity: 0;
+  animation: correctTrailSweep 360ms ease-out both;
+}
+
+@keyframes correctTrailSweep {
+  0% { opacity: 0; transform: translate(-50%, -50%) scaleX(.2); }
+  35% { opacity: .9; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scaleX(1); }
+}
+
+html.reduce-motion .correctTrail { display: none; animation: none; }
+@media (prefers-reduced-motion: reduce) { .correctTrail { display: none; animation: none; } }
+
 .hiddenBurst {
   box-shadow:
     0 -94px 0 5px rgba(63, 191, 127, 0.9),
@@ -653,6 +679,39 @@
     -68px -68px 0 4px rgba(241, 201, 106, 0.86);
   animation: burstOut 760ms ease-out both;
 }
+
+/* Gizli kelime parıltısı: yeşil-altın yıldız noktaları, 720ms (≤760ms), correctTrail'den farklı (nokta halkası, çizgi değil) */
+.hiddenSparkle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(.4);
+  background: rgba(200, 255, 225, .95);
+  box-shadow:
+    0 0 18px 6px rgba(63, 191, 127, .45),
+    0 -46px 0 -1px rgba(255, 244, 200, .95),
+    40px -24px 0 -2px rgba(63, 191, 127, .9),
+    44px 22px 0 -1px rgba(255, 244, 200, .9),
+    -2px 48px 0 -2px rgba(63, 191, 127, .9),
+    -42px 24px 0 -1px rgba(255, 244, 200, .9),
+    -42px -22px 0 -2px rgba(63, 191, 127, .9);
+  opacity: 0;
+  animation: hiddenSparkleTwinkle 720ms ease-out both;
+}
+
+@keyframes hiddenSparkleTwinkle {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.4) rotate(0deg); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.6) rotate(40deg); }
+}
+
+html.reduce-motion .hiddenSparkle { display: none; animation: none; }
+@media (prefers-reduced-motion: reduce) { .hiddenSparkle { display: none; animation: none; } }
 
 /* Reward story */
 .rewardStory {
@@ -1296,7 +1355,7 @@
   overflow: hidden;
   pointer-events: none;
   background: radial-gradient(circle, rgba(6,18,28,.16), rgba(2,8,14,.62) 58%, rgba(2,8,14,.82));
-  animation: sealBackdrop 1.65s ease both;
+  animation: sealBackdrop 1.65s ease-in-out both;
 }
 .sealReveal .sealOpen {
   position: relative;
@@ -1615,17 +1674,44 @@
   filter: drop-shadow(0 4px 4px rgba(0,0,0,.32));
 }
 
-.modal:has(.rewardHero) .btn3d {
-  min-height: 58px;
-}
-
+/* Ödül CTA: 3D çerçeve tek satır için çizildi; wrap = metin camın dışına taşar. */
 .modal:has(.rewardHero) .rewardActions {
   z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: stretch;
   margin: 0 -18px -18px;
-  padding: 10px 18px 14px max(18px, env(safe-area-inset-bottom));
+  padding: 12px 18px calc(14px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid rgba(242,196,95,.24);
   background: linear-gradient(180deg, rgba(5,20,33,.82), rgba(5,20,33,.99) 45%);
   box-shadow: 0 -12px 18px rgba(5,20,33,.72);
+}
+
+.modal:has(.rewardHero) .rewardActions:has(> :only-child) {
+  grid-template-columns: 1fr;
+}
+
+.modal:has(.rewardHero) .btn3d.rewardCta {
+  --ui-btn-h: 56px;
+  height: var(--ui-btn-h);
+  min-height: var(--ui-btn-h);
+  overflow: hidden;
+}
+
+.modal:has(.rewardHero) .btn3d.rewardCta .btn3dLabel {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 10px;
+  font-size: clamp(12px, 3.4vw, 15px);
+  font-weight: 800;
+  letter-spacing: 0.35px;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 @keyframes tileResolve {
@@ -1664,10 +1750,10 @@
   .rewardStars3d img { width: 48px; height: 48px; }
   .rewardItem3d { min-height: 42px; }
   .rewardItem3d img { width: 40px; height: 40px; }
-  .modal:has(.rewardHero) .btn3d { min-height: 50px; }
+  .modal:has(.rewardHero) .btn3d.rewardCta { --ui-btn-h: 50px; }
   .modal:has(.rewardHero) .rewardActions {
     margin: 0 -12px -12px;
-    padding: 8px 12px 10px;
+    padding: 8px 12px calc(10px + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -1715,8 +1801,14 @@
   }
 
   .modal:has(.rewardHero) .rewardActions {
+    grid-template-columns: 1fr;
     margin: 0 -14px -14px;
-    padding: 10px 14px 14px;
+    padding: 10px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .modal:has(.rewardHero) .btn3d.rewardCta .btn3dLabel {
+    font-size: 15px;
+    letter-spacing: 0.5px;
   }
 }
 

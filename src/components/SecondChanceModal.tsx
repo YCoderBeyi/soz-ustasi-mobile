@@ -19,22 +19,43 @@ export function SecondChanceModal() {
     }
   };
 
+  const continueWithoutAd = () => {
+    play('tap');
+    declineSecondChance();
+  };
+
   return (
-    <Modal title="Bir kelime daha deneyebilirsin" closeLabel="Kapat ve devam et" onClose={() => { play('tap'); declineSecondChance(); }}>
+    <Modal
+      title="Bir kelime daha deneyebilirsin"
+      closeLabel="Reklamsız devam et"
+      onClose={continueWithoutAd}
+    >
       <p className="modalWarning" style={{ textAlign: 'center' }}>
         Bu deneme olmadı; oyun devam ediyor.
         <br />
         Bulduğun kelimeler korunuyor. Devam etmek için reklam gerekmez.
         {adsLeft > 0 && ' İstersen isteğe bağlı reklamla bu turdaki serini ve kusursuz bonusunu koru.'}
       </p>
-      {adsLeft > 0 && (
-        <Button3D variant="blue" disabled={adPending} onClick={() => { play('tap'); void watchAd(); }}>
-          {adPending ? 'Reklam açılıyor…' : `Serimi Reklamla Koru (${adsLeft})`}
+      <div className="modalCtaStack">
+        <Button3D
+          variant="green"
+          className="modalCta modalCta--primary"
+          disabled={adPending}
+          onClick={continueWithoutAd}
+        >
+          Reklamsız Devam Et
         </Button3D>
-      )}
-      <Button3D variant="green" disabled={adPending} onClick={() => { play('tap'); declineSecondChance(); }}>
-        Reklamsız Devam Et
-      </Button3D>
+        {adsLeft > 0 && (
+          <Button3D
+            variant="blue"
+            className="modalCta modalCta--secondary"
+            disabled={adPending}
+            onClick={() => { play('tap'); void watchAd(); }}
+          >
+            {adPending ? 'Reklam açılıyor…' : `Serimi Reklamla Koru (${adsLeft})`}
+          </Button3D>
+        )}
+      </div>
     </Modal>
   );
 }

@@ -14,6 +14,7 @@ import { RewardModal } from '../components/RewardModal';
 import { SecondChanceModal } from '../components/SecondChanceModal';
 import { WaxSeal } from '../components/WaxSeal';
 import { Confetti } from '../components/Confetti';
+import { SEAL_CONFETTI_COUNT, shouldShowSealConfetti } from '../game/sealRevealFx';
 import { V2Icon } from '../components/Icon';
 import { FavButton } from '../components/FavButton';
 import { MeaningCard3D } from '../components/MeaningCard3D';
@@ -21,6 +22,8 @@ import { letterCenterPercent } from '../game/wheelDrag';
 import { useWheelGesture } from '../hooks/useWheelGesture';
 import { StreakBadge } from '../components/StreakBadge';
 import { ComboRing } from '../components/ComboRing';
+import { CorrectTrail } from '../components/feedback/CorrectTrail';
+import { HiddenSparkle } from '../components/feedback/HiddenSparkle';
 import { skinEvolution, skinForLevel } from '../game/tileSkins';
 import { Modal } from '../components/Modal';
 import { Button3D } from '../components/Button3D';
@@ -333,8 +336,8 @@ export function GameScreen() {
 
       {toast && <div className="toast" role="status">{toast}</div>}
       <StreakBadge streak={streak} />
-      {!reduceMotion && feedback === 'hidden' && <div className="burst hiddenBurst" aria-hidden="true" />}
-      {!reduceMotion && feedback === 'correct' && <div className="burst correctBurst" aria-hidden="true" />}
+      <CorrectTrail feedback={feedback} reduceMotion={reduceMotion} calmMode={calmMode} />
+      <HiddenSparkle feedback={feedback} reduceMotion={reduceMotion} calmMode={calmMode} />
       {sealOpen && (
         <>
           <div className="sealReveal" role="status" aria-label="Söz Mührü Açıldı">
@@ -346,7 +349,9 @@ export function GameScreen() {
               <strong>AÇILDI</strong>
             </div>
           </div>
-          {!reduceMotion && <Confetti count={34} />}
+          {shouldShowSealConfetti(reduceMotion, calmMode) && (
+            <Confetti count={SEAL_CONFETTI_COUNT} />
+          )}
         </>
       )}
       {!reduceMotion && !calmMode && feedback === 'wrong' && <div className="shakeOverlay" aria-hidden="true" />}
@@ -356,23 +361,35 @@ export function GameScreen() {
       {modal === 'reward' && <RewardModal />}
       {modal === 'secondChance' && <SecondChanceModal />}
       {sealConfirmationOpen && (
-        <Modal title="Gizli Kelimeler Kaldı" onClose={() => setSealConfirmationOpen(false)}>
+        <Modal
+          title="Gizli Kelimeler Kaldı"
+          closeLabel="Aramaya devam et"
+          onClose={() => setSealConfirmationOpen(false)}
+        >
           <p>
             Bu seviyede keşfedilmeyi bekleyen {missingHiddenCount} gizli kelime var.
             Şimdi mühürlersen bu turu 1 yıldızla tamamlarsın.
           </p>
-          <Button3D variant="blue" onClick={() => { play('tap'); setSealConfirmationOpen(false); }}>
-            Aramaya Devam Et
-          </Button3D>
-          <Button3D
-            variant="gold"
-            onClick={() => {
-              setSealConfirmationOpen(false);
-              manualOpenSeal();
-            }}
-          >
-            Yine de Mühürle (1★)
-          </Button3D>
+          <div className="modalCtaStack">
+            <Button3D
+              variant="green"
+              className="modalCta modalCta--primary"
+              onClick={() => { play('tap'); setSealConfirmationOpen(false); }}
+            >
+              Aramaya Devam Et
+            </Button3D>
+            <Button3D
+              variant="blue"
+              className="modalCta modalCta--secondary"
+              onClick={() => {
+                play('tap');
+                setSealConfirmationOpen(false);
+                manualOpenSeal();
+              }}
+            >
+              Yine de Mühürle (1★)
+            </Button3D>
+          </div>
         </Modal>
       )}
     </main>

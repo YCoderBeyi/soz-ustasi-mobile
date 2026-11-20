@@ -347,7 +347,7 @@ export function SessionProvider({
         markWordRewarded(hiddenKey);
       }
       setMeaning(hidden);
-      setFeedback('correct');
+      setFeedback('hidden');
       setToast(
         shouldReward
           ? `Gizli Kelime: ${hidden.word} · +${hiddenReward} altın`

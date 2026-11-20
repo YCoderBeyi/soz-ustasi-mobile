@@ -51,7 +51,11 @@ export function HintModal() {
   ];
 
   return (
-    <Modal title="İpucu Kullan" onClose={() => { play('tap'); setModal(null); }}>
+    <Modal
+      title="İpucu Kullan"
+      closeLabel="İpucu penceresini kapat"
+      onClose={() => { play('tap'); setModal(null); }}
+    >
       <div className="hintOptions">
         {options.map((option) => (
           <section key={option.id} className={`hintCard hintCard--${option.id}`} aria-label={option.title}>
@@ -77,7 +81,7 @@ export function HintModal() {
                   onClick={() => { play('tap'); void useAd(option); }}
                   disabled={adPending !== null}
                   aria-busy={adPending === option.id}
-                  aria-label={`${option.title}, reklam izleyerek, bugün ${adsLeft} hak kaldı`}
+                  aria-label={`${option.title}, isteğe bağlı reklam, bugün ${adsLeft} hak kaldı`}
                 >
                   <span aria-hidden="true">▶</span>
                   <b>{adPending === option.id ? 'Reklam açılıyor…' : 'Reklam izle'}</b>
@@ -88,7 +92,12 @@ export function HintModal() {
           </section>
         ))}
       </div>
-      {!canAfford && adsLeft === 0 && <p className="modalWarning">Daha fazla altına ihtiyacın var.</p>}
+      {!canAfford && adsLeft === 0 && (
+        <p className="modalWarning">Daha fazla altına ihtiyacın var. Reklam hakkı da kalmadı.</p>
+      )}
+      {!canAfford && adsLeft > 0 && (
+        <p className="modalWarning">Altının yetmiyor; istersen reklamla ipucu alabilirsin.</p>
+      )}
     </Modal>
   );
 }

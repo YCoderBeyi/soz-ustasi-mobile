@@ -140,8 +140,13 @@ export function RewardModal() {
         </article>
       </div>
       <div className="rewardActions rewardActionsSticky">
-        <Button3D variant={isFinal ? 'blue' : 'green'} onClick={advance}>
-          {isFinal ? 'Haritaya Dön' : 'Sonraki Seviye'}
+        {!isFinal && (
+          <Button3D variant="green" className="rewardCta" onClick={advance}>
+            Sonraki Seviye
+          </Button3D>
+        )}
+        <Button3D variant="blue" className="rewardCta" onClick={closeReward}>
+          Haritaya Dön
         </Button3D>
       </div>
     </Modal>

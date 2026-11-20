@@ -100,6 +100,51 @@ describe('RewardModal', () => {
     expect(goToNextLevel).toHaveBeenCalledOnce();
   });
 
+  it('shows equal autonomy actions on non-final level', () => {
+    useGameMock.mockReturnValue({
+      level: { levelId: 1, mainWords: ['SOZ'], hiddenWords: [] },
+      rewardSummary: { base: 0, hidden: 0, region: 0 },
+      scoreSummary: { score: 0, previousBest: 0, isRecord: false },
+      levelMastery: {}, earnedObjectives: [], goToNextLevel: vi.fn(), setModal: vi.fn(), setScreen: vi.fn(), play: vi.fn(),
+    });
+    render(createElement(RewardModal));
+
+    expect(screen.getByRole('button', { name: 'Sonraki Seviye' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Haritaya Dön' })).toBeTruthy();
+  });
+
+  it('Haritaya Dön goes to map without advancing', () => {
+    const goToNextLevel = vi.fn();
+    const setModal = vi.fn();
+    const setScreen = vi.fn();
+    useGameMock.mockReturnValue({
+      level: { levelId: 1, mainWords: ['SOZ'], hiddenWords: [] },
+      rewardSummary: { base: 0, hidden: 0, region: 0 },
+      scoreSummary: { score: 0, previousBest: 0, isRecord: false },
+      levelMastery: {}, earnedObjectives: [], goToNextLevel, setModal, setScreen, play: vi.fn(),
+    });
+    render(createElement(RewardModal));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Haritaya Dön' }));
+
+    expect(goToNextLevel).not.toHaveBeenCalled();
+    expect(setModal).toHaveBeenCalledWith(null);
+    expect(setScreen).toHaveBeenCalledWith('map');
+  });
+
+  it('final level shows only Haritaya Dön', () => {
+    useGameMock.mockReturnValue({
+      level: { levelId: MAX_LEVEL_ID, mainWords: ['SOZ'], hiddenWords: [] },
+      rewardSummary: { base: 0, hidden: 0, region: 0 },
+      scoreSummary: { score: 0, previousBest: 0, isRecord: false },
+      levelMastery: {}, earnedObjectives: [], goToNextLevel: vi.fn(), setModal: vi.fn(), setScreen: vi.fn(), play: vi.fn(),
+    });
+    render(createElement(RewardModal));
+
+    expect(screen.queryByRole('button', { name: 'Sonraki Seviye' })).toBeNull();
+    expect(screen.getByRole('button', { name: 'Haritaya Dön' })).toBeTruthy();
+  });
+
   it('does not render zero-value reward rows', () => {
     useGameMock.mockReturnValue({
       level: {
