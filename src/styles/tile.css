@@ -31,9 +31,17 @@
   animation: tileSealPress 200ms var(--anadolu-ease-motion, cubic-bezier(0.2, 0.8, 0.2, 1)) both;
   animation-delay: var(--press-delay, 0ms);
 }
+.wordTileCell > .tilePress[data-tone='mist'] {
+  animation-name: tileMistPress;
+  animation-duration: 140ms;
+}
 .wordTileCellPressing .wordTileChar {
   animation: tileLetterStamp 200ms var(--anadolu-ease-motion, cubic-bezier(0.2, 0.8, 0.2, 1)) both;
   animation-delay: var(--press-delay, 0ms);
+}
+.wordTileCellPressing[data-press-tone='mist'] .wordTileChar {
+  animation-name: tileLetterStampMist;
+  animation-duration: 140ms;
 }
 @keyframes tileSealPress {
   0% {
@@ -55,6 +63,26 @@
       inset 0 1px 4px rgba(40, 28, 12, 0.12);
   }
 }
+@keyframes tileMistPress {
+  0% {
+    opacity: 0;
+    box-shadow:
+      inset 0 0 0 1px rgba(120, 220, 190, 0),
+      inset 0 2px 8px rgba(10, 40, 36, 0);
+  }
+  40% {
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 1.5px rgba(140, 235, 205, 0.88),
+      inset 0 3px 10px rgba(10, 50, 44, 0.34);
+  }
+  100% {
+    opacity: 0;
+    box-shadow:
+      inset 0 0 0 1px rgba(120, 220, 190, 0.22),
+      inset 0 1px 4px rgba(10, 40, 36, 0.12);
+  }
+}
 @keyframes tileLetterStamp {
   0% { transform: scale(1.05); filter: brightness(1.08); }
   42% {
@@ -66,13 +94,27 @@
   }
   100% { transform: scale(1); filter: none; }
 }
+@keyframes tileLetterStampMist {
+  0% { transform: scale(1.04); filter: brightness(1.06); }
+  45% {
+    transform: scale(0.96);
+    text-shadow:
+      0 1px 0 rgba(220, 255, 240, 0.55),
+      0 -1px 0 rgba(20, 70, 60, 0.22);
+  }
+  100% { transform: scale(1); filter: none; }
+}
 .crosswordGrid[data-calm='true'] .tilePress { display: none; }
 .crosswordGrid[data-calm='true'] .wordTileCellPressing .wordTileChar {
+  animation: none !important;
+}
+.crosswordGrid[data-calm='true'] .wordTileCellActive:not(.wordTileCellFilled) {
   animation: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
   .tilePress { display: none; }
   .wordTileCellPressing .wordTileChar { animation: none !important; }
+  .wordTileCellActive:not(.wordTileCellFilled) { animation: none !important; }
 }
 
 /* Recessed slot (not found yet): looks pressed into the board, with a thin gold lip. */
@@ -84,11 +126,29 @@
     inset 0 -1px 0 rgba(255, 255, 255, 0.07),
     0 1px 0 rgba(255, 255, 255, 0.05);
 }
+/* Aktif/hedef boş kutu: sektördeki “grid as hint” — sakin kenar nefesi (sürekli flash yok). */
 .wordTileCellActive:not(.wordTileCellFilled) {
   border-color: #ffd166;
   box-shadow:
     inset 0 3px 6px rgba(0, 0, 0, 0.55),
     0 0 10px rgba(255, 209, 102, 0.55);
+}
+.crosswordGrid:not([data-calm='true']) .wordTileCellActive:not(.wordTileCellFilled) {
+  animation: tileActiveBreath 1.8s ease-in-out infinite;
+}
+@keyframes tileActiveBreath {
+  0%, 100% {
+    border-color: rgba(255, 209, 102, 0.62);
+    box-shadow:
+      inset 0 3px 6px rgba(0, 0, 0, 0.55),
+      0 0 7px rgba(255, 209, 102, 0.32);
+  }
+  50% {
+    border-color: #ffd166;
+    box-shadow:
+      inset 0 3px 6px rgba(0, 0, 0, 0.55),
+      0 0 14px rgba(255, 209, 102, 0.55);
+  }
 }
 
 /* Raised tile (found). */

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { act, cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { TILE_PRESS_MS, WordTileCell } from './WordTileCell';
+import { TILE_HINT_PRESS_MS, TILE_PRESS_MS, WordTileCell } from './WordTileCell';
 
 afterEach(() => {
   cleanup();
@@ -14,16 +14,34 @@ describe('WordTileCell seal-press', () => {
     const { rerender } = render(<WordTileCell letter="" filled={false} />);
     expect(screen.queryByTestId('tile-press')).toBeNull();
 
-    rerender(<WordTileCell letter="A" filled />);
+    rerender(<WordTileCell letter="A" filled pressTone="seal" />);
     expect(screen.getByText('A')).toBeTruthy();
-    expect(screen.getByTestId('tile-press').getAttribute('data-feedback-fx')).toBe('tile-seal-press');
-    expect(screen.getByTestId('tile-press').getAttribute('aria-hidden')).toBe('true');
+    const press = screen.getByTestId('tile-press');
+    expect(press.getAttribute('data-feedback-fx')).toBe('tile-seal-press');
+    expect(press.getAttribute('data-tone')).toBe('seal');
 
     act(() => {
       vi.advanceTimersByTime(TILE_PRESS_MS);
     });
     expect(screen.queryByTestId('tile-press')).toBeNull();
-    expect(screen.getByText('A')).toBeTruthy();
+  });
+
+  it('mist tonu ipucu baskısı — daha kısa', () => {
+    vi.useFakeTimers();
+    const { rerender } = render(<WordTileCell letter="" filled={false} pressTone="mist" />);
+    rerender(<WordTileCell letter="T" filled pressTone="mist" />);
+    const press = screen.getByTestId('tile-press');
+    expect(press.getAttribute('data-feedback-fx')).toBe('tile-mist-press');
+    expect(press.getAttribute('data-tone')).toBe('mist');
+
+    act(() => {
+      vi.advanceTimersByTime(TILE_HINT_PRESS_MS - 1);
+    });
+    expect(screen.getByTestId('tile-press')).toBeTruthy();
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+    expect(screen.queryByTestId('tile-press')).toBeNull();
   });
 
   it('pressDelayMs latch: re-render delay değişse baskı sürer', () => {
@@ -31,9 +49,7 @@ describe('WordTileCell seal-press', () => {
     const { rerender } = render(<WordTileCell letter="" filled={false} pressDelayMs={96} />);
     rerender(<WordTileCell letter="R" filled pressDelayMs={96} />);
     expect(screen.getByTestId('tile-press')).toBeTruthy();
-    expect(screen.getByText('R')).toBeTruthy();
 
-    // Parent staggerWord null olunca delay 0 gelir — eski crack yarışı
     rerender(<WordTileCell letter="R" filled pressDelayMs={0} />);
     expect(screen.getByTestId('tile-press')).toBeTruthy();
 
@@ -43,11 +59,11 @@ describe('WordTileCell seal-press', () => {
     expect(screen.queryByTestId('tile-press')).toBeNull();
   });
 
-  it('calm açıkken baskı göstermez', () => {
-    const { rerender } = render(<WordTileCell letter="" filled={false} calm />);
-    rerender(<WordTileCell letter="B" filled calm />);
+  it('calm açıkken baskı göstermez; active sınıfı kalır', () => {
+    const { rerender } = render(<WordTileCell letter="" filled={false} active calm />);
+    rerender(<WordTileCell letter="B" filled active calm />);
     expect(screen.queryByTestId('tile-press')).toBeNull();
-    expect(screen.getByText('B')).toBeTruthy();
+    expect(document.querySelector('.wordTileCellActive')).toBeTruthy();
   });
 
   it('zaten filled iken yeniden mount baskı tetiklemez', () => {

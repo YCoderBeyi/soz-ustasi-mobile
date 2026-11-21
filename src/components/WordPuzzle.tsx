@@ -111,8 +111,10 @@ function WordPuzzleView({
         const active = !cell.isEmpty && !isVisible && currentWord
           ? cell.words.some((word) => word.startsWith(currentWord) || currentWord.startsWith(word))
           : false;
+        // Ana kelime = altın seal; yalnız ipucu harfi = mist (sektör: keşif ayrı renk).
+        const pressTone = visibleWord ? 'seal' as const : 'mist' as const;
         let pressDelayMs = 0;
-        if (!calm && staggerWord && visibleWord === staggerWord && layout) {
+        if (!calm && pressTone === 'seal' && staggerWord && visibleWord === staggerWord && layout) {
           const placement = layout.placements.find((item) => item.word === staggerWord);
           if (placement) {
             const letterIndex = placement.direction === 'across'
@@ -144,6 +146,7 @@ function WordPuzzleView({
             active={active}
             calm={calm}
             pressDelayMs={pressDelayMs}
+            pressTone={pressTone}
             number={startNumbers.get(`${cell.row}-${cell.col}`)}
             className={`crosswordCell ${isCrossing ? 'crossingCell' : ''}`}
             style={{ gridRow: cell.row + 1, gridColumn: cell.col + 1 } as CSSProperties}

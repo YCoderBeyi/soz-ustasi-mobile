@@ -16,7 +16,8 @@ export function WordSlots({
     <div className="slotRow">
       {entry.word.split('').map((letter, index) => {
         const show = filled || revealed.includes(index);
-        const pressDelayMs = filled && !calm && !revealed.includes(index)
+        const pressTone = filled ? 'seal' as const : 'mist' as const;
+        const pressDelayMs = filled && !calm
           ? Math.min(index * TILE_PRESS_STAGGER_MS, TILE_PRESS_STAGGER_CAP_MS)
           : 0;
         return (
@@ -26,6 +27,7 @@ export function WordSlots({
             filled={show}
             calm={calm}
             pressDelayMs={pressDelayMs}
+            pressTone={pressTone}
           />
         );
       })}
