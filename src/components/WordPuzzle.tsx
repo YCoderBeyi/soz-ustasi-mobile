@@ -1,8 +1,8 @@
-import { memo, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import type { WordEntry } from '../types';
 import { buildCrosswordLayout } from '../game/crossword';
 import { WordSlots } from './WordSlots';
-import { WordTileCell } from './WordTileCell';
+import { TILE_PRESS_STAGGER_CAP_MS, TILE_PRESS_STAGGER_MS, WordTileCell } from './WordTileCell';
 import type { TileSkinId } from '../game/tileSkins';
 import { BOARD_GAP, tileTokens } from '../game/tileTokens';
 
@@ -25,6 +25,14 @@ function WordPuzzleView({
 }) {
   const layout = useMemo(() => buildCrosswordLayout(words), [words]);
   const gridRef = useRef<HTMLDivElement>(null);
+  // İlk filled karesinde stagger gecikmesi hazır olsun diye render sırasında türet.
+  const prevFoundRef = useRef<string[]>(found);
+  const staggerWord = !calm
+    ? (found.find((word) => !prevFoundRef.current.includes(word)) ?? null)
+    : null;
+  useEffect(() => {
+    prevFoundRef.current = found;
+  }, [found]);
   // Space the board may use, read from the panel's own limits so the grid never overflows (or gets cut) on short phones.
   const [room, setRoom] = useState<{ w: number; h: number }>({ w: 344, h: 210 });
   useLayoutEffect(() => {
@@ -53,6 +61,7 @@ function WordPuzzleView({
             entry={entry}
             filled={found.includes(entry.word)}
             revealed={revealedLetters[entry.word] ?? []}
+            calm={calm}
           />
         ))}
       </>
@@ -102,6 +111,19 @@ function WordPuzzleView({
         const active = !cell.isEmpty && !isVisible && currentWord
           ? cell.words.some((word) => word.startsWith(currentWord) || currentWord.startsWith(word))
           : false;
+        let pressDelayMs = 0;
+        if (!calm && staggerWord && visibleWord === staggerWord && layout) {
+          const placement = layout.placements.find((item) => item.word === staggerWord);
+          if (placement) {
+            const letterIndex = placement.direction === 'across'
+              ? cell.col - placement.col
+              : cell.row - placement.row;
+            pressDelayMs = Math.min(
+              Math.max(0, letterIndex) * TILE_PRESS_STAGGER_MS,
+              TILE_PRESS_STAGGER_CAP_MS,
+            );
+          }
+        }
 
         if (cell.isEmpty) {
           return (
@@ -120,6 +142,8 @@ function WordPuzzleView({
             letter={isVisible ? cell.letter : ''}
             filled={isVisible}
             active={active}
+            calm={calm}
+            pressDelayMs={pressDelayMs}
             number={startNumbers.get(`${cell.row}-${cell.col}`)}
             className={`crosswordCell ${isCrossing ? 'crossingCell' : ''}`}
             style={{ gridRow: cell.row + 1, gridColumn: cell.col + 1 } as CSSProperties}

@@ -14,7 +14,66 @@
   border-radius: var(--tile-radius, 9px);
   transition: transform 120ms ease;
 }
-.wordTileCell > * { position: relative; z-index: 1; }
+.wordTileCell > *:not(.tilePress):not(.wordTileNumber) { position: relative; z-index: 1; }
+.wordTileCell .wordTileChar { z-index: 4; }
+.wordTileCell .wordTileNumber {
+  position: absolute;
+  z-index: 4;
+}
+
+/* Seal-press: harf taşa basılır — altın kenar + iç gölge; shard/patlama yok. */
+.wordTileCell > .tilePress {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  animation: tileSealPress 200ms var(--anadolu-ease-motion, cubic-bezier(0.2, 0.8, 0.2, 1)) both;
+  animation-delay: var(--press-delay, 0ms);
+}
+.wordTileCellPressing .wordTileChar {
+  animation: tileLetterStamp 200ms var(--anadolu-ease-motion, cubic-bezier(0.2, 0.8, 0.2, 1)) both;
+  animation-delay: var(--press-delay, 0ms);
+}
+@keyframes tileSealPress {
+  0% {
+    opacity: 0;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 220, 140, 0),
+      inset 0 2px 8px rgba(40, 28, 12, 0);
+  }
+  40% {
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255, 230, 160, 0.9),
+      inset 0 3px 10px rgba(40, 28, 12, 0.38);
+  }
+  100% {
+    opacity: 0;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 220, 140, 0.2),
+      inset 0 1px 4px rgba(40, 28, 12, 0.12);
+  }
+}
+@keyframes tileLetterStamp {
+  0% { transform: scale(1.05); filter: brightness(1.08); }
+  42% {
+    transform: scale(0.94);
+    filter: brightness(1);
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7),
+      0 -1px 0 rgba(80, 50, 20, 0.28);
+  }
+  100% { transform: scale(1); filter: none; }
+}
+.crosswordGrid[data-calm='true'] .tilePress { display: none; }
+.crosswordGrid[data-calm='true'] .wordTileCellPressing .wordTileChar {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tilePress { display: none; }
+  .wordTileCellPressing .wordTileChar { animation: none !important; }
+}
 
 /* Recessed slot (not found yet): looks pressed into the board, with a thin gold lip. */
 .wordTileCell:not(.wordTileCellFilled):not(.wordTileCellEmpty) {
@@ -44,13 +103,14 @@
     0 calc(var(--tile-depth) + 3px) 7px rgba(0, 0, 0, 0.45),
     var(--tile-glow, 0 0 0 transparent);
   animation: tileDrop 260ms var(--anadolu-ease-motion) both;
+  animation-delay: var(--press-delay, 0ms);
 }
 .wordTileCellFilled::before {
   content: '';
   position: absolute;
   inset: 2px 2px 45%;
   border-radius: inherit;
-  background: linear-gradient(180deg), rgba(255, 255, 255, 0));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
   pointer-events: none;
 }
 .wordTileChar {

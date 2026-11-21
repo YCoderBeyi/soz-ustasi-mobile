@@ -392,7 +392,7 @@
 @keyframes stallOfferIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 @keyframes tileDrop {
-  from { transform: translateY(calc(var(--tile-depth) * -1.4)) scale(1.03); opacity: 0.55; }
+  from { transform: translateY(calc(var(--tile-depth) * -1.4)) scale(1.03); opacity: 0.9; }
   to { transform: translateY(calc(var(--tile-depth) * -0.5)) scale(1); opacity: 1; }
 }
 
