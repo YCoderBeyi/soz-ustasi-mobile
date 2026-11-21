@@ -3,10 +3,10 @@
  * Replace placeholders after creating boards in the console.
  */
 export const PLAY_GAMES_LEADERBOARDS = {
-  /** Weekly all-time-high style board; UI opens with WEEKLY time span. */
-  weeklyScore: 'REPLACE_LEADERBOARD_WEEKLY_SCORE',
-  /** Cumulative region mastery stars (all-time). */
-  regionStars: 'REPLACE_LEADERBOARD_REGION_STARS',
+  /** Play Console: "Haftalık Puan" — UI opens with WEEKLY time span. */
+  weeklyScore: 'Cgklg4fap68eEAIQAg',
+  /** Play Console: "Söz Ustaları" — cumulative mastery stars (ALL_TIME). */
+  regionStars: 'Cgklg4fap68eEAIQAQ',
 } as const;
 
 export type PlayGamesLeaderboardKey = keyof typeof PLAY_GAMES_LEADERBOARDS;

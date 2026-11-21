@@ -20,9 +20,9 @@ Play Console → Grow → Play Games Services → Setup / Leaderboards.
 
 | Slot | Dosya | Placeholder | Durum |
 | --- | --- | --- | --- |
-| PGS project number | `android/.../values/games-ids.xml` → `game_services_project_id` | `REPLACE_PGS_PROJECT_ID` | Bekliyor |
-| Haftalık puan ligi | `src/services/playGames/ids.ts` → `weeklyScore` | `REPLACE_LEADERBOARD_WEEKLY_SCORE` | Bekliyor |
-| Bölge yıldızı ligi | `src/services/playGames/ids.ts` → `regionStars` | `REPLACE_LEADERBOARD_REGION_STARS` | Bekliyor |
+| PGS project number | `android/.../values/games-ids.xml` → `game_services_project_id` | `1043491881859` (Cloud: `soz-ustasi-515420`) | Yazıldı |
+| Haftalık puan ligi | `src/services/playGames/ids.ts` → `weeklyScore` | `Cgklg4fap68eEAIQAg` (Haftalık Puan) | Yazıldı |
+| Bölge yıldızı ligi | `src/services/playGames/ids.ts` → `regionStars` | `Cgklg4fap68eEAIQAQ` (Söz Ustaları) | Yazıldı |
 
 Önerilen board ayarları: weeklyScore = Higher is better, score format numeric; UI WEEKLY span. regionStars = Higher is better, ALL_TIME. Yayınladıktan sonra ~2 saat yayılım.
 
