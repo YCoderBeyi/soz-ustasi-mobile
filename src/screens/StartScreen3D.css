@@ -21,11 +21,12 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* Soft bottom grade for CTA contrast only — avoid heavy “curtain” feeling. */
   background: linear-gradient(
     180deg,
-    rgba(12, 28, 24, 0.1) 0%,
-    rgba(12, 28, 24, 0.08) 45%,
-    rgba(8, 20, 18, 0.62) 100%
+    rgba(12, 28, 24, 0.04) 0%,
+    rgba(12, 28, 24, 0.06) 50%,
+    rgba(8, 20, 18, 0.36) 100%
   );
 }
 

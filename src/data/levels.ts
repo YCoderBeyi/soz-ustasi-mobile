@@ -61,7 +61,7 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'SÖZ', meaning: 'Anlam taşıyan ses veya kelime dizisi.', difficulty: 1 },
       { word: 'ÖZ', meaning: 'Bir şeyin temel niteliği.', difficulty: 2 },
-      { word: 'SÜZ', meaning: 'Bir sıvıyı süzgeçten geçirmek.', difficulty: 2 }
+      { word: 'SÜZ', meaning: 'Bir sıvıyı süzgeçten geçir.', difficulty: 2 }
     ],
     hiddenWords: [
     ],
@@ -108,7 +108,7 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'ANLAM', meaning: 'Bir sözün veya işaretin anlattığı şey.', difficulty: 2 },
       { word: 'ALAN', meaning: 'Açık yer veya belirli bir çalışma bölgesi.', difficulty: 2 },
-      { word: 'MANA', meaning: 'Anlam, içerik veya ifade ettiği değer.', difficulty: 3 }
+      { word: 'ALMA', meaning: 'Bir şeyi edinme veya eline geçirme işi.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'NAM', meaning: 'Ün, şöhret veya ad.', reward: 9 }
@@ -154,7 +154,7 @@ const baseLevels: LevelData[] = [
     letters: ["K","A","L","E","M"],
     mainWords: [
       { word: 'KALEM', meaning: 'Yazı yazmaya yarayan araç.', difficulty: 2 },
-      { word: 'KELAM', meaning: 'Söz, konuşma veya ifade.', difficulty: 4 },
+      { word: 'KAL', meaning: 'Bulunduğun yerde durmayı sürdür.', difficulty: 1 },
       { word: 'EMLAK', meaning: 'Ev, arsa gibi taşınmaz mallar.', difficulty: 3 },
       { word: 'ALEM', meaning: 'Dünya, evren veya belirli bir topluluk.', difficulty: 3 }
     ],
@@ -172,8 +172,7 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'KÜLTÜR', meaning: 'Bir toplumun maddi ve manevi değerleri bütünü.', difficulty: 2 },
       { word: 'TÜRK', meaning: 'Türk milletinden olan kimse.', difficulty: 2 },
-      { word: 'TÜR', meaning: 'Ortak özellikleri olan varlıkların bölümü.', difficulty: 2 },
-      { word: 'KÜR', meaning: 'Tedavi veya bakım amacıyla uygulanan yöntem.', difficulty: 3 }
+      { word: 'TÜR', meaning: 'Ortak özellikleri olan varlıkların bölümü.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'ÜLKÜ', meaning: 'Ulaşılmak istenen yüce amaç.', reward: 13 }
@@ -206,7 +205,6 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'YAYLA', meaning: 'Yazın çıkılan yüksek ve serin yer.', difficulty: 2 },
       { word: 'YAYA', meaning: 'Yürüyerek giden kimse.', difficulty: 2 },
-      { word: 'ALA', meaning: 'Birden çok rengi olan, alaca.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'AY', meaning: 'Güneş sisteminde Dünya\'nın uydusu.', reward: 5 }
@@ -221,7 +219,7 @@ const baseLevels: LevelData[] = [
     letters: ["D","E","R","E","N"],
     mainWords: [
       { word: 'DERE', meaning: 'Küçük akarsu.', difficulty: 2 },
-      { word: 'DENE', meaning: 'Bir şeyi sınamak veya yoklamak.', difficulty: 3 }
+      { word: 'DENE', meaning: 'Bir şeyi sınamak için verilen kısa komut.', difficulty: 3 }
     ],
     hiddenWords: [
       { word: 'ENDER', meaning: 'Çok az bulunan, nadir, seyrek.', reward: 10 },
@@ -307,12 +305,12 @@ const baseLevels: LevelData[] = [
     letters: ["Z","E","Y","T","İ","N"],
     mainWords: [
       { word: 'ZEYTİN', meaning: 'Yağı çıkarılan, Akdeniz ikliminde yetişen meyve.', difficulty: 2 },
-      { word: 'YETİ', meaning: 'Bir işi yapabilme gücü veya kabiliyet.', difficulty: 3 },
+      { word: 'TEN', meaning: 'İnsan vücudunu kaplayan deri.', difficulty: 2 },
       { word: 'NET', meaning: 'Açık, kesin ve kolay anlaşılır olan.', difficulty: 4 },
       { word: 'YENİ', meaning: 'Kullanılmamış veya yakın zamanda ortaya çıkmış.', difficulty: 1 }
     ],
     hiddenWords: [
-      { word: 'TEN', meaning: 'İnsan vücudu, beden.', reward: 11 },
+      { word: 'YETİ', meaning: 'Bir işi yapabilme gücü veya kabiliyet.', reward: 11 },
       { word: 'NİYET', meaning: 'Bir şeyi yapmaya önceden karar verme.', reward: 11 },
     ],
     reward: { baseCoin: 64, hiddenWordBonus: 12 },
@@ -377,13 +375,13 @@ const baseLevels: LevelData[] = [
     letters: ["K","İ","T","A","P"],
     mainWords: [
       { word: 'TAKİP', meaning: 'Ardından gitme veya izleme işi.', difficulty: 3 },
-      { word: 'PATİK', meaning: 'Bebekler için örülen sıcak tutan ayakkabı.', difficulty: 3 },
-      { word: 'PATİ', meaning: 'Hayvan ayağı.', difficulty: 2 }
+      { word: 'TİP', meaning: 'Ortak özellikleri olan örnek veya çeşit.', difficulty: 2 },
+      { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', reward: 10 },
       { word: 'AİT', meaning: 'İlgili, ilişkin, dair.', reward: 12 },
-      { word: 'TİP', meaning: 'Ortak özellikleri olan örnek veya çeşit.', reward: 12 },
+      { word: 'PATİK', meaning: 'Bebekler için örülen sıcak tutan ayakkabı.', reward: 12 },
+      { word: 'PATİ', meaning: 'Hayvan ayağı.', reward: 10 },
     ],
     reward: { baseCoin: 74, hiddenWordBonus: 13 },
   },
@@ -394,7 +392,7 @@ const baseLevels: LevelData[] = [
     puzzleType: 'anagram',
     letters: ["D","İ","V","A","N"],
     mainWords: [
-      { word: 'DİVAN', meaning: 'Şiirlerin toplandığı eser veya kurul.', difficulty: 3 },
+      { word: 'DİVAN', meaning: 'Şairlerin şiirlerini bir araya getirdiği eser.', difficulty: 3 },
       { word: 'ANİ', meaning: 'Birdenbire olan, ansızın gelişen.', difficulty: 2 }
     ],
     hiddenWords: [
@@ -498,7 +496,7 @@ const baseLevels: LevelData[] = [
     letters: ["M","A","S","A","L"],
     mainWords: [
       { word: 'MASAL', meaning: 'Olağanüstü olaylarla örülü anlatı.', difficulty: 2 },
-      { word: 'SALMA', meaning: 'Bırakma veya serbest bırakma işi.', difficulty: 3 },
+      { word: 'SALMA', meaning: 'Bir şeyi serbest bırakma eylemi.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'SAL', meaning: 'Su üzerinde kullanılan ilkel taşıt.', reward: 11 },
@@ -554,7 +552,7 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'DEĞER', meaning: 'Bir şeyin önemi veya karşılığı.', difficulty: 2 },
       { word: 'EĞER', meaning: 'Koşul bildiren söz.', difficulty: 2 },
-      { word: 'DER', meaning: 'Bir şeyi söylemek veya adlandırmak.', difficulty: 3 }
+      { word: 'DER', meaning: 'Söyler veya bir şeyi bu adla anar.', difficulty: 3 }
     ],
     hiddenWords: [
       { word: 'DERE', meaning: 'Küçük akarsu.', reward: 10 }
@@ -569,14 +567,13 @@ const baseLevels: LevelData[] = [
     puzzleType: 'crossword',
     letters: ["K","İ","T","A","P","L"],
     mainWords: [
-      { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', difficulty: 4 },
       { word: 'AİT', meaning: 'Bir kimseye ya da şeye bağlı olan, onun olan.', difficulty: 2 },
       { word: 'KATİP', meaning: 'Yazı işleriyle uğraşan görevli.', difficulty: 4 },
       { word: 'PİL', meaning: 'Elektrik enerjisi sağlayan küçük araç.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'AT', meaning: 'Binek hayvanı.', reward: 14 },
-      { word: 'PATİK', meaning: 'Bebekler için örülen sıcak tutan ayakkabı.', reward: 8 },
+      { word: 'KİL', meaning: 'Islanınca yumuşayıp biçim verilebilen ince taneli toprak.', reward: 8 },
       { word: 'TAKİP', meaning: 'Ardından gitme veya izleme işi.', reward: 10 }
     ],
     reward: { baseCoin: 97, hiddenWordBonus: 15 },
@@ -595,7 +592,7 @@ const baseLevels: LevelData[] = [
     ],
     hiddenWords: [
       { word: 'SEN', meaning: 'Karşıdaki kişiyi gösteren söz.', reward: 12 },
-      { word: 'DENE', meaning: 'Bir şeyi sınamak veya yoklamak.', reward: 10 }
+      { word: 'DENE', meaning: 'Bir şeyi sınamak için verilen kısa komut.', reward: 10 }
     ],
     reward: { baseCoin: 98, hiddenWordBonus: 12 },
   },
@@ -647,12 +644,12 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'SAAT', meaning: 'Zamanı gösteren araç.', difficulty: 2 },
       { word: 'SERT', meaning: 'Kolay bükülmeyen veya katı olan.', difficulty: 3 },
-      { word: 'RAST', meaning: 'Tesadüf, rastlantı, denk gelme.', difficulty: 4 },
+      { word: 'TERAS', meaning: 'Bir binanın üstünde ya da önünde bulunan açık alan.', difficulty: 3 },
     ],
     hiddenWords: [
       { word: 'TERS', meaning: 'Düz olmayan veya karşıt yönde olan.', reward: 13 },
-      { word: 'TERAS', meaning: 'Binanın önünde veya üstünde yer alan açık oturma alanı.', reward: 5 },
-      { word: 'ARSA', meaning: 'Üzerine yapı yapılabilecek toprak parçası.', reward: 10 }
+      { word: 'ARSA', meaning: 'Üzerine yapı yapılabilecek toprak parçası.', reward: 10 },
+      { word: 'RAST', meaning: 'Rastlantı; denk gelme.', reward: 5 }
     ],
     reward: { baseCoin: 103, hiddenWordBonus: 14 },
   },
@@ -741,10 +738,10 @@ const baseLevels: LevelData[] = [
     mainWords: [
       { word: 'ADALET', meaning: 'Hakkı gözetme ve doğruluk ilkesi.', difficulty: 2 },
       { word: 'DAL', meaning: 'Ağacın veya bitkinin gövdesinden çıkan kol.', difficulty: 4 },
-      { word: 'ELA', meaning: 'Yeşile çalan açık kahverengi göz rengi.', difficulty: 2 }
+      { word: 'ADET', meaning: 'Bir şeyin sayıca miktarı; tane.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'ADET', meaning: 'Görenek; bir şeyin sayıca tutarı.', reward: 13 },
+      { word: 'ELA', meaning: 'Yeşile çalan açık kahverengi göz rengi.', reward: 13 },
       { word: 'DELTA', meaning: 'Akarsuyun denize döküldüğü yerde oluşan üçgen ova.', reward: 14 },
       { word: 'ALET', meaning: 'Bir işte kullanılan araç.', reward: 10 },
     ],
@@ -759,7 +756,7 @@ const baseLevels: LevelData[] = [
     letters: ["Z","A","M","A","N"],
     mainWords: [
       { word: 'ZAMAN', meaning: 'Olayların geçtiği süre.', difficulty: 2 },
-      { word: 'NAZ', meaning: 'Cilve, işve, kırıtma.', difficulty: 3 },
+      { word: 'NAZ', meaning: 'Bir isteği hemen kabul etmeyip gönülsüzmüş gibi davranma biçimi.', difficulty: 3 },
       { word: 'ZAM', meaning: 'Fiyata yapılan artış.', difficulty: 3 }
     ],
     hiddenWords: [

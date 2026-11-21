@@ -248,7 +248,7 @@ export function SessionProvider({
     if (screen === 'game' && complete && !sealOpen && !canSeal) {
       stopTimer();
       setCanSeal(true);
-      play('seal');
+      play('levelComplete');
       haptic([40, 20, 60, 20, 80]);
     }
   }, [complete, sealOpen, canSeal, screen]);
@@ -321,7 +321,7 @@ export function SessionProvider({
       addCollectedWord(main);
       setMeaning(main);
       setFeedback('correct');
-      play('correct');
+      play(found.length % 2 === 0 ? 'correct' : 'correctAlt');
       haptic(50);
       clearSelection();
       startTimer();
@@ -440,7 +440,6 @@ export function SessionProvider({
       applyWrongPenalty();
     }
     setFeedback('wrong');
-    play('wrong');
     haptic(100);
     clearSelection();
     cleanup.safeTimeout(() => setFeedback(null), 600);

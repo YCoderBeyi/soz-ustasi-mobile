@@ -10,12 +10,12 @@ export const levels66to70: LevelData[] = [
     letters: ['B', 'E', 'L', 'İ', 'R', 'T', 'İ'],
     mainWords: [
       { word: 'BELİRTİ', meaning: 'Bir hastalık veya durumun varlığını gösteren işaret.', difficulty: 3 },
-      { word: 'İBRET', meaning: 'İnsana yol gösteren ders niteliğindeki örnek veya sonuç.', difficulty: 3 },
+      { word: 'İLETİ', meaning: 'Bir yerden bir yere gönderilen haber veya mesaj.', difficulty: 2 },
       { word: 'BEL', meaning: 'Gövdenin karın ile sırt arasında kalan bölümü.', difficulty: 2 },
       { word: 'BİLET', meaning: 'Bir taşıt veya etkinliğe giriş hakkı veren belge.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'İLETİ', meaning: 'Bir yerden bir yere gönderilen haber veya mesaj.', reward: 18 },
+      { word: 'İBRET', meaning: 'İnsana yol gösteren ders niteliğindeki örnek veya sonuç.', reward: 18 },
       { word: 'İL', meaning: 'Merkezî yönetime bağlı en büyük yerel yönetim birimi.', reward: 18 },
     ],
     reward: { baseCoin: 162, hiddenWordBonus: 22 },

@@ -138,16 +138,17 @@
   margin: 0 12px;
   padding: 8px 12px;
   border-radius: 12px;
-  background: rgba(5, 12, 24, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(12, 40, 35, 0.72);
+  border: 1px solid var(--anadolu-border, rgba(213, 173, 87, 0.42));
   backdrop-filter: blur(8px);
+  box-shadow: var(--anadolu-shadow-press, 0 4px 10px rgba(8, 20, 18, 0.35));
 }
 
 .gameHudTrack {
   flex: 1;
   height: 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(245, 232, 206, 0.14);
   overflow: hidden;
 }
 
@@ -155,7 +156,7 @@
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #4cc38a, #d9a441);
+  background: linear-gradient(90deg, #3fbf7f, var(--anadolu-gold, #d5ad57));
   transition: width 260ms ease;
 }
 
@@ -167,12 +168,12 @@
   flex: 0 0 auto;
   font-size: 11px;
   font-weight: 700;
-  color: rgba(255, 247, 226, 0.75);
+  color: var(--anadolu-mist, rgba(245, 232, 206, 0.72));
   white-space: nowrap;
 }
 
 .gameHudStat strong {
-  color: #f1c96a;
+  color: var(--anadolu-gold-soft, #f2cf77);
   font-size: 13px;
 }
 

@@ -139,13 +139,14 @@ export function RewardModal() {
           )}
         </article>
       </div>
+      <p className="rewardChoiceNote">İstediğin yolu seç — ikisi de eşit geçerli.</p>
       <div className="rewardActions rewardActionsSticky">
         {!isFinal && (
           <Button3D variant="green" className="rewardCta" onClick={advance}>
             Sonraki Seviye
           </Button3D>
         )}
-        <Button3D variant="blue" className="rewardCta" onClick={closeReward}>
+        <Button3D variant="green" className="rewardCta rewardCta--map" onClick={closeReward}>
           Haritaya Dön
         </Button3D>
       </div>

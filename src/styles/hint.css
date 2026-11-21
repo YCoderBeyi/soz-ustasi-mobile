@@ -1,4 +1,16 @@
 /* Hint picker: two cards (what you get), each with a pay row (how you pay). Sizes come from the shared --ui-* tokens. */
+.hintAutonomyNote {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(213, 173, 87, 0.28);
+  background: rgba(19, 61, 54, 0.55);
+  color: var(--anadolu-ivory, #f5e8ce);
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
 .hintOptions { display: grid; gap: 12px; }
 
 .hintCard {

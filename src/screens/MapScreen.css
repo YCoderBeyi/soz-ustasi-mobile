@@ -68,21 +68,22 @@
 .map-daily-card {
   position: absolute;
   z-index: 19;
-  top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px) + 76px);
+  top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px) + 70px);
   left: 50%;
-  width: min(calc(100% - 32px), 340px);
+  width: min(calc(100% - 48px), 280px);
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  min-height: var(--ui-icon-sm);
-  padding: 7px 14px;
-  border: 1px solid var(--anadolu-border-strong);
-  border-radius: var(--ui-radius-ctl);
-  background: linear-gradient(135deg, rgba(19, 61, 54, 0.95), rgba(111, 57, 40, 0.92));
+  gap: 8px;
+  min-height: 36px;
+  padding: 5px 12px;
+  border: 1px solid rgba(213, 173, 87, 0.4);
+  border-radius: 999px;
+  background: rgba(12, 40, 35, 0.72);
   color: var(--anadolu-ivory);
-  box-shadow: var(--anadolu-shadow);
+  box-shadow: var(--anadolu-shadow-press);
+  opacity: 0.92;
 }
 
 /* The native banner occupies its own top strip; map controls stay clear of it. */
@@ -327,11 +328,13 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 6px 14px;
+  padding: 4px 12px;
   border-radius: 999px;
-  background: rgba(12, 40, 35, 0.82);
-  border: 1px solid var(--anadolu-border);
-  box-shadow: var(--anadolu-shadow-press);
+  background: rgba(12, 40, 35, 0.55);
+  border: 1px solid rgba(213, 173, 87, 0.28);
+  box-shadow: none;
+  opacity: 0.88;
+  pointer-events: none;
 }
 
 .map-mastery-label {

@@ -56,6 +56,9 @@ export function HintModal() {
       closeLabel="İpucu penceresini kapat"
       onClose={() => { play('tap'); setModal(null); }}
     >
+      <p className="hintAutonomyNote">
+        İpucu isteğe bağlıdır. Reklam izlemek zorunda değilsin; kapatıp kendi başına devam edebilirsin.
+      </p>
       <div className="hintOptions">
         {options.map((option) => (
           <section key={option.id} className={`hintCard hintCard--${option.id}`} aria-label={option.title}>

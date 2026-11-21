@@ -2,9 +2,11 @@ export type SfxName =
   | 'tap'
   | 'letter'
   | 'correct'
+  | 'correctAlt'
   | 'wrong'
   | 'hidden'
   | 'seal'
+  | 'levelComplete'
   | 'reward'
   | 'shuffle'
   | 'hint'
@@ -36,6 +38,12 @@ const tones: Record<SfxName, Tone[]> = {
     { frequency: 659, duration: 0.095, delay: 0.065, type: 'triangle', gain: 0.048, pan: 0.04 },
     { frequency: 784, duration: 0.15, delay: 0.135, type: 'sine', gain: 0.038, pan: 0.1 },
   ],
+  // Alternating, compact major-key cue keeps repeated discoveries from sounding mechanical.
+  correctAlt: [
+    { frequency: 587, duration: 0.075, type: 'triangle', gain: 0.044, pan: -0.06 },
+    { frequency: 740, duration: 0.085, delay: 0.055, type: 'triangle', gain: 0.04, pan: 0.04 },
+    { frequency: 880, duration: 0.12, delay: 0.115, type: 'sine', gain: 0.032, pan: 0.08 },
+  ],
   wrong: [
     { frequency: 330, duration: 0.105, type: 'triangle', gain: 0.03, slideTo: 294 },
     { frequency: 262, duration: 0.13, delay: 0.065, type: 'sine', gain: 0.022, slideTo: 247 },
@@ -52,6 +60,11 @@ const tones: Record<SfxName, Tone[]> = {
     { frequency: 392, duration: 0.22, delay: 0.2, type: 'triangle', gain: 0.052, pan: -0.1 },
     { frequency: 587, duration: 0.3, delay: 0.34, type: 'sine', gain: 0.046, pan: 0.1 },
     { frequency: 880, duration: 0.38, delay: 0.5, type: 'sine', gain: 0.03 },
+  ],
+  levelComplete: [
+    { frequency: 523, duration: 0.105, type: 'triangle', gain: 0.042, pan: -0.08 },
+    { frequency: 659, duration: 0.11, delay: 0.075, type: 'triangle', gain: 0.04 },
+    { frequency: 784, duration: 0.17, delay: 0.15, type: 'sine', gain: 0.032, pan: 0.08 },
   ],
   reward: [
     { frequency: 523, duration: 0.08, type: 'triangle', gain: 0.06, pan: -0.18 },

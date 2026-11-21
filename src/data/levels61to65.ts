@@ -45,10 +45,10 @@ export const levels61to65: LevelData[] = [
       { word: 'YANSIMA', meaning: 'Işığın bir yüzeye çarpıp geldiği ortama geri dönmesi.', difficulty: 4 },
       { word: 'SAYI', meaning: 'Bir çokluğu veya sırayı belirten matematiksel değer.', difficulty: 2 },
       { word: 'YASA', meaning: 'Toplum düzenini sağlayan ve uyulması gereken kural.', difficulty: 3 },
-      { word: 'MAYA', meaning: 'Hamuru kabartan canlı kültür veya bir şeyin temel özü.', difficulty: 3 },
+      { word: 'AYNA', meaning: 'Işığı yansıtarak görüntü oluşturan parlak yüzey.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'AYNA', meaning: 'Işığı yansıtarak görüntü oluşturan parlak yüzey.', reward: 19 },
+      { word: 'MAYA', meaning: 'Hamuru kabartan maya.', reward: 19 },
       { word: 'MAYIS', meaning: 'Yılın beşinci ayı.', reward: 19 },
     ],
     reward: { baseCoin: 160, hiddenWordBonus: 21 },

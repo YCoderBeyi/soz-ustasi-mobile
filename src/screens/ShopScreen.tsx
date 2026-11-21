@@ -50,9 +50,9 @@ export function ShopScreen() {
       </header>
       <div className="shopTabs">
         <button className={tab === 'theme' ? 'active' : ''} aria-pressed={tab === 'theme'} onClick={() => setTab('theme')}>Temalar</button>
+        <button className={`shopCoinsTab ${tab === 'coins' ? 'active' : ''}`} aria-pressed={tab === 'coins'} onClick={() => setTab('coins')}>Altın</button>
         <button className={tab === 'seal' ? 'active' : ''} aria-pressed={tab === 'seal'} onClick={() => setTab('seal')}>Mühürler</button>
         <button className={tab === 'power_up' ? 'active' : ''} aria-pressed={tab === 'power_up'} onClick={() => setTab('power_up')}>Güç</button>
-        <button className={tab === 'coins' ? 'active' : ''} aria-pressed={tab === 'coins'} onClick={() => setTab('coins')}>Altın</button>
       </div>
       {tab === 'coins' ? (
         <div className="shopList">

@@ -99,6 +99,12 @@
   box-shadow: 0 4px 0 #6a4a22;
 }
 
+.shopTabs button.shopCoinsTab:not(.active) {
+  border-color: rgba(213, 173, 87, 0.62);
+  color: var(--anadolu-gold-soft);
+  background: linear-gradient(180deg, rgba(91, 67, 34, 0.62), rgba(12, 40, 35, 0.98));
+}
+
 .shopTabs button:active {
   transform: translateY(2px);
 }

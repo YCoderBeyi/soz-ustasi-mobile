@@ -10,9 +10,13 @@ export default defineConfig({
   // The version shown in Settings comes from package.json (the single source); build.gradle and the release manifest are audited against it.
   define: { __APP_VERSION__: JSON.stringify(version) },
   server: {
-    // Android release intermediates (AAB) lock files on Windows and crash Vite's watcher.
+    // Windows file locks (AAB / in-place PNG rewrite) crash Vite's watcher without these guards.
     watch: {
-      ignored: ['**/android/**', '**/tmp/**', '**/.git/**'],
+      ignored: ['**/android/**', '**/tmp/**', '**/.git/**', '**/*.tmp.png', '**/intermediates/**'],
+      awaitWriteFinish: {
+        stabilityThreshold: 400,
+        pollInterval: 100,
+      },
     },
   },
   test: {

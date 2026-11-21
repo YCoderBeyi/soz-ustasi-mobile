@@ -131,6 +131,22 @@
   /* Ödül modalı game.css’te özel grid kullanır; diğer kullanımlar tek sütun güvenli. */
   grid-template-columns: 1fr;
 }
+.rewardChoiceNote {
+  margin: 0 0 8px;
+  color: var(--anadolu-mist, rgba(245, 232, 206, 0.72));
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+.rewardActions .rewardCta {
+  min-height: 56px;
+  opacity: 1;
+  filter: none;
+}
+.rewardActions .rewardCta--map {
+  /* Equal autonomy weight: same family as primary, slightly quieter fill via CSS vars if present */
+  filter: saturate(0.92);
+}
 .modalCtaStack {
   grid-template-columns: 1fr;
   margin-top: 4px;

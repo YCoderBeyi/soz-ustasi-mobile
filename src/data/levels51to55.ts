@@ -28,13 +28,13 @@ export const levels51to55: LevelData[] = [
     puzzleType: 'crossword',
     letters: ['H', 'A', 'R', 'F', 'L', 'E', 'R'],
     mainWords: [
-      { word: 'REFAH', meaning: 'Rahatlık, bolluk ve iyi geçim durumu.', difficulty: 3 },
+      { word: 'FERAH', meaning: 'Geniş, hafif ve rahat.', difficulty: 3 },
       { word: 'HARF', meaning: 'Bir sesi yazıda göstermeye yarayan işaret.', difficulty: 2 },
       { word: 'FARE', meaning: 'Küçük bir kemirgen veya bilgisayar işaretleme aygıtı.', difficulty: 2 },
       { word: 'HER', meaning: 'Bir topluluğun bütün üyelerini tek tek belirten söz.', difficulty: 1 },
     ],
     hiddenWords: [
-      { word: 'FERAH', meaning: 'Geniş, hafif ve rahat.', reward: 15 },
+      { word: 'REFAH', meaning: 'Rahatlık, bolluk ve iyi geçim durumu.', reward: 15 },
       { word: 'HALE', meaning: 'Ay veya ışık kaynağı çevresinde görünen parlak halka.', reward: 16 },
     ],
     reward: { baseCoin: 134, hiddenWordBonus: 18 },
