@@ -1,5 +1,5 @@
 import type { LevelStory } from '../types';
-import { getLevelById, getEndlessRecipeCount, FIRST_ENDLESS_LEVEL } from './endlessLevels';
+import { getLevelById, FIRST_ENDLESS_LEVEL } from './endlessLevels';
 import { levelStories46to50 } from './levelStories46to50';
 import { levelStories51to55 } from './levelStories51to55';
 import { levelStories56to60 } from './levelStories56to60';
@@ -63,7 +63,11 @@ export const levelStories: LevelStory[] = [
   ...levelStories61to65,
   ...levelStories66to70,
   ...levelStories71to75,
-];
+].map((story) => ({
+  ...story,
+  // Unreviewed authored cards stay visible to editorial QA as drafts.
+  contentReviewStatus: story.contentReviewStatus ?? 'draft',
+}));
 
 export function getLevelStory(levelId: number): LevelStory {
   const authoredStory = levelStories.find((story) => story.levelId === levelId);
@@ -71,18 +75,15 @@ export function getLevelStory(levelId: number): LevelStory {
 
   if (levelId >= FIRST_ENDLESS_LEVEL) {
     const level = getLevelById(levelId);
+    if (!level) throw new RangeError(`Benzersiz içerik bulunamadı: seviye ${levelId}.`);
     const words = level?.mainWords ?? [];
     const definitions = words.map((entry) => `${entry.word}: ${entry.meaning}`).join('  ');
-    const recipeCount = getEndlessRecipeCount();
-    const isReplay = recipeCount > 0 && Math.floor((levelId - FIRST_ENDLESS_LEVEL) / recipeCount) > 0;
     return {
       levelId,
       era: 'Kelime bilgisi',
       place: 'Söz Hazinesi',
-      title: isReplay ? 'Ustalık tekrarı tamamlandı' : 'Kelime turu tamamlandı',
-      body: isReplay
-        ? `Bu turdaki hedefleri yeniden tamamladın. ${definitions} Bu harf havuzu ustalık turunda yeniden kullanıldı.`
-        : `Bu turdaki ${words.map((entry) => entry.word).join(' ve ')} hedeflerini tamamladın. ${definitions}`,
+      title: 'Kelime turu tamamlandı',
+      body: `Bu turdaki ${words.map((entry) => entry.word).join(' ve ')} hedeflerini tamamladın. ${definitions}`,
       impact: 'Bir harf havuzundaki hedefleri tamamlayıp turun mührünü açtın.',
       today: 'Bu turda bulunan kelimeleri Söz Hazinesi’nde yeniden inceleyebilirsin.',
       contentReviewStatus: 'draft',

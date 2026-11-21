@@ -19,10 +19,10 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
   const { addCoins, spendHint, play, haptic, selectedThemeId, consumeDoubler } = useResource();
   const {
     currentLevelId, setCurrentLevelId,
-    awardedLevels,
+    awardedLevels, levelMastery,
     markLevelCompleted, markLevelAwarded, markWordRewarded, isWordRewarded, countRewardedBonus,
     mergeMastery, addCollectedWord, updateStats,
-    dailyChallenge, claimDailyReward, calmMode,
+    dailyChallenge, claimDailyReward, calmMode, leagueOptIn,
   } = usePersistence();
   return (
     <SessionProvider
@@ -46,6 +46,8 @@ function SessionProviderBridge({ children }: { children: ReactNode }) {
       claimDailyReward={claimDailyReward}
       selectedThemeId={selectedThemeId}
       calmMode={calmMode}
+      leagueOptIn={leagueOptIn}
+      levelMastery={levelMastery}
     >
       {children}
     </SessionProvider>

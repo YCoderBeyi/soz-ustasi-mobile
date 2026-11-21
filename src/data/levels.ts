@@ -151,10 +151,10 @@ const baseLevels: LevelData[] = [
     themeId: 'ottoman_library',
     sealId: 'seal_library_01',
     puzzleType: 'crossword',
-    letters: ["K","A","L","E","M"],
+    letters: ["K","A","L","E","M","İ"],
     mainWords: [
       { word: 'KALEM', meaning: 'Yazı yazmaya yarayan araç.', difficulty: 2 },
-      { word: 'KAL', meaning: 'Bulunduğun yerde durmayı sürdür.', difficulty: 1 },
+      { word: 'EKİM', meaning: 'Yılın onuncu ayı; tohum ekme işi.', difficulty: 2 },
       { word: 'EMLAK', meaning: 'Ev, arsa gibi taşınmaz mallar.', difficulty: 3 },
       { word: 'ALEM', meaning: 'Dünya, evren veya belirli bir topluluk.', difficulty: 3 }
     ],

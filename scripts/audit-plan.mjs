@@ -127,16 +127,23 @@ if (hidRep.length) findings.critical.push(`§6.4 gizli kelime <20 seviye tekrar�
 // §5/§9 keşif kartı sözleşmesi (tip artık impact/today/sourceNotes/contentReviewStatus destekliyor)
 const cardGaps = [];
 let missingImpactToday = 0;
-let unapproved = 0;
+const reviewStatusCounts = { draft: 0, reviewed: 0, approved: 0, missing: 0, invalid: 0 };
 for (const { id } of scored) {
   const st = storyById.get(id);
   if (!st) { cardGaps.push(`L${id}`); continue; }
   if (!st.impact || !st.today) missingImpactToday++;
-  if (st.contentReviewStatus !== 'approved') unapproved++;
+  const reviewStatus = st.contentReviewStatus ?? 'draft';
+  if (Object.hasOwn(reviewStatusCounts, reviewStatus)) reviewStatusCounts[reviewStatus]++;
+  else reviewStatusCounts.invalid++;
 }
 if (cardGaps.length) findings.critical.push(`§5 Eksik keşif kartı: ${cardGaps.join(', ')}`);
 if (missingImpactToday) findings.major.push(`§9.1 ${missingImpactToday}/${scored.length} kartta "impact" (Neden önemli?) ve/veya "today" (Bugün nerede?) içeriği yok — yapısal alanlar hazır, editoryal içerik borcu.`);
-if (unapproved) findings.minor.push(`§16.3 ${unapproved}/${scored.length} kart contentReviewStatus='approved' değil — içerik onay izlenmiyor.`);
+const pendingEditorialReview = reviewStatusCounts.draft + reviewStatusCounts.reviewed + reviewStatusCounts.missing + reviewStatusCounts.invalid;
+if (pendingEditorialReview) {
+  findings.minor.push(
+    `§16.3 ${reviewStatusCounts.approved}/${scored.length} kart onaylı; ${reviewStatusCounts.reviewed} gözden geçirilmiş, ${reviewStatusCounts.draft} taslak, ${reviewStatusCounts.invalid} geçersiz durum var. Yayın onayı editoryal sorumluda kalıyor.`,
+  );
+}
 
 // §6.2 gizli kelimesiz
 const noHidden = scored.filter(({ l }) => l.hiddenWords.length === 0).map((x) => x.id);
@@ -148,10 +155,7 @@ const approvedNoHidden = new Map([
 ]);
 const unexpectedNoHidden = noHidden.filter((id) => !approvedNoHidden.has(id));
 if (unexpectedNoHidden.length) findings.major.push(`§6.2 gerekçesiz gizli kelimesiz seviye: ${unexpectedNoHidden.join(', ')}`);
-if (noHidden.length) {
-  const reasons = noHidden.map((id) => `L${id} (${approvedNoHidden.get(id) ?? 'gerekçesiz'})`).join(', ');
-  findings.minor.push(`§6.2 gizli hedefi olmayan seviyeler: ${reasons}`);
-}
+// A documented empty target is valid under §6.2; do not report it as a defect.
 
 // §18.1 katalog büyüklüğü
 if (levels.length < TARGET_CATALOG) findings.major.push(`§18.1 Katalog ${levels.length}/${TARGET_CATALOG} seviye. Eksik ana yol içeriği: ${TARGET_CATALOG - levels.length}.`);

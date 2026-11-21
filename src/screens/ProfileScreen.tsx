@@ -4,9 +4,13 @@ import { BottomNav } from '../components/ui/BottomNav';
 import { WaxSeal } from '../components/WaxSeal';
 import { ActionIconButton } from '../components/ActionIconButton';
 import { SettingsAsset } from '../components/SettingsAsset';
+import { LeaguePanel } from '../components/LeaguePanel';
 
 export function ProfileScreen() {
-  const { setScreen, play, coins, favoriteWords, completedLevels, levelStats = {} } = useGame();
+  const {
+    setScreen, play, coins, favoriteWords, completedLevels, levelStats = {},
+    levelMastery = {}, leagueOptIn, calmMode,
+  } = useGame();
   const records = Object.values(levelStats);
   const hasProgress = completedLevels.length > 0 || records.length > 0;
   const highestScore = records.reduce((best, record) => Math.max(best, record.bestScore ?? 0), 0);
@@ -65,6 +69,14 @@ export function ProfileScreen() {
           </section>
         )}
 
+        <LeaguePanel
+          leagueOptIn={leagueOptIn}
+          calmMode={calmMode}
+          levelMastery={levelMastery}
+          onOpenSettings={() => setScreen('settings')}
+          playTap={() => play('tap')}
+        />
+
         <div className="profileActions">
           <button className="profileAction" onClick={() => { play('tap'); setScreen('settings'); }}>
             <span className="profileActionIcon profileActionIcon--settings"><SettingsAsset /></span>
@@ -73,7 +85,7 @@ export function ProfileScreen() {
           </button>
         </div>
 
-        <p className="profileInfo">İlerlemen bu cihazda güvenle saklanır.</p>
+        <p className="profileInfo">İlerlemen bu cihazda güvenle saklanır. Lig isteğe bağlıdır.</p>
       </section>
 
       <BottomNav active="profile" />

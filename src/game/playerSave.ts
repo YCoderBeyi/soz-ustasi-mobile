@@ -30,6 +30,8 @@ export type PlayerSave = {
   reduceMotion: boolean;
   /** Calm mode: score without the combo multiplier. */
   calmMode: boolean;
+  /** Opt-in Play Games rivalry (weekly score + region stars). */
+  leagueOptIn: boolean;
   levelMastery: Record<number, LevelMastery>;
   ownedShopItems: string[];
   selectedThemeId: string | null;
@@ -70,6 +72,7 @@ export function getDefaultSave(): PlayerSave {
     hapticsEnabled: true,
     reduceMotion: false,
     calmMode: false,
+    leagueOptIn: false,
     levelMastery: {},
     ownedShopItems: [],
     selectedThemeId: null,
@@ -262,6 +265,7 @@ function sanitize(data: RawSave): PlayerSave {
     hapticsEnabled: data.hapticsEnabled !== false,
     reduceMotion: data.reduceMotion === true,
     calmMode: data.calmMode === true,
+    leagueOptIn: data.leagueOptIn === true,
     levelMastery,
     ownedShopItems,
     selectedThemeId,

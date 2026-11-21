@@ -282,7 +282,7 @@
   }
   .map-screen--premium .map-mastery-label,
   .map-screen--premium .map-mastery-value {
-    font-size: 9px;
+    font-size: 11px;
     line-height: 1.1;
     white-space: nowrap;
   }

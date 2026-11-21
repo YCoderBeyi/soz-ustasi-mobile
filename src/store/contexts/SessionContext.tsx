@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, useRef, useEffect, type ReactNode } from 'react';
-import type { DailyChallenge, LevelData, WordEntry, ScreenName, ThemeData } from '../../types';
+import type { DailyChallenge, LevelData, LevelMastery, WordEntry, ScreenName, ThemeData } from '../../types';
 import type { Feedback } from '../../game/playerSave';
 import type { SfxName } from '../../audio';
 import { normalizeWord } from '../../game/normalize';
@@ -9,7 +9,8 @@ import { getTheme } from '../../data/themes';
 import { initialLevel } from '../../data/levels';
 import { getLevelById, MAX_LEVEL_ID } from '../../data/endlessLevels';
 import type { ObjectiveKey } from '../../game/objectives';
-import { getRunObjectives } from '../../game/objectives';
+import { chooseBestMastery, getRunObjectives } from '../../game/objectives';
+import { submitLeagueScores } from '../../services/playGames';
 import { useStallAssist } from '../../hooks/useStallAssist';
 import { findCatalogWord, findWordEntry, rewardKey } from '../../game/lexicon';
 import { getThemeIdForShopItem } from '../../data/shop';
@@ -161,6 +162,8 @@ export function SessionProvider({
   selectedThemeId,
   secondChanceEnabled = true,
   calmMode = false,
+  leagueOptIn = false,
+  levelMastery = {},
 }: {
   children: ReactNode;
   initialLevelId: number;
@@ -184,6 +187,8 @@ export function SessionProvider({
   selectedThemeId: string | null;
   secondChanceEnabled?: boolean;
   calmMode?: boolean;
+  leagueOptIn?: boolean;
+  levelMastery?: Record<number, LevelMastery>;
 }) {
   const [level, setLevelState] = useState<LevelData>(
     () => getLevelById(initialLevelId) ?? initialLevel,
@@ -698,10 +703,21 @@ export function SessionProvider({
       isRecord: previousBest > 0 && scoreRef.current.score > previousBest,
     });
 
+    const nextMastery = {
+      ...levelMastery,
+      [level.levelId]: chooseBestMastery(levelMastery[level.levelId], runObjectives),
+    };
+    void submitLeagueScores({
+      leagueOptIn,
+      calmMode,
+      levelScore: scoreRef.current.score,
+      levelMastery: nextMastery,
+    });
+
     play('reward');
     cleanup.safeTimeout(() => setModal('reward'), 1200);
   }, [level, hiddenFound, usedHint, maxStreak, elapsedTime,
-      sealOpen, awardedLevels, theme, perfectRun,
+      sealOpen, awardedLevels, theme, perfectRun, calmMode, leagueOptIn, levelMastery,
       addCoins, markLevelCompleted, markLevelAwarded, consumeDoubler,
       mergeMastery, updateStats, play, cleanup, dailyChallenge, claimDailyReward]);
 

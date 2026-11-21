@@ -8,7 +8,7 @@ export function SettingsScreen() {
   const {
     setScreen, play, soundEnabled, setSoundEnabled, soundVolume, setSoundVolume,
     hapticsEnabled, setHapticsEnabled, calmMode, setCalmMode, setModal,
-    reduceMotion, setReduceMotion, modal,
+    reduceMotion, setReduceMotion, leagueOptIn, setLeagueOptIn, modal,
   } = useGame();
   const soundActive = soundEnabled && soundVolume > 0;
 
@@ -21,13 +21,29 @@ export function SettingsScreen() {
       </header>
       <section className="settingsList">
         <p className="settingsGroupLabel">Rahat oyun</p>
-        <button className="settingsItem" role="switch" aria-checked={calmMode} onClick={() => { play('tap'); setCalmMode(!calmMode); }}>
-          <span><strong>Sakin Mod</strong><small>Yanlış denemeler serini ve kusursuz hedefini bozmaz</small></span>
+        <button className="settingsItem" role="switch" aria-checked={calmMode} aria-labelledby="calm-mode-label" aria-describedby="calm-mode-description" onClick={() => { play('tap'); setCalmMode(!calmMode); }}>
+          <span><strong id="calm-mode-label">Sakin Mod</strong><small id="calm-mode-description">Yanlış denemeler serini ve kusursuz hedefini bozmaz</small></span>
           <i className={calmMode ? 'active' : ''}><b /></i>
         </button>
         <button className="settingsItem" role="switch" aria-checked={reduceMotion} onClick={() => setReduceMotion(!reduceMotion)}>
           <span><strong>Hareketi Azalt</strong><small>Animasyonları ve hareketli efektleri azalt</small></span>
           <i className={reduceMotion ? 'active' : ''} aria-hidden="true"><b /></i>
+        </button>
+
+        <p className="settingsGroupLabel">Lig (isteğe bağlı)</p>
+        <button
+          className="settingsItem"
+          role="switch"
+          aria-checked={leagueOptIn}
+          aria-labelledby="league-opt-in-label"
+          aria-describedby="league-opt-in-description"
+          onClick={() => { play('tap'); setLeagueOptIn(!leagueOptIn); }}
+        >
+          <span>
+            <strong id="league-opt-in-label">Play Games Ligine Katıl</strong>
+            <small id="league-opt-in-description">Haftalık puan ve bölge yıldızı sıralaması; Sakin Mod’da skor gönderilmez</small>
+          </span>
+          <i className={leagueOptIn ? 'active' : ''} aria-hidden="true"><b /></i>
         </button>
 
         <p className="settingsGroupLabel">Ses ve dokunuş</p>

@@ -155,7 +155,7 @@ describe('learning progression quality', () => {
     expect(levels51to55.map((level) => level.levelId)).toEqual([51, 52, 53, 54, 55]);
     expect(levels51to55.map((level) => normalizeWord(level.mainWords[0].word))).toEqual([
       'ŞİFRELİ',
-      'REFAH',
+      'FERAH',
       'SIKLIK',
       'ÖRÜNTÜ',
       'ANAHTAR',

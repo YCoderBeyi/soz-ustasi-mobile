@@ -27,6 +27,7 @@ import { StreakBadge } from '../components/StreakBadge';
 import { ComboRing } from '../components/ComboRing';
 import { CorrectTrail } from '../components/feedback/CorrectTrail';
 import { HiddenSparkle } from '../components/feedback/HiddenSparkle';
+import '../components/feedback/FeedbackFx.css';
 import { skinEvolution, skinForLevel } from '../game/tileSkins';
 import { Modal } from '../components/Modal';
 import { PremiumPrimaryButton } from '../components/PremiumPrimaryButton';

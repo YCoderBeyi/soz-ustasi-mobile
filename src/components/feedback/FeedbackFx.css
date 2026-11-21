@@ -1,4 +1,4 @@
-/* Feedback presentation is owned beside the components that render it. */
+/* Feedback presentation — durations from FEEDBACK_DURATION_MS via installFeedbackDurationTokens. */
 .correctTrail {
   position: absolute;
   left: 50%;
@@ -12,7 +12,7 @@
   background: linear-gradient(90deg, transparent, rgba(255, 230, 160, .98), rgba(213, 173, 87, .7), transparent);
   box-shadow: 0 0 16px 3px rgba(241, 201, 106, .5);
   opacity: 0;
-  animation: correctTrailSweep var(--feedback-correct-duration) var(--anadolu-ease-motion) both;
+  animation: correctTrailSweep var(--feedback-correct-duration, 600ms) var(--anadolu-ease-motion) both;
 }
 
 .correctBloom {
@@ -27,7 +27,7 @@
   transform: translate(-50%, -50%) scale(.55);
   background: radial-gradient(circle, rgba(255, 220, 140, .28) 0%, rgba(213, 173, 87, .1) 42%, transparent 70%);
   opacity: 0;
-  animation: correctBloomPulse var(--feedback-correct-duration) var(--anadolu-ease-motion) both;
+  animation: correctBloomPulse var(--feedback-correct-duration, 600ms) var(--anadolu-ease-motion) both;
 }
 
 .hiddenSparkle {
@@ -50,6 +50,14 @@
     -42px 24px 0 -1px rgba(255, 244, 200, .9),
     -42px -22px 0 -2px rgba(63, 191, 127, .9);
   opacity: 0;
-  animation: hiddenSparkleTwinkle var(--feedback-hidden-duration) ease-out both;
+  animation: hiddenSparkleTwinkle var(--feedback-hidden-duration, 760ms) ease-out both;
+}
+
+.shakeOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  animation: shakeScreen var(--feedback-wrong-duration, 600ms) ease both;
 }
 

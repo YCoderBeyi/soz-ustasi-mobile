@@ -34,7 +34,7 @@ export function OnboardingScreen() {
   const selectedIndexes = firstWordIndexes.slice(0, step === 0 ? demoProgress : firstWordIndexes.length);
   const demoWord = selectedIndexes.length === firstWordIndexes.length
     ? firstLevelExample
-    : selectedIndexes.map((index) => firstLevelLetters[index]).join('') || '…';
+    : selectedIndexes.map((index) => firstLevelLetters[index]).join('') || firstLevelExample;
   const trailPoints = selectedIndexes
     .map((index) => `${((index + 0.5) / firstLevelLetters.length) * 100},50`)
     .join(' L ');

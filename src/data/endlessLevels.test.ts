@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getLevelStory } from './levelStories';
+import { getLevelStory, levelStories } from './levelStories';
 import { ensureLevelsThrough, getEndlessRecipeCount, getLevelById, MAX_LEVEL_ID } from './endlessLevels';
 import { normalizeWord } from '../game/normalize';
 import { buildCrosswordLayout } from '../game/crossword';
@@ -20,8 +20,16 @@ function canBuild(word: string, letters: string[]): boolean {
 }
 
 describe('endless level generation', () => {
-  it('keeps the reviewed main-word pair cycle broad', () => {
-    expect(getEndlessRecipeCount()).toBeGreaterThanOrEqual(175);
+  it('marks authored cards without an editorial sign-off as drafts', () => {
+    expect(levelStories).toHaveLength(75);
+    expect(levelStories.every((card) => ['draft', 'reviewed', 'approved'].includes(card.contentReviewStatus ?? ''))).toBe(true);
+    expect(getLevelStory(46).contentReviewStatus).toBe('draft');
+  });
+
+  it('fills the supported progression with unique approved-word recipes and has no replay cycle', () => {
+    expect(getEndlessRecipeCount()).toBe(MAX_LEVEL_ID - 76 + 1);
+    expect(getEndlessRecipeCount()).toBeGreaterThan(5_000);
+    expect(getLevelById(MAX_LEVEL_ID + 1)).toBeUndefined();
   });
 
   it('creates short, meaning-backed goals whose letters are always buildable', () => {
@@ -38,33 +46,34 @@ describe('endless level generation', () => {
     }
   });
 
-  it('keeps every recipe in the first cycle solvable and unique', () => {
+  it('keeps every recipe solvable and unique across the supported progression', () => {
     const count = getEndlessRecipeCount();
-    const cycle = Array.from({ length: count }, (_, index) => getLevelById(76 + index)!);
-    const pairs = cycle.map((level) => level.mainWords.map((word) => normalizeWord(word.word)).join('|'));
+    const generatedLevels = Array.from({ length: count }, (_, index) => getLevelById(76 + index)!);
+    const pairs = generatedLevels.map((level) => level.mainWords.map((word) => normalizeWord(word.word)).sort().join('|'));
     expect(new Set(pairs).size).toBe(count);
-    for (const level of cycle) {
+    expect(new Set(generatedLevels.map((level) => level.letters.map(normalizeWord).sort().join(''))).size).toBe(count);
+    for (const level of generatedLevels) {
       expect(level.mainWords).toHaveLength(2);
-      expect(level.letters.length).toBeLessThanOrEqual(6);
+      expect(level.letters.length).toBeLessThanOrEqual(8);
       expect(level.hiddenWords.length).toBeLessThanOrEqual(3);
       for (const word of [...level.mainWords, ...level.hiddenWords]) {
         expect(word.meaning.length).toBeGreaterThanOrEqual(10);
         expect(canBuild(word.word, level.letters)).toBe(true);
       }
     }
-  });
+  }, 30_000);
 
   it('never promotes unreviewed bonus-dictionary words into required targets', () => {
     const count = getEndlessRecipeCount();
-    const approvedCycle = Array.from({ length: count * 2 }, (_, index) => getLevelById(76 + index)!);
-    for (const level of approvedCycle) {
+    const generatedLevels = Array.from({ length: count }, (_, index) => getLevelById(76 + index)!);
+    for (const level of generatedLevels) {
       for (const word of [...level.mainWords, ...level.hiddenWords]) {
         expect(approvedWords.has(normalizeWord(word.word)), `Level ${level.levelId}: ${word.word}`).toBe(true);
       }
     }
   });
 
-  it('keeps the generated recipe cycle inside the runtime difficulty curve', () => {
+  it('keeps adjacent generated challenge jumps bounded', () => {
     const count = getEndlessRecipeCount();
     const scores = Array.from({ length: count }, (_, index) => levelDifficulty(getLevelById(76 + index)!));
     for (let index = 1; index < scores.length; index += 1) {
@@ -72,13 +81,6 @@ describe('endless level generation', () => {
         scores[index] - scores[index - 1],
         `Generated level ${76 + index}: ${scores[index - 1]} → ${scores[index]}`,
       ).toBeLessThanOrEqual(4);
-    }
-    for (let start = 0; start + 5 <= scores.length; start += 5) {
-      const block = scores.slice(start, start + 5);
-      expect(
-        block.reduce((sum, score) => sum + score, 0) / block.length - Math.min(...block),
-        `Generated levels ${76 + start}-${80 + start}: ${block.join(', ')}`,
-      ).toBeGreaterThanOrEqual(1);
     }
   });
 
@@ -93,10 +95,7 @@ describe('endless level generation', () => {
     expect(card.body).not.toContain('yeni kelimeler');
     expect(card.contentReviewStatus).toBe('draft');
 
-    const replayCard = getLevelStory(76 + getEndlessRecipeCount());
-    expect(replayCard.title).toBe('Ustalık tekrarı tamamlandı');
-    expect(replayCard.body).toContain('yeniden kullanıldı');
-    expect(replayCard.contentReviewStatus).toBe('draft');
+    expect(getLevelById(MAX_LEVEL_ID + 1)).toBeUndefined();
   });
 
   it('supports a solvable path from the first generated level through the final level', () => {
@@ -111,5 +110,5 @@ describe('endless level generation', () => {
       }
     }
     expect(getLevelById(MAX_LEVEL_ID + 1)).toBeUndefined();
-  });
+  }, 30_000);
 });

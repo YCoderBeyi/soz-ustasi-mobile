@@ -5,9 +5,11 @@ import './styles/animations.css';
 import './styles/media.css';
 import './styles/tile.css';
 import { installFeedbackDurationTokens } from './game/feedbackTiming';
-import App from './App';
 
+// Install before App loads — static App import is hoisted and can throw during module init.
 installFeedbackDurationTokens(document.documentElement);
+
+const { default: App } = await import('./App');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

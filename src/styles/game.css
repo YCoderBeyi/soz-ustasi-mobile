@@ -515,15 +515,6 @@
   touch-action: manipulation;
 }
 
-/* Feedback animations */
-.shakeOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  animation: shakeScreen 280ms ease both;
-}
-
 .toast,
 .sealOpen,
 .streakBadge {

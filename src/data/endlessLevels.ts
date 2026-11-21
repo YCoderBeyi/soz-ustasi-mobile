@@ -8,9 +8,8 @@ import { normalizeWord } from '../game/normalize';
 import approvedWordData from '../../vault/07-Production/word-quality-v1/approved-words.json';
 
 export const FIRST_ENDLESS_LEVEL = 76;
-export const MAX_LEVEL_ID = 10_000;
 
-type Recipe = { anchor: WordEntry; companion: WordEntry; hidden: WordEntry[] };
+type Recipe = { anchor: WordEntry; companion: WordEntry; hidden: WordEntry[]; letters: string[] };
 
 // The independent word-quality review is the single gate for required targets.
 // Bonus-dictionary membership alone is not enough to make a word a seal/star objective.
@@ -27,16 +26,23 @@ const authoredPairs = new Set(
     ))
   ))),
 );
+const authoredLetterPools = new Set(
+  levels.map((level) => level.letters.map(normalizeWord).sort().join('')),
+);
 
-function canBuildWord(word: string, letters: readonly string[]): boolean {
+function mergeLetterPools(first: string, second: string): string[] {
   const counts = new Map<string, number>();
-  for (const letter of letters) counts.set(letter, (counts.get(letter) ?? 0) + 1);
-  for (const letter of Array.from(normalizeWord(word))) {
-    const count = counts.get(letter) ?? 0;
-    if (count === 0) return false;
-    counts.set(letter, count - 1);
+  for (const word of [first, second]) {
+    const wordCounts = new Map<string, number>();
+    for (const letter of Array.from(normalizeWord(word))) {
+      wordCounts.set(letter, (wordCounts.get(letter) ?? 0) + 1);
+    }
+    for (const [letter, count] of wordCounts) {
+      counts.set(letter, Math.max(counts.get(letter) ?? 0, count));
+    }
   }
-  return true;
+  return [...counts].sort(([a], [b]) => a.localeCompare(b, 'tr'))
+    .flatMap(([letter, count]) => Array(count).fill(letter));
 }
 
 function buildReviewedWordBank(): WordEntry[] {
@@ -58,86 +64,97 @@ function buildReviewedWordBank(): WordEntry[] {
 }
 
 function buildRecipes(): Recipe[] {
-  const words = buildReviewedWordBank();
+  const words = buildReviewedWordBank().filter((entry) => {
+    const length = Array.from(normalizeWord(entry.word)).length;
+    return length >= 3 && length <= 6;
+  });
+  const wordProfiles = words.map((entry) => {
+    const counts = new Map<string, number>();
+    for (const letter of Array.from(normalizeWord(entry.word))) {
+      counts.set(letter, (counts.get(letter) ?? 0) + 1);
+    }
+    return { entry, key: normalizeWord(entry.word), counts: [...counts] };
+  });
   const recipes: Recipe[] = [];
   const seen = new Set<string>();
+  const seenLetterPools = new Set(authoredLetterPools);
+  const hiddenWordsByPool = new Map<string, typeof wordProfiles>();
 
-  for (const anchor of words) {
-    const anchorLength = Array.from(anchor.word).length;
-    if (anchorLength < 4 || anchorLength > 6) continue;
-    const letters = Array.from(normalizeWord(anchor.word));
+  for (let firstIndex = 0; firstIndex < words.length; firstIndex += 1) {
+    const anchor = words[firstIndex];
+    const anchorKey = normalizeWord(anchor.word);
+    for (const companion of words.slice(firstIndex + 1)) {
+      const companionKey = normalizeWord(companion.word);
+      const pairKey = [anchorKey, companionKey].sort().join('|');
+      if (authoredPairs.has(pairKey) || seen.has(pairKey)) continue;
 
-    for (const companion of words) {
-      const companionLength = Array.from(companion.word).length;
-      if (companionLength < 3 || companionLength >= anchorLength) continue;
-      if (!canBuildWord(companion.word, letters)) continue;
-      const authoredPair = [normalizeWord(anchor.word), normalizeWord(companion.word)].sort().join('|');
-      if (authoredPairs.has(authoredPair)) continue;
+      const letters = mergeLetterPools(anchor.word, companion.word);
+      if (letters.length > 8) continue;
+      // Both required answers must intersect so the shared crossword renderer can place them.
+      if (![...anchorKey].some((letter) => companionKey.includes(letter))) continue;
+      const poolKey = letters.join('');
+      if (seenLetterPools.has(poolKey)) continue;
+      seen.add(pairKey);
+      seenLetterPools.add(poolKey);
 
-      const key = `${normalizeWord(anchor.word)}|${normalizeWord(companion.word)}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      const hidden = words
-        .filter((entry) => {
-          const word = normalizeWord(entry.word);
-          return word !== normalizeWord(anchor.word)
-            && word !== normalizeWord(companion.word)
-            && Array.from(entry.word).length >= 3
-            && canBuildWord(entry.word, letters);
-        })
+      let hiddenCandidates = hiddenWordsByPool.get(poolKey);
+      if (!hiddenCandidates) {
+        const poolCounts = new Map<string, number>();
+        for (const letter of letters) poolCounts.set(letter, (poolCounts.get(letter) ?? 0) + 1);
+        hiddenCandidates = wordProfiles.filter((profile) =>
+          profile.counts.every(([letter, count]) => count <= (poolCounts.get(letter) ?? 0)),
+        );
+        hiddenWordsByPool.set(poolKey, hiddenCandidates);
+      }
+      const hidden = hiddenCandidates
+        .filter((profile) => profile.key !== anchorKey && profile.key !== companionKey)
         .slice(0, 3)
-        .map((entry) => ({ ...entry, reward: 5 }));
-      recipes.push({
-        anchor,
-        companion,
-        hidden,
-      });
+        .map(({ entry }) => ({ ...entry, reward: 5 }));
+      recipes.push({ anchor, companion, hidden, letters });
     }
   }
 
-  if (recipes.length < 12) {
-    throw new Error(`Endless level bank needs at least 12 approved recipes; found ${recipes.length}.`);
+  if (recipes.length === 0) {
+    throw new Error('Endless level bank needs at least one unique, reviewed, crossable word pair.');
   }
   const recipeDifficulty = (recipe: Recipe) => levelDifficulty({
-    letters: Array.from(normalizeWord(recipe.anchor.word)),
+    letters: recipe.letters,
     mainWords: [recipe.anchor, recipe.companion],
     hiddenWords: recipe.hidden,
   });
-  const sorted = recipes.sort((a, b) => recipeDifficulty(a) - recipeDifficulty(b));
-  const recovery = sorted.filter((recipe) => recipeDifficulty(recipe) <= 9.5);
-  const rising = sorted.filter((recipe) => recipeDifficulty(recipe) > 9.5);
+  // Finite difficulty pacing: recovery levels alternate with nearby challenges,
+  // then every remaining unique recipe is used once in ascending difficulty.
+  const sorted = recipes
+    .map((recipe) => ({ recipe, difficulty: recipeDifficulty(recipe) }))
+    .sort((a, b) => a.difficulty - b.difficulty
+      || (endlessWordOrder.get(normalizeWord(a.recipe.anchor.word)) ?? 0) - (endlessWordOrder.get(normalizeWord(b.recipe.anchor.word)) ?? 0)
+      || (endlessWordOrder.get(normalizeWord(a.recipe.companion.word)) ?? 0) - (endlessWordOrder.get(normalizeWord(b.recipe.companion.word)) ?? 0))
+  const recovery = sorted.filter(({ difficulty }) => difficulty <= 9.5);
+  const rising = sorted.filter(({ difficulty }) => difficulty > 9.5);
   const paced: Recipe[] = [];
   while (recovery.length > 0) {
-    const low = recovery[0];
-    const lowScore = recipeDifficulty(low);
-    const candidates = rising.filter((recipe) => {
-      const increase = recipeDifficulty(recipe) - lowScore;
-      return increase >= 1.25 && increase <= 4;
-    });
-    if (candidates.length < 4) {
-      recovery.shift();
-      continue;
-    }
+    const low = recovery.shift()!;
+    const candidates = rising.filter(({ difficulty }) => difficulty - low.difficulty >= 1.25
+      && difficulty - low.difficulty <= 4);
     const selected = candidates.slice(-4);
-    selected.forEach((recipe) => rising.splice(rising.indexOf(recipe), 1));
-    paced.push(low, ...selected.sort((a, b) => recipeDifficulty(a) - recipeDifficulty(b)));
-    recovery.shift();
+    for (const recipe of selected) rising.splice(rising.indexOf(recipe), 1);
+    paced.push(low.recipe, ...selected.map(({ recipe }) => recipe));
   }
-  if (paced.length < 175) {
-    throw new Error(`Endless level bank needs at least 175 runtime-paced approved recipes; found ${paced.length}.`);
-  }
+  paced.push(...rising.map(({ recipe }) => recipe));
   return paced;
 }
 
 const recipes = buildRecipes();
+export const MAX_LEVEL_ID = FIRST_ENDLESS_LEVEL + recipes.length - 1;
 
-function makeEndlessLevel(levelId: number): LevelData {
-  const recipe = recipes[(levelId - FIRST_ENDLESS_LEVEL) % recipes.length];
+function makeEndlessLevel(levelId: number): LevelData | undefined {
+  const recipe = recipes[levelId - FIRST_ENDLESS_LEVEL];
+  if (!recipe) return undefined;
   const regionStart = Math.floor((levelId - 1) / 6) * 6 + 1;
   const themeIndex = regionStart <= levels.length
     ? themes.findIndex((theme) => theme.themeId === levels[regionStart - 1]?.themeId)
     : Math.floor((regionStart - FIRST_ENDLESS_LEVEL) / 6) % themes.length;
-  const letters = Array.from(normalizeWord(recipe.anchor.word));
+  const letters = recipe.letters;
   const hiddenWords = recipe.hidden;
 
   return {
@@ -161,7 +178,9 @@ export function ensureLevelsThrough(levelId: number): void {
   while (levels.length < target) {
     const nextId = (levels.at(-1)?.levelId ?? 0) + 1;
     if (nextId < FIRST_ENDLESS_LEVEL) break;
-    levels.push(makeEndlessLevel(nextId));
+    const nextLevel = makeEndlessLevel(nextId);
+    if (!nextLevel) break;
+    levels.push(nextLevel);
   }
 }
 

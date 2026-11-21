@@ -12,7 +12,7 @@ const approved = new Set(
 const tiers = (JSON.parse(readFileSync(`${dir}/word-tiers.json`, 'utf8')) as { tiers: Record<string, string> }).tiers;
 // Levels allowed to require more than one B-rated word. Each needs a reason; the test insists the list stays honest.
 const MORE_THAN_ONE_B_ALLOWED: Record<number, string> = {
-  10: 'The KALEM pool has few non-repeating A-rated targets; KAL replaces the least familiar target while two familiar B-rated words keep the early difficulty rhythm.',
+  10: 'The KALEMİ pool keeps EMLAK and ALEM as B-rated goals alongside the A-rated EKİM; KAL was removed because the content policy excludes bare imperative forms.',
 };
 const valuesExceptions = JSON.parse(readFileSync(`${dir}/values-exceptions.json`, 'utf8')) as Record<string, string>;
 const denied = new Set(

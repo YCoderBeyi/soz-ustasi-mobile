@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest';
 import { loadPlayerSave, persistPlayerSave, resolveCollectedWords, getDefaultSave, migratePlayerSave, type PlayerSave } from './playerSave';
+import { MAX_LEVEL_ID } from '../data/endlessLevels';
 
 const store = new Map<string, string>();
 
@@ -46,6 +47,7 @@ describe('persistPlayerSave / loadPlayerSave', () => {
       hapticsEnabled: true,
       reduceMotion: false,
       calmMode: false,
+      leagueOptIn: false,
       levelMastery: { 1: { stars: 3, objectives: ['complete', 'discovery', 'noHint'] } },
       ownedShopItems: [],
       selectedThemeId: null,
@@ -122,9 +124,10 @@ describe('persistPlayerSave / loadPlayerSave', () => {
   });
 
   it('removes out-of-range levelIds from completedLevels', () => {
-    window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({ completedLevels: [10001, 1] }));
+    const outOfRangeLevelId = MAX_LEVEL_ID + 1;
+    window.localStorage.setItem('soz-ustasi-player-v1', JSON.stringify({ completedLevels: [outOfRangeLevelId, 1] }));
     const loaded = loadPlayerSave();
-    expect(loaded.completedLevels).not.toContain(10001);
+    expect(loaded.completedLevels).not.toContain(outOfRangeLevelId);
   });
 
   it('preserves progress in generated levels across save loading', () => {
