@@ -22,7 +22,7 @@ export const levelStories46to50: LevelStory[] = [
     person: 'Harezmi',
     personInfo: 'Hesap yöntemlerini açıklayan eserleri, onluk sayı sisteminin sonraki bilim çevrelerinde tanınmasına katkı sağlayan matematikçiydi.',
     impact: 'Basamak değerine dayalı Hint-Arap rakamlarıyla hesap yöntemlerinin açıklanması, bu yazım biçiminin farklı bölgelere aktarılmasına katkı verdi.',
-    today: 'Bugün kullandığımız 0–9 rakamları ve basamak değeri, büyük sayıları kısa biçimde yazıp işlemeyi sağlar.',
+    today: 'Basamak değeri büyük sayıları kısa yazıp işlemeyi sağlar; rakamların sırası da sayının değerini değiştirir.',
     sourceNotes: ['https://mathshistory.st-andrews.ac.uk/Biographies/Al-Khwarizmi/'],
   },
   {

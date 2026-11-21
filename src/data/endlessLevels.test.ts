@@ -5,6 +5,7 @@ import { normalizeWord } from '../game/normalize';
 import { buildCrosswordLayout } from '../game/crossword';
 import { levelDifficulty } from '../game/difficulty';
 import approvedWordData from '../../vault/07-Production/word-quality-v1/approved-words.json';
+import requiredTargetExclusions from '../../vault/07-Production/word-quality-v1/required-target-exclusions.json';
 
 const approvedWords = new Set(approvedWordData.words.map(normalizeWord));
 
@@ -69,6 +70,16 @@ describe('endless level generation', () => {
     for (const level of generatedLevels) {
       for (const word of [...level.mainWords, ...level.hiddenWords]) {
         expect(approvedWords.has(normalizeWord(word.word)), `Level ${level.levelId}: ${word.word}`).toBe(true);
+      }
+    }
+  });
+
+  it('never promotes target-excluded forms into generated main or hidden goals', () => {
+    const excluded = new Set(Object.keys(requiredTargetExclusions).map(normalizeWord));
+    for (let levelId = 76; levelId <= MAX_LEVEL_ID; levelId += 1) {
+      const level = getLevelById(levelId)!;
+      for (const word of [...level.mainWords, ...level.hiddenWords]) {
+        expect(excluded.has(normalizeWord(word.word)), `Level ${levelId}: ${word.word}`).toBe(false);
       }
     }
   });

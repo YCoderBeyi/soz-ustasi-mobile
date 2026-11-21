@@ -41,6 +41,8 @@ describe('bonus dictionary', () => {
 
   it('keeps hand-written meanings ahead of the generated tier', () => {
     expect(findBonusDictionaryWord('kulak')?.meaning).toBeTruthy();
+    expect(findBonusDictionaryWord('dene')?.meaning).toBe('Bir şeyi sınamak için kullanılan kısa komut.');
+    expect(findBonusDictionaryWord('süz')?.meaning).toBe('Bir sıvıyı süzgeçten geçir.');
     expect(findBonusDictionaryWord('KEL')).toBeUndefined();
     expect(findBonusDictionaryWord('QQQQ')).toBeUndefined();
   });

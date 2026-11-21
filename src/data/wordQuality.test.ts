@@ -11,9 +11,10 @@ const approved = new Set(
 );
 const tiers = (JSON.parse(readFileSync(`${dir}/word-tiers.json`, 'utf8')) as { tiers: Record<string, string> }).tiers;
 // Levels allowed to require more than one B-rated word. Each needs a reason; the test insists the list stays honest.
-const MORE_THAN_ONE_B_ALLOWED: Record<number, string> = {
-  10: 'The KALEMİ pool keeps EMLAK and ALEM as B-rated goals alongside the A-rated EKİM; KAL was removed because the content policy excludes bare imperative forms.',
-};
+const MORE_THAN_ONE_B_ALLOWED: Record<number, string> = {};
+const requiredTargetExclusions = JSON.parse(
+  readFileSync(`${dir}/required-target-exclusions.json`, 'utf8'),
+) as Record<string, string>;
 const valuesExceptions = JSON.parse(readFileSync(`${dir}/values-exceptions.json`, 'utf8')) as Record<string, string>;
 const denied = new Set(
   Object.values(
@@ -41,6 +42,13 @@ describe('word quality gate', () => {
       .filter((item) => !valuesExceptions[normalizeWord(item.word)])
       .map((item) => `L${item.level} ${item.role}: ${item.word}`);
     expect(hits, 'kara listedeki kelime icin values-exceptions.json gerekcesi yok').toEqual([]);
+  });
+
+  it('does not use bare imperative forms as seal or hidden-star targets', () => {
+    const unsuitable = authored
+      .filter((item) => requiredTargetExclusions[normalizeWord(item.word)])
+      .map((item) => `L${item.level} ${item.role}: ${item.word} (${requiredTargetExclusions[normalizeWord(item.word)]})`);
+    expect(unsuitable, 'zorunlu hedeflerde çıplak emir biçimi').toEqual([]);
   });
 
   it('keeps every documented exception tied to a word that is still in use', () => {

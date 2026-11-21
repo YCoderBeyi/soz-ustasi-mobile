@@ -5,6 +5,16 @@ import { getLevelStory, levelStories } from './levelStories';
 import { buildCrosswordLayout } from '../game/crossword';
 import { normalizeWord } from '../game/normalize';
 
+function canBuildFromLetters(word: string, letters: string[]): boolean {
+  const available = letters.map(normalizeWord);
+  for (const letter of [...word].map(normalizeWord)) {
+    const index = available.indexOf(letter);
+    if (index < 0) return false;
+    available.splice(index, 1);
+  }
+  return true;
+}
+
 describe('level data integrity', () => {
   it('starts with familiar goals and uses the level-two tutorial example', () => {
     expect(levels[0].mainWords.map((entry) => entry.word)).toEqual(['ARI', 'ARA']);
@@ -97,6 +107,12 @@ describe('level data integrity', () => {
 describe('crossword layout generation', () => {
   for (const level of levels) {
     it(`Level ${level.levelId}: buildCrosswordLayout sonuç verir`, () => {
+      if (level.puzzleType === 'anagram') {
+        for (const entry of level.mainWords) {
+          expect(canBuildFromLetters(entry.word, level.letters), entry.word).toBe(true);
+        }
+        return;
+      }
       const result = buildCrosswordLayout(level.mainWords);
       expect(result).not.toBeNull();
       if (result) {
@@ -114,6 +130,21 @@ describe('crossword layout generation', () => {
   }
 });
 
+describe('anagram target independence', () => {
+  it('accepts Level 28 AKIŞ and TEL from its rack without requiring an intersection', () => {
+    const level = levels.find((candidate) => candidate.levelId === 28);
+    expect(level).toBeDefined();
+    if (!level) return;
+
+    expect(level.puzzleType).toBe('anagram');
+    expect(level.mainWords.map((entry) => entry.word)).toEqual(['AKIŞ', 'TEL']);
+    expect(buildCrosswordLayout(level.mainWords)).toBeNull();
+    for (const entry of level.mainWords) {
+      expect(canBuildFromLetters(entry.word, level.letters)).toBe(true);
+    }
+  });
+});
+
 describe('learning progression quality', () => {
   it('authors the Cebirin Anahtari pilot instead of cloning legacy levels', () => {
     const pilot = levels.slice(45, 50);
@@ -123,15 +154,15 @@ describe('learning progression quality', () => {
       'CEBİR',
       'RAKAM',
       'DENKLEM',
-      'SAYMAK',
+      'HESAP',
       'YÖNTEM',
     ]);
     expect(pilot.map((level) => level.letters.map(normalizeWord).sort().join(''))).toEqual([
-      'BCELRİİ',
-      'AAKMR',
+      'BCELMRİİ',
+      'AAABKMRS',
       'DEEKLMN',
-      'AAKMSY',
-      'EMNTYÖ',
+      'AEHIPSY',
+      'ELMNOTYÖ',
     ]);
   });
 
@@ -154,10 +185,10 @@ describe('learning progression quality', () => {
 
     expect(levels51to55.map((level) => level.levelId)).toEqual([51, 52, 53, 54, 55]);
     expect(levels51to55.map((level) => normalizeWord(level.mainWords[0].word))).toEqual([
-      'ŞİFRELİ',
-      'FERAH',
-      'SIKLIK',
-      'ÖRÜNTÜ',
+      'ŞİFRE',
+      'HARF',
+      'SAYIM',
+      'DESEN',
       'ANAHTAR',
     ]);
   });
@@ -184,7 +215,7 @@ describe('learning progression quality', () => {
       'TERCÜME',
       'KİTAPLIK',
       'GEOMETRİ',
-      'GÖZLEM',
+      'GÖK',
       'MAKİNE',
     ]);
   });
@@ -208,10 +239,10 @@ describe('learning progression quality', () => {
 
     expect(levels61to65.map((level) => level.levelId)).toEqual([61, 62, 63, 64, 65]);
     expect(levels61to65.map((level) => normalizeWord(level.mainWords[0].word))).toEqual([
-      'PARILTI',
-      'GÖRMEK',
+      'CAM',
+      'GÖZ',
       'YANSIMA',
-      'KARANLIK',
+      'ODA',
       'MERCEK',
     ]);
   });
@@ -237,9 +268,9 @@ describe('learning progression quality', () => {
     expect(levels66to70.map((level) => normalizeWord(level.mainWords[0].word))).toEqual([
       'BELİRTİ',
       'HEKİMLİK',
-      'İLAÇ',
+      'MİKTAR',
       'AMELİYAT',
-      'REÇETE',
+      'KİTAP',
     ]);
   });
 
@@ -274,7 +305,7 @@ describe('learning progression quality', () => {
 
     expect(levels71to75.map((level) => level.levelId)).toEqual([71, 72, 73, 74, 75]);
     expect(levels71to75.map((level) => normalizeWord(level.mainWords[0].word))).toEqual([
-      'ALET',
+      'METAL',
       'BIÇAK',
       'DİKİŞ',
       'SAĞLIK',

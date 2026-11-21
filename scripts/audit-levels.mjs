@@ -421,7 +421,9 @@ for (const story of levelStories) {
 }
 
 levels.forEach((level) => {
-  if (!canBuildCrossword(level.mainWords.map((w) => w.word))) {
+  // Crossword targets must share a connected grid. Anagram targets are each
+  // checked against the rack above, but are independent and need not intersect.
+  if (level.puzzleType === 'crossword' && !canBuildCrossword(level.mainWords.map((w) => w.word))) {
     errors.push(`Level ${level.levelId}: ana kelimeler bulmaca oluşturamıyor.`);
   }
 });

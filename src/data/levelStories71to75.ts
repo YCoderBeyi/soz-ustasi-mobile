@@ -52,8 +52,8 @@ export const levelStories71to75: LevelStory[] = [
     person: 'Zehravi',
     personInfo: 'Tıbbi uygulamaları sistemli bir eserde toplayan ve cerrahi araçları çizimlerle açıklayan Endülüslü hekimdi.',
     impact: 'Resimli anlatım, cerrahi araçların biçim ve kullanımını başka okuyuculara aktardı.',
-    today: 'Tıp kitapları ve eğitim materyalleri bilgiyi çizim, fotoğraf ve açıklamalarla paylaşır.',
-    sourceNotes: ['https://searcharchives.bl.uk/catalog/032-002055067', 'https://islamansiklopedisi.org.tr/et-tasrif--zehravi'],
+    today: 'Tıp kitapları ve eğitim materyalleri bilgiyi çizim, fotoğraf ve açıklamalarla paylaşır. Bazı kırıklarda kemik parçalarını sabitlemek için plak ve vidalar kullanılabilir.',
+    sourceNotes: ['https://searcharchives.bl.uk/catalog/032-002055067', 'https://islamansiklopedisi.org.tr/et-tasrif--zehravi', 'https://medlineplus.gov/fractures.html'],
   },
 ];
 

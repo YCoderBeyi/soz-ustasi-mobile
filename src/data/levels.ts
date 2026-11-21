@@ -26,26 +26,23 @@ const baseLevels: LevelData[] = [
     themeId: 'old_istanbul',
     sealId: 'seal_istanbul_02',
     puzzleType: 'crossword',
-    letters: ["E","L","M","A","A"],
+    letters: ["K","İ","L","Z"],
     mainWords: [
-      { word: 'ELMA', meaning: 'Tatlı ve sulu bir meyve.', difficulty: 1 },
-      { word: 'LAMA', meaning: 'Güney Amerika kökenli yük hayvanı.', difficulty: 2 },
+      { word: 'KİL', meaning: 'Islanınca yumuşayıp biçim verilebilen ince taneli toprak.', difficulty: 2 },
+      { word: 'İZ', meaning: 'Bir yüzeyde kalan işaret veya belirti.', difficulty: 2 },
     ],
-    hiddenWords: [
-      { word: 'MALA', meaning: 'İnşaat veya sıva işlerinde kullanılan el aleti.', reward: 7 },
-      { word: 'ALA', meaning: 'Karışık renkli veya çok iyi nitelikte olan.', reward: 8 }
-    ],
-    reward: { baseCoin: 25, hiddenWordBonus: 7 },
+    hiddenWords: [],
+    reward: { baseCoin: 25, hiddenWordBonus: 0 },
   },
   {
     levelId: 3,
     themeId: 'old_istanbul',
     sealId: 'seal_istanbul_03',
     puzzleType: 'crossword',
-    letters: ["K","A","L","E"],
+    letters: ["K","İ","T","A","P","L"],
     mainWords: [
-      { word: 'KALE', meaning: 'Savunma amacıyla yapılmış güçlü yapı.', difficulty: 2 },
-      { word: 'EL', meaning: 'Kolun bilekten parmak uçlarına kadar olan bölümü.', difficulty: 1 }
+      { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', difficulty: 2 },
+      { word: 'İLK', meaning: 'Ötekilerden önce gelen; başlangıçtaki.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'AK', meaning: 'Beyaz; temiz ve lekesiz.', reward: 9 }
@@ -57,11 +54,10 @@ const baseLevels: LevelData[] = [
     themeId: 'old_istanbul',
     sealId: 'seal_istanbul_04',
     puzzleType: 'anagram',
-    letters: ["S","Ö","Z","Ü"],
+    letters: ["A","L","E","T","K","İ","İ"],
     mainWords: [
-      { word: 'SÖZ', meaning: 'Anlam taşıyan ses veya kelime dizisi.', difficulty: 1 },
-      { word: 'ÖZ', meaning: 'Bir şeyin temel niteliği.', difficulty: 2 },
-      { word: 'SÜZ', meaning: 'Bir sıvıyı süzgeçten geçir.', difficulty: 2 }
+      { word: 'ALET', meaning: 'Bir işi yapmaya yarayan araç.', difficulty: 2 },
+      { word: 'KİLİT', meaning: 'Bir yeri kapalı tutmaya yarayan düzenek.', difficulty: 2 }
     ],
     hiddenWords: [
     ],
@@ -72,11 +68,10 @@ const baseLevels: LevelData[] = [
     themeId: 'cappadocia',
     sealId: 'seal_cappadocia_01',
     puzzleType: 'crossword',
-    letters: ["M","E","R","A","K"],
+    letters: ["K","A","A","Y","T","Ş","R"],
     mainWords: [
-      { word: 'MERAK', meaning: 'Bir şeyi öğrenme veya anlama isteği.', difficulty: 2 },
-      { word: 'KARE', meaning: 'Dört kenarı ve dört açısı eşit olan şekil.', difficulty: 1 },
-      { word: 'KREM', meaning: 'Yumuşak kıvamlı bakım veya tatlı karışımı.', difficulty: 1 }
+      { word: 'TAŞ', meaning: 'Sert ve katı mineral parçası.', difficulty: 2 },
+      { word: 'KAYA', meaning: 'Yerkabuğunda bulunan sert ve büyük taş kütlesi.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'KAR', meaning: 'Donmuş su kristallerinden oluşan yağış.', reward: 8 }
@@ -88,14 +83,13 @@ const baseLevels: LevelData[] = [
     themeId: 'cappadocia',
     sealId: 'seal_cappadocia_02',
     puzzleType: 'crossword',
-    letters: ["D","İ","L","E","K"],
+    letters: ["K","A","L","E","M","I","P"],
     mainWords: [
-      { word: 'DİLEK', meaning: 'Gerçekleşmesi istenen şey.', difficulty: 2 },
-      { word: 'DİL', meaning: 'İnsanların anlaşmasını sağlayan sözlü sistem.', difficulty: 1 },
-      { word: 'KEDİ', meaning: 'Evcil, çevik ve küçük bir memeli hayvan.', difficulty: 1 }
+      { word: 'KALEM', meaning: 'Yazı yazmaya yarayan araç.', difficulty: 2 },
+      { word: 'KALIP', meaning: 'Bir şeye biçim vermek için kullanılan araç.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'İLK', meaning: 'Sırada en önde gelen veya başlangıçta olan.', reward: 9 }
+      { word: 'KAP', meaning: 'İçine bir şey konulan nesne.', reward: 9 }
     ],
     reward: { baseCoin: 36, hiddenWordBonus: 9 },
   },
@@ -104,11 +98,10 @@ const baseLevels: LevelData[] = [
     themeId: 'ege_coast',
     sealId: 'seal_ege_01',
     puzzleType: 'crossword',
-    letters: ["A","N","L","A","M"],
+    letters: ["O","R","A","N","K","A","M"],
     mainWords: [
-      { word: 'ANLAM', meaning: 'Bir sözün veya işaretin anlattığı şey.', difficulty: 2 },
-      { word: 'ALAN', meaning: 'Açık yer veya belirli bir çalışma bölgesi.', difficulty: 2 },
-      { word: 'ALMA', meaning: 'Bir şeyi edinme veya eline geçirme işi.', difficulty: 2 }
+      { word: 'ORAN', meaning: 'İki çokluğun birbirine göre ölçüsü.', difficulty: 2 },
+      { word: 'RAKAM', meaning: 'Sayıları yazmak için kullanılan işaretlerden her biri.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'NAM', meaning: 'Ün, şöhret veya ad.', reward: 9 }
@@ -120,10 +113,10 @@ const baseLevels: LevelData[] = [
     themeId: 'ege_coast',
     sealId: 'seal_ege_02',
     puzzleType: 'crossword',
-    letters: ["S","A","H","İ","L"],
+    letters: ["S","A","Y","I","Ö","N"],
     mainWords: [
-      { word: 'SAHİL', meaning: 'Deniz, göl veya akarsu kıyısı.', difficulty: 2 },
-      { word: 'ASİL', meaning: 'Soylu, değerli ve ağırbaşlı.', difficulty: 3 },
+      { word: 'SAYI', meaning: 'Bir çokluğu veya sırayı belirten matematiksel değer.', difficulty: 2 },
+      { word: 'YÖN', meaning: 'Bir yerin başka bir yere göre bulunduğu taraf.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'AS', meaning: 'Bir konuda üstün veya usta kişi.', reward: 10 }
@@ -134,16 +127,13 @@ const baseLevels: LevelData[] = [
     levelId: 9,
     themeId: 'anatolian_autumn',
     sealId: 'seal_anatolia_01',
-    puzzleType: 'anagram',
-    // İkinci U, onaylı hedefleri değiştirmeden UMUR'u isteğe bağlı sözlük bonusu yapar.
-    letters: ["M","Ü","H","Ü","R","U","U"],
+    puzzleType: 'crossword',
+    letters: ["H","E","S","A","P","U","U","L"],
     mainWords: [
-      { word: 'MÜHÜR', meaning: 'Bir belgeye iz bırakmak için kullanılan damga.', difficulty: 3 },
-      { word: 'HÜR', meaning: 'Özgür, bağımsız.', difficulty: 3 },
-      { word: 'RUH', meaning: 'Canlılık verdiğine inanılan manevi varlık.', difficulty: 2 }
+      { word: 'HESAP', meaning: 'Sayılarla yapılan işlem veya bir sonuca ulaşma işi.', difficulty: 2 },
+      { word: 'USUL', meaning: 'Bir işi yaparken izlenen yol veya yöntem.', difficulty: 2 },
     ],
-    hiddenWords: [
-    ],
+    hiddenWords: [],
     reward: { baseCoin: 45, hiddenWordBonus: 0 },
   },
   {
@@ -151,48 +141,41 @@ const baseLevels: LevelData[] = [
     themeId: 'ottoman_library',
     sealId: 'seal_library_01',
     puzzleType: 'crossword',
-    letters: ["K","A","L","E","M","İ"],
+    letters: ["G","Ö","Z","R","M","E","K"],
     mainWords: [
-      { word: 'KALEM', meaning: 'Yazı yazmaya yarayan araç.', difficulty: 2 },
-      { word: 'EKİM', meaning: 'Yılın onuncu ayı; tohum ekme işi.', difficulty: 2 },
-      { word: 'EMLAK', meaning: 'Ev, arsa gibi taşınmaz mallar.', difficulty: 3 },
-      { word: 'ALEM', meaning: 'Dünya, evren veya belirli bir topluluk.', difficulty: 3 }
+      { word: 'GÖZ', meaning: 'Görmeyi sağlayan duyu organı.', difficulty: 1 },
+      { word: 'GÖRMEK', meaning: 'Gözle algılamak.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'ELA', meaning: 'Yeşile çalan açık kahverengi göz rengi.', reward: 12 }
+      { word: 'EK', meaning: 'Bir bütüne sonradan katılan parça.', reward: 12 }
     ],
     reward: { baseCoin: 46, hiddenWordBonus: 8 },
   },
   {
     levelId: 11,
-    themeId: 'seljuk_courtyard',
-    sealId: 'seal_seljuk_01',
-    puzzleType: 'crossword',
-    letters: ["K","Ü","L","T","Ü","R"],
+    themeId: "seljuk_courtyard",
+    sealId: "seal_seljuk_01",
+    puzzleType: "crossword",
+    letters: ["H", "A", "R", "F", "Y", "Z", "I"],
     mainWords: [
-      { word: 'KÜLTÜR', meaning: 'Bir toplumun maddi ve manevi değerleri bütünü.', difficulty: 2 },
-      { word: 'TÜRK', meaning: 'Türk milletinden olan kimse.', difficulty: 2 },
-      { word: 'TÜR', meaning: 'Ortak özellikleri olan varlıkların bölümü.', difficulty: 2 }
+      { word: "HARF", meaning: "Alfabede bir sesi yazıda gösteren işaret.", difficulty: 2 },
+      { word: "YAZI", meaning: "Harflerle oluşturulup düşünce veya bilgiyi aktaran metin.", difficulty: 2 },
     ],
-    hiddenWords: [
-      { word: 'ÜLKÜ', meaning: 'Ulaşılmak istenen yüce amaç.', reward: 13 }
-    ],
-    reward: { baseCoin: 47, hiddenWordBonus: 10 },
+    hiddenWords: [],
+    reward: { baseCoin: 47, hiddenWordBonus: 0 },
   },
   {
     levelId: 12,
     themeId: 'nemrut_dawn',
     sealId: 'seal_nemrut_01',
     puzzleType: 'crossword',
-    letters: ["T","A","R","İ","H","A"],
+    letters: ["T","E","D","A","V","İ","L","Ç"],
     mainWords: [
-      { word: 'TARİH', meaning: 'Geçmişte yaşanan olayları inceleyen bilgi alanı.', difficulty: 2 },
-      { word: 'HARİTA', meaning: 'Bir yerin kuş bakışı çizimle gösterilmiş biçimi.', difficulty: 2 },
-      { word: 'HATA', meaning: 'Yanlışlık veya kusurlu davranış.', difficulty: 2 },
-      { word: 'HAT', meaning: 'Çizgi, yol veya yazı biçimi.', difficulty: 3 }
+      { word: 'TEDAVİ', meaning: 'Bir hastalığı iyileştirmek veya etkisini azaltmak için yapılan uygulama.', difficulty: 2 },
+      { word: 'DEVA', meaning: 'Bir derde çare olan çözüm.', difficulty: 2 },
     ],
     hiddenWords: [
-      { word: 'RAHAT', meaning: 'Sıkıntısız, huzurlu ve dingin olma durumu.', reward: 13 }
+      { word: 'İLAÇ', meaning: 'Hastalığı iyileştirmek veya etkisini azaltmak için kullanılan madde.', reward: 13 }
     ],
     reward: { baseCoin: 49, hiddenWordBonus: 10 },
   },
@@ -201,13 +184,13 @@ const baseLevels: LevelData[] = [
     themeId: 'blacksea_highland',
     sealId: 'seal_blacksea_01',
     puzzleType: 'crossword',
-    letters: ["Y","A","Y","L","A"],
+    letters: ["M","A","K","İ","N","E","L","Y"],
     mainWords: [
-      { word: 'YAYLA', meaning: 'Yazın çıkılan yüksek ve serin yer.', difficulty: 2 },
-      { word: 'YAYA', meaning: 'Yürüyerek giden kimse.', difficulty: 2 },
+      { word: 'MAKİNE', meaning: 'Bir işi enerji kullanarak yapan düzenek.', difficulty: 2 },
+      { word: 'MİL', meaning: 'Makinede dönme hareketini parçalara aktaran eksen biçimli parça.', difficulty: 3 },
     ],
     hiddenWords: [
-      { word: 'AY', meaning: 'Güneş sisteminde Dünya\'nın uydusu.', reward: 5 }
+      { word: 'EMİN', meaning: 'Güvenilir veya kuşkusu olmayan.', reward: 12 }
     ],
     reward: { baseCoin: 51, hiddenWordBonus: 10 },
   },
@@ -216,50 +199,39 @@ const baseLevels: LevelData[] = [
     themeId: 'blacksea_highland',
     sealId: 'seal_blacksea_02',
     puzzleType: 'crossword',
-    letters: ["D","E","R","E","N"],
+    letters: ["M","E","R","C","E","K","A"],
     mainWords: [
-      { word: 'DERE', meaning: 'Küçük akarsu.', difficulty: 2 },
-      { word: 'DENE', meaning: 'Bir şeyi sınamak için verilen kısa komut.', difficulty: 3 }
+      { word: 'MERCEK', meaning: 'Işığı kırarak görüntüyü büyüten veya odaklayan saydam araç.', difficulty: 3 },
+      { word: 'CAM', meaning: 'Silisli maddelerden yapılan, saydam ve kırılgan katı madde.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'ENDER', meaning: 'Çok az bulunan, nadir, seyrek.', reward: 10 },
-      { word: 'RENDE', meaning: 'Tahta yüzeyini düzlemek veya sebzeleri rendelemek için kullanılan araç.', reward: 10 }
-    ],
-    reward: { baseCoin: 53, hiddenWordBonus: 10 },
+    hiddenWords: [],
+    reward: { baseCoin: 53, hiddenWordBonus: 0 },
   },
   {
     levelId: 15,
     themeId: 'old_istanbul',
     sealId: 'seal_istanbul_05',
     puzzleType: 'anagram',
-    letters: ["S","A","R","A","Y"],
+    letters: ["B","A","S","K","I","S","Ö","Z"],
     mainWords: [
-      { word: 'SARAY', meaning: 'Hükümdarların yaşadığı büyük yapı.', difficulty: 2 },
-      { word: 'YASA', meaning: 'Toplum yaşamını düzenleyen, uyulması gereken kural.', difficulty: 2 },
-      { word: 'ARSA', meaning: 'Üzerine yapı yapılabilecek toprak parçası.', difficulty: 3 },
-      { word: 'AYAR', meaning: 'Bir şeyin ölçüsü veya düzeni.', difficulty: 3 }
+      { word: 'BASKI', meaning: 'Harf kalıplarına mürekkep sürüp yazıyı kâğıda aktarma işi.', difficulty: 2 },
+      { word: 'SÖZ', meaning: 'Bir düşünceyi anlatan kelime veya kelime grubu.', difficulty: 2 },
     ],
-    hiddenWords: [
-      { word: 'ARA', meaning: 'İki şey arasındaki uzaklık veya süre.', reward: 8 },
-      { word: 'YAR', meaning: 'Derin ve dik yamaç; uçurum.', reward: 9 },
-    ],
-    reward: { baseCoin: 54, hiddenWordBonus: 10 },
+    hiddenWords: [],
+    reward: { baseCoin: 54, hiddenWordBonus: 0 },
   },
   {
     levelId: 16,
     themeId: 'old_istanbul',
     sealId: 'seal_istanbul_06',
     puzzleType: 'crossword',
-    letters: ["K","A","P","I","L"],
+    letters: ["G","E","M","İ","D","N","Z","L"],
     mainWords: [
-      { word: 'KAP', meaning: 'İçine bir şey konulan nesne.', difficulty: 2 },
-      { word: 'KAPI', meaning: 'Bir yere girip çıkmaya yarayan açıklık.', difficulty: 1 },
-      { word: 'KALP', meaning: 'Kan dolaşımını sağlayan organ.', difficulty: 2 },
-      { word: 'PLAK', meaning: 'Ses kaydetmeye yarayan eski disk.', difficulty: 3 }
+      { word: 'GEMİ', meaning: 'Su üzerinde yük veya yolcu taşıyan büyük araç.', difficulty: 2 },
+      { word: 'DENİZ', meaning: 'Yeryüzünün büyük tuzlu su kütlesi.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'KALIP', meaning: 'Bir şeye biçim vermek için kullanılan araç.', reward: 9 },
-      { word: 'PAK', meaning: 'Temiz, arı ve lekesiz.', reward: 10 },
+      { word: 'İL', meaning: 'Ülkenin yönetimindeki temel bölgesel birim.', reward: 10 }
     ],
     reward: { baseCoin: 55, hiddenWordBonus: 9 },
   },
@@ -268,67 +240,54 @@ const baseLevels: LevelData[] = [
     themeId: 'cappadocia',
     sealId: 'seal_cappadocia_03',
     puzzleType: 'crossword',
-    letters: ["B","A","L","O","N"],
+    letters: ["G","Ö","K","Z","L","E","M"],
     mainWords: [
-      { word: 'BALON', meaning: 'Hava veya gazla şişirilen esnek nesne.', difficulty: 2 },
-      { word: 'BALO', meaning: 'Danslı ve eğlenceli toplantı.', difficulty: 3 },
-      { word: 'BOL', meaning: 'Miktarı çok olan.', difficulty: 2 },
-      { word: 'OLAN', meaning: 'Bulunan veya var olan.', difficulty: 2 }
+      { word: 'GÖK', meaning: 'Yeryüzünü çevreleyen boşluk; gökyüzü.', difficulty: 2 },
+      { word: 'GÖZLEM', meaning: 'Bir olayı bilgi edinmek için dikkatle inceleme.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'OBA', meaning: 'Göçebe çadır topluluğu veya geçici yerleşim birimi.', reward: 10 }
+      { word: 'ÖZ', meaning: 'Bir şeyin temel niteliği veya iç bölümü.', reward: 10 }
     ],
     reward: { baseCoin: 57, hiddenWordBonus: 10 },
   },
   {
     levelId: 18,
-    themeId: 'cappadocia',
-    sealId: 'seal_cappadocia_04',
-    puzzleType: 'crossword',
-    letters: ["V","A","D","İ","L"],
+    themeId: "cappadocia",
+    sealId: "seal_cappadocia_04",
+    puzzleType: "anagram",
+    letters: ["M", "İ", "K", "R", "O", "P", "S", "U"],
     mainWords: [
-      { word: 'VADİ', meaning: 'İki dağ arasında uzanan çukur arazi.', difficulty: 3 },
-      { word: 'ADİL', meaning: 'Hakkı gözeten, adaletli.', difficulty: 3 },
-      { word: 'VİDA', meaning: 'Bir nesneyi sabitlemek için kullanılan dişli bağlantı elemanı.', difficulty: 3 }
+      { word: "MİKROP", meaning: "Mikroskopla görülebilen çok küçük canlı; bazı türleri hastalık yapar, bazıları yapmaz.", difficulty: 2 },
+      { word: "SU", meaning: "Canlıların yaşamı için gerekli, içilen renksiz sıvı.", difficulty: 1 },
     ],
-    hiddenWords: [
-      { word: 'DAL', meaning: 'Ağacın veya bitkinin gövdesinden çıkan kol.', reward: 11 },
-      { word: 'İL', meaning: 'Ülke yönetimindeki temel bölgesel birim.', reward: 5 }
-    ],
-    reward: { baseCoin: 61, hiddenWordBonus: 11 },
+    hiddenWords: [],
+    reward: { baseCoin: 61, hiddenWordBonus: 0 },
   },
   {
     levelId: 19,
     themeId: 'ege_coast',
     sealId: 'seal_ege_03',
     puzzleType: 'crossword',
-    letters: ["Z","E","Y","T","İ","N"],
+    letters: ["H","A","V","A","B","A","R"],
     mainWords: [
-      { word: 'ZEYTİN', meaning: 'Yağı çıkarılan, Akdeniz ikliminde yetişen meyve.', difficulty: 2 },
-      { word: 'TEN', meaning: 'İnsan vücudunu kaplayan deri.', difficulty: 2 },
-      { word: 'NET', meaning: 'Açık, kesin ve kolay anlaşılır olan.', difficulty: 4 },
-      { word: 'YENİ', meaning: 'Kullanılmamış veya yakın zamanda ortaya çıkmış.', difficulty: 1 }
+      { word: 'HAVA', meaning: 'Dünya yüzeyini saran gaz karışımı.', difficulty: 2 },
+      { word: 'BAR', meaning: 'Basınç ölçümünde kullanılan birim.', difficulty: 3 }
     ],
-    hiddenWords: [
-      { word: 'YETİ', meaning: 'Bir işi yapabilme gücü veya kabiliyet.', reward: 11 },
-      { word: 'NİYET', meaning: 'Bir şeyi yapmaya önceden karar verme.', reward: 11 },
-    ],
-    reward: { baseCoin: 64, hiddenWordBonus: 12 },
+    hiddenWords: [],
+    reward: { baseCoin: 64, hiddenWordBonus: 0 },
   },
   {
     levelId: 20,
     themeId: 'ege_coast',
     sealId: 'seal_ege_04',
     puzzleType: 'anagram',
-    letters: ["D","E","N","İ","Z"],
+    letters: ["İ","M","A","L","E","E","K"],
     mainWords: [
-      { word: 'DENİZ', meaning: 'Yeryüzünün büyük tuzlu su kütlesi.', difficulty: 2 },
-      { word: 'ZİNDE', meaning: 'Güçlü, canlı ve dinç durumda olan.', difficulty: 3 },
-      { word: 'DİZ', meaning: 'Bacağın ortasındaki eklem bölgesi.', difficulty: 2 }
+      { word: 'İMAL', meaning: 'Bir ürünü üretme veya yapma işi.', difficulty: 3 },
+      { word: 'EMEK', meaning: 'Bir iş için harcanan beden veya zihin gücü.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'İZ', meaning: 'Bir şeyin bıraktığı belirti.', reward: 10 },
-      { word: 'DİZE', meaning: 'Şiirde bir satır, mısra.', reward: 8 }
+      { word: 'EL', meaning: 'Kolun bilekten parmak uçlarına kadar olan bölümü.', reward: 10 }
     ],
     reward: { baseCoin: 66, hiddenWordBonus: 10 },
   },
@@ -337,30 +296,23 @@ const baseLevels: LevelData[] = [
     themeId: 'anatolian_autumn',
     sealId: 'seal_anatolia_02',
     puzzleType: 'crossword',
-    letters: ["T","O","P","R","A","K"],
+    letters: ["A","Ş","I","K","İ","İ"],
     mainWords: [
-      { word: 'TOPRAK', meaning: 'Bitkilerin yetiştiği, yeryüzünü örten doğal katman.', difficulty: 2 },
-      { word: 'PARK', meaning: 'Dinlenmek veya gezmek için düzenlenmiş yeşil alan.', difficulty: 2 },
-      { word: 'KART', meaning: 'Sert kâğıt parçası veya elektronik ödeme aracı.', difficulty: 2 },
-      { word: 'ROTA', meaning: 'İzlenecek yol veya yön.', difficulty: 3 }
+      { word: 'AŞI', meaning: 'Bağışıklık yanıtı oluşturmak için uygulanan biyolojik ürün.', difficulty: 3 },
+      { word: 'KİŞİ', meaning: 'İnsan; birey.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'KOR', meaning: 'İyice yanmış ateş parçası.', reward: 11 },
-      { word: 'TOP', meaning: 'Oyunlarda kullanılan yuvarlak nesne.', reward: 12 },
-    ],
-    reward: { baseCoin: 68, hiddenWordBonus: 11 },
+    hiddenWords: [],
+    reward: { baseCoin: 68, hiddenWordBonus: 0 },
   },
   {
     levelId: 22,
     themeId: 'anatolian_autumn',
     sealId: 'seal_anatolia_03',
     puzzleType: 'crossword',
-    letters: ["H","A","R","M","A","N"],
+    letters: ["H","A","R","M","A","N","T","L"],
     mainWords: [
       { word: 'HARMAN', meaning: 'Tahılın dövülüp savrulduğu alan; hasat mevsimini simgeleyen işleme yeri.', difficulty: 3 },
-      { word: 'ANA', meaning: 'Anne veya temel kaynak.', difficulty: 3 },
-      { word: 'AMAN', meaning: 'Acıma veya şaşkınlık bildiren söz; merhamet çağrısı.', difficulty: 2 },
-      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', difficulty: 4 }
+      { word: 'TARLA', meaning: 'Tarım ürünleri yetiştirilen toprak parçası.', difficulty: 2 }
     ],
     hiddenWords: [
       { word: 'HAM', meaning: 'Olgunlaşmamış veya işlenmemiş.', reward: 11 }
@@ -372,32 +324,26 @@ const baseLevels: LevelData[] = [
     themeId: 'ottoman_library',
     sealId: 'seal_library_02',
     puzzleType: 'crossword',
-    letters: ["K","İ","T","A","P"],
+    letters: ["T","R","E","N","A","Y"],
     mainWords: [
-      { word: 'TAKİP', meaning: 'Ardından gitme veya izleme işi.', difficulty: 3 },
-      { word: 'TİP', meaning: 'Ortak özellikleri olan örnek veya çeşit.', difficulty: 2 },
-      { word: 'KİTAP', meaning: 'Yazılı veya basılı yapıt.', difficulty: 2 }
+      { word: 'TREN', meaning: 'Raylar üzerinde vagonları çeken lokomotif ve vagonlardan oluşan taşıt.', difficulty: 2 },
+      { word: 'RAY', meaning: 'Tren tekerleklerinin üzerinde ilerlediği metal hat.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'AİT', meaning: 'İlgili, ilişkin, dair.', reward: 12 },
-      { word: 'PATİK', meaning: 'Bebekler için örülen sıcak tutan ayakkabı.', reward: 12 },
-      { word: 'PATİ', meaning: 'Hayvan ayağı.', reward: 10 },
-    ],
-    reward: { baseCoin: 74, hiddenWordBonus: 13 },
+    hiddenWords: [],
+    reward: { baseCoin: 74, hiddenWordBonus: 0 },
   },
   {
     levelId: 24,
     themeId: 'ottoman_library',
     sealId: 'seal_library_03',
     puzzleType: 'anagram',
-    letters: ["D","İ","V","A","N"],
+    letters: ["D","T","E","L","İ","İ","A"],
     mainWords: [
-      { word: 'DİVAN', meaning: 'Şairlerin şiirlerini bir araya getirdiği eser.', difficulty: 3 },
-      { word: 'ANİ', meaning: 'Birdenbire olan, ansızın gelişen.', difficulty: 2 }
+      { word: 'DİL', meaning: 'İnsanların anlaşmasını sağlayan sözlü veya yazılı iletişim sistemi.', difficulty: 2 },
+      { word: 'İLETİ', meaning: 'Bir yerden başka bir yere aktarılan bilgi veya mesaj.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'DİVA', meaning: 'Ün kazanmış kadın opera sanatçısı.', reward: 13 },
-      { word: 'AD', meaning: 'İsim, nam, şöhret.', reward: 12 }
+      { word: 'AD', meaning: 'İsim, nam, şöhret.', reward: 13 }
     ],
     reward: { baseCoin: 76, hiddenWordBonus: 13 },
   },
@@ -406,15 +352,13 @@ const baseLevels: LevelData[] = [
     themeId: 'seljuk_courtyard',
     sealId: 'seal_seljuk_02',
     puzzleType: 'crossword',
-    letters: ["K","U","B","B","E","L"],
+    letters: ["K","A","R","E","N"],
     mainWords: [
-      { word: 'KUBBE', meaning: 'Yarım küre biçiminde yapı örtüsü.', difficulty: 3 },
-      { word: 'BEL', meaning: 'Gövdenin orta bölümü.', difficulty: 2 },
-      { word: 'KULE', meaning: 'Yüksek ve dar biçimde yapılmış yapı.', difficulty: 2 }
+      { word: 'KARE', meaning: 'Fotoğrafta tek bir görüntü alanı veya çerçeve.', difficulty: 2 },
+      { word: 'RENK', meaning: 'Işığın niteliğine göre nesnelerin gözde bıraktığı algı.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'KUL', meaning: 'İnsan veya bağlı kimse anlamında kullanılan söz.', reward: 10 },
-      { word: 'BU', meaning: 'En yakındaki şeyi işaret eden söz.', reward: 10 }
+      { word: 'AN', meaning: 'Çok kısa zaman dilimi; içinde bulunulan zaman.', reward: 10 }
     ],
     reward: { baseCoin: 78, hiddenWordBonus: 10 },
   },
@@ -423,16 +367,13 @@ const baseLevels: LevelData[] = [
     themeId: 'seljuk_courtyard',
     sealId: 'seal_seljuk_03',
     puzzleType: 'crossword',
-    letters: ["A","V","L","U","S","U"],
+    letters: ["H","E","K","İ","M","L","A","Ç"],
     mainWords: [
-      { word: 'AVLU', meaning: 'Yapıların ortasında veya yanında kalan açık alan.', difficulty: 3 },
-      { word: 'ULUS', meaning: 'Aynı kültür ve tarih etrafında birleşen toplum.', difficulty: 3 },
-      { word: 'USUL', meaning: 'Yöntem, yol veya davranış biçimi.', difficulty: 3 },
-      { word: 'SULU', meaning: 'İçinde bol miktarda su barındıran.', difficulty: 2 }
+      { word: 'HEKİM', meaning: 'Hastalıkları teşhis ve tedavi eden sağlık uzmanı.', difficulty: 2 },
+      { word: 'İLAÇ', meaning: 'Hastalığı iyileştirmek veya etkisini azaltmak için kullanılan madde.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'LAV', meaning: 'Yanardağdan çıkan erimiş madde.', reward: 11 },
-      { word: 'USLU', meaning: 'Sakin ve söz dinler davranan.', reward: 12 },
+      { word: 'AİLE', meaning: 'Aralarında yakınlık ve dayanışma bulunan kişiler topluluğu.', reward: 12 },
     ],
     reward: { baseCoin: 80, hiddenWordBonus: 12 },
   },
@@ -441,16 +382,13 @@ const baseLevels: LevelData[] = [
     themeId: 'nemrut_dawn',
     sealId: 'seal_nemrut_02',
     puzzleType: 'anagram',
-    letters: ["Z","İ","R","V","E"],
+    letters: ["T","İ","Z","L"],
     mainWords: [
-      { word: 'ZİRVE', meaning: 'Dağın en yüksek noktası veya en üst başarı düzeyi.', difficulty: 3 },
-      { word: 'VERİ', meaning: 'Bilgi veya ölçüm sonucu elde edilen değer.', difficulty: 2 },
-      { word: 'VİZE', meaning: 'Bir ülkeye giriş izni veya ara sınav.', difficulty: 2 },
-      { word: 'VEZİR', meaning: 'Tarihsel yönetimde yüksek görevli devlet adamı.', difficulty: 4 }
+      { word: 'TİZ', meaning: 'İnce ve yüksek frekanslı ses.', difficulty: 3 },
+      { word: 'ZİL', meaning: 'Çalındığında ses çıkaran küçük metal araç.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'VER', meaning: 'Bir şeyi başkasına geçirmek veya teslim etmek.', reward: 12 },
-      { word: 'EV', meaning: 'İnsanların yaşadığı yapı veya konut.', reward: 8 }
+      { word: 'İZ', meaning: 'Bir şeyin geçtiğini veya bulunduğunu gösteren belirti.', reward: 8 }
     ],
     reward: { baseCoin: 82, hiddenWordBonus: 13 },
   },
@@ -458,28 +396,25 @@ const baseLevels: LevelData[] = [
     levelId: 28,
     themeId: 'nemrut_dawn',
     sealId: 'seal_nemrut_03',
-    puzzleType: 'crossword',
-    letters: ["T","A","Ş","L","A","R"],
+    puzzleType: 'anagram',
+    letters: ["A","K","I","Ş","T","E","L"],
     mainWords: [
-      { word: 'TAŞ', meaning: 'Sert ve katı mineral parçası.', difficulty: 2 },
-      { word: 'TAŞRA', meaning: 'Merkez dışındaki yerler.', difficulty: 4 },
-      { word: 'TARLA', meaning: 'Tarım yapılan geniş toprak parçası.', difficulty: 3 },
-      { word: 'ŞART', meaning: 'Bir işin gerçekleşmesi için gereken koşul.', difficulty: 3 }
+      { word: 'AKIŞ', meaning: 'Bir akımın iletken boyunca ilerleyişi.', difficulty: 3 },
+      { word: 'TEL', meaning: 'Akkor lambada akım geçince ışık veren ince filaman.', difficulty: 3 }
     ],
-    hiddenWords: [
-      { word: 'ALA', meaning: 'Birden çok rengi olan, alaca.', reward: 10 },
-    ],
-    reward: { baseCoin: 85, hiddenWordBonus: 10 },
+    // Bu harf havuzunda approved listede konuya doğrudan uyan ek bir gizli hedef yok.
+    hiddenWords: [],
+    reward: { baseCoin: 85, hiddenWordBonus: 0 },
   },
   {
     levelId: 29,
     themeId: 'blacksea_highland',
     sealId: 'seal_blacksea_03',
     puzzleType: 'crossword',
-    letters: ["B","U","L","U","T","A"],
+    letters: ["B","U","L","U","T","A","S"],
     mainWords: [
       { word: 'BULUT', meaning: 'Gökyüzünde su buharının oluşturduğu kütle.', difficulty: 2 },
-      { word: 'TABU', meaning: 'Toplumsal ya da kültürel açıdan dokunulmaz ve yasak sayılan.', difficulty: 3 },
+      { word: 'SULU', meaning: 'İçinde bol miktarda su barındıran.', difficulty: 2 },
     ],
     hiddenWords: [
       { word: 'ULU', meaning: 'Yüce, büyük ve saygın.', reward: 15 },
@@ -490,298 +425,213 @@ const baseLevels: LevelData[] = [
   },
   {
     levelId: 30,
-    themeId: 'old_istanbul',
-    sealId: 'seal_istanbul_07',
-    puzzleType: 'crossword',
-    letters: ["M","A","S","A","L"],
+    themeId: "old_istanbul",
+    sealId: "seal_istanbul_07",
+    puzzleType: "anagram",
+    letters: ["R", "A", "D", "Y", "O", "S", "E", "S"],
     mainWords: [
-      { word: 'MASAL', meaning: 'Olağanüstü olaylarla örülü anlatı.', difficulty: 2 },
-      { word: 'SALMA', meaning: 'Bir şeyi serbest bırakma eylemi.', difficulty: 3 },
+      { word: "RADYO", meaning: "Radyo dalgalarıyla yayınlanan ses programlarını alan cihaz.", difficulty: 2 },
+      { word: "SES", meaning: "Bir kaynağın titreşimiyle oluşup işitme yoluyla algılanan şey.", difficulty: 2 },
     ],
-    hiddenWords: [
-      { word: 'SAL', meaning: 'Su üzerinde kullanılan ilkel taşıt.', reward: 11 },
-      { word: 'ASAL', meaning: 'Yalnızca kendine ve bire bölünebilen; temel.', reward: 13 },
-      { word: 'ASMA', meaning: 'Üzüm veren, sarılarak veya destekle büyüyen bitki.', reward: 10 },
-    ],
-    reward: { baseCoin: 88, hiddenWordBonus: 12 },
+    hiddenWords: [],
+    reward: { baseCoin: 88, hiddenWordBonus: 0 },
   },
   {
     levelId: 31,
     themeId: 'cappadocia',
     sealId: 'seal_cappadocia_05',
-    story: 'Bir rehber, Kapadokya patikalarında yolculara vadiler arasında kaybolmadan ilerlemenin yolunu gösterir.',
     puzzleType: 'crossword',
-    letters: ["P","A","T","İ","K","A","I"],
+    letters: ["K","I","R","I","K","T","P","E"],
     mainWords: [
-      { word: 'PATİKA', meaning: 'Dağlarda yürüyüş için kullanılan dar yol.', difficulty: 3 },
-      { word: 'ATA', meaning: 'Geçmişte yaşamış aile büyüğü veya ecdat.', difficulty: 4 },
-      { word: 'KAT', meaning: 'Bir yapının, yüksekliği boyunca ayrılan bölümlerinden her biri.', difficulty: 3 }
+      { word: 'KIRIK', meaning: 'Darbe sonrası kemik bütünlüğünün bozulması.', difficulty: 2 },
+      { word: 'TIP', meaning: 'Hastalıkları önleme, tanıma ve tedavi etme bilgisi.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'TAKI', meaning: 'Bilezik, kolye veya küpe gibi süs amacıyla kullanılan mücevher eşyası.', reward: 12 },
-      { word: 'KAPI', meaning: 'Bir yere girip çıkmaya yarayan açıklık.', reward: 10 }
-    ],
-    reward: { baseCoin: 89, hiddenWordBonus: 12 },
+    hiddenWords: [],
+    reward: { baseCoin: 89, hiddenWordBonus: 0 },
   },
   {
     levelId: 32,
     themeId: 'ege_coast',
     sealId: 'seal_ege_05',
-    story: 'Bir denizci, rüzgarın yönünü okuyarak doğu limanları ile batı pazarlarını birbirine bağlar.',
     puzzleType: 'anagram',
     letters: ["R","Ü","Z","G","A","R"],
     mainWords: [
       { word: 'RÜZGAR', meaning: 'Havanın yer değiştirmesiyle oluşan esinti.', difficulty: 3 },
-      { word: 'ZAR', meaning: 'Şans oyunlarında atılan küp biçimli araç; olumsuz durumda kayıp.', difficulty: 3 },
-      { word: 'GAR', meaning: 'Tren istasyonu.', difficulty: 3 }
+      { word: 'GAZ', meaning: 'Belirli hacmi olmayan akışkan madde.', difficulty: 3 }
     ],
-    hiddenWords: [
-      { word: 'ARZ', meaning: 'Sunma veya istek anlamındaki söz.', reward: 13 },
-      { word: 'GAZ', meaning: 'Belirli hacmi olmayan akışkan madde.', reward: 15 },
-      { word: 'AR', meaning: 'Utanma duygusu veya temizlik.', reward: 5 }
-    ],
-    reward: { baseCoin: 91, hiddenWordBonus: 13 },
+    hiddenWords: [],
+    reward: { baseCoin: 91, hiddenWordBonus: 0 },
   },
   {
     levelId: 33,
     themeId: 'anatolian_autumn',
     sealId: 'seal_anatolia_04',
-    story: 'Bir pazar bilgesi, değeri sadece parada değil emekte ve güvende arayan bir takas düzeni kurar.',
-    puzzleType: 'crossword',
-    letters: ["D","E","Ğ","E","R"],
+    puzzleType: 'anagram',
+    letters: ["Ş","İ","F","A","Y","A","R"],
     mainWords: [
-      { word: 'DEĞER', meaning: 'Bir şeyin önemi veya karşılığı.', difficulty: 2 },
-      { word: 'EĞER', meaning: 'Koşul bildiren söz.', difficulty: 2 },
-      { word: 'DER', meaning: 'Söyler veya bir şeyi bu adla anar.', difficulty: 3 }
+      { word: 'ŞİFA', meaning: 'Hastalık veya yaranın iyileşmesi, sağlık bulma.', difficulty: 2 },
+      { word: 'YARA', meaning: 'Deri veya vücut dokusunda oluşan hasarlı bölge.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'DERE', meaning: 'Küçük akarsu.', reward: 10 }
-    ],
-    reward: { baseCoin: 93, hiddenWordBonus: 10 },
+    hiddenWords: [],
+    reward: { baseCoin: 93, hiddenWordBonus: 0 },
   },
   {
     levelId: 34,
     themeId: 'ottoman_library',
     sealId: 'seal_library_04',
-    story: 'Bir kütüphane görevlisi, hafızayı güçlendirmek için bilgiyi raflara ve sembollere ayırır.',
-    puzzleType: 'crossword',
-    letters: ["K","İ","T","A","P","L"],
+    puzzleType: 'anagram',
+    letters: ["B","İ","L","G","İ","K","O","D"],
     mainWords: [
-      { word: 'AİT', meaning: 'Bir kimseye ya da şeye bağlı olan, onun olan.', difficulty: 2 },
-      { word: 'KATİP', meaning: 'Yazı işleriyle uğraşan görevli.', difficulty: 4 },
-      { word: 'PİL', meaning: 'Elektrik enerjisi sağlayan küçük araç.', difficulty: 2 }
+      { word: 'BİLGİ', meaning: 'Öğrenme, araştırma veya gözlem yoluyla edinilen veri ve anlayış.', difficulty: 2 },
+      { word: 'KOD', meaning: 'Bilgiyi belirli kurallara göre gösteren simge veya işaret dizisi.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'AT', meaning: 'Binek hayvanı.', reward: 14 },
-      { word: 'KİL', meaning: 'Islanınca yumuşayıp biçim verilebilen ince taneli toprak.', reward: 8 },
-      { word: 'TAKİP', meaning: 'Ardından gitme veya izleme işi.', reward: 10 }
-    ],
-    reward: { baseCoin: 97, hiddenWordBonus: 15 },
+    hiddenWords: [],
+    reward: { baseCoin: 97, hiddenWordBonus: 0 },
   },
   {
     levelId: 35,
     themeId: 'seljuk_courtyard',
     sealId: 'seal_seljuk_04',
-    story: 'Bir çini ustası, emeğin izini desene işleyerek sabrın görünür hale gelebileceğini gösterir.',
     puzzleType: 'anagram',
-    letters: ["D","E","S","E","N"],
+    letters: ["İ","Ş","L","E","M","P"],
     mainWords: [
-      { word: 'DESEN', meaning: 'Süsleme veya düzenli çizgi örüntüsü.', difficulty: 3 },
-      { word: 'SENE', meaning: 'Yıl anlamında kullanılan söz.', difficulty: 2 },
-      { word: 'ENSE', meaning: 'Boynun arka bölümü.', difficulty: 3 }
+      { word: 'İŞLEM', meaning: 'Bir sonuca ulaşmak için yapılan uygulama veya hesap.', difficulty: 3 },
+      { word: 'PİL', meaning: 'Kimyasal enerjiyi elektrik enerjisine dönüştüren güç kaynağı.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'SEN', meaning: 'Karşıdaki kişiyi gösteren söz.', reward: 12 },
-      { word: 'DENE', meaning: 'Bir şeyi sınamak için verilen kısa komut.', reward: 10 }
-    ],
-    reward: { baseCoin: 98, hiddenWordBonus: 12 },
+    hiddenWords: [],
+    reward: { baseCoin: 98, hiddenWordBonus: 0 },
   },
   {
     levelId: 36,
     themeId: 'nemrut_dawn',
     sealId: 'seal_nemrut_04',
-    story: 'Bir gözlemci, ışığın taşlara düşüşünü takip ederek saati güneşle okumayı öğrenir.',
-    puzzleType: 'crossword',
-    letters: ["I","Ş","I","K","A","S"],
+    puzzleType: 'anagram',
+    letters: ["B","İ","T","S","I","F","I","R"],
     mainWords: [
-      { word: 'IŞIK', meaning: 'Görmeyi sağlayan aydınlık.', difficulty: 2 },
-      { word: 'ASKI', meaning: 'Bir şeyi asmaya yarayan araç veya destek.', difficulty: 2 },
-      { word: 'KISA', meaning: 'Boyu veya süresi az olan.', difficulty: 2 }
+      { word: 'BİT', meaning: 'Bilgisayarda 0 ya da 1 değerini alabilen ikili veri basamağı.', difficulty: 3 },
+      { word: 'SIFIR', meaning: 'İkili sayı sisteminde 1 ile birlikte kullanılan iki değerden biri.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'ISI', meaning: 'Sıcaklık enerjisi.', reward: 12 }
-    ],
-    reward: { baseCoin: 100, hiddenWordBonus: 12 },
+    hiddenWords: [],
+    reward: { baseCoin: 100, hiddenWordBonus: 0 },
   },
   {
     levelId: 37,
     themeId: 'blacksea_highland',
     sealId: 'seal_blacksea_04',
-    story: 'Bir yolcu, dağ yollarını işaretleyerek kendinden sonra gelenlerin korkusunu azaltır.',
     puzzleType: 'crossword',
-    letters: ["O","L","A","Y","N","C"],
+    letters: ["D","N","A","G","E","N"],
     mainWords: [
-      { word: 'OLAY', meaning: 'Ortaya çıkan durum veya gerçekleşen iş.', difficulty: 2 },
-      { word: 'ONAY', meaning: 'Bir olguyu doğrulama, tasdik etme.', difficulty: 2 },
-      { word: 'YOL', meaning: 'Ulaşım için kullanılan güzergah.', difficulty: 1 },
-      { word: 'YONCA', meaning: 'Yonca bitkisi, dört yapraklı şans sembolü.', difficulty: 3 }
+      { word: 'DNA', meaning: 'Canlıların kalıtsal bilgisini taşıyan molekülün kısa adı.', difficulty: 2 },
+      { word: 'GEN', meaning: 'Kalıtsal bilgi taşıyan DNA bölümü; özelliklerin oluşmasına katkı sağlar.', difficulty: 3 },
     ],
-    hiddenWords: [
-      { word: 'OYA', meaning: 'İnce işçilikle yapılan süsleme.', reward: 12 },
-      { word: 'YAN', meaning: 'Bir şeyin ön ve arka dışında kalan tarafı.', reward: 10 },
-      { word: 'OYNA', meaning: 'Eğlenmek veya vakit geçirmek amacıyla bir şeyle uğraşmak.', reward: 10 },
-      { word: 'CAN', meaning: 'Yaşamı sağlayan güç, hayat.', reward: 10 }
-    ],
-    reward: { baseCoin: 101, hiddenWordBonus: 13 },
+    hiddenWords: [],
+    reward: { baseCoin: 101, hiddenWordBonus: 0 },
   },
   {
     levelId: 38,
     themeId: 'old_istanbul',
     sealId: 'seal_istanbul_08',
-    story: 'Bir saatçi, zamanın ölçülmesinin insanlara sözlerinde durma gücü verdiğini fark eder.',
     puzzleType: 'anagram',
-    letters: ["S","A","A","T","E","R"],
+    letters: ["S","A","A","T","E","R","Y"],
     mainWords: [
-      { word: 'SAAT', meaning: 'Zamanı gösteren araç.', difficulty: 2 },
-      { word: 'SERT', meaning: 'Kolay bükülmeyen veya katı olan.', difficulty: 3 },
-      { word: 'TERAS', meaning: 'Bir binanın üstünde ya da önünde bulunan açık alan.', difficulty: 3 },
+      { word: 'SAAT', meaning: 'Zamanı gösteren araç veya zaman ölçüsü.', difficulty: 2 },
+      { word: 'AY', meaning: 'Dünya’nın çevresinde dolanan doğal uydu.', difficulty: 1 },
     ],
-    hiddenWords: [
-      { word: 'TERS', meaning: 'Düz olmayan veya karşıt yönde olan.', reward: 13 },
-      { word: 'ARSA', meaning: 'Üzerine yapı yapılabilecek toprak parçası.', reward: 10 },
-      { word: 'RAST', meaning: 'Rastlantı; denk gelme.', reward: 5 }
-    ],
-    reward: { baseCoin: 103, hiddenWordBonus: 14 },
+    hiddenWords: [],
+    reward: { baseCoin: 103, hiddenWordBonus: 0 },
   },
   {
     levelId: 39,
-    themeId: 'cappadocia',
-    sealId: 'seal_cappadocia_06',
-    story: 'Bir şifa arayıcısı, umudun insanları yeniden denemeye çağıran en güçlü duygu olduğunu anlatır.',
-    puzzleType: 'crossword',
-    letters: ["U","M","U","T","L","A"],
+    themeId: "cappadocia",
+    sealId: "seal_cappadocia_06",
+    puzzleType: "crossword",
+    letters: ["I", "Ş", "I", "K", "N"],
     mainWords: [
-      { word: 'UMUT', meaning: 'İyi bir sonuca inanma duygusu.', difficulty: 2 },
-      { word: 'MUTLU', meaning: 'Sevinçli ve huzurlu olan.', difficulty: 2 },
-      { word: 'TAM', meaning: 'Eksiksiz ve bütün olan.', difficulty: 2 },
-      { word: 'ALT', meaning: 'Bir şeyin alt kısmı, aşağısı.', difficulty: 2 }
+      { word: "IŞIK", meaning: "Görmeyi sağlayan aydınlık; lazer bu enerjiyi yoğun bir demette toplar.", difficulty: 2 },
+      { word: "IŞIN", meaning: "Işığın ilerlediği doğrultu veya ışık demeti.", difficulty: 2 },
     ],
-    hiddenWords: [
-      { word: 'AL', meaning: 'Kızıl, açık kırmızı renk tonu; al rengi.', reward: 10 },
-      { word: 'MAT', meaning: 'Satrançta yenilgi; parlak olmayan donuk yüzey.', reward: 12 },
-    ],
-    reward: { baseCoin: 106, hiddenWordBonus: 15 },
+    hiddenWords: [],
+    reward: { baseCoin: 106, hiddenWordBonus: 0 },
   },
   {
     levelId: 40,
     themeId: 'ege_coast',
     sealId: 'seal_ege_06',
-    story: 'Bir boya ustası, maviyi denizden ve gökten alarak uzak yolculukların hayalini canlandırır.',
-    puzzleType: 'crossword',
-    letters: ["M","A","V","İ","L","E"],
+    puzzleType: 'anagram',
+    letters: ["V","E","R","İ","A","Ğ"],
     mainWords: [
-      { word: 'MAVİ', meaning: 'Gökyüzü ve denizle anılan renk.', difficulty: 2 },
-      { word: 'AİLE', meaning: 'Birbirine akrabalıkla bağlı kişiler topluluğu.', difficulty: 2 },
-      { word: 'İVME', meaning: 'Hızlanma, bir hareketin hızının artması.', difficulty: 4 },
-      { word: 'VALİ', meaning: 'Bir ili yöneten en üst kamu görevlisi.', difficulty: 3 },
+      { word: 'VERİ', meaning: 'Bilgi veya ölçüm sonucu elde edilen değer.', difficulty: 2 },
+      { word: 'AĞ', meaning: 'Birbirine bağlı bilgisayarların veri iletişimi kurduğu sistem.', difficulty: 2 },
     ],
-    hiddenWords: [
-      { word: 'ELMA', meaning: 'Tatlı ve sulu bir meyve.', reward: 11 },
-      { word: 'VELİ', meaning: 'Bir çocuğun bakımından sorumlu kişi.', reward: 13 },
-    ],
-    reward: { baseCoin: 108, hiddenWordBonus: 12 },
+    hiddenWords: [],
+    reward: { baseCoin: 108, hiddenWordBonus: 0 },
   },
   {
     levelId: 41,
     themeId: 'anatolian_autumn',
     sealId: 'seal_anatolia_05',
-    story: 'Bir aktar, kokuların hafızayı uyandırdığını görüp insanlara bitkileri kokusuyla tanıtır.',
     puzzleType: 'crossword',
-    letters: ["K","O","K","U","L","A"],
+    letters: ["K","A","L","P","A","N"],
     mainWords: [
-      { word: 'KOKU', meaning: 'Burunla algılanan duyum.', difficulty: 2 },
-      { word: 'KOKLA', meaning: 'Kokusunu almak için burna yaklaştırmak.', difficulty: 3 },
-      { word: 'OKUL', meaning: 'Eğitim ve öğretim yeri.', difficulty: 2 },
-      { word: 'KOL', meaning: 'Omuzdan ele kadar uzanan bölüm.', difficulty: 2 }
+      { word: 'KALP', meaning: 'Kanı vücuda pompalayan organ.', difficulty: 2 },
+      { word: 'ALAN', meaning: 'Manyetik kuvvetin etkisinin bulunduğu bölge.', difficulty: 3 }
     ],
     hiddenWords: [
-      { word: 'KULAK', meaning: 'İşitmeye yarayan duyu organı.', reward: 13 },
-      { word: 'KOLA', meaning: 'Gazlı bir içecek; kumaş sertleştirici.', reward: 13 },
+      { word: 'KAN', meaning: 'Damarlar içinde dolaşıp vücuda oksijen taşıyan kırmızı sıvı.', reward: 12 }
     ],
-    reward: { baseCoin: 110, hiddenWordBonus: 14 },
+    reward: { baseCoin: 110, hiddenWordBonus: 12 },
   },
   {
     levelId: 42,
     themeId: 'ottoman_library',
     sealId: 'seal_library_05',
-    story: 'Bir şifreci, sır saklamanın bazen topluluğu koruduğunu bazen de merakı büyüttüğünü keşfeder.',
-    puzzleType: 'anagram',
-    letters: ["S","I","R","A"],
+    puzzleType: 'crossword',
+    letters: ["H","A","R","İ","T","A","Y","Y"],
     mainWords: [
-      { word: 'SIRA', meaning: 'Diziliş veya bekleme düzeni.', difficulty: 2 },
-      { word: 'SARI', meaning: 'Turuncu ile yeşil arasındaki renk; solgun veya rengi atmış.', difficulty: 2 },
-      { word: 'SIR', meaning: 'Gizli tutulan bilgi.', difficulty: 3 },
-      { word: 'ASIR', meaning: 'Yüzyıl anlamına gelen zaman dilimi.', difficulty: 4 }
+      { word: 'HARİTA', meaning: 'Yerleri ve konumları gösteren çizimli gösterim.', difficulty: 2 },
+      { word: 'YAYA', meaning: 'Yürüyerek giden kişi.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'ARI', meaning: 'Bal yapan, kanatlı küçük böcek.', reward: 13 }
-    ],
-    reward: { baseCoin: 111, hiddenWordBonus: 13 },
+    hiddenWords: [],
+    reward: { baseCoin: 111, hiddenWordBonus: 0 },
   },
   {
     levelId: 43,
     themeId: 'seljuk_courtyard',
     sealId: 'seal_seljuk_05',
-    story: 'Bir kadının adalet kararı, güçlünün değil haklının korunması gerektiğini tüm şehre duyurur.',
     puzzleType: 'crossword',
-    letters: ["A","D","A","L","E","T"],
+    letters: ["S","A","Y","F","A","B","Ğ"],
     mainWords: [
-      { word: 'ADALET', meaning: 'Hakkı gözetme ve doğruluk ilkesi.', difficulty: 2 },
-      { word: 'DAL', meaning: 'Ağacın veya bitkinin gövdesinden çıkan kol.', difficulty: 4 },
-      { word: 'ADET', meaning: 'Bir şeyin sayıca miktarı; tane.', difficulty: 2 }
+      { word: 'SAYFA', meaning: 'Web’de metin ve bağlantıların yer aldığı içerik bölümü.', difficulty: 2 },
+      { word: 'BAĞ', meaning: 'Web’de bir sayfadan başka birine geçiş sağlayan bağlantı.', difficulty: 3 }
     ],
-    hiddenWords: [
-      { word: 'ELA', meaning: 'Yeşile çalan açık kahverengi göz rengi.', reward: 13 },
-      { word: 'DELTA', meaning: 'Akarsuyun denize döküldüğü yerde oluşan üçgen ova.', reward: 14 },
-      { word: 'ALET', meaning: 'Bir işte kullanılan araç.', reward: 10 },
-    ],
-    reward: { baseCoin: 114, hiddenWordBonus: 15 },
+    hiddenWords: [],
+    reward: { baseCoin: 114, hiddenWordBonus: 0 },
   },
   {
     levelId: 44,
     themeId: 'nemrut_dawn',
     sealId: 'seal_nemrut_05',
-    story: 'Bir gökbilimci, zamanı ölçmek için gölgeleri izler ve takvim fikrine bir adım daha yaklaşır.',
     puzzleType: 'crossword',
-    letters: ["Z","A","M","A","N"],
+    letters: ["E","K","R","A","N","M","A"],
     mainWords: [
-      { word: 'ZAMAN', meaning: 'Olayların geçtiği süre.', difficulty: 2 },
-      { word: 'NAZ', meaning: 'Bir isteği hemen kabul etmeyip gönülsüzmüş gibi davranma biçimi.', difficulty: 3 },
-      { word: 'ZAM', meaning: 'Fiyata yapılan artış.', difficulty: 3 }
+      { word: 'EKRAN', meaning: 'Telefonun görüntü ve bilgileri gösteren yüzeyi.', difficulty: 2 },
+      { word: 'KAMERA', meaning: 'Fotoğraf veya video çekmeye yarayan aygıt.', difficulty: 2 }
     ],
-    hiddenWords: [
-      { word: 'ANA', meaning: 'Anne veya temel kaynak.', reward: 14 },
-      { word: 'MANA', meaning: 'Bir söz veya olayın anlattığı şey, anlam.', reward: 8 },
-      { word: 'AMAN', meaning: 'Acıma veya şaşkınlık bildiren söz; merhamet çağrısı.', reward: 10 }
-    ],
-    reward: { baseCoin: 115, hiddenWordBonus: 15 },
+    hiddenWords: [],
+    reward: { baseCoin: 115, hiddenWordBonus: 0 },
   },
   {
     levelId: 45,
     themeId: 'blacksea_highland',
     sealId: 'seal_blacksea_05',
-    story: 'Yaylada aniden kopan fırtına, çobanları obalarına çekilmek zorunda bırakır.',
     puzzleType: 'crossword',
-    letters: ["B","O","R","A","N"],
+    letters: ["B","O","R","A","Y","Y","L","A"],
     mainWords: [
       { word: 'BORA', meaning: 'Ani ve güçlü soğuk rüzgâr; kısa süreli şiddetli fırtına.', difficulty: 3 },
-      { word: 'ORAN', meaning: 'İki büyüklüğün birbirine göre durumu veya aralarındaki bağıntı.', difficulty: 3 }
+      { word: 'YAYLA', meaning: 'Dağlık bölgelerdeki yüksek, serin ve geniş düzlük.', difficulty: 2 }
     ],
     hiddenWords: [
-      { word: 'OBA', meaning: 'Göçebe çadır topluluğu veya geçici yerleşim birimi.', reward: 14 },
-      { word: 'BAR', meaning: 'Basınç birimi; ağır yük; toplantı veya eğlence mekânı.', reward: 12 },
-      { word: 'AN', meaning: 'Çok kısa zaman dilimi; şu an.', reward: 10 },
-      { word: 'NAR', meaning: 'İçi kırmızı taneli, ekşi-tatlı meyvesi olan ağaç ve bu ağacın meyvesi.', reward: 10 }
+      { word: 'OBA', meaning: 'Göçebe çadır topluluğu veya geçici yerleşim birimi.', reward: 14 }
     ],
     reward: { baseCoin: 117, hiddenWordBonus: 14 },
   }

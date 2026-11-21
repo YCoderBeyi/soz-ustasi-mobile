@@ -6,6 +6,7 @@ import { findBonusDictionaryWord } from '../game/bonusDictionary';
 import { levelDifficulty } from '../game/difficulty';
 import { normalizeWord } from '../game/normalize';
 import approvedWordData from '../../vault/07-Production/word-quality-v1/approved-words.json';
+import requiredTargetExclusions from '../../vault/07-Production/word-quality-v1/required-target-exclusions.json';
 
 export const FIRST_ENDLESS_LEVEL = 76;
 
@@ -14,6 +15,7 @@ type Recipe = { anchor: WordEntry; companion: WordEntry; hidden: WordEntry[]; le
 // The independent word-quality review is the single gate for required targets.
 // Bonus-dictionary membership alone is not enough to make a word a seal/star objective.
 const approvedWordSet = new Set(approvedWordData.words.map(normalizeWord));
+const excludedTargetSet = new Set(Object.keys(requiredTargetExclusions).map(normalizeWord));
 const easyWordSet = new Set(EASY_ENDLESS_WORDS.map(normalizeWord));
 const endlessWordOrder = new Map(
   [...EASY_ENDLESS_WORDS, ...approvedWordData.words.filter((word) => !easyWordSet.has(normalizeWord(word)))]
@@ -60,7 +62,7 @@ function buildReviewedWordBank(): WordEntry[] {
   }
   return [...byWord.values()].sort(
     (a, b) => (endlessWordOrder.get(normalizeWord(a.word)) ?? 0) - (endlessWordOrder.get(normalizeWord(b.word)) ?? 0),
-  );
+  ).filter((entry) => !excludedTargetSet.has(normalizeWord(entry.word)));
 }
 
 function buildRecipes(): Recipe[] {

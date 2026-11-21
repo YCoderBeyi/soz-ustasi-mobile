@@ -16,10 +16,10 @@ export const levelStories56to60: LevelStory[] = [
     era: '9. yüzyıl',
     place: 'Bağdat',
     title: 'Yazmaların Toplandığı Yer',
-    body: 'Abbasi dönemi Bağdat’ında hükümdar himayesi ve çeviri çevreleri, farklı dillerdeki bilim metinlerinin incelenmesini destekledi. Bu üretimi tek bir kurumun yürüttüğünü kesin biçimde söylemek güçtür.',
+    body: 'Abbasi dönemi Bağdat’ında hükümdar himayesi ve çeviri çevreleri, farklı dillerdeki bilim metinlerinin incelenmesini destekledi. Yazılı birikim, daha eski kil tabletlerden kitap biçimindeki yazmalara uzanan farklı taşıyıcılarda korundu; bu üretimi tek bir kurumun yürüttüğünü kesin biçimde söylemek güçtür.',
     impact: 'Kaynakları bir araya getirmek, araştırmacıların önceki çalışmaları karşılaştırmasına imkân verir.',
     today: 'Kütüphaneler ve dijital arşivler, bilgiye erişimi ve kaynakların korunmasını destekler.',
-    sourceNotes: ['https://www.journals.uchicago.edu/doi/full/10.1086/698236', 'https://wrap.warwick.ac.uk/id/eprint/38544/1/Vivarium-28-1_Vagelpohl.pdf'],
+    sourceNotes: ['https://www.journals.uchicago.edu/doi/full/10.1086/698236', 'https://wrap.warwick.ac.uk/id/eprint/38544/1/Vivarium-28-1_Vagelpohl.pdf', 'https://www.britishmuseum.org/sites/default/files/2019-09/Visit_Mesopotamia_KS2b.pdf'],
   },
   {
     levelId: 58,

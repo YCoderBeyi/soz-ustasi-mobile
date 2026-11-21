@@ -8,6 +8,8 @@ const bonusWords: WordEntry[] = [
   { word: 'AMA', meaning: 'Karşıt iki düşünceyi birbirine bağlayan söz.' },
   { word: 'SU', meaning: 'Canlıların yaşamı için gerekli saydam sıvı.' },
   { word: 'ŞU', meaning: 'Yakındaki veya gösterilen varlığı belirten söz.' },
+  { word: 'DENE', meaning: 'Bir şeyi sınamak için kullanılan kısa komut.' },
+  { word: 'SÜZ', meaning: 'Bir sıvıyı süzgeçten geçir.' },
   { word: 'ARK', meaning: 'Su taşımak için açılmış küçük kanal.' },
   { word: 'KREMA', meaning: 'Yemek ve tatlılarda kullanılan yoğun kıvamlı karışım.' },
   { word: 'DELİK', meaning: 'Bir yüzeyde bulunan açıklık veya oyuk.' },
