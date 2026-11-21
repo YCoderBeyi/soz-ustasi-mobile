@@ -7,18 +7,15 @@
   overflow: hidden;
   color: var(--anadolu-ivory);
   background:
-    radial-gradient(circle at 18% 0%, rgba(213, 173, 87, 0.14), transparent 42%),
-    linear-gradient(165deg, var(--anadolu-petrol) 0%, var(--anadolu-petrol-deep) 55%, #071612 100%);
+    radial-gradient(circle at 18% 0%, rgba(245, 232, 206, 0.14), transparent 42%),
+    linear-gradient(165deg, #2a6a5c 0%, #1a4a42 48%, var(--anadolu-petrol) 100%);
 }
 
 .shopSurface {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 80% 18%, rgba(191, 135, 68, 0.12), transparent 36%),
-    linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.28));
-  opacity: 0.95;
+  background: radial-gradient(circle at 80% 14%, rgba(213, 173, 87, 0.1), transparent 40%);
 }
 
 .shopHeader {
@@ -38,35 +35,6 @@
   font: 700 clamp(18px, 5.2vw, 22px)/1.2 Georgia, "Times New Roman", serif;
   text-align: center;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-}
-
-.shopWallet {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 72px;
-  min-height: var(--ui-touch-floor);
-  height: 34px;
-  padding: 0 10px 0 6px;
-  border: 1px solid var(--anadolu-border-strong);
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(245, 232, 206, 0.14), rgba(12, 40, 35, 0.92));
-  box-shadow: var(--anadolu-shadow-press), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
-
-.shopWallet img {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.4));
-}
-
-.shopWallet strong {
-  color: var(--anadolu-ivory);
-  font-size: 13px;
-  font-weight: 900;
-  line-height: 1;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .shopTabs {
@@ -312,6 +280,19 @@
   margin-top: 5px;
   color: var(--anadolu-gold-soft);
   font-size: 11px;
+  font-weight: 800;
+}
+
+.shopContextRewardCard {
+  border-color: rgba(213, 173, 87, 0.58);
+  background:
+    linear-gradient(180deg, rgba(213, 173, 87, 0.12), transparent 55%),
+    linear-gradient(180deg, rgba(19, 61, 54, 0.98), rgba(8, 28, 24, 0.99));
+}
+
+.shopContextRewardCard .shopRewardAction small {
+  color: var(--anadolu-gold-soft);
+  font-size: 10px;
   font-weight: 800;
 }
 

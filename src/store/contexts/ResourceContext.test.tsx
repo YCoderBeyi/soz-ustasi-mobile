@@ -1,12 +1,15 @@
 import { beforeEach, describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
+import { PersistenceProvider } from './PersistenceContext';
 import { ResourceProvider, useResource } from './ResourceContext';
 
 function wrapper({ children }: { children: React.ReactNode }) {
   return (
-    <ResourceProvider soundEnabled={false} soundVolume={80} hapticsEnabled={false}>
-      {children}
-    </ResourceProvider>
+    <PersistenceProvider>
+      <ResourceProvider soundEnabled={false} soundVolume={80} hapticsEnabled={false}>
+        {children}
+      </ResourceProvider>
+    </PersistenceProvider>
   );
 }
 

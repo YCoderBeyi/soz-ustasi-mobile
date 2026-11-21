@@ -20,6 +20,17 @@ export function SettingsScreen() {
         <h1>Ayarlar</h1><div className="settingsHeaderSpacer" />
       </header>
       <section className="settingsList">
+        <p className="settingsGroupLabel">Rahat oyun</p>
+        <button className="settingsItem" role="switch" aria-checked={calmMode} onClick={() => { play('tap'); setCalmMode(!calmMode); }}>
+          <span><strong>Sakin Mod</strong><small>Yanlış denemeler serini ve kusursuz hedefini bozmaz</small></span>
+          <i className={calmMode ? 'active' : ''}><b /></i>
+        </button>
+        <button className="settingsItem" role="switch" aria-checked={reduceMotion} onClick={() => setReduceMotion(!reduceMotion)}>
+          <span><strong>Hareketi Azalt</strong><small>Animasyonları ve hareketli efektleri azalt</small></span>
+          <i className={reduceMotion ? 'active' : ''} aria-hidden="true"><b /></i>
+        </button>
+
+        <p className="settingsGroupLabel">Ses ve dokunuş</p>
         <button
           className="settingsItem"
           role="switch"
@@ -71,16 +82,10 @@ export function SettingsScreen() {
           <span><strong>Dokunsal Geri Bildirim</strong><small>Dokunuşlarda titreşim kullan</small></span>
           <i className={hapticsEnabled ? 'active' : ''}><b /></i>
         </button>
-        <button className="settingsItem" role="switch" aria-checked={calmMode} onClick={() => { play('tap'); setCalmMode(!calmMode); }}>
-          <span><strong>Sakin Mod</strong><small>Yanlış denemeler serini ve kusursuz hedefini bozmaz</small></span>
-          <i className={calmMode ? 'active' : ''}><b /></i>
-        </button>
-        <button className="settingsItem" role="switch" aria-checked={reduceMotion} onClick={() => setReduceMotion(!reduceMotion)}>
-          <span><strong>Hareketi Azalt</strong><small>Animasyonları ve hareketli efektleri azalt</small></span>
-          <i className={reduceMotion ? 'active' : ''} aria-hidden="true"><b /></i>
-        </button>
+
+        <p className="settingsGroupLabel">Gizlilik</p>
         <button className="settingsItem" onClick={() => { play('tap'); void showAdPrivacyOptions(); }}>
-          <span><strong>Reklam Gizlilik Tercihleri</strong><small>Google reklam gizlilik seçeneklerini yönet</small></span>
+          <span><strong>Reklam Gizlilik Tercihleri</strong><small>İsteğe bağlıdır; Google seçeneklerini yönet</small></span>
           <b aria-hidden="true">›</b>
         </button>
         <div className="settingsAbout"><span>Sürüm</span><strong>Söz Ustası {__APP_VERSION__}</strong></div>

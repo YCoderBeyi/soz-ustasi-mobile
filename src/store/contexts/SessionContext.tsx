@@ -20,6 +20,7 @@ import {
 } from '../../game/score';
 import { buildCrosswordLayout, type CrosswordLayout } from '../../game/crossword';
 import { getLastAdFailureDetail, showRewardedAd } from '../../services/admob';
+import { FEEDBACK_DURATION_MS } from '../../game/feedbackTiming';
 
 type Modal = 'level' | 'hint' | 'pause' | 'privacy' | 'reward' | 'secondChance' | null;
 
@@ -326,7 +327,7 @@ export function SessionProvider({
       clearSelection();
       startTimer();
       cleanup.safeTimeout(() => setMeaning(null), MEANING_VISIBLE_MS);
-      cleanup.safeTimeout(() => setFeedback(null), 600);
+      cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.correct);
       return;
     }
 
@@ -357,7 +358,7 @@ export function SessionProvider({
       haptic([30, 50, 30]);
       clearSelection();
       cleanup.safeTimeout(() => setMeaning(null), MEANING_VISIBLE_MS);
-      cleanup.safeTimeout(() => setFeedback(null), 600);
+      cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.hidden);
       cleanup.safeTimeout(() => setToast(''), 2200);
       return;
     }
@@ -371,7 +372,7 @@ export function SessionProvider({
       setToast(`${normalized} · zaten bulundu`);
       play('tap');
       clearSelection();
-      cleanup.safeTimeout(() => setFeedback(null), 700);
+      cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.neutral);
       cleanup.safeTimeout(() => setToast(''), 2200);
       return;
     }
@@ -407,7 +408,7 @@ export function SessionProvider({
       clearSelection();
       startTimer();
       cleanup.safeTimeout(() => setMeaning(null), MEANING_VISIBLE_MS);
-      cleanup.safeTimeout(() => setFeedback(null), 600);
+      cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.hidden);
       cleanup.safeTimeout(() => setToast(''), 2200);
       return;
     }
@@ -419,7 +420,7 @@ export function SessionProvider({
       setToast(`${normalized} · listemizde yok, seri korundu`);
       play('tap');
       clearSelection();
-      cleanup.safeTimeout(() => setFeedback(null), 700);
+      cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.neutral);
       cleanup.safeTimeout(() => setToast(''), 2200);
       return;
     }
@@ -429,7 +430,7 @@ export function SessionProvider({
       setToast('Bu kelimeyi daha sonra tekrar deneyebilirsin');
       play('tap');
       clearSelection();
-      cleanup.safeTimeout(() => setFeedback(null), 700);
+      cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.neutral);
       cleanup.safeTimeout(() => setToast(''), 2200);
       return;
     }
@@ -442,7 +443,7 @@ export function SessionProvider({
     setFeedback('wrong');
     haptic(100);
     clearSelection();
-    cleanup.safeTimeout(() => setFeedback(null), 600);
+    cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.wrong);
   }, [
     level, found, hiddenFound, bonusFound, streak, wrongAttempts, calmMode, cleanup, play, haptic, theme,
     clearSelection, addCollectedWord, addCoins, isWordRewarded, markWordRewarded, countRewardedBonus,
@@ -519,7 +520,7 @@ export function SessionProvider({
     play('hint');
     setModal(null);
     cleanup.safeTimeout(() => setMeaning(null), 6000);
-    cleanup.safeTimeout(() => setFeedback(null), 700);
+    cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.hint);
   }, [cleanup, play]);
 
   const revealMeaningHint = useCallback(() => {
@@ -597,7 +598,7 @@ export function SessionProvider({
     setFeedback('hint');
     play('hint');
     setModal(null);
-    cleanup.safeTimeout(() => setFeedback(null), 700);
+    cleanup.safeTimeout(() => setFeedback(null), FEEDBACK_DURATION_MS.hint);
     cleanup.safeTimeout(() => setToast(''), 1800);
   }, [level, found, revealedLetters, cleanup, play, addCollectedWord]);
 

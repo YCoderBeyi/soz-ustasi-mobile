@@ -1,10 +1,24 @@
 .onboarding {
   display: grid;
-  grid-template-rows: auto auto 24px 56px;
+  grid-template-rows: auto auto 24px auto auto;
   align-content: start;
   gap: 14px;
   text-align: center;
   overflow-y: auto;
+}
+
+.onboarding .themeBackdrop {
+  background:
+    linear-gradient(180deg, rgba(8, 16, 32, 0.05) 0%, rgba(8, 16, 32, 0.18) 42%, rgba(8, 16, 32, 0.48) 100%),
+    radial-gradient(circle at 50% 22%, rgba(255, 224, 163, 0.16), transparent 38%),
+    var(--theme-bg);
+}
+
+.onboarding .themeBackdrop::after {
+  content: '';
+  background:
+    linear-gradient(90deg, rgba(8, 13, 24, 0.1), transparent 24%, transparent 76%, rgba(8, 13, 24, 0.1)),
+    linear-gradient(180deg, transparent 0 42%, rgba(255, 255, 255, 0.18) 42% 74%, rgba(8, 13, 24, 0.18) 100%);
 }
 
 .onboardNavigation {
@@ -29,7 +43,7 @@
   color: #f0e4c7;
 }
 .onboardNavigation button:focus-visible,
-.onboarding .btn3d:focus-visible {
+.onboarding .premiumPrimaryButton:focus-visible {
   outline: 3px solid #76e3d5;
   outline-offset: 3px;
 }
@@ -60,13 +74,13 @@
   min-height: 280px;
   overflow: hidden;
   border-radius: 18px;
-  border: 1px solid rgba(241, 201, 106, 0.08);
+  border: 1px solid rgba(241, 201, 106, 0.3);
   background:
     radial-gradient(circle at 50% 20%, rgba(241, 201, 106, 0.16), transparent 30%),
     radial-gradient(circle at 50% 42%, rgba(241, 201, 106, 0.18), transparent 32%),
     radial-gradient(circle at 18% 20%, rgba(47, 156, 200, 0.2), transparent 24%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-  backdrop-filter: blur(10px);
+    linear-gradient(180deg, rgba(226, 242, 239, 0.22), rgba(188, 220, 215, 0.1));
+  backdrop-filter: blur(8px);
   box-shadow:
     0 28px 60px rgba(0, 0, 0, 0.24),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -103,15 +117,22 @@
 
 .demoPath {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  inset: 0;
   z-index: 0;
-  width: min(100%, 220px);
-  height: 4px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(241, 201, 106, 0.3), rgba(241, 201, 106, 0.88), rgba(241, 201, 106, 0.3));
-  transform: translate(-50%, -50%);
-  animation: demoTrace 2.4s ease-in-out infinite;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.demoPath path {
+  fill: none;
+  stroke: #e8b94f;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px rgba(72, 208, 198, 0.65));
+  animation: demoTrailIn 360ms ease-out both;
 }
 
 .demoBank {
@@ -120,60 +141,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  height: 64px;
+  width: min(100%, 270px);
+  height: calc(60px * var(--ui-scale));
+  gap: calc(8px * var(--ui-scale));
   margin: 0;
-  padding: 0 20px;
+  padding: 0 4px;
   background: none;
 }
 
 .demoLetterNode {
   position: relative;
   z-index: 1;
-  width: 52px;
-  height: 52px;
+  flex: 0 0 calc(56px * var(--ui-scale));
+  width: calc(56px * var(--ui-scale));
+  height: calc(56px * var(--ui-scale));
   display: grid;
   place-items: center;
   animation: demoLetterFloat 2.8s ease-in-out infinite;
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 180ms ease;
 }
 
-.demoLetterBg {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
+.demoLetterNode.isSelected {
+  transform: translateY(-4px) scale(1.08);
+  filter: drop-shadow(0 0 10px rgba(72, 208, 198, 0.72));
 }
 
-.demoLetterChar {
-  position: relative;
-  z-index: 1;
-  font-size: 20px;
-  font-weight: 900;
-  color: #2b1e13;
-}
-
-.demoLetter0 {
-  background: linear-gradient(180deg, rgba(241, 201, 106, 0.4), rgba(241, 201, 106, 0.15));
-  border: 1px solid rgba(241, 201, 106, 0.5);
-}
-.demoLetter1 {
-  background: linear-gradient(180deg, rgba(241, 201, 106, 0.6), rgba(241, 201, 106, 0.25));
-  border: 1px solid rgba(241, 201, 106, 0.7);
-  animation-delay: 110ms;
-}
-.demoLetter2 {
-  background: linear-gradient(180deg, rgba(241, 201, 106, 0.85), rgba(241, 201, 106, 0.4));
-  border: 1px solid #d9a441;
-  animation-delay: 220ms;
-}
-
-.demoLetter:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: -10px;
-  width: 10px;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(241, 201, 106, 0.6), rgba(241, 201, 106, 0.2));
+.demoLetterNode.isSelected .wheelLetterBg {
+  filter: drop-shadow(0 0 10px rgba(72, 208, 198, 0.76)) drop-shadow(0 4px 5px rgba(0, 0, 0, 0.28));
 }
 
 .demoResult {
@@ -184,11 +178,10 @@
   min-width: 132px;
   padding: 10px 16px;
   border-radius: 14px;
-  background:
-    linear-gradient(180deg, rgba(7, 11, 18, 0.78), rgba(7, 11, 18, 0.58)),
-    rgba(7, 11, 18, 0.72);
-  border: 1px solid rgba(241, 201, 106, 0.18);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(180deg, rgba(24, 67, 73, 0.9), rgba(15, 48, 59, 0.88));
+  border: 1px solid rgba(241, 201, 106, 0.42);
+  box-shadow: 0 5px 16px rgba(4, 19, 27, 0.24), inset 0 1px rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(7px);
 }
 
 .demoResult span {
@@ -250,3 +243,49 @@
   width: 28px;
   background: linear-gradient(90deg, #4cc38a, #f1c96a);
 }
+
+.onboardingContinue {
+  width: min(100%, 380px);
+  margin: 0 auto;
+}
+
+.onboardingContinue > span {
+  font-size: clamp(16px, 4.8vw, 20px);
+}
+
+@keyframes demoTrailIn {
+  from { opacity: 0.2; stroke-dasharray: 1 240; }
+  to { opacity: 1; stroke-dasharray: 240 0; }
+}
+
+@media (max-height: 640px) {
+  .onboarding {
+    grid-template-rows: 202px auto 20px auto auto;
+    gap: 8px;
+  }
+
+  .onboardStage {
+    min-height: 202px;
+    gap: 8px;
+    padding: 10px 8px;
+  }
+
+  .onboardSeal { width: 58px; height: 56px; font-size: 28px; }
+  .demoBank { height: calc(52px * var(--ui-scale)); }
+  .demoResult { min-width: 120px; padding: 7px 12px; }
+  .demoResult strong { font-size: 22px; }
+  .onboardCopy { gap: 4px; }
+  .onboardCopy h1 { font-size: clamp(25px, 8vw, 32px); }
+  .onboardCopy > p:last-child { font-size: 14px; line-height: 1.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demoLetterNode,
+  .demoPath path { animation: none; }
+  .demoLetterNode { transition: none; }
+}
+
+html.reduce-motion .demoLetterNode,
+html.reduce-motion .demoPath path { animation: none; }
+
+html.reduce-motion .demoLetterNode { transition: none; }

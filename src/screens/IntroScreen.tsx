@@ -1,5 +1,5 @@
 import { useGame } from '../store/GameContext';
-import { Button3D } from '../components/Button3D';
+import { PremiumPrimaryButton } from '../components/PremiumPrimaryButton';
 import '../styles/intro.css';
 import '../styles/seal.css';
 import { WaxSeal } from '../components/WaxSeal';
@@ -20,9 +20,9 @@ export function IntroScreen() {
         <p className="introSubtitle">Kelimelerin mührünü aç</p>
         <FiligreeDivider className="introDivider" />
         <div className="introActionArea">
-          <Button3D variant="gold" onClick={() => { play('tap'); setScreen('map'); }}>
+          <PremiumPrimaryButton size="compact" onClick={() => { play('tap'); setScreen('map'); }}>
             MACERAYA BAŞLA
-          </Button3D>
+          </PremiumPrimaryButton>
         </div>
       </div>
     </main>

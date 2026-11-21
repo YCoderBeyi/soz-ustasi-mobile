@@ -24,6 +24,18 @@ type PersistenceState = {
   hapticsEnabled: boolean;
   reduceMotion: boolean;
   calmMode: boolean;
+  resources: ResourceSaveSlice;
+};
+
+/** Resource slice of PlayerSave — written only through Persistence (SSOT). */
+export type ResourceSaveSlice = {
+  coins: number;
+  hintsRemaining: number;
+  doublerRemaining: number;
+  freeHintNext: boolean;
+  ownedShopItems: string[];
+  selectedThemeId: string | null;
+  selectedSealId: string | null;
 };
 
 type PersistenceActions = {
@@ -45,6 +57,8 @@ type PersistenceActions = {
   /** Records the run and returns the best score stored before it (0 when none). */
   updateStats: (levelId: number, time: number, streak: number, score?: number) => number;
   claimDailyReward: () => void;
+  /** Atomic in-memory update; this context owns persistence for the resource slice too. */
+  updateResources: (updater: (current: ResourceSaveSlice) => ResourceSaveSlice) => ResourceSaveSlice;
 };
 
 type PersistenceContextValue = PersistenceState & PersistenceActions;
@@ -58,7 +72,7 @@ export function usePersistence() {
 }
 
 export function PersistenceProvider({ children }: { children: ReactNode }) {
-  const save = loadPlayerSave();
+  const [save] = useState(loadPlayerSave);
   const [currentLevelId, setCurrentLevelId] = useState(save.currentLevelId);
   const [completedLevels, setCompletedLevels] = useState<number[]>(save.completedLevels);
   const [awardedLevels, setAwardedLevels] = useState<number[]>(save.awardedLevels);
@@ -71,6 +85,25 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
   const [hapticsEnabled, setHapticsEnabled] = useState(save.hapticsEnabled);
   const [reduceMotion, setReduceMotion] = useState(save.reduceMotion);
   const [calmMode, setCalmMode] = useState(save.calmMode);
+  const [resources, setResources] = useState<ResourceSaveSlice>(() => ({
+    coins: save.coins,
+    hintsRemaining: save.hintsRemaining,
+    doublerRemaining: save.doublerRemaining,
+    freeHintNext: save.freeHintNext,
+    ownedShopItems: save.ownedShopItems,
+    selectedThemeId: save.selectedThemeId,
+    selectedSealId: save.selectedSealId,
+  }));
+  const resourcesRef = useRef(resources);
+  const updateResources = useCallback((updater: (current: ResourceSaveSlice) => ResourceSaveSlice) => {
+    const current = resourcesRef.current;
+    const next = updater(current);
+    if (next !== current) {
+      resourcesRef.current = next;
+      setResources(next);
+    }
+    return next;
+  }, []);
   // levelStats are read from the migrated player save (loadPlayerSave already
   // merges + removes the legacy soz-stats-v1 key). Reading via loadLevelStats()
   // here returned {} on every restart because the legacy key was already gone,
@@ -87,14 +120,15 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
     return getDailyChallenge(eligibleLevelIds);
   });
 
+  // This is the sole PlayerSave writer for progression, preferences and resources.
   useEffect(() => {
     persistPlayerSave({
-      ...loadPlayerSave(), version: CURRENT_SAVE_VERSION, currentLevelId, completedLevels, awardedLevels, rewardedWordKeys,
+      ...loadPlayerSave(), ...resources, version: CURRENT_SAVE_VERSION, currentLevelId, completedLevels, awardedLevels, rewardedWordKeys,
       collectedWords: collectedWords.map((w) => w.word), favoriteWords,
       soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, levelMastery, levelStats,
     });
   }, [completedLevels, awardedLevels, rewardedWordKeys, levelMastery, collectedWords, favoriteWords,
-      currentLevelId, soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, levelStats]);
+      currentLevelId, soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, levelStats, resources]);
 
   const isLevelUnlocked = useCallback((candidate: LevelData) => {
     if (candidate.levelId === 1) return true;
@@ -162,13 +196,14 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
 
   const value: PersistenceContextValue = {
     currentLevelId, completedLevels, awardedLevels, rewardedWordKeys, levelMastery,
-    collectedWords, favoriteWords, levelStats, dailyChallenge,
+    collectedWords, favoriteWords, levelStats, dailyChallenge, resources,
     soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode,
     setCurrentLevelId, isLevelUnlocked, markLevelCompleted, markLevelAwarded,
     markWordRewarded, isWordRewarded, countRewardedBonus,
     mergeMastery, addCollectedWord, toggleFavorite,
     setSoundEnabled, setSoundVolume, setHapticsEnabled, setReduceMotion, setCalmMode, updateStats,
     claimDailyReward: claimDailyRewardImpl,
+    updateResources,
   };
 
   return (

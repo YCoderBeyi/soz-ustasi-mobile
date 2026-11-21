@@ -3,7 +3,7 @@ import { useGame } from '../store/GameContext';
 import { OBJECTIVE_KEYS, chooseBestMastery, getObjectiveLabels } from '../game/objectives';
 import { getLevelStory } from '../data/levelStories';
 import { Modal } from './Modal';
-import { Button3D } from './Button3D';
+import { PremiumPrimaryButton } from './PremiumPrimaryButton';
 import { MAX_LEVEL_ID } from '../data/endlessLevels';
 import type { LevelData } from '../types';
 
@@ -142,13 +142,13 @@ export function RewardModal() {
       <p className="rewardChoiceNote">İstediğin yolu seç — ikisi de eşit geçerli.</p>
       <div className="rewardActions rewardActionsSticky">
         {!isFinal && (
-          <Button3D variant="green" className="rewardCta" onClick={advance}>
+          <PremiumPrimaryButton size="compact" className="rewardCta" onClick={advance}>
             Sonraki Seviye
-          </Button3D>
+          </PremiumPrimaryButton>
         )}
-        <Button3D variant="green" className="rewardCta rewardCta--map" onClick={closeReward}>
+        <PremiumPrimaryButton size="compact" variant="secondary" className="rewardCta rewardCta--map" onClick={closeReward}>
           Haritaya Dön
-        </Button3D>
+        </PremiumPrimaryButton>
       </div>
     </Modal>
   );

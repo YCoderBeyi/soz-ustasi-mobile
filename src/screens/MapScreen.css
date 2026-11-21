@@ -182,26 +182,24 @@
   }
 
   .map-topbar-avatar { width: 50px; height: 50px; }
-  .map-resource-pill { min-width: 64px; height: 30px; padding: 0 8px 0 5px; }
-  .map-resource-icon { width: 24px; height: 24px; }
   .map-topbar-title { font-size: 12px; }
 
   .map-daily-card {
     top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px) + 74px);
-    width: calc(100% - 20px);
-    gap: 8px;
-    padding-inline: 10px;
+    left: 10px;
+    width: 176px;
+    min-height: 40px;
+    transform: none;
+    display: grid;
+    align-content: center;
+    justify-content: start;
+    gap: 2px;
+    padding: 4px 8px;
+    border-radius: 12px;
   }
 
-  .map-daily-card span { font-size: 0.62rem; }
-  .map-daily-card strong { font-size: 0.7rem; }
-}
-
-.map-resource-value {
-  font-size: 13px;
-  font-weight: 800;
-  color: #f4e6c8;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  .map-daily-card span { font-size: 0.58rem; }
+  .map-daily-card strong { font-size: 0.64rem; }
 }
 
 .map-journey {
@@ -226,13 +224,13 @@
 
 .map-stage .level-node.level-node {
   z-index: 4;
-  width: max(var(--ui-touch-floor), calc(var(--k, 0.1) * 100cqw));
-  height: max(var(--ui-touch-floor), calc(var(--k, 0.1) * 100cqw));
+  width: max(52px, calc(var(--k, 0.1) * 112cqw));
+  height: max(52px, calc(var(--k, 0.1) * 112cqw));
 }
 
 .map-stage .level-node--active.level-node--active {
-  width: max(52px, calc(var(--k, 0.1) * 115cqw));
-  height: max(52px, calc(var(--k, 0.1) * 115cqw));
+  width: max(62px, calc(var(--k, 0.1) * 128cqw));
+  height: max(62px, calc(var(--k, 0.1) * 128cqw));
 }
 
 
@@ -257,13 +255,37 @@
 .map-theme-dots::-webkit-scrollbar-thumb { background: rgba(216, 171, 69, .72); border-radius: 999px; }
 
 @media (max-height: 640px) {
-  /* Keep node centered on the stone pad; only tuck the caption on short screens. */
-  .map-stage .level-node--active .level-node__label {
-    top: calc(100% + 2px);
-    font-size: 9px;
-    padding: 2px 6px;
+  /* Reserve a clean touch row below the active level node on short phones. */
+  .map-stage .level-node--active .level-node__label { display: none; }
+  .map-theme-dots {
+    bottom: 88px;
+    height: var(--ui-touch-floor);
+    left: 12px;
+    width: calc(100% - 124px);
+    transform: none;
+    overflow-y: hidden;
+    scrollbar-width: none;
   }
-  .map-mastery { bottom: 84px; }
+  .map-theme-dots::-webkit-scrollbar { display: none; }
+  .map-screen--premium .map-mastery {
+    right: 12px;
+    bottom: 88px;
+    left: auto;
+    width: 92px;
+    height: var(--ui-touch-floor);
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1px;
+    padding: 2px 4px;
+    transform: none;
+  }
+  .map-screen--premium .map-mastery-label,
+  .map-screen--premium .map-mastery-value {
+    font-size: 9px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
 }
 
 .map-dot {
@@ -310,6 +332,8 @@
   cursor: not-allowed;
 }
 
+.map-dot:disabled { pointer-events: none; }
+
 .map-dot--locked::before {
   opacity: 0.5;
 }
@@ -347,4 +371,100 @@
   font-size: 11px;
   font-weight: 800;
   color: var(--anadolu-gold);
+}
+
+/* Map screen theme and glass surfaces. */
+.map-screen--premium {
+  background: var(--anadolu-petrol-deep);
+  color: var(--anadolu-ivory);
+}
+
+.map-screen__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Bottom grade only — keeps path clear (no fog). */
+  background: linear-gradient(180deg, transparent 72%, rgba(8, 28, 24, 0.22) 100%);
+  overflow: hidden;
+}
+
+.map-screen__veil::before {
+  content: '';
+  position: absolute;
+  inset: -10% -22%;
+  background:
+    linear-gradient(118deg, transparent 42%, rgba(255, 236, 180, 0.08) 50%, transparent 58%),
+    radial-gradient(ellipse at 74% 10%, rgba(213, 173, 87, 0.08), transparent 42%);
+  mix-blend-mode: soft-light;
+  animation: premiumSheen var(--brand-motion-duration) ease-in-out infinite;
+  pointer-events: none;
+}
+
+.map-screen__veil::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 6%, rgba(242, 207, 119, 0.05), transparent 34%);
+  animation: premiumBloom 16s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.map-screen--premium .map-topbar,
+.map-screen--premium .map-daily-card,
+.map-screen--premium .map-mastery {
+  backdrop-filter: blur(12px);
+}
+
+.map-screen--premium .map-topbar {
+  border-color: var(--anadolu-border);
+  background:
+    radial-gradient(circle at 22% 0%, rgba(213, 173, 87, 0.12), transparent 36%),
+    linear-gradient(180deg, rgba(19, 61, 54, 0.9), rgba(12, 40, 35, 0.92));
+  box-shadow: var(--anadolu-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.map-screen--premium .map-topbar::before {
+  border-color: rgba(255, 244, 214, 0.08);
+}
+
+.map-screen--premium .map-topbar-title,
+.map-screen--premium .map-daily-card strong,
+.map-screen--premium .map-mastery-value {
+  color: var(--brand-text);
+}
+
+.map-screen--premium .map-topbar-subtitle,
+.map-screen--premium .map-mastery-label {
+  color: var(--brand-text-muted);
+}
+
+.map-screen--premium .map-daily-card {
+  border-color: var(--brand-border-strong);
+  background:
+    radial-gradient(circle at 15% 50%, rgba(242, 207, 119, 0.12), transparent 22%),
+    linear-gradient(135deg, rgba(31, 45, 70, 0.96), rgba(25, 18, 23, 0.94));
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+}
+
+.map-screen--premium .map-daily-card span,
+.map-screen--premium .map-resource-value {
+  color: var(--brand-gold-soft);
+}
+
+.map-screen--premium .map-daily-card--done {
+  border-color: rgba(76, 195, 138, 0.5);
+  background:
+    radial-gradient(circle at 15% 50%, rgba(76, 195, 138, 0.12), transparent 22%),
+    linear-gradient(135deg, rgba(24, 52, 53, 0.94), rgba(13, 28, 31, 0.96));
+}
+
+.map-screen--premium .map-resource-pill {
+  border-color: var(--brand-border);
+  background: linear-gradient(180deg, rgba(28, 48, 68, 0.96), rgba(10, 18, 30, 0.98));
+  box-shadow: 0 3px 0 rgba(2, 13, 21, 0.78);
+}
+
+.map-screen--premium .map-journey {
+  z-index: 2;
 }

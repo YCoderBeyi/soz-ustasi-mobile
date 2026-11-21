@@ -3,6 +3,7 @@ import { useGame } from '../../store/GameContext';
 import { getTheme } from '../../data/themes';
 import { getLevelStory } from '../../data/levelStories';
 import { OBJECTIVE_KEYS, getObjectiveLabels } from '../../game/objectives';
+import { PremiumPrimaryButton } from '../PremiumPrimaryButton';
 import './LevelStartScreen.css';
 
 const ASSETS = '/assets/level-start';
@@ -149,11 +150,9 @@ export function LevelStartScreen() {
           ))}
         </div>
 
-        <button type="button" className="ls-play" onClick={handlePlay} disabled={launching} aria-busy={launching}>
-          <span className="ls-play-label">
+        <PremiumPrimaryButton type="button" size="compact" className="ls-play" onClick={handlePlay} disabled={launching} aria-busy={launching}>
             {launching ? 'HAZIRLANIYOR…' : mastery ? (mastery.stars < 3 ? 'EKSİK YILDIZLARI TAMAMLA' : 'TEKRAR OYNA') : 'OYNA'}
-          </span>
-        </button>
+        </PremiumPrimaryButton>
       </div>
     </main>
   );

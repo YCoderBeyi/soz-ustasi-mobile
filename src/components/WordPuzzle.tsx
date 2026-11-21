@@ -64,11 +64,11 @@ function WordPuzzleView({
     const key = `${placement.row}-${placement.col}`;
     if (!startNumbers.has(key)) startNumbers.set(key, index + 1);
   });
-  // The board uses the full panel width; the height budget grows with the extra room on tall phones.
+  // Keep letter cells large enough for crisp readable glyphs on dense boards (psych: competence via legibility).
   const fittedCellSize = Math.max(
-    16,
+    32,
     Math.min(
-      60,
+      80,
       Math.floor((room.w - (layout.colCount - 1) * BOARD_GAP.x) / layout.colCount),
       Math.floor((room.h - (layout.rowCount - 1) * BOARD_GAP.y) / layout.rowCount),
     ),

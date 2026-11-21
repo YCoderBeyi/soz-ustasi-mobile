@@ -32,8 +32,8 @@
   --ui-pill-h-compact: calc(58px * var(--ui-scale));
   --ui-action-h: calc(86px * var(--ui-scale));
   --ui-btn-h: calc(60px * var(--ui-scale));
-  --ui-letter: calc(72px * var(--ui-scale));
-  --ui-word-tile: calc(60px * var(--ui-scale));
+  --ui-letter: calc(80px * var(--ui-scale));
+  --ui-word-tile: calc(68px * var(--ui-scale));
   --ui-tab-w: calc(172px * var(--ui-scale));
   --ui-tab-h: calc(52px * var(--ui-scale));
   --ui-shop-buy-w: calc(120px * var(--ui-scale));
@@ -60,8 +60,8 @@
   --splash-footer-bottom: calc(14px + var(--ui-safe-bottom));
 
   /* === Modern Anadolu (SSOT) — mobile game visual system === */
-  --anadolu-petrol: #133d36;
-  --anadolu-petrol-deep: #0c2823;
+  --anadolu-petrol: #19483f;
+  --anadolu-petrol-deep: #12332d;
   --anadolu-ivory: #f5e8ce;
   --anadolu-copper: #bf8744;
   --anadolu-burgundy: #6f3928;
@@ -75,6 +75,8 @@
   --anadolu-border-strong: rgba(213, 173, 87, 0.72);
   --anadolu-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --anadolu-ease-tap: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Motion SSOT: prefer these over hardcoded cubic-bezier in animation: rules. */
+  --anadolu-ease-motion: var(--anadolu-ease-tap);
   --anadolu-tap-ms: 140ms;
   --anadolu-transition-ms: 240ms;
   --space-1: 0.25rem;
@@ -86,13 +88,13 @@
   --space-8: 2rem;
 
   /* Warm premium atmosphere (legacy brand_* kept; gold/text bridge to Anadolu) */
-  --brand-bg: #0d1321;
-  --brand-surface: #162238;
-  --brand-surface-soft: #1f2d46;
+  --brand-bg: #142033;
+  --brand-surface: #20314a;
+  --brand-surface-soft: #2b3d56;
   --brand-gold: var(--anadolu-gold);
   --brand-gold-soft: var(--anadolu-gold-soft);
   --brand-bronze: var(--anadolu-copper);
-  --brand-stone: #2a3447;
+  --brand-stone: #35445a;
   --brand-text: #f4ecd8;
   --brand-text-muted: #c8b99a;
   --brand-shadow: var(--anadolu-shadow);
@@ -100,17 +102,17 @@
   --brand-border: var(--anadolu-border);
   --brand-border-strong: var(--anadolu-border-strong);
   --brand-surface-gradient:
-    linear-gradient(180deg, rgba(31, 45, 70, 0.96), rgba(13, 19, 33, 0.98));
+    linear-gradient(180deg, rgba(43, 61, 86, 0.96), rgba(20, 32, 51, 0.98));
   --brand-shell-gradient:
     radial-gradient(circle at 50% 8%, rgba(242, 207, 119, 0.12), transparent 30%),
     radial-gradient(circle at 18% 84%, rgba(168, 116, 45, 0.18), transparent 24%),
-    linear-gradient(160deg, #090f19 0%, #11192a 52%, #0d1321 100%);
+    linear-gradient(160deg, #121e30 0%, #1b2b42 52%, #142033 100%);
   --brand-motion-surface:
-    linear-gradient(115deg, transparent 0 30%, rgba(255, 244, 214, 0.08) 44%, transparent 58% 100%),
-    radial-gradient(circle at 50% 120%, rgba(216, 171, 69, 0.08), transparent 34%);
-  --brand-motion-duration: 8s;
+    linear-gradient(118deg, transparent 40%, rgba(255, 236, 180, 0.09) 50%, transparent 60%),
+    radial-gradient(ellipse at 72% 12%, rgba(213, 173, 87, 0.09), transparent 42%);
+  --brand-motion-duration: 18s;
 
-  --navy-950: #070b12;
+  --navy-950: #101a29;
   --navy-900: var(--brand-bg);
   --navy-800: var(--brand-surface);
   --gold-500: var(--brand-gold);
@@ -169,10 +171,12 @@ button {
   color: inherit;
   font: inherit;
   cursor: pointer;
+  transition: transform var(--anadolu-tap-ms) var(--anadolu-ease-tap), filter var(--anadolu-tap-ms) ease;
 }
 
-button:active {
-  transform: scale(0.94);
+button:active:not(.level-node) {
+  transform: translateY(1px) scale(0.985);
+  filter: brightness(0.97);
 }
 
 button:focus-visible,
@@ -183,6 +187,7 @@ summary:focus-visible {
   outline: 3px solid var(--brand-gold-soft, #f2cf77);
   outline-offset: 3px;
 }
+
 .screen {
   position: relative;
   isolation: isolate;
@@ -216,16 +221,17 @@ summary:focus-visible {
   z-index: 100;
 }
 
+/* Premium gold sheen (not fog): thin lacquer light over chrome screens. */
 .screen::after {
-  content: "";
+  content: '';
   position: absolute;
-  inset: 0;
+  inset: -12% -24%;
   z-index: 0;
-  background: var(--brand-motion-surface);
-  opacity: 0.52;
-  mix-blend-mode: screen;
   pointer-events: none;
-  animation: atmosphereSweep var(--brand-motion-duration) ease-in-out infinite;
+  background: var(--brand-motion-surface);
+  mix-blend-mode: soft-light;
+  opacity: 0.34;
+  animation: premiumSheen var(--brand-motion-duration) ease-in-out infinite;
 }
 
 .screen::before {
@@ -234,10 +240,21 @@ summary:focus-visible {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(circle at 50% 12%, rgba(242, 207, 119, 0.12), transparent 28%),
-    radial-gradient(circle at 12% 78%, rgba(244, 236, 216, 0.08), transparent 22%),
-    linear-gradient(180deg, transparent 58%, rgba(4, 7, 12, 0.62) 100%);
+    radial-gradient(circle at 50% 8%, rgba(213, 173, 87, 0.06), transparent 32%),
+    linear-gradient(180deg, transparent 74%, rgba(8, 28, 24, 0.16) 100%);
   pointer-events: none;
+  animation: premiumBloom 14s ease-in-out infinite;
+}
+
+/* Keep playfield / branded entry screens free of ambient motion layers. */
+.screen.game::before,
+.screen.game::after,
+.splash.screen::before,
+.splash.screen::after,
+.intro.screen::before,
+.intro.screen::after {
+  content: none;
+  animation: none;
 }
 
 .screen > * {
@@ -1239,4 +1256,36 @@ button.panel3d {
 
 .map-resource-gem {
   border-color: rgba(190, 122, 240, 0.42);
+}
+
+/* Coin wallet is one shared visual unit across map, puzzle, shop and headers. */
+.map-resource-coin:not(.map-resource-compact) {
+  min-width: 104px;
+  height: 38px;
+  gap: 8px;
+  padding-inline: 8px 11px;
+}
+
+.map-resource-coin:not(.map-resource-compact) .map-resource-icon {
+  width: 29px;
+  height: 29px;
+}
+
+.map-resource-coin:not(.map-resource-compact) .map-resource-value {
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 370px) {
+  .map-resource-coin:not(.map-resource-compact) {
+    min-width: 94px;
+    height: 36px;
+    gap: 6px;
+    padding-inline: 6px 9px;
+  }
+
+  .map-resource-coin:not(.map-resource-compact) .map-resource-icon {
+    width: 25px;
+    height: 25px;
+  }
 }

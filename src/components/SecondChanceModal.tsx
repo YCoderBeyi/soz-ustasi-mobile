@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useGame } from '../store/GameContext';
 import { Modal } from './Modal';
-import { Button3D } from './Button3D';
+import { PremiumPrimaryButton } from './PremiumPrimaryButton';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 
 export function SecondChanceModal() {
@@ -37,23 +37,24 @@ export function SecondChanceModal() {
         {adsLeft > 0 && ' İstersen isteğe bağlı reklamla bu turdaki serini ve kusursuz bonusunu koru.'}
       </p>
       <div className="modalCtaStack">
-        <Button3D
-          variant="green"
+        <PremiumPrimaryButton
+          size="compact"
           className="modalCta modalCta--primary"
           disabled={adPending}
           onClick={continueWithoutAd}
         >
           Reklamsız Devam Et
-        </Button3D>
+        </PremiumPrimaryButton>
         {adsLeft > 0 && (
-          <Button3D
-            variant="blue"
+          <PremiumPrimaryButton
+            size="compact"
+            variant="secondary"
             className="modalCta modalCta--secondary"
             disabled={adPending}
             onClick={() => { play('tap'); void watchAd(); }}
           >
             {adPending ? 'Reklam açılıyor…' : `Serimi Reklamla Koru (${adsLeft})`}
-          </Button3D>
+          </PremiumPrimaryButton>
         )}
       </div>
     </Modal>

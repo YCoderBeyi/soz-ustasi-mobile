@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import { useGame } from '../store/GameContext';
 import { PrivacyModal } from '../components/PrivacyModal';
+import { PremiumPrimaryButton } from '../components/PremiumPrimaryButton';
+import { SettingsAsset } from '../components/SettingsAsset';
 import './StartScreen3D.css';
 
 const KIT = '/assets/ui/start/kit';
 
 export function StartScreen3D() {
   const {
-    play, setScreen, setModal, setToast, toast, modal,
+    play, setScreen, setModal, modal,
     completedLevels, collectedWords,
   } = useGame();
+  const [progressNotice, setProgressNotice] = useState(false);
   const hasProgress = completedLevels.length > 0 || collectedWords.length > 0;
 
   const startGame = () => {
@@ -18,9 +22,7 @@ export function StartScreen3D() {
 
   const keepProgress = () => {
     play('tap');
-    setToast('İlerlemen bu cihazda saklanır.');
-    window.setTimeout(() => setToast(''), 2200);
-    if (hasProgress) setScreen('map');
+    setProgressNotice(true);
   };
 
   return (
@@ -42,14 +44,12 @@ export function StartScreen3D() {
         </header>
 
         <section className="start-actions">
-          <button type="button" className="start-cta start-cta--primary" onClick={startGame}>
-            <img src={`${KIT}/btn-primary.webp`} alt="" aria-hidden="true" />
-            <span>{hasProgress ? 'Devam Et' : 'Oyuna Başla'}</span>
-          </button>
-          <button type="button" className="start-cta start-cta--secondary" onClick={keepProgress}>
-            <img src={`${KIT}/btn-secondary.webp`} alt="" aria-hidden="true" />
-            <span>İlerlemeyi Koru</span>
-          </button>
+          <PremiumPrimaryButton className="start-cta start-cta--primary" onClick={startGame}>
+            {hasProgress ? 'Devam Et' : 'Oyuna Başla'}
+          </PremiumPrimaryButton>
+          <PremiumPrimaryButton variant="secondary" className="start-cta start-cta--secondary" onClick={keepProgress}>
+            {progressNotice ? 'İlerlemen bu cihazda saklanır' : 'İlerlemeyi Koru'}
+          </PremiumPrimaryButton>
 
           <div className="start-utilities" role="group" aria-label="Hızlı erişim">
             <button
@@ -58,7 +58,7 @@ export function StartScreen3D() {
               aria-label="Ayarlar"
               onClick={() => { play('tap'); setScreen('settings'); }}
             >
-              <img src={`${KIT}/icon-settings.webp`} alt="" />
+              <SettingsAsset />
             </button>
             <button
               type="button"
@@ -80,7 +80,6 @@ export function StartScreen3D() {
         </section>
       </div>
 
-      {toast ? <div className="start-toast" role="status">{toast}</div> : null}
       {modal === 'privacy' && <PrivacyModal />}
     </main>
   );

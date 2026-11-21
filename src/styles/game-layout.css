@@ -16,10 +16,15 @@
   height: min(var(--wheel-d), 84cqw);
 }
 .screen.gameRef .wheelLetter {
-  width: clamp(44px, calc(var(--wheel-d) * 0.185), 60px);
-  height: clamp(44px, calc(var(--wheel-d) * 0.185), 60px);
+  width: clamp(52px, calc(var(--wheel-d) * 0.22), 76px);
+  height: clamp(52px, calc(var(--wheel-d) * 0.22), 76px);
 }
-.screen.gameRef .wheelLetterChar { font-size: clamp(16px, calc(var(--wheel-d) * 0.075), 26px); }
+.screen.gameRef .wheelLetterChar {
+  font-size: clamp(20px, calc(var(--wheel-d) * 0.095), 34px);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  font-kerning: none;
+}
 .screen.gameRef .wheelControls { margin-top: 28px; }
 
 /* Sighted keyboard users must see the controls that currently own focus. */

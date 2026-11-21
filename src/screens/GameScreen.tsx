@@ -2,6 +2,7 @@ import '../styles/game.css';
 import '../styles/game-layout.css';
 import '../styles/topbar.css';
 import '../styles/seal.css';
+import '../styles/wheel-letter.css';
 import '../styles/modal.css';
 import type { CSSProperties } from 'react';
 import { useState, useRef, useCallback, useEffect } from 'react';
@@ -20,6 +21,7 @@ import { V2Icon } from '../components/Icon';
 import { FavButton } from '../components/FavButton';
 import { MeaningCard3D } from '../components/MeaningCard3D';
 import { letterCenterPercent } from '../game/wheelDrag';
+import { WheelLetterContents } from '../components/WheelLetterContents';
 import { useWheelGesture } from '../hooks/useWheelGesture';
 import { StreakBadge } from '../components/StreakBadge';
 import { ComboRing } from '../components/ComboRing';
@@ -27,7 +29,8 @@ import { CorrectTrail } from '../components/feedback/CorrectTrail';
 import { HiddenSparkle } from '../components/feedback/HiddenSparkle';
 import { skinEvolution, skinForLevel } from '../game/tileSkins';
 import { Modal } from '../components/Modal';
-import { Button3D } from '../components/Button3D';
+import { PremiumPrimaryButton } from '../components/PremiumPrimaryButton';
+import { SettingsAsset } from '../components/SettingsAsset';
 
 export function GameScreen() {
   const {
@@ -124,6 +127,7 @@ export function GameScreen() {
     <main
       key={levelTransitionKey}
       className="screen game gameRef"
+      data-feedback={feedback || undefined}
       style={{ '--accent': theme.primaryColor, '--theme-bg': `url(${theme.backgroundImage})` } as CSSProperties}
     >
       <div className="themeBackdrop" />
@@ -142,7 +146,7 @@ export function GameScreen() {
           className={`gameCoinPill ${coinPulse ? 'coinPulse' : ''}`}
         />
         <button className="svgBtn" onClick={() => { play('tap'); setModal('pause'); }} aria-label="Duraklatma ve oyun ayarları">
-          <V2Icon name="settings" />
+          <SettingsAsset />
         </button>
       </div>
 
@@ -298,12 +302,7 @@ export function GameScreen() {
                   style={{ left: `${pos.x}%`, top: `${pos.y}%`, transform: 'translate(-50%, -50%)' }}
                   aria-hidden="true"
                 >
-                  <img
-                    className="wheelLetterBg"
-                    src={`/assets/gameplay/wheel-v3/${displaySelected.includes(index) ? 'letter-selected' : 'letter'}.png`}
-                    alt=""
-                  />
-                  <span className="wheelLetterChar">{letter}</span>
+                  <WheelLetterContents letter={letter} selected={displaySelected.includes(index)} />
                 </div>
               );
             })}
@@ -364,33 +363,36 @@ export function GameScreen() {
       {modal === 'secondChance' && <SecondChanceModal />}
       {sealConfirmationOpen && (
         <Modal
-          title="Gizli Kelimeler Kaldı"
+          title="Gizli kelimeler kaldı"
           closeLabel="Aramaya devam et"
           onClose={() => setSealConfirmationOpen(false)}
         >
           <p>
             Bu seviyede keşfedilmeyi bekleyen {missingHiddenCount} gizli kelime var.
-            Şimdi mühürlersen bu turu 1 yıldızla tamamlarsın.
+            Kalan gizli kelimeleri atlayıp seviyeyi 1 yıldızla tamamlayabilirsin.
           </p>
           <div className="modalCtaStack">
-            <Button3D
-              variant="green"
-              className="modalCta modalCta--primary"
+            <PremiumPrimaryButton
+              type="button"
+              size="large"
+              className="sealChoiceButton"
               onClick={() => { play('tap'); setSealConfirmationOpen(false); }}
             >
-              Aramaya Devam Et
-            </Button3D>
-            <Button3D
-              variant="blue"
-              className="modalCta modalCta--secondary"
+              Gizli kelimeleri ara
+            </PremiumPrimaryButton>
+            <PremiumPrimaryButton
+              type="button"
+              size="large"
+              variant="secondary"
+              className="sealChoiceButton"
               onClick={() => {
                 play('tap');
                 setSealConfirmationOpen(false);
                 manualOpenSeal();
               }}
             >
-              Yine de Mühürle (1★)
-            </Button3D>
+              1 yıldızla tamamla
+            </PremiumPrimaryButton>
           </div>
         </Modal>
       )}

@@ -25,7 +25,7 @@
   right: 0;
   height: 28%;
   background:
-    linear-gradient(180deg, transparent 0%, rgba(11,18,32,0.4) 40%, rgba(11,18,32,0.85) 100%);
+    linear-gradient(180deg, transparent 0%, rgba(11,18,32,0.22) 50%, rgba(11,18,32,0.45) 100%);
 }
 
 .introSkyline::after {
@@ -95,9 +95,10 @@
 .introActionArea {
   margin-top: 24px;
   width: 100%;
-  max-width: 280px;
-  animation: softButtonBreath 2.4s ease-in-out infinite;
+  max-width: min(380px, 88vw);
 }
+
+.introActionArea .premiumPrimaryButton { --premium-button-height: 60px; }
 
 @keyframes introFadeIn {
   from { opacity: 0; transform: translateY(20px) scale(0.96); }
@@ -107,9 +108,4 @@
 @keyframes introSealFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
-}
-
-@keyframes softButtonBreath {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
 }

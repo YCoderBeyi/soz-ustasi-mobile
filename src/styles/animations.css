@@ -1,99 +1,89 @@
+/* Calm competence motion: short ease-out, no spring overshoot on frequent feedback. */
 @keyframes sealPulse {
-  50% { transform: scale(1.04) rotate(4deg); }
+  50% { transform: scale(1.02) rotate(1deg); }
 }
 
 @keyframes screenIn {
-  from { opacity: 0; transform: translateY(10px) scale(0.99); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: translateY(22px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes toastIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(12px) scale(0.96); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 @keyframes slotFill {
-  0% { transform: translateY(8px) scale(0.88); }
-  70% { transform: translateY(-2px) scale(1.08); }
-  100% { transform: translateY(0) scale(1); }
+  0% { transform: translateY(5px) scale(0.94); opacity: 0.72; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 @keyframes goldGlow {
-  0%, 100% { filter: brightness(1); }
-  45% { filter: brightness(1.35); }
+  0%, 100% { filter: brightness(1) saturate(1); }
+  40% { filter: brightness(1.22) saturate(1.08); }
 }
 
 @keyframes meaningReveal {
-  0% { clip-path: inset(12% 8% 12% 8% round 8px); }
+  0% { clip-path: inset(8% 6% 8% 6% round 8px); }
   100% { clip-path: inset(0 0 0 0 round 8px); }
 }
 
 @keyframes meaningCardSpring {
   0% {
     opacity: 0;
-    transform: translateY(40px) scale(0.85) rotate(-2deg);
-  }
-  40% {
-    opacity: 1;
-    transform: translateY(-8px) scale(1.03) rotate(0.5deg);
-  }
-  60% {
-    transform: translateY(3px) scale(0.99) rotate(-0.2deg);
-  }
-  80% {
-    transform: translateY(-1px) scale(1.005) rotate(0deg);
+    transform: translateY(16px) scale(0.97);
   }
   100% {
-    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes letterPick {
-  0% { transform: scale(0.86); filter: brightness(1); }
-  72% { transform: scale(1.13); filter: brightness(1.16); }
-  100% { transform: scale(1.04); filter: brightness(1.05); }
+  0% { transform: scale(0.94); filter: brightness(1); }
+  100% { transform: scale(1.03); filter: brightness(1.06); }
 }
 
 @keyframes wheelCorrect {
-  32% { transform: scale(1.025); box-shadow: 0 0 34px rgba(241, 201, 106, 0.3); }
-  100% { transform: scale(1); }
+  0% { transform: scale(1); box-shadow: 0 0 0 transparent; }
+  35% { transform: scale(1.025); box-shadow: 0 0 28px rgba(241, 201, 106, 0.32); }
+  100% { transform: scale(1); box-shadow: 0 0 0 transparent; }
 }
 
+/* Wrong = soft color cue, almost no shake (calm + clear). */
 @keyframes wheelWrong {
-  22% { transform: translateX(-5px); filter: saturate(0.82); }
-  48% { transform: translateX(4px); }
-  72% { transform: translateX(-2px); }
-  100% { transform: translateX(0); filter: saturate(1); }
+  0%, 100% { transform: translateX(0); filter: saturate(1); }
+  35% { transform: translateX(0); filter: saturate(0.78) brightness(0.96); }
 }
 
 @keyframes wheelHidden {
-  35% { transform: scale(1.045); box-shadow: 0 0 48px rgba(63, 191, 127, 0.32); }
-  70% { transform: scale(1.01); }
+  40% { transform: scale(1.02); box-shadow: 0 0 28px rgba(63, 191, 127, 0.28); }
+  100% { transform: scale(1); }
 }
 
 @keyframes wheelShuffle {
-  34% { transform: rotate(6deg) scale(0.985); }
-  68% { transform: rotate(-4deg) scale(1.01); }
+  40% { transform: rotate(3deg) scale(0.992); }
+  70% { transform: rotate(-2deg) scale(1.004); }
 }
 
 @keyframes wheelSeal {
-  42% { transform: scale(1.065); filter: brightness(1.24) saturate(1.12); box-shadow: 0 0 56px rgba(159, 45, 62, 0.36), 0 0 36px rgba(241, 201, 106, 0.2); }
-  76% { transform: scale(1.015); }
+  45% { transform: scale(1.03); filter: brightness(1.12) saturate(1.06); box-shadow: 0 0 36px rgba(159, 45, 62, 0.28), 0 0 22px rgba(241, 201, 106, 0.16); }
+  100% { transform: scale(1); }
 }
 
 @keyframes coinPulse {
-  35% { transform: scale(1.18) rotate(-1deg); filter: brightness(1.38); }
-  68% { transform: scale(0.98) rotate(1deg); }
+  40% { transform: scale(1.08); filter: brightness(1.16); }
+  100% { transform: scale(1); filter: brightness(1); }
 }
 
 @keyframes softButtonBreath {
-  0%, 100% { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); }
-  50% { box-shadow: 0 10px 24px rgba(217, 164, 65, 0.28); }
+  0%, 100% { box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22); }
+  50% { box-shadow: 0 9px 20px rgba(217, 164, 65, 0.18); }
 }
 
 @keyframes demoTrace {
@@ -129,6 +119,21 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  button { transition: none; }
+  button:active:not(.level-node) { transform: none; }
+
+  .correctTrail,
+  .correctBloom,
+  .hiddenSparkle,
+  .screen::before,
+  .screen::after,
+  .start-veil::before,
+  .start-veil::after,
+  .map-screen__veil::before,
+  .map-screen__veil::after {
+    display: none;
+    animation: none;
+  }
 }
 
 /* In-app "Hareketi Azalt" preference (mirrors the OS media query above so the
@@ -142,19 +147,47 @@
   scroll-behavior: auto !important;
 }
 
+.reduce-motion button { transition: none; }
+.reduce-motion button:active:not(.level-node) { transform: none; }
+
+.reduce-motion .correctTrail,
+.reduce-motion .correctBloom,
+.reduce-motion .hiddenSparkle,
+.reduce-motion .screen::before,
+.reduce-motion .screen::after,
+.reduce-motion .start-veil::before,
+.reduce-motion .start-veil::after,
+.reduce-motion .map-screen__veil::before,
+.reduce-motion .map-screen__veil::after {
+  display: none;
+  animation: none;
+}
+
 @keyframes demoLetterFloat {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
 
 @keyframes activeLevelPulse {
-  0%, 100% { opacity: 0.38; transform: scale(1); }
-  50% { opacity: 0.84; transform: scale(1.012); }
+  0%, 100% { opacity: 0.42; transform: scale(1); }
+  50% { opacity: 0.72; transform: scale(1.008); }
 }
 
+/* Legacy fog sweep kept only as a no-op alias — do not reintroduce mist. */
 @keyframes atmosphereSweep {
-  0%, 100% { transform: translateX(-18%) skewX(-8deg); opacity: 0.26; }
-  50% { transform: translateX(18%) skewX(-8deg); opacity: 0.5; }
+  0%, 100% { opacity: 0; }
+}
+
+/* Premium lacquer sheen: thin gold light, no haze / fog curtain. */
+@keyframes premiumSheen {
+  0% { transform: translate3d(-10%, -1%, 0) rotate(5deg); opacity: 0.18; }
+  50% { transform: translate3d(8%, 2%, 0) rotate(5deg); opacity: 0.34; }
+  100% { transform: translate3d(-10%, -1%, 0) rotate(5deg); opacity: 0.18; }
+}
+
+@keyframes premiumBloom {
+  0%, 100% { opacity: 0.22; transform: scale(1); }
+  50% { opacity: 0.38; transform: scale(1.02); }
 }
 
 @keyframes particleDrift {
@@ -168,41 +201,33 @@
 }
 
 @keyframes streakBadge {
-  0% { opacity: 0; transform: translateX(-50%) translateY(12px) scale(0.8); }
-  58% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.08); }
-  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  0% { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.92); filter: brightness(1.2); }
+  55% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.04); filter: brightness(1.12); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); filter: brightness(1); }
 }
 
 @keyframes progressCelebration {
-  35% { filter: brightness(1.6); box-shadow: 0 0 18px rgba(76, 195, 138, 0.7); }
-  100% { filter: brightness(1); }
-}
-
-@keyframes burstOut {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.25); }
-  18% { opacity: 1; }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.25); }
+  0% { filter: brightness(1); box-shadow: none; }
+  40% { filter: brightness(1.45); box-shadow: 0 0 16px rgba(76, 195, 138, 0.55); }
+  100% { filter: brightness(1); box-shadow: none; }
 }
 
 @keyframes sealOpen {
-  0% { opacity: 0; transform: translateX(-50%) scale(0.72) rotate(-5deg); filter: blur(2px) brightness(1.08); }
-  22% { opacity: 1; transform: translateX(-50%) scale(0.96) rotate(2deg); filter: blur(0) brightness(1.32); }
-  58% { opacity: 1; transform: translateX(-50%) scale(1.08) rotate(-1deg); box-shadow: 0 0 58px rgba(159, 45, 62, 0.56), 0 0 36px rgba(241, 201, 106, 0.32); }
-  100% { opacity: 0; transform: translateX(-50%) scale(1.18) rotate(2deg); filter: brightness(1.02); }
+  0% { opacity: 0; transform: translateX(-50%) scale(0.9); filter: brightness(1.04); }
+  35% { opacity: 1; transform: translateX(-50%) scale(1.02); filter: brightness(1.14); box-shadow: 0 0 36px rgba(159, 45, 62, 0.36), 0 0 22px rgba(241, 201, 106, 0.22); }
+  100% { opacity: 0; transform: translateX(-50%) scale(1.06); filter: brightness(1); }
 }
 
 @keyframes cellPulse {
   0%, 100% { border-color: rgba(241, 201, 106, 0.5); }
-  50% { border-color: rgba(241, 201, 106, 0.9); box-shadow: 0 0 12px rgba(241, 201, 106, 0.3); }
+  50% { border-color: rgba(241, 201, 106, 0.82); box-shadow: 0 0 8px rgba(241, 201, 106, 0.22); }
 }
 
+/* Wrong feedback: calm flash (no screen shake). */
 @keyframes shakeScreen {
-  0%, 100% { transform: translateX(0); }
-  15% { transform: translateX(-6px); }
-  30% { transform: translateX(5px); }
-  45% { transform: translateX(-4px); }
-  60% { transform: translateX(3px); }
-  75% { transform: translateX(-2px); }
+  0%, 100% { opacity: 0; background: rgba(217, 91, 91, 0); }
+  30% { opacity: 1; background: rgba(217, 91, 91, 0.12); }
+  100% { opacity: 0; background: rgba(217, 91, 91, 0); }
 }
 
 /* ===== Particle System ===== */
@@ -247,4 +272,134 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ===== Moved gameplay/map/tile keyframes (SSOT motion module) ===== */
+@keyframes correctTrailSweep {
+  0% { opacity: 0; transform: translate(-50%, -50%) scaleX(.18); }
+  28% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scaleX(1.05); }
+}
+
+@keyframes correctBloomPulse {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.55); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+@keyframes hiddenSparkleTwinkle {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.4) rotate(0deg); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.6) rotate(40deg); }
+}
+
+@keyframes storyIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes trailAppear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes overshootIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes meaningCardReveal {
+  from { opacity: 0; transform: translateY(14px); filter: brightness(1.2); }
+  55% { opacity: 1; transform: translateY(0); filter: brightness(1.08); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes sealBackdrop {
+  0% { opacity: 0; }
+  14%, 78% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes sealImpact {
+  0% { opacity: 0; transform: translateY(-120px) scale(.48) rotate(-10deg); filter: blur(3px) brightness(1.4); }
+  25% { opacity: 1; transform: translateY(9px) scale(1.08) rotate(2deg); filter: blur(0) brightness(1.2); }
+  42% { transform: translateY(0) scale(.98) rotate(-1deg); }
+  72% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.12); }
+}
+
+@keyframes sealShockwave {
+  0% { opacity: 0; transform: scale(.45); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: scale(2.15); border-width: 1px; }
+}
+
+@keyframes sealFlash {
+  0% { opacity: 0; transform: scale(.2); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: scale(5); }
+}
+
+@keyframes sealTitleReveal {
+  from { opacity: 0; transform: translateY(14px) scale(.9); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes tileResolve {
+  from { opacity: .4; transform: translateY(-8px) scale(.82); filter: brightness(1.5); }
+  70% { opacity: 1; transform: translateY(2px) scale(1.04); }
+  to { transform: none; filter: none; }
+}
+
+@keyframes tileCandidate {
+  50% { transform: scale(1.04); filter: drop-shadow(0 0 14px rgba(71,220,210,.85)); }
+}
+
+@keyframes rewardEmblemIn {
+  from { opacity: 0; transform: rotate(-14deg) scale(.45); }
+  70% { opacity: 1; transform: rotate(3deg) scale(1.08); }
+  to { transform: none; }
+}
+
+@keyframes rewardStarIn {
+  from { opacity: 0; transform: translateY(-18px) scale(.4) rotate(-15deg); }
+  75% { opacity: 1; transform: translateY(2px) scale(1.08) rotate(3deg); }
+  to { transform: none; }
+}
+
+@keyframes pulseGlowing {
+  from { filter: drop-shadow(0 0 8px var(--accent)); }
+  to { filter: drop-shadow(0 0 20px var(--accent)); }
+}
+
+@keyframes sealButtonPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1.08);
+    filter: drop-shadow(0 0 10px rgba(169, 39, 49, 0.7)) brightness(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    filter: drop-shadow(0 0 26px rgba(169, 39, 49, 1.0)) brightness(1.25);
+  }
+}
+
+@keyframes multiplierPop { from { transform: scale(1.18); } to { transform: scale(1); } }
+
+@keyframes previewPop { from { transform: translateY(-4px) scale(0.85); } to { transform: none; } }
+
+@keyframes stallOfferIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+@keyframes tileDrop {
+  from { transform: translateY(calc(var(--tile-depth) * -1.4)) scale(1.03); opacity: 0.55; }
+  to { transform: translateY(calc(var(--tile-depth) * -0.5)) scale(1); opacity: 1; }
+}
+
+@keyframes nextLabelBeckon {
+  0%, 100% { opacity: 0.82; border-color: rgba(242, 207, 119, 0.42); }
+  50% { opacity: 1; border-color: rgba(242, 207, 119, 0.78); }
+}
+
+@keyframes activeNodeGlow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.12) drop-shadow(0 0 10px rgba(242, 207, 119, 0.44)); }
 }

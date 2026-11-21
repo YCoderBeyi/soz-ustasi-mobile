@@ -6,12 +6,14 @@ import { CorrectTrail } from './CorrectTrail';
 afterEach(cleanup);
 
 describe('CorrectTrail', () => {
-  it('doğru kelimede ışık izini gösterir', () => {
+  it('doğru kelimede ışık izini ve yetkinlik bloom gösterir', () => {
     render(<CorrectTrail feedback="correct" reduceMotion={false} calmMode={false} />);
     const el = screen.getByTestId('correct-trail');
     expect(el.getAttribute('data-feedback-fx')).toBe('correct-trail');
     expect(el.getAttribute('aria-hidden')).toBe('true');
     expect(el.className).toContain('correctTrail');
+    const bloom = screen.getByTestId('correct-bloom');
+    expect(bloom.getAttribute('data-feedback-fx')).toBe('correct-bloom');
   });
 
   it('reduceMotion açıkken göstermez', () => {

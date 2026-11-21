@@ -1,3 +1,5 @@
+import './FeedbackFx.css';
+
 interface HiddenSparkleProps {
   feedback: string | null | undefined;
   reduceMotion: boolean;

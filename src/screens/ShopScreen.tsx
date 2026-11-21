@@ -3,6 +3,7 @@ import '../styles/shop.css';
 import { useGame } from '../store/GameContext';
 import { REWARDED_COIN_AMOUNT, shopItems } from '../data/shop';
 import { ActionIconButton } from '../components/ActionIconButton';
+import { ResourcePill } from '../components/ResourcePill';
 import { getLastAdFailureDetail, showRewardedInterstitialAd } from '../services/admob';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 import { DAILY_REWARDED_AD_LIMIT } from '../game/adBudget';
@@ -19,6 +20,11 @@ export function ShopScreen() {
   const adPendingRef = useRef(false);
   const adsLeft = useRewardedAdsLeftToday();
   const items = tab === 'coins' ? [] : shopItems.filter((item) => item.category === tab);
+  const affordableAfterAdItem = items
+    .filter((item) => item.price > coins
+      && item.price <= coins + REWARDED_COIN_AMOUNT
+      && (item.category === 'power_up' || !isItemOwned(item.id)))
+    .sort((left, right) => left.price - right.price)[0];
 
   const earnCoinsWithAd = async () => {
     if (adPendingRef.current || adsLeft < 1) return;
@@ -40,13 +46,33 @@ export function ShopScreen() {
     }
   };
 
+  const contextualCoinOffer = affordableAfterAdItem && adsLeft > 0 ? (
+    <article className="shopCard shopRewardCard shopContextRewardCard">
+      <div className="shopItemIcon shopRewardIcon" aria-hidden="true">🪙</div>
+      <div className="shopInfo">
+        <strong>{affordableAfterAdItem.name} için {affordableAfterAdItem.price - coins} altın eksik</strong>
+        <p>İstersen reklamı tamamlayıp {REWARDED_COIN_AMOUNT} altın kazanabilir, sonra ürünü kendin satın alabilirsin.</p>
+      </div>
+      <button
+        className="shopBuy shopRewardAction"
+        type="button"
+        disabled={adPending}
+        aria-busy={adPending}
+        onClick={() => { play('tap'); void earnCoinsWithAd(); }}
+      >
+        <strong>{adPending ? 'Açılıyor…' : 'Reklam izle'}</strong>
+        <small>+{REWARDED_COIN_AMOUNT} altın</small>
+      </button>
+    </article>
+  ) : null;
+
   return (
     <main className="screen shopScreen">
       <div className="shopSurface" aria-hidden="true" />
       <header className="shopHeader">
         <ActionIconButton icon="back" onClick={() => { play('tap'); setScreen('map'); }} ariaLabel="Geri" size="lg" />
         <h1>Mağaza</h1>
-        <div className="shopWallet"><img src="/assets/map/topbar-3d/topbar-coin.png" alt="" /><strong>{coins}</strong></div>
+        <ResourcePill type="coin" value={coins} />
       </header>
       <div className="shopTabs">
         <button className={tab === 'theme' ? 'active' : ''} aria-pressed={tab === 'theme'} onClick={() => setTab('theme')}>Temalar</button>
@@ -76,6 +102,7 @@ export function ShopScreen() {
         </div>
       ) : tab === 'power_up' ? (
         <div className="shopList">
+          {contextualCoinOffer}
           {items.map((item) => {
             const active = item.id === 'doubler' && doublerRemaining > 0;
             return (
@@ -100,6 +127,7 @@ export function ShopScreen() {
         </div>
       ) : (
       <div className="shopList">
+        {contextualCoinOffer}
         {items.map((item) => {
           const owned = isItemOwned(item.id);
           const selected = tab === 'theme' ? selectedThemeId === item.id : selectedSealId === item.id;

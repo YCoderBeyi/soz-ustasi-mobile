@@ -14,6 +14,7 @@ export function PauseModal() {
   return (
     <Modal title="Oyun Duraklatıldı" onClose={() => { play('tap'); setModal(null); }}>
       <div className="pauseMenu">
+        <p className="pauseAutonomyNote">İstediğin zaman dönebilirsin. Haritaya çıkınca ilerlemen korunur.</p>
         {action('Devam Et', 'Bulmacaya geri dön', 'primary', () => { play('tap'); setModal(null); })}
         <div className="pauseToggles">
           <button className={soundEnabled ? 'active' : ''} aria-pressed={soundEnabled} onClick={() => { play('tap'); setSoundEnabled(!soundEnabled); }}>

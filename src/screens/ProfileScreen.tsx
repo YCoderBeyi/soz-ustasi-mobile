@@ -1,9 +1,9 @@
 import '../styles/profile.css';
 import { useGame } from '../store/GameContext';
-import { V2Icon } from '../components/Icon';
 import { BottomNav } from '../components/ui/BottomNav';
 import { WaxSeal } from '../components/WaxSeal';
 import { ActionIconButton } from '../components/ActionIconButton';
+import { SettingsAsset } from '../components/SettingsAsset';
 
 export function ProfileScreen() {
   const { setScreen, play, coins, favoriteWords, completedLevels, levelStats = {} } = useGame();
@@ -67,7 +67,7 @@ export function ProfileScreen() {
 
         <div className="profileActions">
           <button className="profileAction" onClick={() => { play('tap'); setScreen('settings'); }}>
-            <span className="profileActionIcon profileActionIcon--settings"><V2Icon name="settings" /></span>
+            <span className="profileActionIcon profileActionIcon--settings"><SettingsAsset /></span>
             <span><strong>Ayarlar</strong><small>Ses ve oyun tercihleri</small></span>
             <b aria-hidden="true">›</b>
           </button>

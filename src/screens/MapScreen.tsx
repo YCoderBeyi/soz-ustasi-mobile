@@ -8,7 +8,6 @@ import { BottomNav } from '../components/ui/BottomNav';
 import { ResourcePill } from '../components/ResourcePill';
 import { hideMapBanner, isMapBannerVisible, showMapBanner, subscribeMapBannerState } from '../services/admob';
 import './MapScreen.css';
-import '../styles/map.css';
 
 // Level nodes live in the coordinate space of kapadokya-masal-haritasi (941x1672), not of the screen: x/y are
 // percentages of the image and k is the platform width as a fraction of the image width. The map stage reproduces
