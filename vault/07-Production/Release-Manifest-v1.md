@@ -1,7 +1,7 @@
 # Release Manifest
 
-- Version name: 1.2.9
-- Version code: 34
+- Version name: 1.2.10
+- Version code: 35
 - Track: Closed test, then production after eligibility
 - Data model: PlayerSave v3
 - Network access: Internet (AdMob)
@@ -11,8 +11,9 @@
 - Supported locale: tr-TR
 - Level catalog: 75 authored levels
 - Release owner: Yasar Derebasi
-- AAB SHA-256: E603C477315671CED3E0978288D0526EF5E7E00758376D000A2DFDB221A87D74
+- AAB SHA-256: E8C3D045E8E3B69B268B829700822DA068651DAE03299ADD022DAF9594562106
 - APK SHA-256: A031DD2A1CA9698A788941733B6547EE84CBF8D773D8CF211986CD35B38A3BA2
+- Artifact AAB: `artifacts/SozUstasi-1.2.10-release.aab`
 
 ## Play Games Services (lig) — ID doldurma
 
@@ -28,24 +29,17 @@ Play Console → Grow → Play Games Services → Setup / Leaderboards.
 
 ## Play Release Notes
 
-Söz Ustası 1.2.9:
-- Yeni Modern Anadolu karşılama ekranı: Kapadokya atmosferi, mühür ve net “Oyuna Başla / Devam Et” akışı.
-- Harita yenilendi: Kapadokya masal diyagramı; seviye noktaları taş pedlere hizalandı.
-- Daha sakin oyun geri bildirimi: doğru kelime izi, gizli kelime parıltısı ve mühür açılış dokunuşu.
-- Ödül ve ipucu pencerelerinde CTA’lar netleştirildi; “İlerlemeyi Koru” cihaz kaydını hatırlatır.
-- İsteğe bağlı ödüllü reklamla ipucu veya mağazada 30 altın kazan; ödüllü geçiş reklamı düzgün bağlandı.
-- 75. seviyeden sonra yeni bulmacalarla devam et; kişisel rekorlarını profilde gör.
-- Harita banner’ı oyun alanından ayrı; reklamı reddederek de oynamaya devam edebilirsin.
-- Sakin Mod, erişilebilirlik, kayıtlı ilerleme ve Android reklam kimliği uyumluluğu iyileştirildi.
-- Kullanılmayan görsel kaynaklar kurulum paketinden çıkarılarak indirme boyutu azaltıldı.
+Söz Ustası 1.2.10:
+- İçerik denetimi üç uzman ajana bölündü: seviyeler 1–25, 26–50 ve 51–75.
+- Yeni kelime adayları bağımsız incelemelerden geçirildi.
+- Tahta geri bildirimi: mühür baskısı, ipucu mist tonu ve sakin hedef kenarı.
+- İsteğe bağlı Play Games lig opt-in (haftalık puan / bölge yıldızı).
 
 ## Play Console (tr-TR, kısa)
 
 ```
-• Modern Anadolu karşılama ve Kapadokya haritası
-• Seviye noktaları taş pedlere hizalandı
-• Daha sakin kelime / mühür geri bildirimi
-• Ödül ve ipucu CTA’ları netleştirildi
-• Ödüllü reklam ve geçiş reklamı düzeltmeleri
-• 75 özgün seviye sonrası binlerce benzersiz üretim bulmacası, profil rekorları ve Sakin Mod
+• İçerik denetimi 1–25 / 26–50 / 51–75 ajan aralıkları
+• Yeni kelime adayları bağımsız incelemeden geçti
+• Mühür baskısı ve sakin tahta geri bildirimi
+• İsteğe bağlı Play Games ligi
 ```

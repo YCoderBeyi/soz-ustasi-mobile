@@ -26,9 +26,26 @@ export function LeaguePanel({
   const [available, setAvailable] = useState(false);
   const [weekly, setWeekly] = useState<LeagueStanding | null>(null);
   const [stars, setStars] = useState<LeagueStanding | null>(null);
+  const [openingBoard, setOpeningBoard] = useState<keyof typeof PLAY_GAMES_LEADERBOARDS | null>(null);
+  const [boardMessage, setBoardMessage] = useState('');
   const localStars = totalMasteryStars(levelMastery);
   const boardsReady = isLeaderboardConfigured(PLAY_GAMES_LEADERBOARDS.weeklyScore)
     && isLeaderboardConfigured(PLAY_GAMES_LEADERBOARDS.regionStars);
+
+  const openBoard = async (key: keyof typeof PLAY_GAMES_LEADERBOARDS) => {
+    if (openingBoard) return;
+    playTap();
+    setOpeningBoard(key);
+    setBoardMessage('');
+    try {
+      const opened = await showLeagueBoard(key);
+      if (!opened) setBoardMessage('Play Games girişi tamamlanamadı. Tekrar deneyebilir veya oyuna devam edebilirsin.');
+    } catch {
+      setBoardMessage('Sıralama açılamadı. Play Games bağlantını ve internetini kontrol edip tekrar dene.');
+    } finally {
+      setOpeningBoard(null);
+    }
+  };
 
   useEffect(() => {
     let alive = true;
@@ -83,19 +100,25 @@ export function LeaguePanel({
           <button
             type="button"
             className="profileLeagueBtn"
-            onClick={() => { playTap(); void showLeagueBoard('weeklyScore'); }}
+            onClick={() => void openBoard('weeklyScore')}
+            disabled={openingBoard !== null}
+            aria-busy={openingBoard === 'weeklyScore'}
           >
-            Haftalık lig
+            {openingBoard === 'weeklyScore' ? 'Açılıyor…' : 'Haftalık sıralama'}
           </button>
           <button
             type="button"
             className="profileLeagueBtn"
-            onClick={() => { playTap(); void showLeagueBoard('regionStars'); }}
+            onClick={() => void openBoard('regionStars')}
+            disabled={openingBoard !== null}
+            aria-busy={openingBoard === 'regionStars'}
           >
-            Yıldız ligi
+            {openingBoard === 'regionStars' ? 'Açılıyor…' : 'Yıldız sıralaması'}
           </button>
         </div>
       )}
+
+      {boardMessage && <p className="profileLeagueHint" role="status">{boardMessage}</p>}
 
       {leagueOptIn && available && !boardsReady && (
         <p className="profileLeagueHint">Play Console’da lig kimlikleri tanımlandığında sıralama açılır.</p>

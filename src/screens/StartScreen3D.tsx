@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { Capacitor } from '@capacitor/core';
 import { useGame } from '../store/GameContext';
 import { PrivacyModal } from '../components/PrivacyModal';
 import { PremiumPrimaryButton } from '../components/PremiumPrimaryButton';
 import { SettingsAsset } from '../components/SettingsAsset';
+import { ensurePlayGamesSignedIn } from '../services/playGames';
 import './StartScreen3D.css';
 
 const KIT = '/assets/ui/start/kit';
@@ -10,9 +12,10 @@ const KIT = '/assets/ui/start/kit';
 export function StartScreen3D() {
   const {
     play, setScreen, setModal, modal,
-    completedLevels, collectedWords,
+    completedLevels, collectedWords, leagueOptIn, setLeagueOptIn,
   } = useGame();
-  const [progressNotice, setProgressNotice] = useState(false);
+  const [leagueBusy, setLeagueBusy] = useState(false);
+  const [leagueNotice, setLeagueNotice] = useState('');
   const hasProgress = completedLevels.length > 0 || collectedWords.length > 0;
 
   const startGame = () => {
@@ -20,9 +23,27 @@ export function StartScreen3D() {
     setScreen(hasProgress ? 'map' : 'onboarding');
   };
 
-  const keepProgress = () => {
+  const openLeague = async () => {
     play('tap');
-    setProgressNotice(true);
+    if (Capacitor.getPlatform() !== 'android') {
+      setLeagueNotice('Play Games girişi Android uygulamasında kullanılabilir.');
+      return;
+    }
+    setLeagueBusy(true);
+    setLeagueNotice('');
+    try {
+      const signedIn = await ensurePlayGamesSignedIn(true);
+      if (!signedIn) {
+        setLeagueNotice('Giriş tamamlanmadı. Oyuna giriş yapmadan devam edebilirsin.');
+        return;
+      }
+      setLeagueOptIn(true);
+      setScreen('profile');
+    } catch {
+      setLeagueNotice('Şu an giriş yapılamadı. Daha sonra tekrar deneyebilirsin.');
+    } finally {
+      setLeagueBusy(false);
+    }
   };
 
   return (
@@ -47,9 +68,19 @@ export function StartScreen3D() {
           <PremiumPrimaryButton className="start-cta start-cta--primary" onClick={startGame}>
             {hasProgress ? 'Devam Et' : 'Oyuna Başla'}
           </PremiumPrimaryButton>
-          <PremiumPrimaryButton variant="secondary" className="start-cta start-cta--secondary" onClick={keepProgress}>
-            {progressNotice ? 'İlerlemen bu cihazda saklanır' : 'İlerlemeyi Koru'}
+          <PremiumPrimaryButton
+            variant="secondary"
+            className="start-cta start-cta--secondary"
+            onClick={() => void openLeague()}
+            disabled={leagueBusy}
+            aria-busy={leagueBusy}
+          >
+            {leagueBusy ? 'Bağlanıyor…' : leagueOptIn ? 'Lig skorlarını gör' : 'Play Games ile giriş yap'}
           </PremiumPrimaryButton>
+          {!leagueNotice && !leagueOptIn && (
+            <p className="start-league-hint">İsteğe bağlı: haftalık puan ve yıldız sıralamasına katıl.</p>
+          )}
+          {leagueNotice && <p className="start-league-notice" role="status">{leagueNotice}</p>}
 
           <div className="start-utilities" role="group" aria-label="Hızlı erişim">
             <button

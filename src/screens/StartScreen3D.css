@@ -181,6 +181,21 @@
   width: min(100%, 380px);
 }
 
+.start-league-hint,
+.start-league-notice {
+  max-width: min(100%, 380px);
+  margin: -6px 8px 0;
+  color: #fff8ea;
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+}
+
+.start-league-notice {
+  color: #ffe8ad;
+}
+
 .start-utilities {
   display: flex;
   gap: 14px;
@@ -235,6 +250,8 @@
   .start-divider { width: min(58vw, 190px); }
   .start-tagline { font-size: 14px; }
   .start-actions { gap: 5px; }
+  .start-league-hint,
+  .start-league-notice { font-size: 11px; }
   .start-actions > .premiumPrimaryButton { width: min(100%, 340px); }
   .start-utilities { gap: 10px; margin-top: 2px; }
   .start-util { width: 46px; height: 46px; }
