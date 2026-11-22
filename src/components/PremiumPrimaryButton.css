@@ -1,0 +1,149 @@
+.premiumPrimaryButton {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 380px);
+  aspect-ratio: 3 / 1;
+  flex: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #fff9ef;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 150ms ease;
+  animation: premiumButtonEnter 280ms cubic-bezier(.2,.8,.25,1) both;
+}
+
+.premiumPrimaryButton--secondary {
+  width: min(100%, 380px);
+  /* Asset is 720×240 — keep 3:1 so parchment art does not wash out. */
+  aspect-ratio: 3 / 1;
+  color: #342311;
+}
+
+.premiumPrimaryButton--compact {
+  width: 100%;
+  height: var(--premium-button-height, 56px);
+  min-height: var(--premium-button-height, 56px);
+  aspect-ratio: auto;
+  border-radius: 16px;
+}
+
+.premiumPrimaryButton > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(4, 20, 28, 0.34));
+  transition: filter 150ms ease;
+}
+
+.premiumPrimaryButton::after {
+  content: '';
+  position: absolute;
+  inset: 18% 12%;
+  border-radius: 999px;
+  background: linear-gradient(118deg, transparent 36%, rgba(255, 244, 214, 0.12) 50%, transparent 64%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  animation: premiumSheen 3.2s ease-in-out 120ms 1 both;
+}
+
+.premiumPrimaryButton--compact > img { object-fit: fill; }
+
+.premiumPrimaryButton > span {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  padding: 0 10%;
+  color: inherit;
+  font: 800 clamp(16px, 5vw, 22px)/1.1 Georgia, 'Times New Roman', serif;
+  letter-spacing: 0.03em;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.premiumPrimaryButton--secondary > span {
+  color: #342311;
+  font: 800 clamp(14px, 3.8vw, 16px)/1.1 Georgia, 'Times New Roman', serif;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .52);
+}
+
+.premiumPrimaryButton--compact > span {
+  padding-inline: 7%;
+  font-size: clamp(14px, 4vw, 17px);
+  letter-spacing: .02em;
+}
+
+@keyframes premiumButtonEnter {
+  from { opacity: 0; transform: translateY(7px) scale(.985); }
+  75% { opacity: 1; transform: translateY(-1px) scale(1.005); }
+  to { opacity: 1; transform: none; }
+}
+
+.premiumPrimaryButton--secondary { animation-delay: 70ms; }
+
+.premiumPrimaryButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+.premiumPrimaryButton:active:not(:disabled) {
+  transform: translateY(2px) scale(0.985);
+  filter: brightness(0.96);
+}
+
+.premiumPrimaryButton:focus-visible {
+  outline: 3px solid #8be4d5;
+  outline-offset: 2px;
+  border-radius: 28px;
+}
+
+.premiumPrimaryButton:disabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+  filter: saturate(0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premiumPrimaryButton,
+  .premiumPrimaryButton > img {
+    transition: none;
+  }
+
+  .premiumPrimaryButton {
+    animation: none;
+  }
+
+  .premiumPrimaryButton::after {
+    animation: none;
+  }
+
+  .premiumPrimaryButton:hover:not(:disabled),
+  .premiumPrimaryButton:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+html.reduce-motion .premiumPrimaryButton,
+html.reduce-motion .premiumPrimaryButton > img {
+  transition: none;
+}
+
+html.reduce-motion .premiumPrimaryButton {
+  animation: none;
+}
+
+html.reduce-motion .premiumPrimaryButton::after {
+  animation: none;
+}
+
+html.reduce-motion .premiumPrimaryButton:hover:not(:disabled),
+html.reduce-motion .premiumPrimaryButton:active:not(:disabled) {
+  transform: none;
+}

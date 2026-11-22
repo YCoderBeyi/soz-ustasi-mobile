@@ -1,0 +1,146 @@
+.level-node {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  transform: translate(-50%, -50%);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  z-index: 4;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.level-node::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(213, 173, 87, 0.16), transparent 66%);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.level-node:hover::before,
+.level-node:focus-visible::before {
+  opacity: 1;
+}
+
+.level-node__asset {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.38));
+}
+
+.level-node__number {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--brand-text);
+  font-size: 19px;
+  font-weight: 900;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+.level-node--active {
+  width: 74px;
+  height: 74px;
+  filter: drop-shadow(0 0 14px rgba(213, 173, 87, 0.46));
+}
+
+.level-node--active .level-node__asset {
+  animation: activeNodeGlow 1.75s ease-in-out infinite;
+}
+
+.level-node--future,
+.level-node--locked {
+  opacity: 0.78;
+  filter: saturate(0.84);
+}
+
+.level-node__badge {
+  position: absolute;
+  right: -2px;
+  bottom: -1px;
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+  pointer-events: none;
+}
+
+.level-node__label {
+  position: absolute;
+  left: 50%;
+  bottom: -13px;
+  transform: translateX(-50%);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(18, 27, 43, 0.94);
+  border: 1px solid rgba(242, 207, 119, 0.55);
+  color: var(--brand-text);
+  font-size: var(--ui-text-micro);
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 12px rgba(241, 201, 106, 0.22);
+  pointer-events: none;
+  /* Opacity-only beckon — no translate (vestibular-safe continuous cue). */
+  animation: nextLabelBeckon 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .level-node__label { animation: none; }
+}
+html.reduce-motion .level-node__label { animation: none; }
+
+.level-node:focus-visible {
+  outline: 3px solid var(--brand-gold-soft);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.level-node:active {
+  filter: brightness(1.15);
+  transform: translate(-50%, -50%) scale(0.94);
+}
+
+.level-node__stars {
+  position: absolute;
+  left: 50%;
+  bottom: -13px;
+  display: flex;
+  gap: 1px;
+  transform: translateX(-50%);
+  padding: 2px 5px;
+  border-radius: 8px;
+  background: rgba(13, 19, 33, 0.86);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+}
+
+.level-node__stars b {
+  color: #53656c;
+  font-size: 10px;
+  line-height: 1;
+  text-shadow: 0 1px 2px #000;
+}
+
+.level-node__stars b.earned {
+  color: #f4ce63;
+  text-shadow: 0 0 5px rgba(244, 206, 99, 0.65);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .level-node--active .level-node__asset {
+    animation: none;
+  }
+}
+
+html.reduce-motion .level-node--active .level-node__asset {
+  animation: none;
+}

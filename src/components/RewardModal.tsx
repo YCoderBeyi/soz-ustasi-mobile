@@ -1,0 +1,155 @@
+import { useRef } from 'react';
+import { useGame } from '../store/GameContext';
+import { OBJECTIVE_KEYS, chooseBestMastery, getObjectiveLabels } from '../game/objectives';
+import { getLevelStory } from '../data/levelStories';
+import { Modal } from './Modal';
+import { PremiumPrimaryButton } from './PremiumPrimaryButton';
+import { MAX_LEVEL_ID } from '../data/endlessLevels';
+import type { LevelData } from '../types';
+
+export function isFinalLevel(levelId: number, catalog?: LevelData[]): boolean {
+  return levelId === (catalog ? catalog.at(-1)?.levelId : MAX_LEVEL_ID);
+}
+
+type RewardItem = {
+  key: string;
+  icon: string;
+  label: string;
+  className: string;
+};
+
+export function RewardModal() {
+  const {
+    level, rewardSummary, scoreSummary, levelMastery, earnedObjectives,
+    goToNextLevel, play, setModal, setScreen,
+  } = useGame();
+  // Closing the reward summary returns to the map; only its named primary action
+  // advances, so X/Escape can never skip the next level.
+  const advancingRef = useRef(false);
+  const advance = () => {
+    if (advancingRef.current) return;
+    advancingRef.current = true;
+    play('tap');
+    goToNextLevel();
+  };
+  const closeReward = () => {
+    if (advancingRef.current) return;
+    advancingRef.current = true;
+    play('tap');
+    setModal(null);
+    setScreen('map');
+  };
+  const story = getLevelStory(level.levelId);
+  const objectiveLabels = getObjectiveLabels(level);
+  const mastery = levelMastery[level.levelId];
+  const displayedMastery = chooseBestMastery(mastery, earnedObjectives);
+  const isFinal = isFinalLevel(level.levelId);
+  const rewardItems: RewardItem[] = [
+    rewardSummary.base > 0 ? {
+      key: 'base',
+      icon: '/assets/reward/v2/coins.png',
+      label: `+${rewardSummary.base} ALTIN`,
+      className: '',
+    } : null,
+    rewardSummary.hidden > 0 ? {
+      key: 'hidden',
+      icon: '/assets/reward/v2/history.png',
+      label: `+${rewardSummary.hidden} GİZLİ BONUS`,
+      className: 'hiddenBonus',
+    } : null,
+    rewardSummary.region !== undefined && rewardSummary.region > 0 ? {
+      key: 'region',
+      icon: '/assets/reward/v2/star.png',
+      label: `+${rewardSummary.region} BÖLGE SANDIĞI`,
+      className: 'regionBonus',
+    } : null,
+    rewardSummary.flawless ? {
+      key: 'flawless',
+      icon: '/assets/reward/v2/star.png',
+      label: 'KUSURSUZ +%50',
+      className: 'flawlessBonus',
+    } : null,
+    rewardSummary.doubled ? {
+      key: 'doubler',
+      icon: '/assets/reward/v2/coins.png',
+      label: 'ALTIN KATLAYICI ×2',
+      className: 'doublerBonus',
+    } : null,
+  ].filter((item): item is RewardItem => item !== null);
+
+  return (
+    <Modal title="Mühür Açıldı!" onClose={closeReward}>
+      <div className="rewardModalBody">
+        <div className="rewardHero">
+          <img src="/assets/reward/v2/history.png" alt="" />
+          <div><span>YENİ KEŞİF</span><strong>{story.title}</strong></div>
+        </div>
+        <section className="rewardMastery" aria-label="Seviye ustalığı">
+          <div className="rewardStars3d" aria-label={`${displayedMastery.stars} yıldız`}>
+            {[1, 2, 3].map((star) => (
+              <img
+                key={star}
+                className={star <= displayedMastery.stars ? 'earned' : ''}
+                src="/assets/reward/v2/star.png"
+                alt=""
+              />
+            ))}
+          </div>
+          {OBJECTIVE_KEYS.map((key) => (
+            <p className={earnedObjectives.includes(key) ? 'earnedNow' : mastery?.objectives.includes(key) ? 'earnedBefore' : ''} key={key}>
+              <span>{displayedMastery.objectives.includes(key) ? '✓' : '○'}</span>{objectiveLabels[key]}
+            </p>
+          ))}
+        </section>
+        <section className="rewardScore" aria-label="Seviye puanı">
+          <span>PUAN</span>
+          <strong>{scoreSummary.score}</strong>
+          {scoreSummary.isRecord ? (
+            <small className="rewardScoreRecord">Yeni kişisel rekor! Önceki: {scoreSummary.previousBest}</small>
+          ) : scoreSummary.previousBest > 0 ? (
+            <small>En iyi: {scoreSummary.previousBest}</small>
+          ) : null}
+        </section>
+        {rewardItems.length > 0 ? (
+          <div className="rewardSummary3d">
+            {rewardItems.map((item) => (
+              <div key={item.key} className={`rewardItem3d ${item.className}`.trim()}>
+                <img src={item.icon} alt="" />
+                <strong>{item.label}</strong>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="modalWarning">Bu mühür daha önce ödüllendirildi.</p>
+        )}
+        <article className="rewardStory">
+          <div className="storyMeta"><span>{story.era}</span><span>{story.place}</span></div>
+          <p>{story.body}</p>
+          {story.impact && (
+            <p className="storyImpact"><b>Neden önemli?</b> {story.impact}</p>
+          )}
+          {story.today && (
+            <p className="storyToday"><b>Bugün nerede?</b> {story.today}</p>
+          )}
+          {story.person && (
+            <div className="storyPerson">
+              <small>Öne çıkan isim: <b>{story.person}</b></small>
+              {story.personInfo && <p>{story.personInfo}</p>}
+            </div>
+          )}
+        </article>
+      </div>
+      <p className="rewardChoiceNote">İstediğin yolu seç — ikisi de eşit geçerli.</p>
+      <div className="rewardActions rewardActionsSticky">
+        {!isFinal && (
+          <PremiumPrimaryButton size="compact" className="rewardCta" onClick={advance}>
+            Sonraki Seviye
+          </PremiumPrimaryButton>
+        )}
+        <PremiumPrimaryButton size="compact" variant="secondary" className="rewardCta rewardCta--map" onClick={closeReward}>
+          Haritaya Dön
+        </PremiumPrimaryButton>
+      </div>
+    </Modal>
+  );
+}

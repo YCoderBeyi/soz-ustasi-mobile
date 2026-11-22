@@ -1,0 +1,122 @@
+/**
+ * Harf çemberi yarıçapı — viewBox yüzdesi (50 merkez).
+ * Ring ve taş boyutu sabit olduğundan, harf sayısı arttıkça komşu harfler arası
+ * açısal aralık daralır. Bu yüzden yarıçap, harf çoğaldıkça KÜÇÜLMEZ, AÇILIR:
+ * böylece taşlar çembere yayılır, görsel binme ve hitbox çakışması önlenir.
+ * Üst sınır ~38 (taş yarı-genişliği ~%10 + yarıçap, %50 ring kenarını aşmamalı).
+ */
+export function wheelRadius(letterCount: number): number {
+  if (letterCount <= 5) return 36;
+  if (letterCount === 6) return 37;
+  return 38; // 7-8 harf: en geniş yayılım
+}
+
+export function letterAngle(index: number, letterCount: number): number {
+  return (index / letterCount) * Math.PI * 2 - Math.PI / 2;
+}
+
+export function letterCenterPercent(index: number, letterCount: number): { x: number; y: number } {
+  const radius = wheelRadius(letterCount);
+  const angle = letterAngle(index, letterCount);
+  return {
+    x: 50 + radius * Math.cos(angle),
+    y: 50 + radius * Math.sin(angle),
+  };
+}
+
+export function letterCenterPx(
+  ringRect: Pick<DOMRect, 'left' | 'top' | 'width' | 'height'>,
+  index: number,
+  letterCount: number,
+): { x: number; y: number } {
+  const pct = letterCenterPercent(index, letterCount);
+  return {
+    x: ringRect.left + (ringRect.width * pct.x) / 100,
+    y: ringRect.top + (ringRect.height * pct.y) / 100,
+  };
+}
+
+const HIT_SCALE = 0.62;
+const STICKY_SCALE = 0.78;
+
+export function wheelHitRadius(tilePx: number): number {
+  return tilePx * HIT_SCALE;
+}
+
+export function wheelStickyRadius(tilePx: number): number {
+  return tilePx * STICKY_SCALE;
+}
+
+/**
+ * Geometrik merkez + dar hitbox + yapışkan son harf.
+ * DOM rect yerine ring geometrisi kullanır — trail ile uyumlu.
+ */
+export function findWheelLetterAtPoint(
+  clientX: number,
+  clientY: number,
+  ringRect: Pick<DOMRect, 'left' | 'top' | 'width' | 'height'>,
+  letterCount: number,
+  tilePx: number,
+  lastIndex: number | null,
+): number | null {
+  if (letterCount <= 0 || tilePx <= 0) return null;
+
+  const hitR = wheelHitRadius(tilePx);
+  const stickyR = wheelStickyRadius(tilePx);
+
+  if (lastIndex !== null && lastIndex >= 0 && lastIndex < letterCount) {
+    const last = letterCenterPx(ringRect, lastIndex, letterCount);
+    if (Math.hypot(clientX - last.x, clientY - last.y) <= stickyR) {
+      return lastIndex;
+    }
+  }
+
+  let bestIndex: number | null = null;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (let i = 0; i < letterCount; i++) {
+    if (i === lastIndex) continue;
+    const center = letterCenterPx(ringRect, i, letterCount);
+    const distance = Math.hypot(clientX - center.x, clientY - center.y);
+    if (distance <= hitR && distance < bestDistance) {
+      bestIndex = i;
+      bestDistance = distance;
+    }
+  }
+
+  return bestIndex;
+}
+
+/**
+ * Letters crossed by a finger segment, in order. Touch events arrive in discrete samples, so a fast swipe can jump
+ * over a whole tile between two events; walking the segment in sub-tile steps means no letter is ever skipped.
+ */
+export function wheelLettersAlongSegment(
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  ringRect: Pick<DOMRect, 'left' | 'top' | 'width' | 'height'>,
+  letterCount: number,
+  tilePx: number,
+  lastIndex: number | null,
+): number[] {
+  const step = Math.max(4, wheelHitRadius(tilePx) / 2);
+  const steps = Math.max(1, Math.ceil(Math.hypot(to.x - from.x, to.y - from.y) / step));
+  const crossed: number[] = [];
+  let last = lastIndex;
+  for (let i = 1; i <= steps; i += 1) {
+    const t = i / steps;
+    const hit = findWheelLetterAtPoint(
+      from.x + (to.x - from.x) * t,
+      from.y + (to.y - from.y) * t,
+      ringRect,
+      letterCount,
+      tilePx,
+      last,
+    );
+    if (hit !== null && hit !== last) {
+      crossed.push(hit);
+      last = hit;
+    }
+  }
+  return crossed;
+}

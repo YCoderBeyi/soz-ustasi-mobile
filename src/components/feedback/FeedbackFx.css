@@ -1,0 +1,63 @@
+/* Feedback presentation — durations from FEEDBACK_DURATION_MS via installFeedbackDurationTokens. */
+.correctTrail {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  z-index: 4;
+  width: min(78vw, 300px);
+  height: 3px;
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scaleX(.18);
+  background: linear-gradient(90deg, transparent, rgba(255, 230, 160, .98), rgba(213, 173, 87, .7), transparent);
+  box-shadow: 0 0 16px 3px rgba(241, 201, 106, .5);
+  opacity: 0;
+  animation: correctTrailSweep var(--feedback-correct-duration, 600ms) var(--anadolu-ease-motion) both;
+}
+
+.correctBloom {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  z-index: 3;
+  width: min(72vw, 260px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(.55);
+  background: radial-gradient(circle, rgba(255, 220, 140, .28) 0%, rgba(213, 173, 87, .1) 42%, transparent 70%);
+  opacity: 0;
+  animation: correctBloomPulse var(--feedback-correct-duration, 600ms) var(--anadolu-ease-motion) both;
+}
+
+.hiddenSparkle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(.4);
+  background: rgba(200, 255, 225, .95);
+  box-shadow:
+    0 0 18px 6px rgba(63, 191, 127, .45),
+    0 -46px 0 -1px rgba(255, 244, 200, .95),
+    40px -24px 0 -2px rgba(63, 191, 127, .9),
+    44px 22px 0 -1px rgba(255, 244, 200, .9),
+    -2px 48px 0 -2px rgba(63, 191, 127, .9),
+    -42px 24px 0 -1px rgba(255, 244, 200, .9),
+    -42px -22px 0 -2px rgba(63, 191, 127, .9);
+  opacity: 0;
+  animation: hiddenSparkleTwinkle var(--feedback-hidden-duration, 760ms) ease-out both;
+}
+
+.shakeOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  animation: shakeScreen var(--feedback-wrong-duration, 600ms) ease both;
+}
+

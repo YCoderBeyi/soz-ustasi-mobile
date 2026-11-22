@@ -1,0 +1,362 @@
+.shopScreen {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  min-height: 100dvh;
+  padding: 0 !important;
+  overflow: hidden;
+  color: var(--anadolu-ivory);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(245, 232, 206, 0.14), transparent 42%),
+    linear-gradient(165deg, #2a6a5c 0%, #1a4a42 48%, var(--anadolu-petrol) 100%);
+}
+
+.shopSurface {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 80% 14%, rgba(213, 173, 87, 0.1), transparent 40%);
+}
+
+.shopHeader {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  align-items: center;
+  min-height: 68px;
+  gap: var(--space-2);
+  padding: max(28px, env(safe-area-inset-top)) 12px 6px;
+}
+
+.shopHeader h1 {
+  margin: 0;
+  color: var(--anadolu-ivory);
+  font: 700 clamp(18px, 5.2vw, 22px)/1.2 Georgia, "Times New Roman", serif;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.shopTabs {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  padding: 10px 14px 12px;
+  background: rgba(8, 28, 24, 0.55);
+  border-bottom: 1px solid var(--anadolu-border);
+}
+
+.shopTabs button {
+  min-height: max(var(--ui-tab-h), var(--ui-touch-floor));
+  border: 1px solid rgba(245, 232, 206, 0.22);
+  border-radius: var(--ui-radius-ctl);
+  background: linear-gradient(180deg, rgba(19, 61, 54, 0.95), rgba(12, 40, 35, 0.98));
+  color: var(--anadolu-mist);
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 0 rgba(4, 18, 15, 0.85);
+  transition: transform var(--anadolu-tap-ms) var(--anadolu-ease-tap), border-color var(--anadolu-transition-ms) ease;
+}
+
+.shopTabs button.active {
+  border-color: var(--anadolu-gold);
+  background: linear-gradient(180deg, #f0d9a0, var(--anadolu-copper));
+  color: var(--anadolu-ink);
+  box-shadow: 0 4px 0 #6a4a22;
+}
+
+.shopTabs button.shopCoinsTab:not(.active) {
+  border-color: rgba(213, 173, 87, 0.62);
+  color: var(--anadolu-gold-soft);
+  background: linear-gradient(180deg, rgba(91, 67, 34, 0.62), rgba(12, 40, 35, 0.98));
+}
+
+.shopTabs button:active {
+  transform: translateY(2px);
+}
+
+.shopList {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: 14px 16px calc(24px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.shopCard {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+  column-gap: 12px;
+  align-items: center;
+  min-height: 82px;
+  padding: 10px;
+  border: 1px solid var(--anadolu-border);
+  border-radius: var(--ui-radius-card);
+  background:
+    linear-gradient(180deg, rgba(245, 232, 206, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(19, 61, 54, 0.96), rgba(8, 28, 24, 0.98));
+  box-shadow: 0 5px 0 rgba(4, 18, 15, 0.9), var(--anadolu-shadow), inset 0 1px rgba(255, 255, 255, 0.1);
+  transition: border-color var(--anadolu-transition-ms) ease, box-shadow var(--anadolu-transition-ms) ease;
+}
+
+.shopCard.selected {
+  border-color: var(--anadolu-gold-soft);
+  box-shadow: 0 5px 0 #6a4a22, 0 0 22px rgba(213, 173, 87, 0.28), inset 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.shopItemIcon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--anadolu-border);
+  border-radius: 12px;
+  background: radial-gradient(circle at 35% 25%, #2f6a5f, var(--anadolu-petrol-deep) 72%);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.18), 0 4px 8px rgba(0, 0, 0, 0.35);
+}
+
+.shopItemIcon--seal,
+.shopItemIcon--theme {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.shopItemIcon span {
+  font-size: 27px;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.55));
+}
+
+.shopItemSealImg,
+.shopItemThemeImg {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.55));
+  transform: scale(1);
+  transition: transform 0.2s var(--anadolu-ease-out);
+}
+
+.shopCard:hover .shopItemSealImg,
+.shopCard:hover .shopItemThemeImg {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.shopInfo {
+  min-width: 0;
+  padding: 0 8px;
+}
+
+.shopInfo strong {
+  display: block;
+  color: var(--anadolu-ivory);
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.shopInfo p {
+  margin: 4px 0 0;
+  color: rgba(245, 232, 206, 0.78);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.shopBuy {
+  display: grid;
+  grid-template-columns: 28px auto;
+  column-gap: 4px;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  min-height: var(--ui-touch-floor);
+  height: var(--ui-shop-buy-h);
+  padding: 0 8px;
+  border: 1px solid var(--anadolu-gold-soft);
+  border-radius: var(--ui-radius-ctl);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.4), transparent 52%),
+    linear-gradient(180deg, var(--anadolu-gold), var(--anadolu-copper));
+  color: #fff7db;
+  text-shadow: 0 2px 2px #5d3714;
+  box-shadow: 0 4px 0 #644116, 0 7px 10px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  transition: transform var(--anadolu-tap-ms) var(--anadolu-ease-tap);
+}
+
+.shopBuy img {
+  width: 30px;
+  height: 30px;
+}
+
+.shopBuy strong {
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff7db;
+}
+
+.shopBuy:not(:disabled):active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #644116, 0 4px 7px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.shopBuy:disabled {
+  filter: grayscale(0.65);
+  opacity: 0.58;
+}
+
+.shopEmpty {
+  color: var(--anadolu-mist);
+  text-align: center;
+}
+
+.shopUse {
+  grid-template-columns: 1fr;
+  background: linear-gradient(180deg, #2a7a6a, var(--anadolu-petrol));
+  border-color: rgba(245, 232, 206, 0.35);
+  box-shadow: 0 4px 0 #0a2f28, 0 7px 10px rgba(0, 0, 0, 0.25);
+}
+
+.shopCard.selected .shopUse {
+  background: linear-gradient(180deg, var(--anadolu-gold), var(--anadolu-copper));
+  box-shadow: 0 4px 0 #684712;
+}
+
+.shopToast {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  z-index: 10;
+  transform: translateX(-50%);
+  max-width: min(86vw, 320px);
+  padding: 12px 16px;
+  border: 1px solid var(--anadolu-border-strong);
+  border-radius: 12px;
+  background: rgba(12, 40, 35, 0.96);
+  color: var(--anadolu-ivory);
+  font-weight: 800;
+  text-align: center;
+  box-shadow: var(--anadolu-shadow);
+}
+
+.shopItemIcon--power {
+  border: none;
+  background: radial-gradient(circle at 35% 25%, #3a6f3f, #0a3a1c 72%);
+}
+
+.shopPowerActive {
+  color: #7fe0a0;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.shopRewardIcon {
+  font-size: 27px;
+}
+
+.shopRewardAction {
+  grid-template-columns: 1fr;
+  min-width: 92px;
+  height: auto;
+  min-height: var(--ui-shop-buy-h);
+  padding: 6px;
+  background: linear-gradient(180deg, var(--anadolu-petrol), var(--anadolu-petrol-deep));
+  border-color: var(--anadolu-border-strong);
+  box-shadow: 0 4px 0 #0a2f28, 0 7px 10px rgba(0, 0, 0, 0.28);
+}
+
+.shopRewardAction strong {
+  font-size: 12px;
+}
+
+.shopRewardCard .shopInfo small {
+  display: block;
+  margin-top: 5px;
+  color: var(--anadolu-gold-soft);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.shopContextRewardCard {
+  border-color: rgba(213, 173, 87, 0.58);
+  background:
+    linear-gradient(180deg, rgba(213, 173, 87, 0.12), transparent 55%),
+    linear-gradient(180deg, rgba(19, 61, 54, 0.98), rgba(8, 28, 24, 0.99));
+}
+
+.shopContextRewardCard .shopRewardAction small {
+  color: var(--anadolu-gold-soft);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 360px) {
+  .shopCard {
+    grid-template-columns: 54px minmax(0, 1fr) 70px;
+  }
+  .shopInfo {
+    padding-inline: 5px;
+  }
+  .shopInfo strong {
+    font-size: 13px;
+  }
+  .shopBuy {
+    min-width: 80px;
+  }
+  .shopTabs {
+    gap: 4px;
+    padding-inline: 8px;
+  }
+  .shopTabs button {
+    font-size: 11px;
+  }
+  .shopRewardCard {
+    grid-template-columns: 48px minmax(0, 1fr) 76px;
+    column-gap: 7px;
+    padding-inline: 6px;
+  }
+  .shopRewardIcon {
+    width: 46px;
+    height: 46px;
+  }
+  .shopRewardAction {
+    min-width: 0;
+  }
+  .shopRewardCard .shopInfo {
+    padding-inline: 3px;
+  }
+  .shopRewardCard .shopInfo strong {
+    font-size: 12px;
+  }
+  .shopRewardCard .shopInfo p {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shopTabs button,
+  .shopBuy,
+  .shopItemSealImg,
+  .shopItemThemeImg {
+    transition: none;
+  }
+  .shopTabs button:active,
+  .shopBuy:not(:disabled):active,
+  .shopCard:hover .shopItemSealImg,
+  .shopCard:hover .shopItemThemeImg {
+    transform: none;
+  }
+}
+
+html.reduce-motion .shopTabs button:active,
+html.reduce-motion .shopBuy:not(:disabled):active,
+html.reduce-motion .shopCard:hover .shopItemSealImg,
+html.reduce-motion .shopCard:hover .shopItemThemeImg {
+  transform: none;
+}

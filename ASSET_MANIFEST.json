@@ -1,0 +1,23 @@
+{
+  "assets": [
+    "map-top-panel.svg",
+    "resource-pill-gold.svg",
+    "bottom-nav-panel.svg",
+    "path-glow-line.svg",
+    "icon-lock.svg",
+    "icon-check.svg",
+    "level-node-active.png",
+    "level-node-completed.png",
+    "level-node-locked.png",
+    "level-node-future.png",
+    "nav-icon-missions.png",
+    "nav-icon-dictionary.png",
+    "nav-icon-map.png",
+    "nav-icon-shop.png",
+    "nav-icon-profile.png",
+    "icon-coin.png",
+    "icon-gem.png",
+    "map-bg-eski-istanbul.webp"
+  ],
+  "rule": "Texts/numbers are not embedded in assets; render them with React/CSS."
+}

@@ -1,0 +1,21 @@
+<svg width="124" height="58" viewBox="0 0 124 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+  
+<filter id="shadow" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB">
+  <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.28"/>
+</filter>
+
+  <linearGradient id="panelFill" x1="12" y1="8" x2="112" y2="50" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#1A2838"/><stop offset="1" stop-color="#101827"/>
+  </linearGradient>
+  <linearGradient id="panelShine" x1="24" y1="10" x2="84" y2="48" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#FFFFFF" stop-opacity="0.55"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+  </linearGradient>
+</defs>
+<rect x="14" y="22" width="96" height="28" rx="12" fill="#101827"/>
+<rect x="14" y="12" width="96" height="28" rx="12" fill="url(#panelFill)" filter="url(#shadow)"/>
+<rect x="18" y="16" width="88" height="20" rx="8" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="3"/>
+<path d="M32 18H92C104 18 112 26 112 38V42C112 42 68 32 62 32C56 32 12 42 12 42V38C12 26 20 18 32 18Z" fill="url(#panelShine)"/>
+
+</svg>

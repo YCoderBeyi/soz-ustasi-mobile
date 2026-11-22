@@ -1,0 +1,1885 @@
+.actions {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 8px;
+  padding: 0 8px 8px;
+  min-height: 0;
+}
+
+.actions .actionBtn {
+  width: 100%;
+  aspect-ratio: 250 / 86;
+  max-height: 64px;
+  overflow: hidden;
+  border: 0 !important;
+  border-radius: 18px !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  min-height: 0 !important;
+  line-height: 0;
+}
+
+.game {
+  display: grid;
+  overflow: hidden;
+  position: relative;
+  z-index: 100;
+}
+
+.gameTopBar {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  padding: calc(var(--ui-safe-top) + 4px) 10px 4px;
+  gap: 4px;
+}
+
+.gameTopBar .resourcePillWrap {
+  width: 100%;
+  height: calc(34px * var(--ui-scale));
+}
+
+.gameTopBar .resourcePillIconZone {
+  width: calc(30px * var(--ui-scale));
+  height: calc(30px * var(--ui-scale));
+  left: calc(-1px * var(--ui-scale));
+}
+
+.gameTopBar .resourcePillValue {
+  padding-left: calc(28px * var(--ui-scale));
+  font-size: calc(11px * var(--ui-scale));
+}
+
+.gameTopBar .svgBtn {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+.gameTopBar .svgBtn img {
+  width: 30px;
+  height: 30px;
+}
+
+.gameTopBar .topToolsGame {
+  display: none;
+}
+
+.gameTopBar .svgBtn {
+  justify-self: center;
+}
+
+.gameTopBar .svgBtn:first-child {
+  justify-self: start;
+}
+
+.gameTopBar .svgBtn:last-child {
+  justify-self: end;
+}
+
+.gameTitleBlock {
+  display: grid;
+  gap: 2px;
+  text-align: center;
+  min-width: 0;
+}
+
+.gameTitleBlock strong {
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+.gameSubtitle {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  font-size: var(--ui-text-micro);
+  font-weight: 700;
+  color: rgba(255, 247, 226, 0.62);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.gameHudTimer {
+  flex: 0 0 auto;
+  min-width: 44px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(5, 12, 24, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1c96a;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.gameUpperMeta {
+  display: grid;
+  gap: 6px;
+  min-height: 0;
+}
+
+.gameUpperMeta .storyBanner {
+  margin: 0 12px;
+}
+
+/* Tek satır ilerleme — eski 3 kutu + progress bar yerine */
+.gameHud {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(12, 40, 35, 0.72);
+  border: 1px solid var(--anadolu-border);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--anadolu-shadow-press);
+}
+
+.gameHudTrack {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(245, 232, 206, 0.14);
+  overflow: hidden;
+}
+
+.gameHudTrack i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3fbf7f, var(--anadolu-gold));
+  transition: width 260ms ease;
+}
+
+.gameHudComplete .gameHudTrack i {
+  animation: progressCelebration 720ms ease both;
+}
+
+.gameHudStat {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--anadolu-mist);
+  white-space: nowrap;
+}
+
+.gameHudStat strong {
+  color: var(--anadolu-gold-soft);
+  font-size: 13px;
+}
+
+/* Oyun alanı: anlam + çember + aksiyon — izole, çakışmasız */
+.gamePlayZone {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  justify-items: center;
+  gap: 8px;
+  min-height: 0;
+  padding: 0 10px 4px;
+  overflow: hidden;
+}
+
+.gamePlayZone .meaningCard3d {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  min-height: 0;
+}
+
+.gamePlayZone .meaningCard3dContent p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.gamePlayZone .actions {
+  width: 100%;
+  align-self: end;
+  z-index: 3;
+}
+
+.themeBackdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(12, 40, 35, 0.04) 0%, rgba(12, 40, 35, 0.12) 45%, rgba(8, 28, 24, 0.3) 100%),
+    radial-gradient(circle at 50% 12%, rgba(213, 173, 87, 0.08), transparent 30%),
+    var(--theme-bg);
+  background-position: center;
+  background-size: cover;
+}
+
+/* Side/fog vignette + particle filigree removed (psychology: clear playfield). */
+.themeBackdrop::after,
+.themeBackdrop::before {
+  content: none;
+}
+
+.wordGrid,
+.meaning,
+.letterBank,
+.actions {
+  position: relative;
+  z-index: 1;
+}
+
+.wordGrid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Story banner */
+.storyBanner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  margin: 0 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(28, 37, 52, 0.88), rgba(14, 21, 34, 0.92));
+  border: 1px solid var(--brand-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), var(--brand-shadow);
+  backdrop-filter: blur(10px);
+  animation: storyIn 300ms ease both;
+}
+.storyBanner p {
+  flex: 1;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 247, 226, 0.85);
+}
+.storyClose {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* Favorite star */
+.meaningHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.favStar {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: rgba(75, 51, 35, 0.35);
+  transition: color 180ms ease, transform 120ms ease;
+  line-height: 1;
+}
+.favStarActive {
+  color: #d9a441;
+  text-shadow: 0 0 8px rgba(217, 164, 65, 0.4);
+}
+.favStar:active {
+  transform: scale(1.2);
+}
+
+/* Timer display */
+.timerDisplay {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 247, 226, 0.8);
+  font-variant-numeric: tabular-nums;
+  min-width: 48px;
+}
+
+/* Slot styles (kept for non-crossword fallback) */
+.slotRow {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.slot {
+  display: grid;
+  place-items: center;
+  width: clamp(calc(42px * var(--ui-scale)), 9cqw, calc(54px * var(--ui-scale)));
+  height: clamp(calc(48px * var(--ui-scale)), 10cqw, calc(60px * var(--ui-scale)));
+  border-radius: 8px;
+  background: rgba(244, 230, 200, 0.88);
+  color: #2b1e13;
+  font-size: clamp(calc(17px * var(--ui-scale)), 4cqw, calc(23px * var(--ui-scale)));
+  font-weight: 900;
+  box-shadow: inset 0 -3px rgba(75, 51, 35, 0.18), 0 3px 10px rgba(0, 0, 0, 0.16);
+  transition: transform 180ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+.slot.filled {
+  background: #d9a441;
+  box-shadow: 0 0 16px rgba(217, 164, 65, 0.38);
+  animation: slotFill 280ms var(--anadolu-ease-motion) both;
+}
+
+/* Crossword grid */
+
+.wordGridCorrect .slot.filled {
+  animation: slotFill 280ms var(--anadolu-ease-motion) both, goldGlow 640ms ease;
+}
+
+.meaning {
+  align-self: center;
+  min-height: 60px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(244, 230, 200, 0.94);
+  color: #2b1e13;
+  opacity: 1;
+  transform: none;
+  transition: 180ms ease;
+  margin: 0 12px;
+}
+
+.meaning:not(.visible) {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 12, 24, 0.5);
+  backdrop-filter: blur(12px);
+}
+
+.meaning.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: meaningReveal 260ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+.meaning p {
+  margin: 3px 0 0;
+  font-size: 13px;
+  color: #4b3323;
+}
+
+/* Letter wheel — circular swipe */
+.letterWheel {
+  position: relative;
+  top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  touch-action: none;
+}
+
+.wheelRing {
+  position: relative;
+  max-height: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(241, 201, 106, 0.04), transparent 54%),
+    radial-gradient(circle at 50% 50%, rgba(5, 12, 24, 0.3), rgba(5, 12, 24, 0.06));
+  border: 1px solid rgba(217, 164, 65, 0.12);
+  box-shadow:
+    0 0 30px rgba(0, 0, 0, 0.2),
+    inset 0 0 30px rgba(241, 201, 106, 0.03);
+}
+
+/* Harf çoğaldıkça çark biraz daha geniş alan kaplar (yarıçap açılımını tamamlar).
+   Attribute özgüllüğü (0,2,0) tüm responsive .wheelRing kurallarını yener;
+   min() ve max-height:100% dikey taşmayı sınırlar. */
+
+
+.wheelRing::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 164, 65, 0.06);
+  pointer-events: none;
+}
+
+.wheelTrail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wheelTrail path {
+  fill: none;
+  stroke: url(#goldGradient);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(217, 164, 65, 0.5));
+  animation: trailAppear 100ms ease both;
+}
+
+.wheelCurrentWord {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+  font-size: clamp(calc(16px * var(--ui-scale)), 4.5cqw, calc(22px * var(--ui-scale)));
+  font-weight: 900;
+  color: #f1c96a;
+  text-shadow: 0 0 20px rgba(241, 201, 106, 0.25), 0 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 3px;
+  text-align: center;
+  pointer-events: none;
+  max-width: 58%;
+  line-height: 1.2;
+}
+
+.wheelPlaceholder {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(5, 12, 24, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 247, 226, 0.88);
+  letter-spacing: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+.wheelLetter {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: none;
+  padding: 0;
+  pointer-events: none;
+  user-select: none;
+  /* Avoid will-change layers that can soft-blur glyphs on mobile GPUs. */
+  transition: transform 80ms ease, filter 120ms ease;
+  z-index: 2;
+}
+
+.wheelSelected {
+  z-index: 3;
+  filter: drop-shadow(0 0 10px rgba(217, 164, 65, 0.45));
+}
+
+.wheelSelected .wheelLetterChar {
+  color: #4b3323;
+}
+
+.letterWheel > .wheelClearBtn {
+  position: absolute;
+  z-index: 7;
+  right: 4%;
+  bottom: 2%;
+  left: auto;
+  transform: none;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(120, 60, 60, 0.35);
+  background: linear-gradient(180deg, rgba(60, 30, 30, 0.5), rgba(40, 20, 20, 0.7));
+  color: #cc6666;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 80ms ease, background 100ms ease;
+  touch-action: manipulation;
+}
+
+.toast,
+.sealOpen,
+.streakBadge {
+  position: absolute;
+  left: 50%;
+  z-index: 5;
+  transform: translateX(-50%);
+  border-radius: 8px;
+  background: rgba(16, 24, 39, 0.9);
+  border: 1px solid rgba(217, 164, 65, 0.34);
+  color: #fff9ef;
+  font-weight: 800;
+  text-align: center;
+}
+
+.streakBadge.tier5 { background: linear-gradient(135deg, #f1c96a, #e49a44); }
+.streakBadge.tier8 { background: linear-gradient(135deg, #fff0a8, #d66f57); box-shadow: 0 14px 38px rgba(241, 201, 106, 0.42); }
+
+.streakBadge {
+  top: 38%;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(76, 195, 138, 0.86), rgba(241, 201, 106, 0.9));
+  color: #071018;
+  font-size: 13px;
+  box-shadow: 0 14px 34px rgba(76, 195, 138, 0.28);
+  animation: streakBadge 420ms var(--anadolu-ease-motion) both;
+  pointer-events: none;
+}
+
+.toast {
+  top: 42%;
+  width: max-content;
+  max-width: calc(100% - 36px);
+  padding: 12px 16px;
+  animation: toastIn 180ms ease both;
+}
+
+.sealOpen {
+  position: absolute;
+  top: 34%;
+  display: grid;
+  place-items: center;
+  width: 220px;
+  height: 220px;
+  border-radius: 48% 52% 47% 53% / 53% 45% 55% 47%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(217, 85, 98, 0.8), transparent 18%),
+    radial-gradient(circle at 50% 36%, rgba(159, 45, 62, 0.96), rgba(111, 29, 43, 0.94) 50%, rgba(53, 16, 24, 0.96) 100%);
+  border: 8px solid rgba(241, 201, 106, 0.74);
+  color: #ffe8b7;
+  font-family: Georgia, serif;
+  font-size: 22px;
+  animation: sealOpen 1.2s ease both;
+  text-shadow:
+    0 2px 1px rgba(38, 6, 12, 0.82),
+    0 -1px 0 rgba(255, 232, 183, 0.3);
+}
+
+.rewardStory {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid var(--brand-border-strong);
+  background:
+    radial-gradient(circle at 90% 8%, rgba(242, 207, 119, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(25, 34, 49, 0.92), rgba(12, 17, 28, 0.84)),
+    rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.storyMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.storyMeta span {
+  color: #f1c96a;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.storyMeta span:last-child {
+  color: #9ed9ca;
+  text-align: right;
+}
+
+.rewardStory > strong {
+  color: #fff9ef;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  line-height: 1.08;
+}
+
+.rewardStory p {
+  margin: 0;
+  color: #fff2d4;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.rewardStory small {
+  color: #cdbf9f;
+  font-size: 12px;
+}
+
+.storyImpact,
+.storyToday {
+  margin: 0;
+  color: #ecdfbe;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.storyImpact b,
+.storyToday b {
+  color: #ffd98a;
+}
+
+.storyPerson {
+  display: grid;
+  gap: 5px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.storyPerson p {
+  color: #d8cfba;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* Story banner animation */
+/* ===== Reference Game Layout (mockup) ===== */
+.gameRef {
+  display: grid;
+  width: 100%;
+  max-width: var(--ui-shell-max);
+  min-width: 0;
+  gap: 6px;
+  padding-bottom: 0 !important;
+  overflow: hidden;
+}
+
+.gameRef > *,
+.gameRefHeader > *,
+.gameWheelZone > *,
+.gameActionRow > * {
+  min-width: 0;
+}
+
+
+
+.levelBadge3d {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(calc(150px * var(--ui-scale)), 40cqw);
+  height: 52px;
+  justify-self: center;
+}
+
+.levelBadge3dBg {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.levelBadge3dLabel {
+  position: relative;
+  z-index: 1;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f1c96a;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+
+.gameModeBar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 12px;
+}
+
+.gameModeBar .tabPill3d {
+  width: 100%;
+}
+
+.gameBoard {
+  position: relative;
+  top: 5px;
+  display: grid;
+  gap: 4px;
+  padding: 0 8px;
+  overflow: visible;
+}
+
+.gameGridPanel {
+  position: relative;
+}
+
+.gameGridPanelBg {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.gameGridPanelContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 8px;
+  min-height: 80px;
+}
+
+.gameMeaningOverlay {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 0;
+  z-index: 10;
+  animation: overshootIn 0.36s var(--anadolu-ease-motion) both;
+}
+
+/* Final mobile gameplay composition */
+.gameRef {
+  gap: 4px;
+}
+
+.gameBoard {
+  gap: 6px;
+  padding-inline: 8px;
+}
+
+.gameGridPanel {
+  padding: 7px;
+  border-radius: 12px;
+}
+
+.gameGridPanelContent { padding: 2px; }
+
+.gameStatsRow {
+  gap: 5px;
+  margin-top: 0;
+}
+
+.gameStatChip {
+  min-height: 40px;
+  padding: 4px 3px;
+  border-color: rgba(100,204,198,.24);
+  border-radius: 9px;
+  box-shadow: 0 3px 8px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.gameStatChipLabel {
+  color: #b9ddd8;
+  font-size: var(--ui-text-micro);
+  letter-spacing: 0;
+}
+
+.gameStatChip strong { font-size: 14px; }
+
+.gameStatChipHintLengths {
+  color: #b9ddd8;
+  font-size: var(--ui-text-micro);
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-top: 1px;
+  opacity: 0.85;
+}
+
+.gameWheelZone {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  gap: 6px;
+  margin-top: 0;
+  padding: 4px 10px max(8px, env(safe-area-inset-bottom));
+}
+
+.letterWheel {
+  align-self: center;
+  margin-top: 0;
+}
+
+.wheelPlaceholder {
+  max-width: 82px;
+  padding: 5px 7px;
+  font-size: var(--ui-text-micro);
+  line-height: 1.15;
+  text-align: center;
+}
+
+.wheelControls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 70px;
+  align-items: center;
+  justify-content: initial;
+  width: 100%;
+  gap: 7px;
+  padding: 0;
+}
+
+.wheelCtrlBtn {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: center;
+  min-height: var(--ui-tab-h);
+  gap: 3px;
+  padding: 4px 9px 4px 4px;
+  border-radius: var(--ui-radius-ctl);
+  background: linear-gradient(180deg, rgba(13,51,62,.95), rgba(3,24,35,.98));
+  box-shadow: 0 4px 0 rgba(2,17,25,.9), 0 7px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.13);
+}
+
+.wheelCtrlBtn img {
+  width: 36px;
+  height: 36px;
+}
+
+.wheelCtrlBtn span {
+  overflow: hidden;
+  font-size: var(--ui-text-min);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-height: 720px) {
+  .gameStatChip { min-height: 36px; }
+}
+
+/* Gameplay V6: mobile composition and interaction hierarchy */
+.gameRef {
+  gap: 4px;
+}
+
+.gameBoard {
+  gap: 6px;
+  padding-inline: 8px;
+}
+
+.gameGridPanel {
+  padding: 7px;
+  border-radius: 12px;
+}
+
+.gameGridPanelContent {
+  padding: 2px;
+}
+
+.gameStatsRow {
+  gap: 5px;
+  margin-top: 0;
+}
+
+.gameStatChip {
+  min-height: 40px;
+  padding: 4px 3px;
+  border-color: rgba(100, 204, 198, .24);
+  border-radius: 9px;
+  box-shadow: 0 3px 8px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.gameStatChipLabel {
+  color: #b9ddd8;
+  font-size: var(--ui-text-micro);
+}
+
+.gameStatChip strong {
+  font-size: 14px;
+}
+
+.gameWheelZone {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  margin-top: 0;
+  padding: 4px 10px max(8px, env(safe-area-inset-bottom));
+}
+
+.letterWheel {
+  align-self: center;
+  margin-top: 0;
+}
+
+.wheelPlaceholder {
+  max-width: 82px;
+  padding: 5px 7px;
+  font-size: var(--ui-text-micro);
+  line-height: 1.15;
+  text-align: center;
+}
+
+.wheelControls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 70px;
+  align-items: center;
+  width: 100%;
+  gap: 7px;
+  padding: 0;
+}
+
+.wheelCtrlBtn {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  min-height: var(--ui-tab-h);
+  padding: 4px 9px 4px 4px;
+  border-radius: var(--ui-radius-ctl);
+  background: linear-gradient(180deg, rgba(13,51,62,.95), rgba(3,24,35,.98));
+  box-shadow: 0 4px 0 rgba(2,17,25,.9), 0 7px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.13);
+}
+
+.wheelCtrlBtn img {
+  width: 36px;
+  height: 36px;
+}
+
+.wheelCtrlBtn span {
+  font-size: var(--ui-text-min);
+  text-align: left;
+}
+
+@media (max-height: 720px) {
+  .gameStatChip { min-height: 36px; }
+}
+
+/* Gameplay V3: high-readability production HUD */
+.gameRef {
+  gap: 6px;
+}
+
+.gameTopBar {
+  grid-template-columns: 44px minmax(0, 1fr) auto 44px;
+  min-height: 54px;
+  padding: 5px 10px;
+  gap: 7px;
+  background: linear-gradient(180deg, rgba(4, 21, 34, .94), rgba(4, 20, 33, .68));
+  border-bottom: 1px solid rgba(242, 196, 95, .34);
+  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+}
+
+.gameTopBar .resourcePillWrap { width: 88px; }
+
+.gameTopIdentity { display: grid; min-width: 0; gap: 1px; }
+.gameTopIdentity strong { color: #fff7df; font-size: 14px; font-weight: 900; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,.72); }
+.gameTopIdentity span { overflow: hidden; color: #9fe3d6; font-size: var(--ui-text-micro); font-weight: 800; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+.gameGridPanel {
+  overflow: hidden;
+  border: 1px solid rgba(242,196,95,.4);
+  border-radius: 15px;
+  background: linear-gradient(180deg, rgba(18,50,70,.96), rgba(5,24,41,.98));
+  box-shadow: 0 8px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.1);
+}
+.gameGridPanelBg, .gameStatChipBg { display: none; }
+
+.gameStatsRow { gap: 7px; }
+.gameStatChip {
+  min-height: 52px;
+  padding: 7px 4px 6px;
+  overflow: hidden;
+  border: 1px solid rgba(242,196,95,.38);
+  border-radius: 11px;
+  background: linear-gradient(180deg, rgba(20,57,70,.97), rgba(5,24,38,.98));
+  box-shadow: 0 5px 11px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.1);
+}
+.gameStatChipLabel { color: #a7e7db; font-size: var(--ui-text-micro); letter-spacing: 0; }
+.gameStatChip strong { color: #ffd66d; font-size: 17px; text-shadow: 0 2px 4px rgba(0,0,0,.65); }
+
+.gameWheelZone { gap: 8px; padding-inline: 10px; }
+.wheelPlaceholder { color: #fff8e8; font-size: 12px; font-weight: 900; }
+
+.wheelControls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  width: 100%;
+  gap: 8px;
+  padding: 0 4px 8px;
+}
+
+.wheelCtrlBtn {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  min-width: 0;
+  min-height: var(--ui-tab-h);
+  gap: 3px;
+  padding: 4px 8px 4px 4px;
+  border: 1px solid rgba(242,196,95,.58);
+  border-radius: var(--ui-radius-ctl);
+  background: linear-gradient(180deg, rgba(26,76,84,.98), rgba(7,37,50,.98));
+  color: #fff8e8;
+  font-size: 12px;
+  font-weight: 900;
+  box-shadow: 0 5px 0 #041c28, 0 9px 16px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.16);
+}
+.wheelCtrlBtn img { width: 39px; height: 39px; object-fit: contain; filter: drop-shadow(0 4px 4px rgba(0,0,0,.35)); }
+.wheelCtrlBtn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wheelCtrlBtn:active { transform: translateY(3px); box-shadow: 0 2px 0 #041c28, 0 5px 10px rgba(0,0,0,.3); }
+
+.gameSealAction {
+  position: relative;
+  display: grid;
+  grid-template-rows: 48px 12px;
+  align-content: center;
+  justify-items: center;
+  width: 70px;
+  min-width: 0;
+  min-height: 58px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff3d0;
+  font-size: var(--ui-text-min);
+  font-weight: 900;
+  text-shadow: 0 2px 4px rgba(0,0,0,.75);
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  transition: transform var(--anadolu-tap-ms) var(--anadolu-ease-motion);
+}
+.gameSealMark { width: 60px; height: 60px; margin-top: -5px; filter: drop-shadow(0 7px 6px rgba(0,0,0,.4)); }
+.gameSealAction > span { align-self: end; font-size: var(--ui-text-min); }
+
+@media (max-height: 760px) {
+  .gameTopBar { min-height: 48px; }
+  .gameGridPanelContent { padding-block: 4px; }
+  .gameStatChip { min-height: 46px; padding-block: 5px; }
+  .gameWheelZone { gap: 4px; }
+  .wheelControls { padding-bottom: 4px; }
+}
+
+/* Oyun üstü altın: harita ResourcePill ile aynı dil (çift çerçeve yok) */
+.gameCoinPill {
+  /* ResourcePill sınıflarıyla birlikte kullanılır */
+  justify-self: end;
+}
+
+.wheelRing {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.wheelRing::before { content: none; }
+.wheelRingFrame {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 14px 15px rgba(0,0,0,.42));
+}
+.wheelSelected { transform: translate(-50%, -50%) scale(1.08) !important; }
+.wheelTrail path {
+  stroke-width: 4.2;
+  filter: drop-shadow(0 0 6px rgba(69,220,211,.7)) drop-shadow(0 2px 2px rgba(0,0,0,.4));
+}
+
+.gameMeaningOverlay { bottom: 4px; }
+.meaningCard3d {
+  position: relative;
+  min-height: 82px;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(242,196,95,.58);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 92% 18%, rgba(74,218,211,.16), transparent 27%),
+    linear-gradient(145deg, rgba(18,62,73,.98), rgba(5,25,40,.98));
+  box-shadow:
+    0 9px 22px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.14),
+    inset 0 0 0 3px rgba(4,18,29,.52);
+}
+.meaningCard3d::before {
+  content: "ANLAM KEŞFEDİLDİ";
+  position: absolute;
+  left: 16px;
+  top: 9px;
+  color: #76dfd1;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .6px;
+}
+.meaningCard3d::after {
+  content: "✦";
+  position: absolute;
+  right: 13px;
+  top: 9px;
+  color: #f2c45f;
+  font-size: 17px;
+  filter: drop-shadow(0 0 6px rgba(242,196,95,.5));
+}
+.meaningCard3dBg { display: none; }
+.meaningCard3dContent {
+  position: relative;
+  padding: 25px 16px 12px;
+  color: #fff8e7;
+}
+.meaningCard3dContent strong { color: #ffd66d; font-size: 18px; text-shadow: 0 2px 4px rgba(0,0,0,.65); overflow-wrap: anywhere; }
+.meaningCard3dContent p { margin: 4px 36px 0 0; color: #f5efdf; font-size: 13px; line-height: 1.42; overflow-wrap: anywhere; }
+.meaningCard3d.visible { animation: meaningCardReveal 420ms cubic-bezier(.16,1,.3,1) both; }
+
+.sealReveal {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  grid-template-rows: minmax(24px, 1fr) auto auto minmax(56px, 1fr);
+  justify-items: center;
+  align-items: center;
+  gap: clamp(10px, 3vh, 22px);
+  padding:
+    max(16px, env(safe-area-inset-top))
+    16px
+    max(16px, env(safe-area-inset-bottom));
+  overflow: hidden;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(6,18,28,.16), rgba(2,8,14,.62) 58%, rgba(2,8,14,.82));
+  animation: sealBackdrop 1.65s ease-in-out both;
+}
+.sealReveal .sealOpen {
+  position: relative;
+  grid-row: 2;
+  grid-column: 1;
+  top: auto;
+  left: auto;
+  z-index: 3;
+  width: clamp(120px, 31vw, 190px);
+  height: clamp(120px, 31vw, 190px);
+  max-width: calc(100vw - 96px);
+  max-height: calc(100dvh - 220px);
+  border: 0;
+  background: transparent;
+  transform: none;
+  animation: sealImpact 1.55s cubic-bezier(.16,1,.3,1) both;
+}
+.sealReveal .sealOpen .waxSealImg { mix-blend-mode: normal; mask-image: none; -webkit-mask-image: none; filter: drop-shadow(0 18px 18px rgba(0,0,0,.52)) drop-shadow(0 0 24px rgba(173,39,55,.45)); }
+.sealReveal .sealOpen .waxSealLabel {
+  color: #8c2637;
+  font-family: Georgia, serif;
+  font-size: 54px;
+  text-shadow: 0 -2px 1px rgba(255,210,180,.3), 0 3px 3px rgba(42,5,12,.78);
+}
+.sealRevealRing {
+  position: absolute;
+  grid-row: 2;
+  grid-column: 1;
+  z-index: 2;
+  width: clamp(110px, 29vw, 180px);
+  height: clamp(110px, 29vw, 180px);
+  border: 4px solid rgba(255,211,104,.9);
+  border-radius: 50%;
+  box-shadow: 0 0 28px rgba(255,205,85,.75), inset 0 0 22px rgba(255,205,85,.38);
+  animation: sealShockwave 1.2s .14s ease-out both;
+}
+.sealRevealFlash {
+  position: absolute;
+  grid-row: 2;
+  grid-column: 1;
+  z-index: 1;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 60px 35px rgba(255,211,104,.8);
+  animation: sealFlash .72s ease-out both;
+}
+.sealRevealTitle {
+  position: relative;
+  grid-row: 3;
+  grid-column: 1;
+  z-index: 5;
+  display: grid;
+  justify-items: center;
+  width: min(100%, 230px);
+  min-width: min(210px, calc(100vw - 48px));
+  padding: 9px 24px 10px;
+  border: 1px solid rgba(242,196,95,.7);
+  border-radius: 13px;
+  background: linear-gradient(180deg, rgba(20,61,71,.98), rgba(5,25,39,.98));
+  box-shadow: 0 7px 18px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.15);
+  animation: sealTitleReveal .7s .42s cubic-bezier(.16,1,.3,1) both;
+}
+.sealRevealTitle span { color: #83e1d3; font-size: var(--ui-text-micro); font-weight: 900; letter-spacing: 1.2px; }
+.sealRevealTitle strong { color: #fff1b7; font-family: Georgia, serif; font-size: 23px; line-height: 1; text-shadow: 0 2px 4px rgba(0,0,0,.7); }
+
+@media (prefers-reduced-motion: reduce) {
+  .meaningCard3d.visible, .sealReveal, .sealReveal .sealOpen, .sealRevealRing, .sealRevealFlash, .sealRevealTitle { animation-duration: .01ms !important; }
+}
+
+@media (max-height: 640px) {
+  .sealReveal .sealOpen { width: 150px; height: 150px; }
+  .sealReveal .sealOpen .waxSealLabel { font-size: 42px; }
+  .sealRevealRing { width: 140px; height: 140px; }
+  .sealRevealTitle { min-width: min(170px, calc(100vw - 48px)); padding: 7px 18px 8px; }
+  .sealRevealTitle strong { font-size: 18px; }
+}
+
+@media (max-height: 580px) {
+  .sealReveal .sealOpen { width: 120px; height: 120px; }
+  .sealReveal .sealOpen .waxSealLabel { font-size: 34px; }
+  .sealRevealRing { width: 110px; height: 110px; }
+  .sealRevealTitle { min-width: min(150px, calc(100vw - 48px)); padding: 5px 14px 6px; }
+  .sealRevealTitle strong { font-size: 15px; }
+  .sealRevealTitle span { font-size: var(--ui-text-micro); }
+}
+
+/* Gameplay V5: compact puzzle board and premium reward flow */
+.gameBoard {
+  align-content: start;
+  padding: 0 10px;
+}
+
+.gameGridPanel {
+  display: grid;
+  align-items: center;
+  padding: 10px;
+}
+
+.gameGridPanelContent {
+  min-height: 0;
+  padding: 4px;
+}
+
+.gameStatsRow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 7px;
+}
+
+.gameStatChip {
+  min-height: 48px;
+  border-color: rgba(84,211,202,.3);
+  background: linear-gradient(180deg, rgba(17,62,71,.96), rgba(5,29,40,.98));
+}
+
+.gameStatChipLabel {
+  font-size: var(--ui-text-micro);
+  font-weight: 900;
+}
+
+.gameStatChip strong {
+  font-size: 16px;
+}
+
+.modal:has(.rewardHero) {
+  width: min(100%, 390px);
+  max-height: calc(100dvh - 18px);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid rgba(242,196,95,.44);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(65,203,193,.13), transparent 34%),
+    linear-gradient(180deg, rgba(15,43,57,.99), rgba(5,20,33,.99));
+  box-shadow: 0 28px 70px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,.11);
+}
+
+.rewardModalBody {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal:has(.rewardHero) > h2 {
+  margin: 0 54px 0 0;
+  color: #fff5d7;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.rewardHero {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 82px;
+  padding: 6px 12px 6px 4px;
+  border: 1px solid rgba(242,196,95,.36);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(25,81,84,.75), rgba(7,30,44,.92));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+}
+
+.rewardHero img {
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 7px rgba(0,0,0,.38));
+  animation: rewardEmblemIn 620ms cubic-bezier(.16,1,.3,1) both;
+}
+
+.rewardHero div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.rewardHero span {
+  color: #7ee0d2;
+  font-size: var(--ui-text-micro);
+  font-weight: 900;
+  letter-spacing: .9px;
+}
+
+.rewardHero strong {
+  color: #fff0bd;
+  font-family: Georgia, serif;
+  font-size: 19px;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
+
+.modal:has(.rewardHero) .rewardStory {
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(3,17,28,.52);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.modal:has(.rewardHero) .rewardStory p {
+  color: #f4edde;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.rewardMastery {
+  gap: 5px;
+  padding: 8px 12px 10px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(20,61,70,.66), rgba(4,24,37,.76));
+}
+
+.rewardStars3d {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  min-height: 58px;
+}
+
+.rewardStars3d img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  opacity: .2;
+  filter: grayscale(.8);
+  transform: scale(.82);
+}
+
+.rewardStars3d img.earned {
+  opacity: 1;
+  filter: drop-shadow(0 0 10px rgba(242,196,95,.5));
+  animation: rewardStarIn 520ms cubic-bezier(.16,1,.3,1) both;
+}
+
+.rewardStars3d img.earned:nth-child(2) { animation-delay: 100ms; }
+.rewardStars3d img.earned:nth-child(3) { animation-delay: 200ms; }
+
+.rewardMastery p {
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 5px;
+  color: #d8cfbd;
+  font-size: 12px;
+}
+
+.rewardMastery p span {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(80,210,189,.14);
+  color: #7ee0d2;
+}
+
+.rewardSummary3d {
+  margin: 0;
+  gap: 7px;
+}
+
+.rewardItem3d {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 4px 20px 4px 7px;
+  border-color: rgba(242,196,95,.45);
+  background: linear-gradient(180deg, rgba(28,64,69,.92), rgba(5,26,39,.96));
+  box-shadow: 0 5px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+.rewardItem3d img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,.32));
+}
+
+/* Ödül CTA: 3D çerçeve tek satır için çizildi; wrap = metin camın dışına taşar. */
+.modal:has(.rewardHero) .rewardActions {
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: stretch;
+  margin: 0 -18px -18px;
+  padding: 12px 18px calc(14px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(242,196,95,.24);
+  background: linear-gradient(180deg, rgba(5,20,33,.82), rgba(5,20,33,.99) 45%);
+  box-shadow: 0 -12px 18px rgba(5,20,33,.72);
+}
+
+.modal:has(.rewardHero) .rewardActions:has(> :only-child) {
+  grid-template-columns: 1fr;
+}
+
+.modal:has(.rewardHero) .premiumPrimaryButton.rewardCta {
+  --premium-button-height: 56px;
+  width: 100%;
+  min-width: 0;
+  justify-self: stretch;
+  overflow: hidden;
+}
+
+.modal:has(.rewardHero) .premiumPrimaryButton.rewardCta > span {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 10px;
+  font-size: clamp(12px, 3.4vw, 15px);
+  font-weight: 800;
+  letter-spacing: 0.35px;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+@media (max-height: 760px) {
+  .gameStatChip { min-height: 42px; }
+  .modal:has(.rewardHero) { padding: 12px; gap: 7px; max-height: calc(100dvh - 12px); }
+  .modal:has(.rewardHero) > h2 { font-size: 21px; }
+  .rewardHero { min-height: 70px; grid-template-columns: 64px 1fr; }
+  .rewardHero img { width: 66px; height: 66px; }
+  .modal:has(.rewardHero) .rewardStory { padding: 9px 11px; }
+  .modal:has(.rewardHero) .rewardStory p { font-size: 11px; line-height: 1.38; -webkit-line-clamp: 3; }
+  .rewardMastery { padding: 6px 9px 7px; }
+  .rewardMastery p { min-height: 21px; font-size: 11px; }
+  .rewardStars3d { min-height: 48px; }
+  .rewardStars3d img { width: 48px; height: 48px; }
+  .rewardItem3d { min-height: 42px; }
+  .rewardItem3d img { width: 40px; height: 40px; }
+  .modal:has(.rewardHero) .premiumPrimaryButton.rewardCta { --premium-button-height: 50px; }
+  .modal:has(.rewardHero) .rewardActions {
+    margin: 0 -12px -12px;
+    padding: 8px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-height: 680px) {
+  .rewardHero { min-height: 58px; grid-template-columns: 54px 1fr; }
+  .rewardHero img { width: 56px; height: 56px; }
+  .rewardHero strong { font-size: 16px; }
+  .modal:has(.rewardHero) .rewardStory p { -webkit-line-clamp: 2; }
+  .rewardStars3d { min-height: 38px; }
+  .rewardStars3d img { width: 38px; height: 38px; }
+  .rewardMastery p { min-height: 19px; font-size: var(--ui-text-micro); }
+  .rewardSummary3d { gap: 5px; }
+  .rewardItem3d { min-height: 36px; }
+  .rewardItem3d img { width: 34px; height: 34px; }
+  .rewardDiscoveryPrompt { padding: 8px 10px; }
+  .rewardDiscoveryPrompt p { font-size: 11px; }
+}
+
+@media (max-width: 380px) {
+  .modal:has(.rewardHero) {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .rewardModalBody {
+    padding-right: 0;
+  }
+
+  .rewardHero {
+    grid-template-columns: 56px minmax(0, 1fr);
+    padding: 8px 10px 8px 6px;
+  }
+
+  .rewardHero img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .rewardHero strong {
+    font-size: 17px;
+  }
+
+  .rewardMastery p {
+    font-size: 11px;
+  }
+
+  .modal:has(.rewardHero) .rewardActions {
+    grid-template-columns: 1fr;
+    margin: 0 -14px -14px;
+    padding: 10px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .modal:has(.rewardHero) .premiumPrimaryButton.rewardCta > span {
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+}
+
+.gameSealMark.glowing {
+  animation: pulseGlowing 1.5s infinite alternate ease-in-out;
+}
+
+.gameStatsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.gameStatChip {
+  position: relative;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 1px;
+  min-height: 40px;
+  padding: 4px 2px;
+  text-align: center;
+}
+
+.gameStatChipBg {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.gameStatChipLabel {
+  position: relative;
+  z-index: 1;
+  font-size: var(--ui-text-micro);
+  font-weight: 800;
+  color: rgba(255, 247, 226, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.gameStatChip strong {
+  position: relative;
+  z-index: 1;
+  font-size: 15px;
+  color: #f1c96a;
+}
+
+.gameWheelZone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-height: 0;
+  padding: 0 10px;
+  margin-top: auto;
+}
+
+.gameSealMark {
+  width: 72px;
+  height: 72px;
+}
+
+.gameSealMark .waxSealImg {
+  width: 100%;
+  height: 100%;
+}
+
+.wheelControls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.wheelCtrlBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 1px solid rgba(241, 201, 106, 0.25);
+  border-radius: 999px;
+  background: rgba(5, 12, 24, 0.55);
+  backdrop-filter: blur(6px);
+  color: rgba(255, 247, 226, 0.9);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 120ms ease, transform 80ms ease;
+  touch-action: manipulation;
+}
+
+.wheelCtrlBtn:active {
+  transform: scale(0.92);
+  background: rgba(241, 201, 106, 0.15);
+}
+
+.wheelSealArea {
+  display: flex;
+  justify-content: center;
+  padding: 2px 0 6px;
+}
+
+/* Keep this cascade last: production mobile gameplay layout. */
+.gameRef{gap:4px}
+.gameBoard{gap:6px;padding-inline:8px}
+.gameGridPanel{padding:7px;border-radius:12px}
+.gameGridPanelContent{padding:2px}
+.gameStatsRow{gap:5px;margin-top:0}
+.gameStatChip{min-height:40px;padding:4px 3px;border-color:rgba(100,204,198,.24);border-radius:9px;box-shadow:0 3px 8px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08)}
+.gameStatChipLabel{color:#b9ddd8;font-size:var(--ui-text-micro);letter-spacing:0}
+.gameStatChip strong{font-size:14px}
+.gameWheelZone{display:grid;grid-template-rows:auto auto;align-content:start;justify-items:center;width:100%;gap:0;margin-top:0;padding:12px 10px max(8px,env(safe-area-inset-bottom))}
+.letterWheel{align-self:start;margin-top:0}
+.wheelPlaceholder{max-width:82px;padding:5px 7px;font-size:var(--ui-text-micro);line-height:1.15;text-align:center}
+.wheelControls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 70px;align-items:center;justify-content:initial;width:100%;gap:7px;margin-top:48px;padding:0}
+.wheelCtrlBtn{display:grid;grid-template-columns:36px minmax(0,1fr);align-items:center;min-height:var(--ui-tab-h);gap:3px;padding:4px 9px 4px 4px;border-radius:var(--ui-radius-ctl);background:linear-gradient(180deg,rgba(13,51,62,.95),rgba(3,24,35,.98));box-shadow:0 4px 0 rgba(2,17,25,.9),0 7px 12px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.13)}
+.wheelCtrlBtn img{width:36px;height:36px}
+.wheelCtrlBtn span{overflow:hidden;font-size:var(--ui-text-min);text-align:left;text-overflow:ellipsis;white-space:nowrap}
+.gameBoard .gameMeaningOverlay{position:absolute;top:8px;left:14px;right:14px;bottom:auto;z-index:20;pointer-events:none}
+.gameBoard .meaningCard3d{min-height:76px;border-radius:10px}
+.gameBoard .meaningCard3dContent{padding:25px 14px 11px}
+.gameBoard .meaningHeader,.gameBoard .meaningCard3dContent p{pointer-events:auto}
+@media(max-height:720px){.gameStatChip{min-height:36px}.wheelControls{margin-top:24px}}
+
+/* Wheel Center Seal Button Styles */
+.wheelCenterSealBtn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  z-index: 20;
+  pointer-events: auto !important;
+  animation: sealButtonPulse 1.6s ease-in-out infinite;
+}
+
+.wheelCenterSealBtn:active {
+  transform: translate(-50%, -50%) scale(0.95) !important;
+}
+
+.wheelCenterSealLabel {
+  margin-top: 2px;
+  color: #fff4d1;
+  font-size: var(--ui-text-micro);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.gameMultiplier { color: #ffd166; font-size: 11px; font-weight: 800; animation: multiplierPop 320ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .gameMultiplier { animation: none; } }
+
+.comboRing { width: 30px; height: 30px; flex: none; }
+.comboRingTrack { fill: none; stroke: rgba(255, 255, 255, 0.18); stroke-width: 3; }
+.comboRingFill { fill: none; stroke: #7dd3fc; stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 280ms ease-out; }
+.comboRing text { fill: #fff; font-size: 11px; font-weight: 800; }
+.comboRing { background: radial-gradient(circle, rgba(8, 36, 48, 0.95) 60%, transparent 62%); border-radius: 50%; }
+.comboRing.active .comboRingFill { stroke: #ffd166; }
+.comboRing.active { animation: multiplierPop 320ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .comboRing, .comboRingFill { animation: none; transition: none; } }
+
+/* Four stat chips (target, hidden, streak, score) share one row; the ring sits in the score chip's corner. */
+.gameStatsRow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.gameScoreChip { position: relative; overflow: visible; }
+.gameScoreChip {
+  grid-template-columns: minmax(0, 1fr) 25px;
+  grid-template-rows: auto auto;
+  justify-items: stretch;
+  column-gap: 2px;
+  padding-inline: 7px 4px;
+  text-align: center;
+}
+.gameScoreChip .gameStatChipLabel,
+.gameScoreChip > strong { grid-column: 1; }
+.gameScoreChip .comboRing {
+  position: static;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 25px;
+  height: 25px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.6));
+}
+.gameScoreChip .comboRingTrack { stroke: rgba(10, 30, 40, 0.9); }
+
+/* Meaning card: sits exactly over the stats row (hidden for 3.5 s), so it never covers the board or the wheel controls. */
+.gameBoard .gameMeaningOverlay {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  z-index: 20;
+  pointer-events: auto;
+}
+.gameBoard .gameMeaningOverlay .meaningCard3dContent { display: flex; align-items: center; gap: 10px; }
+.gameBoard .gameMeaningOverlay .meaningHeader { flex: none; gap: 6px; }
+.gameBoard .gameMeaningOverlay p { flex: 1; min-width: 0; margin: 0; }
+.gameBoard .gameMeaningOverlay .meaningHeader strong { font-size: 15px; }
+.gameBoard .gameMeaningOverlay p { margin: 2px 0 0; font-size: 13px; line-height: 1.3; }
+.gameBoard .gameMeaningOverlay .meaningCard3d { min-height: 0; }
+.gameBoard .gameMeaningOverlay .meaningCard3d::before,
+.gameBoard .gameMeaningOverlay .meaningCard3d::after { display: none; }
+.gameBoard .gameMeaningOverlay .meaningCard3dContent { padding: 10px 14px; }
+.gameBoard .gameMeaningOverlay .meaningCard3dContent p { margin-right: 0; }
+
+/* The center seal already says "Mühürle" below it; the dark "BAS" overprint was unreadable on the wax. */
+.wheelCenterSealBtn .waxSealLabel { display: none; }
+
+/* Wider board: bigger gap between cells reads better at the larger size, letters scale with the cell. */
+
+/* ---------- Premium letter board: drawn in CSS so no raster is stretched on any screen ---------- */
+.gameGridPanelBg, .gameStatChipBg { display: none !important; }
+.gameGridPanel {
+  border: 1px solid rgba(214, 170, 80, 0.5);
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(80, 140, 170, 0.22), transparent 60%),
+    linear-gradient(180deg, #11304a 0%, #0a1e30 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 0 3px rgba(8, 20, 32, 0.6), 0 10px 24px rgba(0, 0, 0, 0.4);
+}
+/* Found tiles (classic skin): warm parchment gold with dark ink, 7:1+ contrast. */
+
+/* Wider, easier letter wheel. */
+.wheelLetter { transition: transform 60ms linear, filter 90ms ease; }
+
+/* Meaning card = one compact strip exactly the height of the stats row; the decorative medal is dropped. */
+.gameBoard .gameMeaningOverlay { top: auto; bottom: 0; max-height: 48px; }
+.gameBoard .gameMeaningOverlay .meaningCard3d { max-height: 48px; overflow: hidden; }
+.gameBoard .gameMeaningOverlay .meaningCard3dContent { padding: 4px 12px; }
+.gameBoard .gameMeaningOverlay img, .gameBoard .gameMeaningOverlay [class*='medal'], .gameBoard .gameMeaningOverlay [class*='Medal'] { display: none; }
+.gameBoard .gameMeaningOverlay p { font-size: 12px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.gameBoard .gameMeaningOverlay, .gameBoard .gameMeaningOverlay .meaningCard3d { min-height: 54px; max-height: 54px; }
+.gameBoard .gameMeaningOverlay .meaningCard3d { background: linear-gradient(180deg, #0f3446, #0a2230); display: flex; align-items: center; }
+
+/* Tall phones have spare height under the wheel: let the board grow so tiles are bigger.
+   Short phones keep the compact board so the wheel is never squeezed. */
+
+/* Live word preview: a strip over the stats row, well above the thumb, so the player always sees what is being joined. */
+.gameBoard .gamePreviewStrip {
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  z-index: 22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 54px;
+  max-height: 54px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #0f3446, #0a2230);
+  border: 1px solid rgba(214, 170, 80, 0.55);
+  pointer-events: none;
+}
+.previewChip {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 38px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: linear-gradient(160deg, #fff3d0, #e8bd62);
+  color: #3a2508;
+  font-weight: 900;
+  font-size: 22px;
+  line-height: 1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 3px 0 #a9741c, 0 5px 6px rgba(0, 0, 0, 0.4);
+  animation: previewPop 120ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) { .previewChip { animation: none; } }
+
+/* Stall assist: a quiet one-line offer in the same slot as the meaning card, never over the board or the wheel. */
+.gameBoard .gameStallOffer {
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  z-index: 21;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  max-height: 54px;
+  padding: 0 10px 0 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #0f3446, #0a2230);
+  border: 1px solid rgba(214, 170, 80, 0.55);
+  color: #f5efdf;
+  font-size: 13px;
+  line-height: 1.25;
+  animation: stallOfferIn 220ms ease-out both;
+}
+.gameStallOffer span { flex: 1; min-width: 0; }
+.gameStallOffer button {
+  flex: none;
+  min-height: 40px;
+  min-width: 44px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.gameStallOffer .stallAccept {
+  padding: 0 16px;
+  background: linear-gradient(160deg, #fff3d0, #e8bd62);
+  color: #3a2508;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 3px 0 #a9741c;
+}
+.gameStallOffer .stallDismiss { background: transparent; color: #cfe3e8; font-size: 22px; }
+@media (prefers-reduced-motion: reduce) { .gameStallOffer { animation: none; } }
+
+/* Score stays prominent; shared ResourcePill owns the coin wallet geometry. */
+.gameScoreChip > strong { font-size: 20px; font-variant-numeric: tabular-nums; letter-spacing: -.04em; }

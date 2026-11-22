@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="32" viewBox="0 0 240 32">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#8b631d" stop-opacity=".1"/>
+      <stop offset=".5" stop-color="#ffe29a" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#8b631d" stop-opacity=".1"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <path d="M8 16 C58 5, 98 28, 132 14 C166 0, 196 8, 232 16" fill="none" stroke="url(#g)" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 13" filter="url(#glow)"/>
+</svg>
