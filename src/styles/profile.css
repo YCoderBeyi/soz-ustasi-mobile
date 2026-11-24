@@ -1,4 +1,4 @@
-.profileScreen{position:relative;display:grid;grid-template-rows:auto minmax(0,1fr) var(--ui-bottomnav-h);width:100%;min-height:100dvh;padding:0!important;overflow:hidden;background:#1a4a42;color:var(--anadolu-ivory)}
+.profileScreen{position:relative;display:grid;grid-template-rows:auto minmax(0,1fr) max(var(--ui-bottomnav-h),calc(104px + env(safe-area-inset-bottom)));width:100%;min-height:100dvh;padding:0!important;overflow:hidden;background:#1a4a42;color:var(--anadolu-ivory)}
 .profileSurface{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 8%,rgba(245,232,206,.16),transparent 42%),radial-gradient(circle at 50% 0%,rgba(213,173,87,.18),transparent 36%),linear-gradient(180deg,#2a6a5c 0%,#1a4a42 48%,#133d36 100%)}
 .profileEmpty{display:grid;gap:12px;justify-items:center;padding:16px 14px;border:1px solid var(--anadolu-border);border-radius:var(--ui-radius-card,16px);background:rgba(245,232,206,.12);text-align:center}
 .profileEmpty p{margin:0;color:var(--anadolu-mist);font-size:14px;line-height:1.45;font-weight:600}
@@ -8,7 +8,7 @@
 .profileHeader{position:relative;z-index:3;display:grid;grid-template-columns:52px 1fr 52px;align-items:center;min-height:66px;padding:max(28px,env(safe-area-inset-top)) 12px 4px}
 .profileHeader h1{margin:0;color:#ffe5a3;font-family:Georgia,"Times New Roman",serif;font-size:21px;line-height:1.2;text-align:center;text-shadow:0 2px 4px #000}
 .profileHeaderSpacer{width:52px}
-.profileContent{position:relative;z-index:1;display:grid;grid-template-rows:auto auto minmax(min-content,1fr) auto;align-content:start;gap:16px;min-height:0;padding:8px 18px 12px;overflow-y:auto;overscroll-behavior:contain}
+.profileContent{position:relative;z-index:1;display:grid;grid-auto-rows:max-content;align-content:start;gap:16px;min-height:0;padding:8px 18px 12px;overflow-y:auto;overscroll-behavior:contain}
 .profileAvatar{display:grid;justify-items:center;gap:4px}
 .profileSealHalo{display:grid;place-items:center;width:116px;height:116px;margin-bottom:2px;border:1px solid rgba(246,201,94,.35);border-radius:50%;background:radial-gradient(circle,rgba(227,184,73,.18),rgba(15,62,72,.2) 56%,transparent 57%);box-shadow:0 0 30px rgba(50,203,192,.13)}
 .profileSeal{width:94px;height:94px;font-size:29px;filter:drop-shadow(0 9px 8px rgba(0,0,0,.48))}
@@ -49,7 +49,49 @@
 .profileActionIcon--settings svg{border-radius:14px}
 .profileAction>span:nth-child(2){position:relative;z-index:1;display:grid;gap:2px;min-width:0;padding-left:7px}
 .profileAction strong{font-size:15px;line-height:1.15;text-transform:uppercase;text-shadow:0 2px 3px #000}
-.profileAction small{overflow:hidden;color:#a9d5d0;font-size:var(--ui-text-min);font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+.profileAction small{color:#a9d5d0;font-size:var(--ui-text-min);font-weight:600;line-height:1.2;overflow-wrap:anywhere}
 .profileAction b{position:relative;z-index:1;color:#f2c95e;font:700 28px/1 Georgia,serif;text-align:center}
 .profileInfo{margin:0;color:rgba(190,219,215,.62);font-size:var(--ui-text-micro);text-align:center}
 @media(max-height:720px){.profileContent{gap:10px;padding-top:2px}.profileSealHalo{width:94px;height:94px}.profileSeal{width:78px;height:78px}.profileStatItem{min-height:50px}.profileAction{min-height:var(--ui-row-h)}.profileActionIcon{width:47px;height:47px}}
+@media(max-width:360px){.profileLeagueActions{grid-template-columns:1fr}.profileLeagueGrid strong{font-size:15px;overflow-wrap:anywhere}.profileLeagueGrid span,.profileLeagueGrid small{font-size:11px}}
+
+/* Original leaderboard card: readable at phone width, backed only by PGS results. */
+.profileLeague{display:grid;gap:10px;padding:14px;border-color:rgba(243,203,112,.34);border-radius:16px;background:linear-gradient(155deg,rgba(14,61,68,.97),rgba(5,27,39,.98) 72%);box-shadow:0 9px 22px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.08)}
+.profileLeagueTopline{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.profileLeagueTopline h3{margin:2px 0 0;color:#fff0cc;font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.15}
+.profileLeagueEyebrow{margin:0;color:#e8bf62;font-size:9px;font-weight:900;letter-spacing:.13em}
+.profileLeagueIdentity{display:flex;align-items:center;gap:6px;max-width:46%;min-width:0;color:#e8f4e9;font-size:11px;font-weight:800}
+.profileLeagueIdentity>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.leagueAvatar{position:relative;display:grid;flex:0 0 34px;place-items:center;width:34px;height:34px;overflow:hidden;border:1px solid rgba(242,207,121,.52);border-radius:50%;background:linear-gradient(145deg,#27796b,#12364b);color:#fff0c8;font-size:12px;font-weight:900}
+.leagueAvatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.leagueAvatar--own{border-color:#ffd778;box-shadow:0 0 0 2px rgba(232,191,98,.18)}
+.profileLeagueTabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:4px;border:1px solid rgba(188,222,206,.12);border-radius:12px;background:rgba(0,0,0,.2)}
+.profileLeagueTabs button{min-width:0;min-height:44px;padding:6px 5px;border:0;border-radius:9px;background:transparent;color:#b8d4cf;font-family:inherit;font-size:11px;font-weight:700;line-height:1.15;cursor:pointer}
+.profileLeagueTabs button.is-active{background:linear-gradient(180deg,#f4d27c,#d99c42);color:#183b3b;box-shadow:0 2px 7px rgba(0,0,0,.24)}
+.profileLeagueTabs button:focus-visible,.profileLeagueLink:focus-visible,.profileLeagueBtn:focus-visible{outline:2px solid #fff0ae;outline-offset:2px}
+.profileLeagueMeta{display:flex;justify-content:space-between;gap:8px;color:#a8c9c1;font-size:10px;font-weight:700}
+.profileLeagueColumnLabels{display:grid;grid-template-columns:30px 34px minmax(0,1fr) auto;gap:8px;padding:0 8px;color:#92b5ad;font-size:9px;font-weight:900;letter-spacing:.08em}
+.profileLeagueColumnLabels span:last-child{text-align:right}
+.profileLeagueRows{display:grid;gap:4px;margin:0;padding:0;list-style:none}
+.profileLeagueRow{display:grid;grid-template-columns:30px 34px minmax(0,1fr) auto;align-items:center;gap:8px;min-height:46px;padding:5px 8px;border:1px solid rgba(183,218,208,.08);border-radius:11px;background:rgba(235,245,229,.045)}
+.profileLeagueRow.is-own{border-color:rgba(255,215,120,.6);background:linear-gradient(90deg,rgba(226,181,85,.2),rgba(35,91,82,.3));box-shadow:inset 3px 0 #e8bf62}
+.profileLeagueRank{display:grid;place-items:center;min-width:28px;min-height:28px;border:1px solid rgba(183,218,208,.12);border-radius:9px;background:rgba(0,0,0,.18);color:#b9d6ce;font-size:11px;font-weight:900;text-align:center;font-variant-numeric:tabular-nums}
+.profileLeagueRank.is-top-1{color:#ffdf7d}.profileLeagueRank.is-top-2{color:#d6e3eb}.profileLeagueRank.is-top-3{color:#e6b17e}
+.profileLeagueRow:has(.profileLeagueRank.is-top-1){border-color:rgba(255,215,120,.34);background:linear-gradient(90deg,rgba(226,181,85,.16),rgba(35,91,82,.2))}
+.profileLeagueRank.is-top-1{border-color:rgba(255,215,120,.5);background:rgba(222,167,57,.2)}
+.profileLeagueRank.is-top-2{border-color:rgba(207,225,235,.35);background:rgba(175,199,214,.14)}
+.profileLeagueRank.is-top-3{border-color:rgba(230,177,126,.38);background:rgba(173,104,63,.18)}
+.profileLeagueRow .leagueAvatar{width:32px;height:32px;flex-basis:32px}
+.profileLeaguePlayer{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;color:#f4f4e7;font-size:12px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}
+.profileLeaguePlayer small{flex:0 0 auto;padding:2px 5px;border-radius:6px;background:rgba(241,202,110,.2);color:#ffd978;font-size:9px;font-weight:900}
+.profileLeagueRow>strong{color:#ffdc7c;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.profileLeagueEmpty{display:grid;justify-items:center;gap:3px;padding:12px 8px;border:1px dashed rgba(241,202,110,.28);border-radius:12px;text-align:center}
+.profileLeagueEmpty>span{color:#f1ca6e;font-size:21px}.profileLeagueEmpty p{margin:0;color:#eff0e4;font-size:12px;font-weight:700}.profileLeagueEmpty small{color:#a8c9c1;font-size:10px}
+.profileLeagueMessage,.profileLeagueCalm{margin:0;color:#bed5ce;font-size:11px;line-height:1.4}
+.profileLeagueCalm{color:#e6c982}
+.profileLeagueFooter{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:2px}
+.profileLeagueLink{color:#f4d278;font-size:10px;text-decoration:none}
+.profileLeagueBtn{min-height:44px;padding:7px 12px;border:1px solid rgba(246,209,122,.55);border-radius:10px;background:linear-gradient(180deg,#1d665f,#12434b);color:#fff5d8;font-size:11px;font-weight:900;box-shadow:0 3px 0 #06252b;cursor:pointer}
+.profileLeagueBtn:disabled{opacity:.52;cursor:default}
+.profileLeagueBtn:not(:disabled):active{transform:translateY(2px);box-shadow:0 1px 0 #06252b}
+@media(max-width:360px){.profileLeague{padding:11px;gap:8px}.profileLeagueTopline h3{font-size:17px}.profileLeagueIdentity{font-size:10px}.profileLeagueMeta{font-size:9px}.profileLeagueRow,.profileLeagueColumnLabels{grid-template-columns:26px 30px minmax(0,1fr) auto;gap:6px;padding-inline:6px}.profileLeagueRow .leagueAvatar{width:28px;height:28px;flex-basis:28px}.profileLeaguePlayer{font-size:11px}.profileLeagueRow>strong{font-size:12px}}
