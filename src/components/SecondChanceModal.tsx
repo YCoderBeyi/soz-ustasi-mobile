@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useGame } from '../store/GameContext';
 import { Modal } from './Modal';
 import { PremiumPrimaryButton } from './PremiumPrimaryButton';
-import { fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
+import { fullscreenCooldownButtonLabel, fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
 import { useFullscreenCooldownRemaining } from '../services/useFullscreenCooldown';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 
@@ -61,7 +61,7 @@ export function SecondChanceModal() {
             {adPending
               ? 'Reklam açılıyor…'
               : cooldownLeft > 0
-                ? `${cooldownLeft} sn bekle`
+                ? fullscreenCooldownButtonLabel(cooldownLeft)
                 : `Serimi Reklamla Koru (${adsLeft})`}
           </PremiumPrimaryButton>
         )}

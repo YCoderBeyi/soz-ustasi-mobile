@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../styles/hint.css';
 import { useGame } from '../store/GameContext';
 import { Modal } from './Modal';
-import { fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
+import { fullscreenCooldownButtonLabel, fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
 import { useFullscreenCooldownRemaining } from '../services/useFullscreenCooldown';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 
@@ -95,7 +95,7 @@ export function HintModal() {
                     {adPending === option.id
                       ? 'Reklam açılıyor…'
                       : cooldownLeft > 0
-                        ? `${cooldownLeft} sn`
+                        ? fullscreenCooldownButtonLabel(cooldownLeft)
                         : 'Reklam izle'}
                   </b>
                   <small>{adsLeft}</small>

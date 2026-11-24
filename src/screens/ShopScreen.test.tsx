@@ -9,6 +9,7 @@ const state = vi.hoisted(() => ({
   setToast: vi.fn(),
   showRewardedAd: vi.fn(),
   adsLeft: 6,
+  cooldownLeft: 0,
 }));
 
 vi.mock('../store/GameContext', () => ({ useGame: () => ({
@@ -21,7 +22,9 @@ vi.mock('../services/admob', () => ({
   getLastAdFailureDetail: () => 'Reklam yüklenemedi: test',
 }));
 vi.mock('../services/useRewardedAdsLeft', () => ({ useRewardedAdsLeftToday: () => state.adsLeft }));
-vi.mock('../services/useFullscreenCooldown', () => ({ useFullscreenCooldownRemaining: () => 0 }));
+vi.mock('../services/useFullscreenCooldown', () => ({
+  useFullscreenCooldownRemaining: () => state.cooldownLeft,
+}));
 
 afterEach(cleanup);
 beforeEach(() => {
@@ -29,6 +32,7 @@ beforeEach(() => {
   state.setToast.mockReset();
   state.showRewardedAd.mockReset();
   state.adsLeft = 6;
+  state.cooldownLeft = 0;
 });
 
 describe('ShopScreen rewarded coin offer', () => {
@@ -58,5 +62,15 @@ describe('ShopScreen rewarded coin offer', () => {
     render(<ShopScreen />);
     fireEvent.click(screen.getByRole('button', { name: 'Altın' }));
     expect((screen.getByRole('button', { name: 'Hak bitti' }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('blocks the coin ad CTA and shows cooldown copy while waiting', () => {
+    state.cooldownLeft = 90;
+    render(<ShopScreen />);
+    fireEvent.click(screen.getByRole('button', { name: 'Altın' }));
+
+    expect(screen.getByText('Tam ekran reklam için 90 sn bekle. Reklamsız oynayabilirsin.')).toBeTruthy();
+    expect((screen.getByRole('button', { name: '90 sn bekle' }) as HTMLButtonElement).disabled).toBe(true);
+    expect(state.showRewardedAd).not.toHaveBeenCalled();
   });
 });

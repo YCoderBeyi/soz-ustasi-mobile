@@ -8,7 +8,7 @@ import { getLastAdFailureDetail, showRewardedAd } from '../services/admob';
 import { useFullscreenCooldownRemaining } from '../services/useFullscreenCooldown';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 import { DAILY_REWARDED_AD_LIMIT } from '../game/adBudget';
-import { fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
+import { fullscreenCooldownButtonLabel, fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
 
 type ShopTab = 'theme' | 'seal' | 'power_up' | 'coins';
 
@@ -107,7 +107,7 @@ export function ShopScreen() {
                   : adsLeft < 1
                     ? 'Hak bitti'
                     : cooldownLeft > 0
-                      ? `${cooldownLeft} sn`
+                      ? fullscreenCooldownButtonLabel(cooldownLeft)
                       : 'Reklam izle'}
               </strong>
             </button>
