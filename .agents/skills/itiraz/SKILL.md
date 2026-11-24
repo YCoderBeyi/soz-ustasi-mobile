@@ -30,3 +30,11 @@ UI/UX düzeltmesinde ölçülebilir sorunu ve yeniden üretim adımını belirle
 Animasyon eylem yanıtını geciktirmesin, metin ya da kontrolü örtmesin, yanıp sönme veya sürekli dikkat çekme yaratmasın. Mevcut `reduceMotion` tercihi ve `prefers-reduced-motion` desteğini gözet; kısa giriş/basış geri bildirimi ile sürekli parıltıyı aynı şey sayma. Mümkünse tarayıcıda en küçük desteklenen ve standart viewport'ta gerçek ekran görüntüsü al; yoksa görsel doğrulama sınırını raporla.
 
 Asset hygiene: Before adding or retaining assets, search runtime references and inspect production bundle contents. Remove confirmed-unused, superseded, intermediate, and generated preview files; do not move them into archives merely to avoid deletion. Keep only assets with a verified runtime or documented source/provenance purpose. Recheck APK/AAB size after asset changes.
+
+## Editoryal bütünlük ve senaryo bağı
+
+Her seviyeyi ve ekran akışını tek metin olarak değil, oyuncunun uçtan uca gördüğü bağlı sözleşme olarak denetle: kelime/hedef → harf havuzu → ipucu → hikâye/bilgi kartı → mühür/yıldız → gerçek ödül → sonraki ekran. Profil/sıralama, mağaza, reklam, ayarlar ve onboarding için de vaat → gerçek durum → başarı/iptal/hata dönüşünü eşleştir. Kelime, anlam, fiyat, ödül, ilerleme veya tercih verisini ikinci bir sabit kaynağa kopyalama.
+
+Her akışta uygulanabilir boş, kilitli, seçili, yükleniyor, tamamlandı, hata, çevrimdışı, tekrar giriş/çift dokunma, küçük ekran/büyük yazı, klavye odağı ve azaltılmış hareket senaryolarını kontrol et. Her içerik için Türkçe yazım/anlam/doğallık, hedefin harflerle kurulabilirliği, ipucunun adil oluşu, anlatı ile olgu uyumu ve kaynakların iddiayı desteklemesi ayrı değerlendirilir. AI veya test sonucu bağımsız insan editoryal incelemesi değildir.
+
+Her bulguyu ID/ekran/seviye, yeniden üretim, beklenen-gerçek sonuç, kök neden, düzeltme ve yeniden doğrulama kanıtıyla kaydet. Otomasyon yapısal tutarlılığı destekler; anlamı, oyuncu anlaşılırlığını veya gerçek cihaz görünümünü tek başına kanıtlamaz. Denenmemiş alanı açıkça belirt; çelişki, yanlış vaat veya kopuk geçiş varsa yayın onayı verme. Kapsamın tümü ve senaryo kanıtları raporlanmadan “uçtan uca tamam” deme.
