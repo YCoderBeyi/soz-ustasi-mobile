@@ -6,6 +6,7 @@ import { themes } from '../data/themes';
 import { LevelNode } from '../components/map/LevelNode';
 import { BottomNav } from '../components/ui/BottomNav';
 import { ResourcePill } from '../components/ResourcePill';
+import { getRegionChestCoins, LEVELS_PER_REGION as REGION_LEVEL_COUNT } from '../game/regionChest';
 import { hideMapBanner, isMapBannerVisible, showMapBanner, subscribeMapBannerState } from '../services/admob';
 import './MapScreen.css';
 
@@ -20,7 +21,7 @@ const PLATFORMS = [
   { x: 49.5, y: 30.8, k: 0.08 },
   { x: 70.5, y: 24.2, k: 0.075 },
 ];
-const LEVELS_PER_REGION = PLATFORMS.length;
+const LEVELS_PER_REGION = REGION_LEVEL_COUNT;
 
 function getNodePositions(count: number) {
   return PLATFORMS.slice(0, count);
@@ -41,8 +42,8 @@ function getNodeState(
 export function MapScreen() {
   const bannerVisible = useSyncExternalStore(subscribeMapBannerState, isMapBannerVisible, () => false);
   const {
-    play, level, currentLevelId, setLevel, completedLevels,
-    levelMastery, toast, setToast, coins,
+    play, level, currentLevelId, setLevel, completedLevels, awardedLevels,
+    levelMastery, toast, setToast, coins, selectedSealId,
     isLevelUnlocked, setScreen, dailyChallenge,
   } = useGame();
 
@@ -232,6 +233,8 @@ export function MapScreen() {
               state={state}
               x={pos.x}
               y={pos.y}
+              chestSealId={getRegionChestCoins(item.levelId) > 0 && !awardedLevels.includes(item.levelId) ? selectedSealId : undefined}
+              chestClaimed={getRegionChestCoins(item.levelId) > 0 && awardedLevels.includes(item.levelId)}
               k={pos.k}
               label={isFirstUncompleted ? 'Sıradaki' : undefined}
               onClick={() => handleNodeClick(item)}

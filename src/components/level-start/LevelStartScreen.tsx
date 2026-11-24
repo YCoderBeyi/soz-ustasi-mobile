@@ -4,6 +4,9 @@ import { getTheme } from '../../data/themes';
 import { getLevelStory } from '../../data/levelStories';
 import { OBJECTIVE_KEYS, getObjectiveLabels } from '../../game/objectives';
 import { PremiumPrimaryButton } from '../PremiumPrimaryButton';
+import { getRegionChestCoins } from '../../game/regionChest';
+import { rewardKey } from '../../game/lexicon';
+import { SealedChestReward } from '../SealedChestReward';
 import './LevelStartScreen.css';
 
 const ASSETS = '/assets/level-start';
@@ -22,12 +25,19 @@ function BriefingStatIcon({ kind }: { kind: 'main' | 'secret' | 'reward' }) {
 }
 
 export function LevelStartScreen() {
-  const { level, levelMastery, startLevel, setScreen, play } = useGame();
+  const { level, levelMastery, awardedLevels, rewardedWordKeys, doublerRemaining, selectedSealId, reduceMotion, calmMode, startLevel, setScreen, play } = useGame();
   const theme = getTheme(level.themeId);
   const story = getLevelStory(level.levelId);
   const objectiveLabels = getObjectiveLabels(level);
   const mastery = levelMastery[level.levelId];
   const puzzleLabel = PUZZLE_BADGE_LABEL;
+  const regionChestCoins = getRegionChestCoins(level.levelId);
+  const regionChestClaimed = regionChestCoins > 0 && awardedLevels.includes(level.levelId);
+  const levelRewardClaimed = awardedLevels.includes(level.levelId);
+  const hasUnclaimedHiddenReward = level.hiddenWords.some((word) => (
+    (word.reward ?? level.reward.hiddenWordBonus) > 0
+      && !rewardedWordKeys.includes(rewardKey(level.levelId, 'hidden', word.word))
+  ));
   const [launching, setLaunching] = useState(false);
   const launchTimerRef = useRef<number | null>(null);
 
@@ -100,14 +110,27 @@ export function LevelStartScreen() {
           <div className="ls-stat ls-stat-reward">
             <BriefingStatIcon kind="reward" />
             <div className="ls-stat-inner">
-              <strong>Ödül</strong>
-              <span className="ls-stat-value">{level.reward.baseCoin} Altın</span>
-              {level.hiddenWords.length > 0 && level.reward.hiddenWordBonus > 0 && (
+              <strong>Seviye Ödülü</strong>
+              <span className="ls-stat-value">{levelRewardClaimed ? 'Alındı' : `${level.reward.baseCoin} Altın`}</span>
+              {hasUnclaimedHiddenReward && (
                 <span className="ls-stat-bonus">+ Gizli Bonus</span>
+              )}
+              {!levelRewardClaimed && doublerRemaining > 0 && (
+                <span className="ls-stat-bonus">Katlayıcı ×2 aktif</span>
               )}
             </div>
           </div>
         </div>
+
+        {regionChestCoins > 0 && (
+          <SealedChestReward
+            coins={regionChestCoins}
+            doubledCoins={doublerRemaining > 0 && !regionChestClaimed ? regionChestCoins * 2 : undefined}
+            reduceMotion={reduceMotion || calmMode}
+            sealId={selectedSealId}
+            state={regionChestClaimed ? 'claimed' : 'sealed'}
+          />
+        )}
 
         {theme.modifier && (
           <div className="ls-modifier">

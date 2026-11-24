@@ -6,6 +6,7 @@ import { Modal } from './Modal';
 import { PremiumPrimaryButton } from './PremiumPrimaryButton';
 import { MAX_LEVEL_ID } from '../data/endlessLevels';
 import type { LevelData } from '../types';
+import { SealedChestReward } from './SealedChestReward';
 
 export function isFinalLevel(levelId: number, catalog?: LevelData[]): boolean {
   return levelId === (catalog ? catalog.at(-1)?.levelId : MAX_LEVEL_ID);
@@ -20,7 +21,7 @@ type RewardItem = {
 
 export function RewardModal() {
   const {
-    level, rewardSummary, scoreSummary, levelMastery, earnedObjectives,
+    level, rewardSummary, scoreSummary, levelMastery, earnedObjectives, reduceMotion, calmMode, selectedSealId,
     goToNextLevel, play, setModal, setScreen,
   } = useGame();
   // Closing the reward summary returns to the map; only its named primary action
@@ -57,11 +58,11 @@ export function RewardModal() {
       label: `+${rewardSummary.hidden} GİZLİ BONUS`,
       className: 'hiddenBonus',
     } : null,
-    rewardSummary.region !== undefined && rewardSummary.region > 0 ? {
-      key: 'region',
+    rewardSummary.daily && rewardSummary.daily > 0 ? {
+      key: 'daily',
       icon: '/assets/reward/v2/star.png',
-      label: `+${rewardSummary.region} BÖLGE SANDIĞI`,
-      className: 'regionBonus',
+      label: `+${rewardSummary.daily} GÜNÜN GÖREVİ`,
+      className: 'dailyBonus',
     } : null,
     rewardSummary.flawless ? {
       key: 'flawless',
@@ -72,19 +73,20 @@ export function RewardModal() {
     rewardSummary.doubled ? {
       key: 'doubler',
       icon: '/assets/reward/v2/coins.png',
-      label: 'ALTIN KATLAYICI ×2',
+      label: 'SEVİYE ÖDÜLÜ ×2',
       className: 'doublerBonus',
     } : null,
   ].filter((item): item is RewardItem => item !== null);
 
   return (
-    <Modal title="Mühür Açıldı!" onClose={closeReward}>
+    <Modal title={rewardSummary.region ? 'Bölge sandığı açıldı!' : 'Mühür Açıldı!'} onClose={closeReward}>
       <div className="rewardModalBody">
         <div className="rewardHero">
           <img src="/assets/reward/v2/history.png" alt="" />
           <div><span>YENİ KEŞİF</span><strong>{story.title}</strong></div>
         </div>
         <section className="rewardMastery" aria-label="Seviye ustalığı">
+          <p className="rewardMasteryNote">Yıldızlar bu seviyedeki en iyi sonucunu gösterir.</p>
           <div className="rewardStars3d" aria-label={`${displayedMastery.stars} yıldız`}>
             {[1, 2, 3].map((star) => (
               <img
@@ -101,7 +103,10 @@ export function RewardModal() {
             </p>
           ))}
         </section>
-        <section className="rewardScore" aria-label="Seviye puanı">
+        <section
+          className={`rewardScore rewardScore--celebrated${reduceMotion || calmMode ? ' rewardScore--still' : ''}`}
+          aria-label="Bu seviyede kazandığın puan"
+        >
           <span>PUAN</span>
           <strong>{scoreSummary.score}</strong>
           {scoreSummary.isRecord ? (
@@ -110,6 +115,14 @@ export function RewardModal() {
             <small>En iyi: {scoreSummary.previousBest}</small>
           ) : null}
         </section>
+        {rewardSummary.region !== undefined && rewardSummary.region > 0 && (
+          <SealedChestReward
+            coins={rewardSummary.region * (rewardSummary.doubled ? 2 : 1)}
+            reduceMotion={reduceMotion || calmMode}
+            sealId={selectedSealId}
+            state="open"
+          />
+        )}
         {rewardItems.length > 0 ? (
           <div className="rewardSummary3d">
             {rewardItems.map((item) => (

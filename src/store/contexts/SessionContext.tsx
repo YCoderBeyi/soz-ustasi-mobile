@@ -22,10 +22,20 @@ import {
 import { buildCrosswordLayout, type CrosswordLayout } from '../../game/crossword';
 import { getLastAdFailureDetail, showRewardedAd } from '../../services/admob';
 import { FEEDBACK_DURATION_MS } from '../../game/feedbackTiming';
+import { getRegionChestCoins } from '../../game/regionChest';
 
 type Modal = 'level' | 'hint' | 'pause' | 'privacy' | 'reward' | 'secondChance' | null;
 
 type SecondChanceStatus = 'available' | 'used' | 'skipped';
+
+type RewardSummary = {
+  base: number;
+  hidden: number;
+  daily?: number;
+  flawless?: boolean;
+  region?: number;
+  doubled?: boolean;
+};
 
 type SessionState = {
   level: LevelData;
@@ -57,7 +67,7 @@ type SessionState = {
   toast: string;
   theme: ThemeData;
   scoreSummary: { score: number; previousBest: number; isRecord: boolean };
-  rewardSummary: { base: number; hidden: number; flawless?: boolean; region?: number; doubled?: boolean };
+  rewardSummary: RewardSummary;
   earnedObjectives: ObjectiveKey[];
   missingHiddenCount: number;
   missingHiddenWordLengths: number[];
@@ -82,7 +92,7 @@ type SessionActions = {
   setToast: (message: string) => void;
   setScreen: (screen: ScreenName) => void;
   setLevel: (level: LevelData) => void;
-  setRewardSummary: (summary: { base: number; hidden: number }) => void;
+  setRewardSummary: (summary: RewardSummary) => void;
   setEarnedObjectives: (keys: ObjectiveKey[]) => void;
   submitCurrentWord: () => void;
   manualOpenSeal: () => void;
@@ -223,7 +233,7 @@ export function SessionProvider({
   const [toast, setToast] = useState('');
   const [screen, setScreen] = useState<ScreenName>('splash');
   const [scoreSummary, setScoreSummary] = useState({ score: 0, previousBest: 0, isRecord: false });
-  const [rewardSummary, setRewardSummary] = useState<{ base: number; hidden: number; flawless?: boolean; region?: number; doubled?: boolean }>({ base: 0, hidden: 0 });
+  const [rewardSummary, setRewardSummary] = useState<RewardSummary>({ base: 0, hidden: 0 });
   const [earnedObjectives, setEarnedObjectives] = useState<ObjectiveKey[]>([]);
   const [secondChance, setSecondChance] = useState<SecondChanceStatus>('available');
 
@@ -657,14 +667,18 @@ export function SessionProvider({
     setSealOpen(true);
     stopTimer();
     markLevelCompleted(level.levelId);
+    const dailyReward = dailyChallenge
+      && !dailyChallenge.completed
+      && dailyChallenge.levelId === level.levelId
+      ? dailyChallenge.reward
+      : 0;
 
     if (!awardedLevels.includes(level.levelId)) {
       const modifier = theme.modifier;
       const coinMult = modifier?.type === 'anatolian_autumn' ? 1.5 : 1;
       const baseReward = Math.round(level.reward.baseCoin * coinMult);
       
-      const isRegionCompletion = level.levelId % 6 === 0;
-      const regionBonus = isRegionCompletion ? 150 : 0;
+      const regionBonus = getRegionChestCoins(level.levelId);
 
       // KUSURSUZ: hatasız ve ipuçsuz tamamlama. RewardModal "+%50" satırını zaten
       // gösteriyordu fakat hiç tetiklenmiyordu; vaat edilen ödül burada gerçek yapılır.
@@ -677,9 +691,9 @@ export function SessionProvider({
       if (doubled) totalReward *= 2;
       addCoins(totalReward);
       markLevelAwarded(level.levelId);
-      setRewardSummary({ base: baseReward, hidden: 0, region: regionBonus, flawless: isFlawless, doubled });
+      setRewardSummary({ base: baseReward, hidden: 0, daily: dailyReward, region: regionBonus, flawless: isFlawless, doubled });
     } else {
-      setRewardSummary({ base: 0, hidden: 0 });
+      setRewardSummary({ base: 0, hidden: 0, daily: dailyReward });
     }
 
     if (
@@ -687,9 +701,9 @@ export function SessionProvider({
       && !dailyChallenge.completed
       && dailyChallenge.levelId === level.levelId
     ) {
-      addCoins(dailyChallenge.reward);
+      addCoins(dailyReward);
       claimDailyReward();
-      setToast(`Günün görevi tamamlandı: +${dailyChallenge.reward} altın`);
+      setToast(`Günün görevi tamamlandı: +${dailyReward} altın`);
     }
 
     const runObjectives = getRunObjectives(level, hiddenFound.length, usedHint, maxStreak, perfectRun);

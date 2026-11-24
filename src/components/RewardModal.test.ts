@@ -188,7 +188,7 @@ describe('RewardModal', () => {
 
     expect(screen.queryByText('+0 ALTIN')).toBeNull();
     expect(screen.getByText('+2 GİZLİ BONUS')).toBeTruthy();
-    expect(screen.getByText('+3 BÖLGE SANDIĞI')).toBeTruthy();
+    expect(screen.getByRole('status', { name: 'Bölge sandığı açıldı. 3 altın kazandın.' })).toBeTruthy();
     expect(screen.queryByText('Keşif devam ediyor')).toBeNull();
     expect(screen.queryByText('Tekrar Keşfet')).toBeNull();
   });

@@ -50,6 +50,7 @@ export function GameScreen() {
     submitWord,
     manualOpenSeal, selectedSealId,
     hiddenFound, missingHiddenCount, missingHiddenWordLengths,
+    completedLevels,
     reduceMotion, calmMode,
     stallAssistOffer, acceptStallAssist, dismissStallAssist,
   } = useGame();
@@ -77,6 +78,9 @@ export function GameScreen() {
     onLetter: () => { play('letter'); haptic(6); },
   });
   const { isDragging } = wheel;
+  const showFirstGestureGuide = level.levelId === 1
+    && !completedLevels.includes(1)
+    && found.length === 0;
 
   const displaySelected = wheel.selected.length > 0 ? wheel.selected : selected;
   const displayWord = displaySelected.map((index) => letters[index]).join('');
@@ -127,7 +131,7 @@ export function GameScreen() {
   return (
     <main
       key={levelTransitionKey}
-      className="screen game gameRef"
+      className={`screen game gameRef${showFirstGestureGuide ? ' game--first-gesture' : ''}`}
       data-feedback={feedback || undefined}
       style={{ '--accent': theme.primaryColor, '--theme-bg': `url(${theme.backgroundImage})` } as CSSProperties}
     >
@@ -224,7 +228,7 @@ export function GameScreen() {
       <section
         className="gameWheelZone"
         aria-label="Harf çemberi"
-        style={{ touchAction: 'none' }}
+        style={{ touchAction: 'pinch-zoom' }}
         {...wheel.handlers}
       >
         {/* Erişilebilir canlı bölgeler — görünmez, ekran okuyucuya açık */}
@@ -280,7 +284,7 @@ export function GameScreen() {
                     <span className="wheelCenterSealLabel">Mühürle</span>
                   </button>
                 ) : (
-                  <span className="wheelPlaceholder">Sürükle ve birleştir</span>
+                  <span className="wheelPlaceholder">Harflerin üstünde kaydır</span>
                 )}
               </div>
             )}

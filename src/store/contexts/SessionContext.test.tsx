@@ -565,6 +565,7 @@ describe('SessionContext', () => {
 
     expect(addCoins).toHaveBeenCalledWith(100);
     expect(claimDailyReward).toHaveBeenCalledOnce();
+    expect(result.current.rewardSummary.daily).toBe(100);
   });
 });
 

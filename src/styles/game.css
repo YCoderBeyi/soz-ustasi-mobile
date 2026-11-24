@@ -1006,6 +1006,24 @@
 
 .gameWheelZone { gap: 8px; padding-inline: 10px; }
 .wheelPlaceholder { color: #fff8e8; font-size: 12px; font-weight: 900; }
+.game--first-gesture .wheelPlaceholder::after {
+  content: '↔';
+  display: block;
+  margin-top: 2px;
+  color: var(--anadolu-gold-soft);
+  font-size: 18px;
+  line-height: 1;
+  animation: firstGestureCue 560ms ease-in-out 3 alternate;
+}
+
+@keyframes firstGestureCue {
+  from { transform: translateX(-5px); opacity: .65; }
+  to { transform: translateX(5px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game--first-gesture .wheelPlaceholder::after { animation: none; }
+}
 
 .wheelControls {
   display: grid;
@@ -1375,6 +1393,15 @@
   padding: 8px 12px 10px;
   border-radius: 12px;
   background: linear-gradient(180deg, rgba(20,61,70,.66), rgba(4,24,37,.76));
+}
+
+.rewardMastery .rewardMasteryNote {
+  min-height: 0;
+  margin: 0 0 2px;
+  color: #c9d7d8;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .rewardStars3d {
