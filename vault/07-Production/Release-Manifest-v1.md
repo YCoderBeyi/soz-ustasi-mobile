@@ -2,8 +2,8 @@
 
 İlgili: [[Ads-Readiness-v1]], [[Ad-Monetization-C-Plus-Architecture-v1]], [[Data-Safety-v1]], [[UA-App-Campaign-Draft-v1]], [[Closed-Test-Checklist-v1]]
 
-- Version name: 1.2.10
-- Version code: 35
+- Version name: 1.2.11
+- Version code: 36
 - Track: Closed test, then production after eligibility
 - Data model: PlayerSave v3
 - Network access: Internet (AdMob; optional Google Play Games)
@@ -13,9 +13,10 @@
 - Supported locale: tr-TR
 - Level catalog: 75 authored levels
 - Release owner: Yasar Derebasi
-- AAB SHA-256: E8C3D045E8E3B69B268B829700822DA068651DAE03299ADD022DAF9594562106
-- APK SHA-256: A031DD2A1CA9698A788941733B6547EE84CBF8D773D8CF211986CD35B38A3BA2
-- Artifact AAB: `artifacts/SozUstasi-1.2.10-release.aab`
+- AAB SHA-256: 90C90970B2715B88492E0BB86F1314100D53F370C97DDADD0B0D4113B76ABE23
+- APK SHA-256: Not built (Play upload uses the AAB)
+- Artifact AAB: `artifacts/SozUstasi-1.2.11-release.aab`
+- Media provenance: Open; the release asset audit reports 189 unverified media files.
 
 ## Play Games Services (lig) — ID doldurma
 
@@ -31,11 +32,10 @@ Play Console → Grow → Play Games Services → Setup / Leaderboards.
 
 ## Play Release Notes
 
-Söz Ustası 1.2.10:
-- İçerik denetimi üç uzman ajana bölündü: seviyeler 1–25, 26–50 ve 51–75.
-- Yeni kelime adayları bağımsız incelemelerden geçirildi.
-- Tahta geri bildirimi: mühür baskısı, ipucu mist tonu ve sakin hedef kenarı.
-- İsteğe bağlı Play Games skor paylaşımı (haftanın en iyi seviye puanı / toplam yıldız).
+Söz Ustası 1.2.11:
+- Bonus kelime havuzu ve kısa anlam açıklamaları düzenlendi.
+- 75. seviye sonrası benzersiz bulmaca üretimi güncellendi.
+- Kelime kabulü ve editoryal içerik kontrolleri iyileştirildi.
 
 ### Privacy and leaderboard data
 
@@ -44,8 +44,7 @@ Play Games lig katılımı isteğe bağlıdır. Katılım açıkken ve Sakin Mod
 ## Play Console (tr-TR, kısa)
 
 ```
-• İçerik denetimi 1–25 / 26–50 / 51–75 ajan aralıkları
-• Yeni kelime adayları bağımsız incelemeden geçti
-• Mühür baskısı ve sakin tahta geri bildirimi
-• İsteğe bağlı Play Games ligi
+• Bonus kelime havuzu ve anlam açıklamaları düzenlendi
+• 75. seviye sonrası benzersiz bulmaca üretimi güncellendi
+• Kelime kabulü ve ödül geri bildirimi iyileştirildi
 ```
