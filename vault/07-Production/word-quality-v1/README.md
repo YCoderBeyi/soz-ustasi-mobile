@@ -6,6 +6,8 @@
 
 **Kapi:** `src/data/wordQuality.test.ts` her ana ve gizli kelimenin `approved-words.json` icinde oldugunu zorunlu kilar. Listede olmayan kelime testi dusurur.
 
+**Akış ve senaryo bağı:** Sözcük tanınırlığı tek başına editoryal onay değildir. Seviye, hikâye, ipucu, hedef, ödül ve sonraki ekranın uçtan uca kabul şartları `vault/07-Production/Editorial-Integrity-Gate-v1.md` içindedir.
+
 **Yeni kelime eklerken:** kelimeyi iki modele sorun, ikisi de A/B derse `approved-words.json` dosyasina ekleyin. Anlam her zaman ozgun yazilir (TDK kopyasi degil).
 
 **Biçim kapısı:** A/B yaygınlık notu tek başına hedef biçimini onaylamaz. Mühür veya gizli yıldız hedefinde çıplak emir biçimi kullanmayın. `required-target-exclusions.json` tek istisna listesidir; `src/data/wordQuality.test.ts` ve üretim seviyesi oluşturucu aynı listeye uyar. Bir sözcük başka bir yaygın isim/sıfat anlamıyla kullanılacaksa o anlam açıkça yazılmalı ve ayrı editoryal incelemeden geçmelidir.

@@ -241,6 +241,10 @@ Sonraki faz, önceki fazın çıkış kriterleri tamamlanmadan başlamaz. Kritik
 kayıt kaybı, ilerleme kilidi veya içerik doğruluğu sorunu varsa yeni özellik çalışması
 durdurulur ve stabilizasyon önceliklendirilir.
 
+## Kalıcı editoryal yayın kapısı
+
+Her yeni içerik ve ekran akışı `vault/07-Production/Editorial-Integrity-Gate-v1.md` kapsamındaki kelime-hikâye-hedef-ödül-durum geçişleri ve senaryo matrisi tamamlanmadan onaylanamaz. Mevcut katalog da aynı ölçütlerle uçtan uca denetlenir; yalnız seviye metnine veya birim testine bakmak yeterli değildir.
+
 ## Taslak Öneri - Haz Sistemi (onay bekliyor, sıra henüz belirlenmedi)
 
 Kaynak: 2026-11-07 tasarım istişaresi. Bu bölüm onaylı uygulama sırasının parçası değildir.
