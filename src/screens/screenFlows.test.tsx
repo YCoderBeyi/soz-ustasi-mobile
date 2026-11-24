@@ -25,6 +25,7 @@ vi.mock('../services/admob', () => ({
   hideTopBanner: vi.fn(async () => undefined),
   attemptLevelBreakInterstitial: vi.fn(async () => 'skipped'),
   noteLevelCompletedForAds: vi.fn(),
+  getFullscreenCooldownRemainingSeconds: vi.fn(() => 0),
 }));
 
 afterEach(cleanup);
@@ -35,7 +36,8 @@ beforeEach(() => {
     setSoundEnabled: vi.fn(), setSoundVolume: vi.fn(), setHapticsEnabled: vi.fn(),
     setCalmMode: vi.fn(), setReduceMotion: vi.fn(),
     leagueOptIn: false, setLeagueOptIn: vi.fn(), setLeagueConsentAnswered: vi.fn(),
-    completedLevels: [], collectedWords: [], favoriteWords: [], theme: { primaryColor: '#f1c96a' },
+    completedLevels: [], awardedLevels: [], collectedWords: [], favoriteWords: [], selectedSealId: null,
+    theme: { primaryColor: '#f1c96a' },
     coins: 0, isItemOwned: () => false, doublerRemaining: 0, toast: '', toggleFavorite: vi.fn(),
     level: levels[0], levelMastery: {}, isLevelUnlocked: () => true, dailyChallenge: null,
     setToast: vi.fn(), setLevel: vi.fn(),
@@ -71,7 +73,7 @@ describe('screen flows', () => {
 
   it('explains that score submission is separate from Play Games sign-in', () => {
     render(<SettingsScreen />);
-    expect(screen.getByText(/Açıkken her seviye sonunda seviye puanın/)).toBeTruthy();
+    expect(screen.getByText(/Açıkken ve Play Games oturumun varken seviye puanın/)).toBeTruthy();
     expect(screen.getByText(/Bu tercih ilk açılışta sorulur/)).toBeTruthy();
     fireEvent.click(screen.getByRole('switch', { name: /Play Games Ligine Katıl/ }));
     expect(state.setLeagueOptIn).toHaveBeenCalledWith(true);

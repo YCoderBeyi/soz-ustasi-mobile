@@ -6,6 +6,12 @@ import { levels } from '../../data/levels';
 const game = vi.hoisted(() => ({
   level: null as unknown,
   levelMastery: {} as Record<number, { stars: number; objectives: string[] }>,
+  awardedLevels: [] as number[],
+  rewardedWordKeys: [] as string[],
+  doublerRemaining: 0,
+  selectedSealId: null as string | null,
+  reduceMotion: false,
+  calmMode: false,
   startLevel: vi.fn(),
   setScreen: vi.fn(),
   play: vi.fn(),
@@ -31,6 +37,8 @@ describe('LevelStartScreen objective and reward truth', () => {
   it('does not advertise a hidden-word count or bonus when the level has no hidden target', () => {
     game.level = levels.find((level) => level.levelId === 4)!;
     game.levelMastery = {};
+    game.awardedLevels = [];
+    game.rewardedWordKeys = [];
     render(<LevelStartScreen />);
 
     expect(screen.getByText('Ek Hedef')).toBeTruthy();
@@ -45,6 +53,8 @@ describe('LevelStartScreen objective and reward truth', () => {
       reward: { ...levels[0].reward, hiddenWordBonus: 10 },
     };
     game.levelMastery = {};
+    game.awardedLevels = [];
+    game.rewardedWordKeys = [];
     render(<LevelStartScreen />);
 
     expect(screen.getByText('Gizli Kelimeler')).toBeTruthy();
@@ -60,6 +70,8 @@ describe('LevelStartScreen objective and reward truth', () => {
       hiddenWords: [],
     };
     game.levelMastery = {};
+    game.awardedLevels = [];
+    game.rewardedWordKeys = [];
     render(<LevelStartScreen />);
 
     expect(screen.getByRole('note').textContent).toContain('2 ana kelimeyi');

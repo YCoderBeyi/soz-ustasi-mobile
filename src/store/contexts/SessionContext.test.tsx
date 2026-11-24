@@ -435,7 +435,7 @@ describe('SessionContext', () => {
     expect(addCoins).toHaveBeenCalledWith(3);
   });
 
-  it('level 34 treats KATİP as a main word and TAKİP as a hidden discovery', () => {
+  it('level 34 accepts its authored television words and a buildable bonus discovery', () => {
     const addCoins = vi.fn();
     const level34 = levels.find((item) => item.levelId === 34);
     expect(level34).toBeDefined();
@@ -444,15 +444,17 @@ describe('SessionContext', () => {
     });
 
     act(() => result.current.startLevel(level34));
-    act(() => result.current.submitWord('KATİP'));
-    act(() => result.current.submitWord('TAKİP'));
+    act(() => result.current.submitWord('BİLGİ'));
+    act(() => result.current.submitWord('KOD'));
+    act(() => result.current.submitWord('KİL'));
 
-    expect(result.current.found).toContain('KATİP');
-    expect(result.current.hiddenFound.map((entry) => entry.word)).toContain('TAKİP');
-    expect(addCoins).toHaveBeenCalledWith(10);
+    expect(result.current.found).toEqual(expect.arrayContaining(['BİLGİ', 'KOD']));
+    expect(result.current.feedback).toBe('hidden');
+    expect(result.current.toast).toContain('Bonus Kelime');
+    expect(addCoins).toHaveBeenCalledWith(1);
   });
 
-  it('accepts safe side words from level 34 letters as bonus discoveries', () => {
+  it('accepts a safe side word from level 34 letters as a bonus discovery', () => {
     const addCoins = vi.fn();
     const level34 = levels.find((item) => item.levelId === 34);
     expect(level34).toBeDefined();
@@ -461,15 +463,14 @@ describe('SessionContext', () => {
     });
 
     act(() => result.current.startLevel(level34));
-    act(() => result.current.submitWord('TİP'));
-    act(() => result.current.submitWord('KAP'));
+    act(() => result.current.submitWord('İKİ'));
 
     expect(result.current.feedback).toBe('hidden');
     expect(addCoins).toHaveBeenCalledWith(1);
-    expect(addCoins).toHaveBeenCalledTimes(2);
+    expect(addCoins).toHaveBeenCalledTimes(1);
   });
 
-  it('level 39 keeps sensitive MAL out and accepts AL as the hidden discovery', () => {
+  it('level 39 keeps sensitive MAL out and accepts a safe buildable bonus word', () => {
     const addCoins = vi.fn();
     const level39 = levels.find((item) => item.levelId === 39);
     expect(level39).toBeDefined();
@@ -483,10 +484,11 @@ describe('SessionContext', () => {
     });
 
     act(() => result.current.startLevel(level39));
-    act(() => result.current.submitWord('AL'));
+    act(() => result.current.submitWord('ŞIK'));
 
-    expect(result.current.hiddenFound.map((entry) => entry.word)).toContain('AL');
-    expect(addCoins).toHaveBeenCalledWith(20);
+    expect(result.current.feedback).toBe('hidden');
+    expect(result.current.toast).toContain('Bonus Kelime');
+    expect(addCoins).toHaveBeenCalledWith(1);
   });
 
   it('treats a buildable word outside the reviewed lists as neutral: no streak, no reward, no penalty', () => {

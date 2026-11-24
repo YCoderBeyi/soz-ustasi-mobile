@@ -12,6 +12,7 @@ vi.mock('./services/admob', () => ({
   hideTopBanner: vi.fn(async () => undefined),
   attemptLevelBreakInterstitial: vi.fn(async () => 'skipped'),
   noteLevelCompletedForAds: vi.fn(),
+  getFullscreenCooldownRemainingSeconds: vi.fn(() => 0),
 }));
 
 beforeEach(() => {

@@ -235,10 +235,10 @@ describe('persistPlayerSave / loadPlayerSave', () => {
 
 describe('resolveCollectedWords', () => {
   it('resolves words that exist in level data', () => {
-    // BALON is a real word in level data
-    const result = resolveCollectedWords(['BALON']);
+    // ARI is an authored target in the current first level.
+    const result = resolveCollectedWords(['ARI']);
     expect(result.length).toBe(1);
-    expect(result[0].word).toBe('BALON');
+    expect(result[0].word).toBe('ARI');
   });
 
   it('filters out non-existent words', () => {
@@ -246,9 +246,14 @@ describe('resolveCollectedWords', () => {
     expect(result).toEqual([]);
   });
 
-  it('matches regardless of case and diacritics', () => {
-    const result = resolveCollectedWords(['balon']);
+  it('matches Turkish lowercase without folding distinct dotted and dotless I letters', () => {
+    const result = resolveCollectedWords(['arı']);
     expect(result.length).toBe(1);
-    expect(result[0].word).toBe('BALON');
+    expect(result[0].word).toBe('ARI');
+  });
+
+  it('restores a collected curated bonus word after reload', () => {
+    const result = resolveCollectedWords(['BOL']);
+    expect(result).toEqual([expect.objectContaining({ word: 'BOL' })]);
   });
 });

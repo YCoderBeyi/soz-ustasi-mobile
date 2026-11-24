@@ -2,10 +2,10 @@ import type { WordEntry } from '../types';
 import { normalizeWord } from './normalize';
 import { GENERATED_BONUS_MEANINGS, GENERATED_BONUS_WORDS } from '../data/bonusWords.generated';
 
-// Common, unambiguous words curated for the letter pools used by the game.
-// Lexical candidates were cross-checked against Zemberek's Turkish lexicon.
+// Common words curated for the letter pools; short meanings are written for this game.
 const bonusWords: WordEntry[] = [
   { word: 'AMA', meaning: 'Karşıt iki düşünceyi birbirine bağlayan söz.' },
+  { word: 'BOL', meaning: 'Miktarı veya sayısı çok olan.' },
   { word: 'SU', meaning: 'Canlıların yaşamı için gerekli saydam sıvı.' },
   { word: 'ŞU', meaning: 'Yakındaki veya gösterilen varlığı belirten söz.' },
   { word: 'DENE', meaning: 'Bir şeyi sınamak için kullanılan kısa komut.' },

@@ -4,7 +4,7 @@ import { toRunMastery } from './objectives';
 import { levels, initialLevel } from '../data/levels';
 import { ensureLevelsThrough, MAX_LEVEL_ID } from '../data/endlessLevels';
 import { normalizeWord } from './normalize';
-import { rewardKey } from './lexicon';
+import { findCatalogWord, rewardKey } from './lexicon';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -332,13 +332,7 @@ export function persistPlayerSave(save: PlayerSave): void {
 // ---------------------------------------------------------------------------
 
 export function resolveCollectedWords(words: string[]): WordEntry[] {
-  const catalog = new Map<string, WordEntry>();
-  for (const entry of levels) {
-    for (const word of [...entry.mainWords, ...entry.hiddenWords]) {
-      catalog.set(normalizeWord(word.word), word);
-    }
-  }
   return words
-    .map((word) => catalog.get(normalizeWord(word)))
+    .map((word) => findCatalogWord(normalizeWord(word)))
     .filter((word): word is WordEntry => Boolean(word));
 }

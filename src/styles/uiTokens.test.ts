@@ -11,7 +11,7 @@ const cssFiles = walk('src').filter((file) => file.endsWith('.css'));
 
 // Deliberate micro text: clue-number digits, star counters, decorative pseudo-elements.
 const MICRO_ALLOWED = /wordTileNumber|level-node__stars|::before|::after/;
-const CONTROL = /\.(btn3d\S*|ls-play|ls-close|pauseAction\S*|pausePrivacy|profileAction|settingsItem|shopBuy|tabPill3d|map-daily-card|wheelCtrlBtn|gameSealAction|bottom-nav|bottomNav)\b/;
+const CONTROL = /\.(btn3d\S*|ls-play|ls-close|pauseAction\S*|pausePrivacy|profileAction|profileLeagueBtn|profileLeagueTabs|profileLeagueLink|settingsItem|shopBuy|shopRewardAction|tabPill3d|map-daily-card|wheelCtrlBtn|gameSealAction|bottom-nav|bottomNav)\b/;
 
 function declarations(prop: RegExp) {
   const found: { file: string; selector: string; value: string }[] = [];
