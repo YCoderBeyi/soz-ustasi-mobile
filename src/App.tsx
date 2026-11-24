@@ -10,9 +10,12 @@ import { ShopScreen } from './screens/ShopScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { LevelStartScreen } from './components/level-start/LevelStartScreen';
+import { useTopBanner } from './hooks/useTopBanner';
 
 function ScreenRouter() {
   const { screen, reduceMotion } = useGame();
+  const bannerOwner = screen === 'map' ? 'map' : screen === 'level-start' ? 'level-start' : null;
+  useTopBanner(bannerOwner);
 
   // In-app "Hareketi Azalt" toggle must also silence CSS animations/transitions,
   // not just the JS-rendered effects. The OS prefers-reduced-motion media query

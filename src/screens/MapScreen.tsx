@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useCallback, useEffect, useSyncExternalStore } from 'react';
+import { useMemo, useState, useRef, useCallback, useEffect } from 'react';
 import { useGame } from '../store/GameContext';
 import { levels } from '../data/levels';
 import { ensureLevelsThrough, getLevelById } from '../data/endlessLevels';
@@ -6,8 +6,8 @@ import { themes } from '../data/themes';
 import { LevelNode } from '../components/map/LevelNode';
 import { BottomNav } from '../components/ui/BottomNav';
 import { ResourcePill } from '../components/ResourcePill';
+import { useBannerSlotReserved } from '../hooks/useTopBanner';
 import { getRegionChestCoins, LEVELS_PER_REGION as REGION_LEVEL_COUNT } from '../game/regionChest';
-import { hideMapBanner, isMapBannerVisible, showMapBanner, subscribeMapBannerState } from '../services/admob';
 import './MapScreen.css';
 
 // Level nodes live in the coordinate space of kapadokya-masal-haritasi (941x1672), not of the screen: x/y are
@@ -40,7 +40,7 @@ function getNodeState(
 }
 
 export function MapScreen() {
-  const bannerVisible = useSyncExternalStore(subscribeMapBannerState, isMapBannerVisible, () => false);
+  const bannerVisible = useBannerSlotReserved();
   const {
     play, level, currentLevelId, setLevel, completedLevels, awardedLevels,
     levelMastery, toast, setToast, coins, selectedSealId,
@@ -88,11 +88,6 @@ export function MapScreen() {
 
   const activeGroup = regionGroups[activeIndex] ?? regionGroups[0];
   const activeTheme = activeGroup.theme;
-
-  useEffect(() => {
-    void showMapBanner();
-    return () => { void hideMapBanner(); };
-  }, []);
 
   const handleSwipe = useCallback(
     (direction: 'left' | 'right') => {
@@ -184,7 +179,9 @@ export function MapScreen() {
           <div className="map-topbar-title-row">
             <span className="map-topbar-title">{activeTheme.title}</span>
           </div>
-          <span className="map-topbar-subtitle">Tarihi Rehber</span>
+          <span className="map-topbar-subtitle">
+            Bölge {activeIndex + 1} · Seviye {themeLevels[0]?.levelId}–{themeLevels[themeLevels.length - 1]?.levelId}
+          </span>
         </div>
 
         <div className="map-topbar-resources">
@@ -198,7 +195,9 @@ export function MapScreen() {
           className={`map-daily-card ${dailyChallenge.completed ? 'map-daily-card--done' : ''}`}
           onClick={handleDailyChallenge}
           disabled={dailyChallenge.completed}
-          aria-label={dailyChallenge.completed ? 'Günün görevi tamamlandı' : `Günün görevi: Seviye ${dailyChallenge.levelId}`}
+          aria-label={dailyChallenge.completed
+            ? 'Günün görevi tamamlandı'
+            : `Günün görevi: Seviye ${dailyChallenge.levelId}, ${dailyChallenge.reward} altın ödülü`}
         >
           <span>GÜNÜN GÖREVİ</span>
           <strong>
@@ -233,9 +232,9 @@ export function MapScreen() {
               state={state}
               x={pos.x}
               y={pos.y}
+              k={pos.k}
               chestSealId={getRegionChestCoins(item.levelId) > 0 && !awardedLevels.includes(item.levelId) ? selectedSealId : undefined}
               chestClaimed={getRegionChestCoins(item.levelId) > 0 && awardedLevels.includes(item.levelId)}
-              k={pos.k}
               label={isFirstUncompleted ? 'Sıradaki' : undefined}
               onClick={() => handleNodeClick(item)}
             />
@@ -244,17 +243,37 @@ export function MapScreen() {
         </div>
       </section>
 
-      <div ref={regionsRef} className="map-theme-dots" role="group" aria-label="Bölge seçimi">
-        {regionGroups.map((group, i) => (
-          <button
-            key={`${group.theme.themeId}-${i}`}
-            className={`map-dot ${i === activeIndex ? 'map-dot--active' : ''} ${group.isCompleted ? 'map-dot--completed' : ''} ${!group.isUnlocked ? 'map-dot--locked' : ''}`}
-            aria-label={`Bölge ${i + 1}: ${group.theme.title}, seviyeler ${group.levels[0].levelId}–${group.levels[group.levels.length - 1].levelId}`}
-            aria-current={i === activeIndex ? 'true' : undefined}
-            disabled={!group.isUnlocked}
-            onClick={() => { play('tap'); setActiveIndex(i); }}
-          />
-        ))}
+      <div className="map-region-nav" role="group" aria-label="Bölgeler arasında gezinme">
+        <button
+          type="button"
+          className="map-region-arrow"
+          aria-label="Önceki bölge"
+          disabled={activeIndex <= 0}
+          onClick={() => { play('tap'); handleSwipe('right'); }}
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+        <div ref={regionsRef} className="map-theme-dots" role="group" aria-label="Bölge seçimi">
+          {regionGroups.map((group, i) => (
+            <button
+              key={`${group.theme.themeId}-${i}`}
+              className={`map-dot ${i === activeIndex ? 'map-dot--active' : ''} ${group.isCompleted ? 'map-dot--completed' : ''} ${!group.isUnlocked ? 'map-dot--locked' : ''}`}
+              aria-label={`Bölge ${i + 1}: ${group.theme.title}, seviyeler ${group.levels[0].levelId}–${group.levels[group.levels.length - 1].levelId}`}
+              aria-current={i === activeIndex ? 'true' : undefined}
+              disabled={!group.isUnlocked}
+              onClick={() => { play('tap'); setActiveIndex(i); }}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          className="map-region-arrow"
+          aria-label="Sonraki bölge"
+          disabled={activeIndex >= regionGroups.length - 1}
+          onClick={() => { play('tap'); handleSwipe('left'); }}
+        >
+          <span aria-hidden="true">›</span>
+        </button>
       </div>
 
       <div className="map-mastery">

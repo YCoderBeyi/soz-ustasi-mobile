@@ -7,9 +7,11 @@ vi.mock('./audio', () => ({ playSfx: vi.fn() }));
 vi.mock('./services/admob', () => ({
   initializeAdMob: vi.fn(), showRewardedAd: vi.fn(), showAdPrivacyOptions: vi.fn(), getLastAdFailureDetail: () => '',
   getRewardedAdsLeftToday: () => 0, subscribeRewardedAdsLeft: () => () => {},
-  hasMapBannerSlot: vi.fn(() => false), isMapBannerVisible: vi.fn(() => false),
-  subscribeMapBannerState: vi.fn(() => () => {}), showMapBanner: vi.fn(async () => undefined),
-  hideMapBanner: vi.fn(async () => undefined),
+  hasBannerSlot: vi.fn(() => false), isBannerSlotReserved: vi.fn(() => false),
+  subscribeBannerSlotState: vi.fn(() => () => {}), showTopBanner: vi.fn(async () => undefined),
+  hideTopBanner: vi.fn(async () => undefined),
+  attemptLevelBreakInterstitial: vi.fn(async () => 'skipped'),
+  noteLevelCompletedForAds: vi.fn(),
 }));
 
 beforeEach(() => {

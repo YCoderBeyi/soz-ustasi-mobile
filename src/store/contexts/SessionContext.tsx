@@ -20,7 +20,13 @@ import {
   type ScoreKind, type ScoreState,
 } from '../../game/score';
 import { buildCrosswordLayout, type CrosswordLayout } from '../../game/crossword';
-import { getLastAdFailureDetail, showRewardedAd } from '../../services/admob';
+import { loadPlayerSave } from '../../game/playerSave';
+import {
+  attemptLevelBreakInterstitial,
+  getLastAdFailureDetail,
+  noteLevelCompletedForAds,
+  showRewardedAd,
+} from '../../services/admob';
 import { FEEDBACK_DURATION_MS } from '../../game/feedbackTiming';
 import { getRegionChestCoins } from '../../game/regionChest';
 
@@ -666,6 +672,7 @@ export function SessionProvider({
     if (sealOpen) return;
     setSealOpen(true);
     stopTimer();
+    const alreadyCompleted = loadPlayerSave().completedLevels.includes(level.levelId);
     markLevelCompleted(level.levelId);
     const dailyReward = dailyChallenge
       && !dailyChallenge.completed
@@ -729,7 +736,14 @@ export function SessionProvider({
     });
 
     play('reward');
-    cleanup.safeTimeout(() => setModal('reward'), 1200);
+    noteLevelCompletedForAds({ alreadyCompleted });
+    // C+: continue CTAs (RewardModal) open only after interstitial attempt resolves — never block if skipped.
+    cleanup.safeTimeout(() => {
+      void (async () => {
+        await attemptLevelBreakInterstitial();
+        setModal('reward');
+      })();
+    }, 1200);
   }, [level, hiddenFound, usedHint, maxStreak, elapsedTime,
       sealOpen, awardedLevels, theme, perfectRun, calmMode, leagueOptIn, levelMastery,
       addCoins, markLevelCompleted, markLevelAwarded, consumeDoubler,

@@ -15,6 +15,8 @@ vi.mock('../../services/admob', () => ({
   showAdPrivacyOptions: vi.fn(),
   getRewardedAdsLeftToday: vi.fn(() => 6),
   subscribeRewardedAdsLeft: vi.fn(() => () => undefined),
+  attemptLevelBreakInterstitial: vi.fn(async () => 'skipped' as const),
+  noteLevelCompletedForAds: vi.fn(),
 }));
 
 import { showRewardedAd } from '../../services/admob';

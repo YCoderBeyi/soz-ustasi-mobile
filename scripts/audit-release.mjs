@@ -74,10 +74,10 @@ if (releaseManifestVersionCode !== versionCode) {
 }
 requireManifestValue('Track', 'Closed test, then production after eligibility');
 requireManifestValue('Data model', 'PlayerSave v3');
-requireManifestValue('Network access', 'Internet (AdMob)');
-requireManifestValue('Ads', 'Rewarded + Rewarded Interstitial + Map Banner (AdMob)');
+requireManifestValue('Network access', 'Internet (AdMob; optional Google Play Games)');
+requireManifestValue('Ads', 'Rewarded + Interstitial + Map and LevelStart Banner (AdMob)');
 requireManifestValue('In-app purchases', 'None');
-requireManifestValue('Account/login', 'None');
+requireManifestValue('Account/login', 'None (optional Play Games leaderboard opt-in)');
 requireManifestValue('Supported locale', 'tr-TR');
 requireManifestValue('Level catalog', '75 authored levels');
 
@@ -126,16 +126,22 @@ for (const text of ['Reklam İzle', '2x Ödül Al', 'Günlük keşif ödülü'])
 }
 
 if (!playerSaveSource.includes('window.localStorage.setItem')) errors.push('Persistent player save is missing.');
-if (!privacy.includes('kişisel veya hassas kullanıcı verisi toplamaz')) errors.push('Privacy policy data collection statement is missing.');
+if (!privacy.includes('Söz Ustası kendi sunucularında kullanıcı hesabı veya oyun profili tutmaz')) {
+  errors.push('Privacy policy data collection statement is missing.');
+}
 if (existsSync(join(root, 'public/assets/themes/imported'))) errors.push('Raw imported theme assets must not be included in public build.');
 
-requireFile(`artifacts/SozUstasi-${releaseManifestVersionName}-release.apk`);
-requireFile(`artifacts/SozUstasi-${releaseManifestVersionName}-release.aab`);
+const aabArtifact = `artifacts/SozUstasi-${releaseManifestVersionName}-release.aab`;
+const apkArtifact = `artifacts/SozUstasi-${releaseManifestVersionName}-release.apk`;
+requireFile(aabArtifact);
+if (!existsSync(join(root, apkArtifact))) {
+  warnings.push(`Optional sideload APK missing: ${apkArtifact} (Play upload uses AAB).`);
+}
 requireFile('vault/07-Production/Data-Safety-v1.md');
 requireFile('vault/07-Production/Google-Play-Listing-v1.md');
 requireFile('vault/07-Production/Closed-Test-Checklist-v1.md');
 
-for (const artifact of [`artifacts/SozUstasi-${releaseManifestVersionName}-release.apk`, `artifacts/SozUstasi-${releaseManifestVersionName}-release.aab`]) {
+for (const artifact of [apkArtifact, aabArtifact]) {
   const path = join(root, artifact);
   if (existsSync(path) && statSync(path).size > 40 * 1024 * 1024) {
     warnings.push(`${artifact} is larger than 40 MB; rebuild after asset cleanup.`);
@@ -152,8 +158,10 @@ if (adsMode && !/^none$/i.test(adsMode)) {
   // AdMob ids registered for com.sozustasi.game (AdMob app "Söz Ustası - Kelime Oyunu"). The sibling "(Windows PC)" app is a different AdMob record.
   const ADMOB_APP_ID = 'ca-app-pub-2784764635828379~5793638649';
 const ADMOB_REWARDED_UNIT = 'ca-app-pub-2784764635828379/5235235447';
-const ADMOB_REWARDED_INTERSTITIAL_UNIT = 'ca-app-pub-2784764635828379/3642213482';
+  const ADMOB_INTERSTITIAL_UNIT_LOCKED = 'ca-app-pub-2784764635828379/3292115308';
   const ADMOB_BANNER_UNIT = process.env.VITE_ADMOB_BANNER_ID ?? readOptionalEnv('VITE_ADMOB_BANNER_ID');
+  const ADMOB_INTERSTITIAL_UNIT = process.env.VITE_ADMOB_INTERSTITIAL_ID ?? readOptionalEnv('VITE_ADMOB_INTERSTITIAL_ID');
+  const GOOGLE_TEST_INTERSTITIAL_UNIT = 'ca-app-pub-3940256099942544/1033173712';
 
   // app-ads.txt must exist in both places with exactly the publisher line.
   for (const file of ['app-ads.txt', 'public/app-ads.txt']) {
@@ -170,8 +178,9 @@ const ADMOB_REWARDED_INTERSTITIAL_UNIT = 'ca-app-pub-2784764635828379/3642213482
   const publisherDigits = PUBLISHER.replace('pub-', '');
   for (const [label, text] of [['admob.ts', adSource], ['strings.xml', stringsForAds]]) {
     if (text.includes(GOOGLE_TEST_ID)) {
-      const testIds = text.match(/ca-app-pub-3940256099942544\/\d+/g) ?? [];
-      if (label !== 'admob.ts' || testIds.length !== 1 || testIds[0] !== GOOGLE_TEST_BANNER_UNIT) {
+      const testIds = [...new Set(text.match(/ca-app-pub-3940256099942544\/\d+/g) ?? [])];
+      const allowedDevUnits = new Set([GOOGLE_TEST_BANNER_UNIT, GOOGLE_TEST_INTERSTITIAL_UNIT]);
+      if (label !== 'admob.ts' || testIds.length === 0 || testIds.some((id) => !allowedDevUnits.has(id))) {
         errors.push(`${label} contains an unexpected Google sample ad id.`);
       }
     }
@@ -184,9 +193,11 @@ const ADMOB_REWARDED_INTERSTITIAL_UNIT = 'ca-app-pub-2784764635828379/3642213482
 
   if (!stringsForAds.includes(`>${ADMOB_APP_ID}<`)) errors.push(`strings.xml admob_app_id must be ${ADMOB_APP_ID} (the AdMob app for com.sozustasi.game).`);
   if (!adSource.includes(`'${ADMOB_REWARDED_UNIT}'`)) errors.push(`admob.ts rewarded unit must be ${ADMOB_REWARDED_UNIT} (a unit of the same AdMob app).`);
-  if (!adSource.includes(`'${ADMOB_REWARDED_INTERSTITIAL_UNIT}'`)) errors.push(`admob.ts rewarded interstitial unit must be ${ADMOB_REWARDED_INTERSTITIAL_UNIT}.`);
-  if (!adSource.includes('prepareRewardInterstitialAd') || !adSource.includes('showRewardInterstitialAd')) errors.push('Rewarded interstitial unit must use its dedicated SDK format APIs.');
-  if (!read('src/screens/ShopScreen.tsx').includes('showRewardedInterstitialAd')) errors.push('The shop coin reward must use the rewarded-interstitial ad unit.');
+  if (!read('src/screens/ShopScreen.tsx').includes('showRewardedAd')) errors.push('C+: shop coin reward must use standard showRewardedAd (no RI).');
+  if (read('src/screens/ShopScreen.tsx').includes('showRewardedInterstitialAd')) errors.push('Shop must not call showRewardedInterstitialAd after C+ migration.');
+  if (/prepareRewardInterstitialAd|showRewardInterstitialAd|showRewardedInterstitialAd/.test(adSource)) {
+    errors.push('C+: rewarded interstitial APIs must be removed from admob.ts.');
+  }
   if (!/^ca-app-pub-2784764635828379\/\d+$/.test(ADMOB_BANNER_UNIT ?? '')) {
     errors.push('Set VITE_ADMOB_BANNER_ID in .env.production.local to a real banner unit from publisher pub-2784764635828379.');
   } else if (ADMOB_BANNER_UNIT === ADMOB_REWARDED_UNIT) {
@@ -194,6 +205,14 @@ const ADMOB_REWARDED_INTERSTITIAL_UNIT = 'ca-app-pub-2784764635828379/3642213482
   }
   if (!/VITE_ADMOB_BANNER_ID/.test(adSource) || !/showBanner\(/.test(adSource) || !/hideBanner\(/.test(adSource)) {
     errors.push('Map banner must use the configured unit and be shown/hidden through the shared AdMob service.');
+  }
+  if (ADMOB_INTERSTITIAL_UNIT !== ADMOB_INTERSTITIAL_UNIT_LOCKED) {
+    errors.push(`Set VITE_ADMOB_INTERSTITIAL_ID in .env.production.local to ${ADMOB_INTERSTITIAL_UNIT_LOCKED}.`);
+  } else if ([ADMOB_REWARDED_UNIT, ADMOB_BANNER_UNIT].includes(ADMOB_INTERSTITIAL_UNIT)) {
+    errors.push('VITE_ADMOB_INTERSTITIAL_ID must be a dedicated interstitial unit.');
+  }
+  if (!/VITE_ADMOB_INTERSTITIAL_ID/.test(adSource) || !/prepareInterstitial/.test(adSource) || !/attemptLevelBreakInterstitial/.test(adSource)) {
+    errors.push('Level-break interstitial must use VITE_ADMOB_INTERSTITIAL_ID via prepareInterstitial / attemptLevelBreakInterstitial.');
   }
   // The unit must belong to the same AdMob app as the app id: units of other apps are rejected above because only this one is allowed.
 

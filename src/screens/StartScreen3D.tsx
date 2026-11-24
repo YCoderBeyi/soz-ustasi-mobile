@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { useGame } from '../store/GameContext';
+import { Modal } from '../components/Modal';
 import { PrivacyModal } from '../components/PrivacyModal';
 import { PremiumPrimaryButton } from '../components/PremiumPrimaryButton';
 import { SettingsAsset } from '../components/SettingsAsset';
@@ -12,11 +13,22 @@ const KIT = '/assets/ui/start/kit';
 export function StartScreen3D() {
   const {
     play, setScreen, setModal, modal,
-    completedLevels, collectedWords, leagueOptIn, setLeagueOptIn,
+    completedLevels, collectedWords, leagueConsentAnswered,
+    setLeagueOptIn, setLeagueConsentAnswered,
   } = useGame();
   const [leagueBusy, setLeagueBusy] = useState(false);
   const [leagueNotice, setLeagueNotice] = useState('');
+  const [leagueConsentDismissed, setLeagueConsentDismissed] = useState(false);
   const hasProgress = completedLevels.length > 0 || collectedWords.length > 0;
+  const shouldAskLeagueConsent = Capacitor.getPlatform() === 'android'
+    && !leagueConsentAnswered
+    && !leagueConsentDismissed;
+
+  const answerLeagueConsent = (participate: boolean) => {
+    play('tap');
+    setLeagueOptIn(participate);
+    setLeagueConsentAnswered(true);
+  };
 
   const startGame = () => {
     play('tap');
@@ -37,7 +49,6 @@ export function StartScreen3D() {
         setLeagueNotice('Giriş tamamlanmadı. Oyuna giriş yapmadan devam edebilirsin.');
         return;
       }
-      setLeagueOptIn(true);
       setScreen('profile');
     } catch {
       setLeagueNotice('Şu an giriş yapılamadı. Daha sonra tekrar deneyebilirsin.');
@@ -75,10 +86,10 @@ export function StartScreen3D() {
             disabled={leagueBusy}
             aria-busy={leagueBusy}
           >
-            {leagueBusy ? 'Bağlanıyor…' : leagueOptIn ? 'Lig skorlarını gör' : 'Play Games ile giriş yap'}
+            {leagueBusy ? 'Bağlanıyor…' : 'Play Games sıralamaları · Android'}
           </PremiumPrimaryButton>
-          {!leagueNotice && !leagueOptIn && (
-            <p className="start-league-hint">İsteğe bağlı: haftalık puan ve yıldız sıralamasına katıl.</p>
+          {!leagueNotice && (
+            <p className="start-league-hint">Android sürümünde sıralamaları görmek için giriş yap. Skor paylaşımı tercihini Ayarlar'dan değiştirebilirsin.</p>
           )}
           {leagueNotice && <p className="start-league-notice" role="status">{leagueNotice}</p>}
 
@@ -112,6 +123,25 @@ export function StartScreen3D() {
       </div>
 
       {modal === 'privacy' && <PrivacyModal />}
+      {modal === null && shouldAskLeagueConsent && (
+        <Modal
+          title="Sıralamaya katılmak ister misin?"
+          onClose={() => setLeagueConsentDismissed(true)}
+        >
+          <div className="privacyText">
+            <p>Katılırsan seviye tamamlandığında o seviyenin puanı ve toplam yıldızların, Google Play Games oturumun açıkken Google Play Games'e gönderilir. Giriş yapmadıysan ana ekrandaki Play Games sıralamaları düğmesinden giriş yapabilirsin. Skorlar herkese açık sıralamalarda görünür; oyuncu adı ve profil görünürlüğü Google Play Games profil ayarlarına bağlıdır.</p>
+            <p>Katılım isteğe bağlıdır. Şimdi karar verebilir, daha sonra Ayarlar'dan değiştirebilirsin. Katılmaman oyuna devam etmeni engellemez. Sakin Mod açıkken skor gönderilmez. Daha önce gönderilmiş skorlar katılımı kapatınca silinmez.</p>
+          </div>
+          <div className="start-league-consent-actions">
+            <PremiumPrimaryButton size="compact" onClick={() => answerLeagueConsent(true)}>
+              Sıralamaya katıl
+            </PremiumPrimaryButton>
+            <PremiumPrimaryButton variant="secondary" size="compact" onClick={() => answerLeagueConsent(false)}>
+              Şimdi değil
+            </PremiumPrimaryButton>
+          </div>
+        </Modal>
+      )}
     </main>
   );
 }

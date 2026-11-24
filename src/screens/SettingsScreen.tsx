@@ -8,7 +8,7 @@ export function SettingsScreen() {
   const {
     setScreen, play, soundEnabled, setSoundEnabled, soundVolume, setSoundVolume,
     hapticsEnabled, setHapticsEnabled, calmMode, setCalmMode, setModal,
-    reduceMotion, setReduceMotion, leagueOptIn, setLeagueOptIn, modal,
+    reduceMotion, setReduceMotion, leagueOptIn, setLeagueOptIn, setLeagueConsentAnswered, modal,
   } = useGame();
   const soundActive = soundEnabled && soundVolume > 0;
 
@@ -31,17 +31,22 @@ export function SettingsScreen() {
         </button>
 
         <p className="settingsGroupLabel">Lig (isteğe bağlı)</p>
+        <p className="settingsGroupDescription">Açıkken ve Play Games oturumun varken seviye puanın ile toplam yıldızların herkese açık sıralamalara gönderilir. Bu tercih ilk açılışta sorulur; istediğin zaman buradan değiştirebilirsin. Daha önce gönderilen skorlar kapanınca silinmez.</p>
         <button
           className="settingsItem"
           role="switch"
           aria-checked={leagueOptIn}
           aria-labelledby="league-opt-in-label"
           aria-describedby="league-opt-in-description"
-          onClick={() => { play('tap'); setLeagueOptIn(!leagueOptIn); }}
+          onClick={() => {
+            play('tap');
+            setLeagueOptIn(!leagueOptIn);
+            setLeagueConsentAnswered(true);
+          }}
         >
           <span>
             <strong id="league-opt-in-label">Play Games Ligine Katıl</strong>
-            <small id="league-opt-in-description">Haftalık puan ve bölge yıldızı sıralaması; Sakin Mod’da skor gönderilmez</small>
+            <small id="league-opt-in-description">Haftalık puan ve toplam yıldız sıralaması; Sakin Mod’da skor gönderilmez</small>
           </span>
           <i className={leagueOptIn ? 'active' : ''} aria-hidden="true"><b /></i>
         </button>

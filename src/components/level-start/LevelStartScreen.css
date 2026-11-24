@@ -14,6 +14,17 @@
   transition: opacity 280ms ease, transform 280ms ease;
 }
 
+/* The native banner owns a fixed top strip; keep close and briefing controls below a quiet buffer. */
+.ls-screen--banner {
+  --ls-banner-control-top: calc(max(28px, env(safe-area-inset-top)) + 76px);
+}
+
+.ls-screen--banner .ls-close { top: var(--ls-banner-control-top); }
+
+.ls-screen--banner .ls-scroll {
+  padding-top: calc(var(--ls-banner-control-top) + var(--ui-icon-sm) + 12px);
+}
+
 .ls-screen--launching {
   opacity: 0;
   transform: scale(1.03);
@@ -522,9 +533,9 @@
   gap: 1px;
 }
 
-.ls-stat-inner strong { color: var(--brand-gold-soft); font-family: system-ui, sans-serif; font-size: var(--ui-text-micro); letter-spacing: .2px; }
-.ls-stat-value { font-family: system-ui, sans-serif; font-size: 13px; }
-.ls-stat-bonus { font-family: system-ui, sans-serif; font-size: var(--ui-text-micro); }
+.ls-stat-inner strong { color: var(--brand-gold-soft); font-family: system-ui, sans-serif; font-size: 13px; letter-spacing: .2px; }
+.ls-stat-value { font-family: system-ui, sans-serif; font-size: 13px; line-height: 1.2; }
+.ls-stat-bonus { font-family: system-ui, sans-serif; font-size: 12px; line-height: 1.2; }
 
 .ls-modifier {
   min-height: 48px;
@@ -615,13 +626,13 @@
   .ls-hero-seal { width: 72px; height: 72px; }
   .ls-stat, .ls-stat-card, .ls-stat-card-secret, .ls-stat-reward { min-height: 80px; grid-template-rows: 40px auto; padding: 4px 3px; }
   .ls-stat-icon { width: 40px; height: 40px; filter: drop-shadow(0 3px 4px rgba(0,0,0,.4)); }
-  .ls-stat-inner strong { font-size: var(--ui-text-micro); }
-  .ls-stat-value { font-size: 11px; }
-  .ls-stat-bonus { font-size: var(--ui-text-micro); }
+  .ls-stat-inner strong { font-size: 13px; }
+  .ls-stat-value { font-size: 13px; }
+  .ls-stat-bonus { font-size: 12px; }
   .ls-modifier { min-height: 40px; }
   .ls-story { min-height: 50px; padding-block: 5px; }
   .ls-objective-row { min-height: 40px; padding-block: 2px; }
-  .ls-objective-label { font-size: 11px; line-height: 1.15; }
+  .ls-objective-label { font-size: 13px; line-height: 1.25; }
   .ls-objective-badge { width: 32px; height: 32px; }
   .ls-play { position: relative; bottom: auto; min-height: var(--ui-btn-h); margin: 2px 0 6px; box-shadow: 0 5px 0 #5e3d18, 0 8px 16px rgba(0,0,0,.36), inset 0 2px 0 rgba(255,255,255,.38); }
   .ls-play-label { min-height: 44px; }
@@ -676,6 +687,9 @@
     padding-top: max(42px, calc(env(safe-area-inset-top) + 32px));
     padding-bottom: calc(86px + env(safe-area-inset-bottom));
   }
+  .ls-screen--banner .ls-scroll {
+    padding-top: calc(var(--ls-banner-control-top) + var(--ui-icon-sm) + 12px);
+  }
   .ls-hero-card, .ls-hero-content { min-height: 108px; }
   .ls-stat, .ls-stat-card, .ls-stat-card-secret, .ls-stat-reward { min-height: 86px; }
   .ls-objectives { gap: 3px; }
@@ -688,4 +702,10 @@
     box-shadow: 0 5px 0 #5e3d18, 0 8px 16px rgba(0,0,0,.36), inset 0 2px 0 rgba(255,255,255,.38);
   }
   .ls-play.premiumPrimaryButton { position: relative; inset-block-end: auto; }
+}
+
+@media (max-width: 360px) and (max-height: 680px) {
+  .ls-hero-card,
+  .ls-hero-content { min-height: 112px; }
+  .ls-theme-title { font-size: 20px; line-height: 1.05; }
 }

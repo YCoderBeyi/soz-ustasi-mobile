@@ -119,6 +119,10 @@ export function LeaguePanel({
     ? String(localStars)
     : standing?.status === 'ok' ? standing.standing.displayScore : '';
   const showPinnedSelf = Boolean(player && ownScore && !ownAlreadyListed);
+  const ownRank = ownScore?.rank ?? (standing?.status === 'ok' ? standing.standing.rank : null);
+  const pointsToNext = ownScore && preview?.scoreAbove
+    ? Math.max(0, preview.scoreAbove.rawScore - ownScore.rawScore)
+    : null;
 
   return (
     <section className="profileLeague" aria-label="Play Games sıralaması">
@@ -130,9 +134,9 @@ export function LeaguePanel({
         {player && <div className="profileLeagueIdentity"><Avatar name={player.displayName} src={player.avatarUrl || player.hiResImageUrl} own /><span>{player.displayName || 'Oyuncu'}</span></div>}
       </div>
 
-      <div className="profileLeagueTabs" role="tablist" aria-label="Sıralama türü">
+      <div className="profileLeagueTabs" role="group" aria-label="Sıralama türü">
         {(Object.keys(boardCopy) as BoardKey[]).map((key) => (
-          <button key={key} type="button" role="tab" aria-selected={activeBoard === key} className={activeBoard === key ? 'is-active' : ''}
+          <button key={key} type="button" aria-pressed={activeBoard === key} className={activeBoard === key ? 'is-active' : ''}
             onClick={() => { if (activeBoard !== key) { playTap(); setActiveBoard(key); } }}>
             {boardCopy[key].label}
           </button>
@@ -141,10 +145,23 @@ export function LeaguePanel({
 
       <div className="profileLeagueMeta"><span>{boardCopy[activeBoard].scope}</span><span>İlk 10 · puan</span></div>
 
+      {available && standing?.status === 'ok' && ownRank === 1 && (
+        <p className="profileLeagueMomentum" role="status">
+          {activeBoard === 'weeklyScore' ? 'Mühür sende; haftanın liderisin!' : 'Yıldız ustalığında zirvedesin!'}
+        </p>
+      )}
+      {available && standing?.status === 'ok' && typeof ownRank === 'number' && ownRank > 1 && (
+        <p className="profileLeagueMomentum" role="status">
+          {pointsToNext === null
+            ? `Şu an ${standing.standing.displayRank}. sıradasın.`
+            : `Önündeki skorla farkın: ${pointsToNext} puan.`}
+        </p>
+      )}
+
       {available && boardsReady && players.length > 0 && (
         <>
         <div className="profileLeagueColumnLabels" aria-hidden="true"><span>SIRA</span><span /><span>OYUNCU</span><span>PUAN</span></div>
-        <ol className="profileLeagueRows" aria-live="polite" aria-busy={loading}>
+        <ol className="profileLeagueRows" aria-busy={loading}>
           {players.map((score, index) => {
             const isOwn = Boolean((player?.playerId && score.scoreHolder?.playerId === player.playerId)
               || (typeof ownScore?.rank === 'number' && score.rank === ownScore.rank));

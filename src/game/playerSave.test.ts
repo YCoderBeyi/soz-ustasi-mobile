@@ -22,7 +22,7 @@ beforeEach(() => {
 describe('getDefaultSave', () => {
   it('returns a valid save with starting values', () => {
     const save = getDefaultSave();
-    expect(save.version).toBe(3);
+    expect(save.version).toBe(4);
     expect(save.coins).toBe(120);
     expect(save.completedLevels).toEqual([]);
     expect(save.soundEnabled).toBe(true);
@@ -34,7 +34,7 @@ describe('getDefaultSave', () => {
 describe('persistPlayerSave / loadPlayerSave', () => {
   it('round-trips a save through localStorage', () => {
     const save: PlayerSave = {
-      version: 3,
+      version: 4,
       currentLevelId: 1,
       coins: 200,
       completedLevels: [1, 2, 3],
@@ -48,6 +48,7 @@ describe('persistPlayerSave / loadPlayerSave', () => {
       reduceMotion: false,
       calmMode: false,
       leagueOptIn: false,
+      leagueConsentAnswered: true,
       levelMastery: { 1: { stars: 3, objectives: ['complete', 'discovery', 'noHint'] } },
       ownedShopItems: [],
       selectedThemeId: null,

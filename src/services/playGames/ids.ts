@@ -1,6 +1,6 @@
 /**
  * Play Console → Play Games Services → Leaderboards.
- * Replace placeholders after creating boards in the console.
+ * These IDs must match the published leaderboard resources in that project.
  */
 export const PLAY_GAMES_LEADERBOARDS = {
   /** Play Console: "Haftalık Puan" — UI opens with WEEKLY time span. */

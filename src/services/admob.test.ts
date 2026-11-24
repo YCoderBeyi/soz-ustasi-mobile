@@ -6,8 +6,8 @@ const admob = vi.hoisted(() => ({
   showConsentForm: vi.fn(),
   prepareRewardVideoAd: vi.fn<() => Promise<{ adUnitId: string }>>(async () => ({ adUnitId: 'test-rewarded-unit' })),
   showRewardVideoAd: vi.fn(),
-  prepareRewardInterstitialAd: vi.fn<() => Promise<{ adUnitId: string }>>(async () => ({ adUnitId: 'test-rewarded-interstitial-unit' })),
-  showRewardInterstitialAd: vi.fn(),
+  prepareInterstitial: vi.fn<() => Promise<{ adUnitId: string }>>(async () => ({ adUnitId: 'test-interstitial-unit' })),
+  showInterstitial: vi.fn(async () => undefined),
   showBanner: vi.fn(async () => undefined),
   hideBanner: vi.fn(async () => undefined),
   addListener: vi.fn(),
@@ -24,24 +24,30 @@ vi.mock('@capacitor-community/admob', () => ({
     Rewarded: 'rewarded', Dismissed: 'dismissed', FailedToShow: 'failedToShow',
     FailedToLoad: 'failedToLoad', Showed: 'showed',
   },
-  RewardInterstitialAdPluginEvents: {
-    Rewarded: 'interstitialRewarded', Dismissed: 'interstitialDismissed', FailedToShow: 'interstitialFailedToShow',
-    FailedToLoad: 'interstitialFailedToLoad', Showed: 'interstitialShowed',
+  InterstitialAdPluginEvents: {
+    Loaded: 'interstitialAdLoaded', FailedToLoad: 'interstitialAdFailedToLoad',
+    Showed: 'interstitialAdShowed', FailedToShow: 'interstitialAdFailedToShow', Dismissed: 'interstitialAdDismissed',
   },
 }));
 vi.mock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => true } }));
 
 async function freshAdmob() {
   vi.resetModules();
+  window.localStorage.clear();
+  const { resetSharedAdPolicyEngine } = await import('./ads/sharedAdPolicyEngine');
+  resetSharedAdPolicyEngine();
   return import('./admob');
 }
 
 describe('admob service', () => {
   beforeEach(() => {
+    window.localStorage.clear();
     Object.values(admob).forEach((fn) => fn.mockClear());
+    admob.showBanner.mockReset().mockResolvedValue(undefined);
     admob.requestConsentInfo.mockResolvedValue({ canRequestAds: true, isConsentFormAvailable: false });
     admob.prepareRewardVideoAd.mockResolvedValue({ adUnitId: 'test-rewarded-unit' });
-    admob.prepareRewardInterstitialAd.mockResolvedValue({ adUnitId: 'test-rewarded-interstitial-unit' });
+    admob.prepareInterstitial.mockResolvedValue({ adUnitId: 'test-interstitial-unit' });
+    admob.showInterstitial.mockResolvedValue(undefined);
     admob.addListener.mockResolvedValue({ remove: vi.fn() });
   });
 
@@ -60,48 +66,30 @@ describe('admob service', () => {
     expect(admob.prepareRewardVideoAd).toHaveBeenCalledOnce();
   });
 
-  it('preloads the separately configured rewarded-interstitial format after consent', async () => {
+  it('preloads a standard interstitial after consent', async () => {
     const { initializeAdMob } = await freshAdmob();
     await initializeAdMob();
-    expect(admob.prepareRewardInterstitialAd).toHaveBeenCalledOnce();
-    expect(admob.prepareRewardInterstitialAd).toHaveBeenCalledWith(expect.objectContaining({
-      adId: 'ca-app-pub-2784764635828379/3642213482',
-    }));
+    expect(admob.prepareInterstitial).toHaveBeenCalledOnce();
   });
 
-  it('only accepts the rewarded-interstitial reward callback and serializes ad formats', async () => {
-    admob.showRewardInterstitialAd.mockReturnValue(new Promise(() => undefined));
-    const { initializeAdMob, showRewardedInterstitialAd } = await freshAdmob();
+  it('skips level-break interstitial when policy spacing is not met', async () => {
+    const { initializeAdMob, attemptLevelBreakInterstitial } = await freshAdmob();
     await initializeAdMob();
-    const request = showRewardedInterstitialAd();
-    await vi.waitFor(() => expect(admob.showRewardInterstitialAd).toHaveBeenCalledOnce());
-    await expect(showRewardedInterstitialAd()).resolves.toBe(false);
-    admob.addListener.mock.calls.find(([event]) => event === 'interstitialRewarded')?.[1]?.({ type: 'coin', amount: 1 });
-    await expect(request).resolves.toBe(true);
-    expect(admob.showRewardVideoAd).not.toHaveBeenCalled();
-  });
-
-  it('does not count a dismissed rewarded interstitial as a reward', async () => {
-    admob.showRewardInterstitialAd.mockReturnValue(new Promise(() => undefined));
-    const { initializeAdMob, showRewardedInterstitialAd } = await freshAdmob();
-    await initializeAdMob();
-    const request = showRewardedInterstitialAd();
-    await vi.waitFor(() => expect(admob.showRewardInterstitialAd).toHaveBeenCalledOnce());
-    admob.addListener.mock.calls.find(([event]) => event === 'interstitialDismissed')?.[1]?.();
-    await expect(request).resolves.toBe(false);
+    await expect(attemptLevelBreakInterstitial()).resolves.toBe('skipped');
+    expect(admob.showInterstitial).not.toHaveBeenCalled();
   });
 
   it('retries consent on an ad tap after a temporary consent request failure', async () => {
     admob.requestConsentInfo
       .mockRejectedValueOnce(new Error('temporary network error'))
       .mockResolvedValue({ canRequestAds: true, isConsentFormAvailable: false });
-    admob.showRewardInterstitialAd.mockResolvedValue({ type: 'coin', amount: 1 });
-    const { initializeAdMob, showRewardedInterstitialAd } = await freshAdmob();
+    admob.showRewardVideoAd.mockResolvedValue({ type: 'coin', amount: 1 });
+    const { initializeAdMob, showRewardedAd } = await freshAdmob();
 
     await initializeAdMob();
-    await expect(showRewardedInterstitialAd()).resolves.toBe(true);
+    await expect(showRewardedAd()).resolves.toBe(true);
     expect(admob.requestConsentInfo).toHaveBeenCalledTimes(2);
-    expect(admob.prepareRewardInterstitialAd).toHaveBeenCalledTimes(2); // initial retry + next-ad preload
+    expect(admob.prepareRewardVideoAd).toHaveBeenCalledTimes(2);
   });
 
   it('never requests an ad when consent was declined', async () => {
@@ -122,6 +110,14 @@ describe('admob service', () => {
     await initializeAdMob();
     expect(admob.prepareRewardVideoAd).not.toHaveBeenCalled();
     await expect(showRewardedAd()).resolves.toBe(false);
+  });
+
+  it('starts shared cooldown when rewarded resolves with a reward and no Showed event', async () => {
+    admob.showRewardVideoAd.mockResolvedValue({ type: 'coin', amount: 1 });
+    const { initializeAdMob, showRewardedAd, getFullscreenCooldownRemainingSeconds } = await freshAdmob();
+    await initializeAdMob();
+    await expect(showRewardedAd()).resolves.toBe(true);
+    expect(getFullscreenCooldownRemainingSeconds()).toBeGreaterThan(0);
   });
 
   it('grants a rewarded ad result once and ignores a concurrent second request', async () => {
@@ -168,27 +164,40 @@ describe('admob service', () => {
     await expect(request).resolves.toBe(true);
   });
 
-  it('reserves the map banner slot only after consent allows and the banner is attached', async () => {
-    const { showMapBanner, hideMapBanner, isMapBannerVisible } = await freshAdmob();
-    await showMapBanner();
+  it('reserves a screen banner slot before the native banner appears and releases it on exit', async () => {
+    const { showTopBanner, hideTopBanner, isBannerSlotReserved } = await freshAdmob();
+    admob.showBanner.mockImplementation(async () => {
+      expect(isBannerSlotReserved()).toBe(true);
+    });
+    await showTopBanner('map');
 
     expect(admob.showBanner).toHaveBeenCalledOnce();
-    expect(isMapBannerVisible()).toBe(false);
+    expect(isBannerSlotReserved()).toBe(true);
     const loadedListener = admob.addListener.mock.calls.find(([event]) => event === 'bannerLoaded')?.[1];
     expect(loadedListener).toBeTypeOf('function');
     loadedListener?.();
-    expect(isMapBannerVisible()).toBe(true);
-    await hideMapBanner();
+    expect(isBannerSlotReserved()).toBe(true);
+    await hideTopBanner();
     expect(admob.hideBanner).toHaveBeenCalledOnce();
-    expect(isMapBannerVisible()).toBe(false);
+    expect(isBannerSlotReserved()).toBe(false);
   });
 
-  it('does not reserve a map banner slot when consent is declined', async () => {
+  it('does not reserve a screen banner slot when consent is declined', async () => {
     admob.requestConsentInfo.mockResolvedValue({ canRequestAds: false, isConsentFormAvailable: false });
-    const { showMapBanner, isMapBannerVisible } = await freshAdmob();
-    await showMapBanner();
+    const { showTopBanner, isBannerSlotReserved } = await freshAdmob();
+    await showTopBanner('level-start');
 
     expect(admob.showBanner).not.toHaveBeenCalled();
-    expect(isMapBannerVisible()).toBe(false);
+    expect(isBannerSlotReserved()).toBe(false);
+  });
+
+  it('keeps the shared banner attached when ownership moves from map to level briefing', async () => {
+    const { showTopBanner, hideTopBanner } = await freshAdmob();
+    await showTopBanner('map');
+    await showTopBanner('level-start');
+
+    expect(admob.hideBanner).not.toHaveBeenCalled();
+    await hideTopBanner();
+    expect(admob.hideBanner).toHaveBeenCalledOnce();
   });
 });

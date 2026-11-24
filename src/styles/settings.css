@@ -50,6 +50,7 @@
   position: relative;
   z-index: 1;
   display: grid;
+  grid-auto-rows: max-content;
   align-content: start;
   gap: var(--space-3, 0.75rem);
   padding: 16px 18px;
@@ -79,6 +80,13 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.settingsGroupDescription {
+  margin: -2px 2px 4px;
+  color: var(--anadolu-mist);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .settingsItem,

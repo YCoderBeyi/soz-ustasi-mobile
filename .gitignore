@@ -35,6 +35,9 @@ wax-*.png
 theme-map-*.png
 current-map-flow.png
 
+# Brainstorm visual companion sessions
+.superpowers/
+
 # Internal docs (design iterations, plans)
 docs/
 

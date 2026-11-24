@@ -4,9 +4,11 @@ import { useGame } from '../store/GameContext';
 import { REWARDED_COIN_AMOUNT, shopItems } from '../data/shop';
 import { ActionIconButton } from '../components/ActionIconButton';
 import { ResourcePill } from '../components/ResourcePill';
-import { getLastAdFailureDetail, showRewardedInterstitialAd } from '../services/admob';
+import { getLastAdFailureDetail, showRewardedAd } from '../services/admob';
+import { useFullscreenCooldownRemaining } from '../services/useFullscreenCooldown';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 import { DAILY_REWARDED_AD_LIMIT } from '../game/adBudget';
+import { fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
 
 type ShopTab = 'theme' | 'seal' | 'power_up' | 'coins';
 
@@ -19,6 +21,8 @@ export function ShopScreen() {
   const [adPending, setAdPending] = useState(false);
   const adPendingRef = useRef(false);
   const adsLeft = useRewardedAdsLeftToday();
+  const cooldownLeft = useFullscreenCooldownRemaining();
+  const adStartBlocked = adsLeft < 1 || cooldownLeft > 0;
   const items = tab === 'coins' ? [] : shopItems.filter((item) => item.category === tab);
   const affordableAfterAdItem = items
     .filter((item) => item.price > coins
@@ -27,11 +31,11 @@ export function ShopScreen() {
     .sort((left, right) => left.price - right.price)[0];
 
   const earnCoinsWithAd = async () => {
-    if (adPendingRef.current || adsLeft < 1) return;
+    if (adPendingRef.current || adStartBlocked) return;
     adPendingRef.current = true;
     setAdPending(true);
     try {
-      const earned = await showRewardedInterstitialAd();
+      const earned = await showRewardedAd();
       if (!earned) {
         const detail = getLastAdFailureDetail();
         setToast(`Reklam açılamadı. Altınların korunuyor.${detail ? ` Tanı: ${detail}` : ''}`);
@@ -46,7 +50,7 @@ export function ShopScreen() {
     }
   };
 
-  const contextualCoinOffer = affordableAfterAdItem && adsLeft > 0 ? (
+  const contextualCoinOffer = affordableAfterAdItem && !adStartBlocked ? (
     <article className="shopCard shopRewardCard shopContextRewardCard">
       <div className="shopItemIcon shopRewardIcon" aria-hidden="true">🪙</div>
       <div className="shopInfo">
@@ -88,15 +92,24 @@ export function ShopScreen() {
               <strong>İzle, {REWARDED_COIN_AMOUNT} altın kazan</strong>
               <p>Reklamı isteyerek aç. Ödül, reklam tamamlanırsa eklenir. İstemiyorsan bu ekranı kapatıp oyuna devam edebilirsin.</p>
               <small>Bugün {adsLeft}/{DAILY_REWARDED_AD_LIMIT} reklam hakkın kaldı.</small>
+              {cooldownLeft > 0 && <small>{fullscreenCooldownMessage(cooldownLeft)}</small>}
             </div>
             <button
               className="shopBuy shopRewardAction"
               type="button"
-              disabled={adPending || adsLeft < 1}
+              disabled={adPending || adStartBlocked}
               aria-busy={adPending}
               onClick={() => { play('tap'); void earnCoinsWithAd(); }}
             >
-              <strong>{adPending ? 'Açılıyor…' : adsLeft > 0 ? 'Reklam izle' : 'Hak bitti'}</strong>
+              <strong>
+                {adPending
+                  ? 'Açılıyor…'
+                  : adsLeft < 1
+                    ? 'Hak bitti'
+                    : cooldownLeft > 0
+                      ? `${cooldownLeft} sn`
+                      : 'Reklam izle'}
+              </strong>
             </button>
           </article>
         </div>

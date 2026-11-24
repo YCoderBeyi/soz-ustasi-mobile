@@ -46,8 +46,8 @@
   --ui-row-h: calc(68px * var(--ui-scale));
   --ui-radius-ctl: 14px;
   --ui-radius-card: 16px;
-  --ui-text-min: 12px; /* text on controls */
-  --ui-text-micro: 11px; /* passive captions and chip labels */
+  --ui-text-min: 14px; /* control copy remains readable without relying on device zoom */
+  --ui-text-micro: 12px; /* smallest label size; keep below this only for decorative marks */
   --ui-touch-floor: 44px; /* absolute: never scaled below the accessibility minimum */
 
   /* Splash @390pt */

@@ -81,6 +81,7 @@
   position: relative;
   z-index: 1;
   display: grid;
+  grid-auto-rows: max-content;
   align-content: start;
   gap: var(--space-3);
   padding: 14px 16px calc(24px + env(safe-area-inset-bottom));
@@ -327,6 +328,10 @@
   }
   .shopRewardAction {
     min-width: 0;
+  }
+  .shopRewardAction strong {
+    font-size: 10px;
+    white-space: nowrap;
   }
   .shopRewardCard .shopInfo {
     padding-inline: 3px;

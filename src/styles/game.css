@@ -387,7 +387,7 @@
   width: 100%;
   min-height: 0;
   flex: 1;
-  touch-action: none;
+  touch-action: pinch-zoom;
 }
 
 .wheelRing {
@@ -395,7 +395,7 @@
   max-height: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
-  touch-action: none;
+  touch-action: pinch-zoom;
   user-select: none;
   -webkit-user-select: none;
   background:
@@ -981,7 +981,17 @@
 
 .gameTopIdentity { display: grid; min-width: 0; gap: 1px; }
 .gameTopIdentity strong { color: #fff7df; font-size: 14px; font-weight: 900; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,.72); }
-.gameTopIdentity span { overflow: hidden; color: #9fe3d6; font-size: var(--ui-text-micro); font-weight: 800; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+.gameTopIdentity span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #9fe3d6;
+  font-size: var(--ui-text-micro);
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
 .gameGridPanel {
   overflow: hidden;
   border: 1px solid rgba(242,196,95,.4);
@@ -1518,9 +1528,9 @@
   .rewardHero { min-height: 70px; grid-template-columns: 64px 1fr; }
   .rewardHero img { width: 66px; height: 66px; }
   .modal:has(.rewardHero) .rewardStory { padding: 9px 11px; }
-  .modal:has(.rewardHero) .rewardStory p { font-size: 11px; line-height: 1.38; -webkit-line-clamp: 3; }
+  .modal:has(.rewardHero) .rewardStory p { font-size: 14px; line-height: 1.45; -webkit-line-clamp: unset; }
   .rewardMastery { padding: 6px 9px 7px; }
-  .rewardMastery p { min-height: 21px; font-size: 11px; }
+  .rewardMastery p { min-height: 24px; font-size: 13px; }
   .rewardStars3d { min-height: 48px; }
   .rewardStars3d img { width: 48px; height: 48px; }
   .rewardItem3d { min-height: 42px; }
@@ -1536,15 +1546,15 @@
   .rewardHero { min-height: 58px; grid-template-columns: 54px 1fr; }
   .rewardHero img { width: 56px; height: 56px; }
   .rewardHero strong { font-size: 16px; }
-  .modal:has(.rewardHero) .rewardStory p { -webkit-line-clamp: 2; }
+  .modal:has(.rewardHero) .rewardStory p { -webkit-line-clamp: unset; }
   .rewardStars3d { min-height: 38px; }
   .rewardStars3d img { width: 38px; height: 38px; }
-  .rewardMastery p { min-height: 19px; font-size: var(--ui-text-micro); }
+  .rewardMastery p { min-height: 24px; font-size: 13px; }
   .rewardSummary3d { gap: 5px; }
   .rewardItem3d { min-height: 36px; }
   .rewardItem3d img { width: 34px; height: 34px; }
   .rewardDiscoveryPrompt { padding: 8px 10px; }
-  .rewardDiscoveryPrompt p { font-size: 11px; }
+  .rewardDiscoveryPrompt p { font-size: 14px; }
 }
 
 @media (max-width: 380px) {
@@ -1572,7 +1582,7 @@
   }
 
   .rewardMastery p {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .modal:has(.rewardHero) .rewardActions {

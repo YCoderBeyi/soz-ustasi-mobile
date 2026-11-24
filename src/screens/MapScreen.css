@@ -69,21 +69,20 @@
   position: absolute;
   z-index: 19;
   top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px) + 70px);
-  left: 50%;
-  width: min(calc(100% - 48px), 280px);
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  min-height: 36px;
-  padding: 5px 12px;
+  left: 10px;
+  width: 184px;
+  transform: none;
+  display: grid;
+  align-content: center;
+  justify-content: start;
+  gap: 2px;
+  min-height: 48px;
+  padding: 6px 10px;
   border: 1px solid rgba(213, 173, 87, 0.4);
-  border-radius: 999px;
+  border-radius: 12px;
   background: rgba(12, 40, 35, 0.72);
   color: var(--anadolu-ivory);
   box-shadow: var(--anadolu-shadow-press);
-  opacity: 0.92;
 }
 
 /* The native banner occupies its own top strip; map controls stay clear of it. */
@@ -91,20 +90,22 @@
 
 .map-daily-card span {
   color: var(--anadolu-gold-soft);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .map-daily-card strong {
-  font-size: 0.78rem;
+  font-size: 1rem;
+  line-height: 1.2;
   white-space: nowrap;
 }
 
 .map-daily-card--done {
   border-color: rgba(76, 195, 138, 0.65);
   background: rgba(19, 61, 54, 0.94);
-  opacity: 0.9;
 }
 
 .map-topbar::before {
@@ -187,8 +188,8 @@
   .map-daily-card {
     top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px) + 74px);
     left: 10px;
-    width: 176px;
-    min-height: 40px;
+    width: 184px;
+    min-height: 48px;
     transform: none;
     display: grid;
     align-content: center;
@@ -198,8 +199,8 @@
     border-radius: 12px;
   }
 
-  .map-daily-card span { font-size: 0.58rem; }
-  .map-daily-card strong { font-size: 0.64rem; }
+  .map-daily-card span { font-size: 0.8125rem; letter-spacing: 0.03em; }
+  .map-daily-card strong { font-size: 1rem; line-height: 1.1; white-space: nowrap; }
 }
 
 .map-journey {
@@ -234,16 +235,41 @@
 }
 
 
-.map-theme-dots {
+.map-region-nav {
   position: absolute;
   bottom: 132px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 12px;
+  right: 12px;
   z-index: 15;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 4px;
+}
+
+.map-region-arrow {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(242, 196, 95, .72);
+  border-radius: 50%;
+  background: linear-gradient(155deg, rgba(27, 78, 75, .98), rgba(6, 28, 39, .98));
+  color: var(--anadolu-ivory);
+  box-shadow: 0 3px 10px rgba(0,0,0,.38), inset 0 1px rgba(255,255,255,.2);
+  cursor: pointer;
+}
+
+.map-region-arrow span { font-size: 32px; line-height: 1; transform: translateY(-2px); }
+.map-region-arrow:disabled { opacity: .38; cursor: default; }
+.map-region-arrow:focus-visible { outline: 3px solid var(--anadolu-gold-soft); outline-offset: 2px; }
+
+.map-theme-dots {
   display: flex;
   align-items: center;
   gap: 0;
-  width: calc(100% - 24px);
+  width: 100%;
+  min-width: 0;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
@@ -257,12 +283,18 @@
 @media (max-height: 640px) {
   /* Reserve a clean touch row below the active level node on short phones. */
   .map-stage .level-node--active .level-node__label { display: none; }
-  .map-theme-dots {
+  .map-region-nav {
     bottom: 88px;
+    right: 112px;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    gap: 2px;
+  }
+  .map-region-arrow {
+    width: 40px;
+    height: 40px;
+  }
+  .map-theme-dots {
     height: var(--ui-touch-floor);
-    left: 12px;
-    width: calc(100% - 124px);
-    transform: none;
     overflow-y: hidden;
     scrollbar-width: none;
   }
@@ -457,6 +489,17 @@
   background:
     radial-gradient(circle at 15% 50%, rgba(76, 195, 138, 0.12), transparent 22%),
     linear-gradient(135deg, rgba(24, 52, 53, 0.94), rgba(13, 28, 31, 0.96));
+}
+
+/* On narrow devices, keep the legible task card between the banner/topbar and first map node. */
+.map-screen--banner .map-daily-card {
+  top: calc(max(28px, env(safe-area-inset-top)) + var(--map-banner-offset, 0px) + 66px);
+}
+
+@media (max-width: 350px) {
+  .map-screen--banner .map-daily-card { min-height: 43px; padding-block: 4px; }
+  .map-screen--banner .map-daily-card span { font-size: 0.75rem; }
+  .map-screen--banner .map-daily-card strong { font-size: 0.875rem; }
 }
 
 .map-screen--premium .map-resource-pill {

@@ -25,6 +25,7 @@ type PersistenceState = {
   reduceMotion: boolean;
   calmMode: boolean;
   leagueOptIn: boolean;
+  leagueConsentAnswered: boolean;
   resources: ResourceSaveSlice;
 };
 
@@ -56,6 +57,7 @@ type PersistenceActions = {
   setReduceMotion: (value: boolean) => void;
   setCalmMode: (value: boolean) => void;
   setLeagueOptIn: (value: boolean) => void;
+  setLeagueConsentAnswered: (value: boolean) => void;
   /** Records the run and returns the best score stored before it (0 when none). */
   updateStats: (levelId: number, time: number, streak: number, score?: number) => number;
   claimDailyReward: () => void;
@@ -88,6 +90,7 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
   const [reduceMotion, setReduceMotion] = useState(save.reduceMotion);
   const [calmMode, setCalmMode] = useState(save.calmMode);
   const [leagueOptIn, setLeagueOptIn] = useState(save.leagueOptIn);
+  const [leagueConsentAnswered, setLeagueConsentAnswered] = useState(save.leagueConsentAnswered);
   const [resources, setResources] = useState<ResourceSaveSlice>(() => ({
     coins: save.coins,
     hintsRemaining: save.hintsRemaining,
@@ -128,10 +131,10 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
     persistPlayerSave({
       ...loadPlayerSave(), ...resources, version: CURRENT_SAVE_VERSION, currentLevelId, completedLevels, awardedLevels, rewardedWordKeys,
       collectedWords: collectedWords.map((w) => w.word), favoriteWords,
-      soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, leagueOptIn, levelMastery, levelStats,
+      soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, leagueOptIn, leagueConsentAnswered, levelMastery, levelStats,
     });
   }, [completedLevels, awardedLevels, rewardedWordKeys, levelMastery, collectedWords, favoriteWords,
-      currentLevelId, soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, leagueOptIn, levelStats, resources]);
+      currentLevelId, soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, leagueOptIn, leagueConsentAnswered, levelStats, resources]);
 
   const isLevelUnlocked = useCallback((candidate: LevelData) => {
     if (candidate.levelId === 1) return true;
@@ -200,11 +203,11 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
   const value: PersistenceContextValue = {
     currentLevelId, completedLevels, awardedLevels, rewardedWordKeys, levelMastery,
     collectedWords, favoriteWords, levelStats, dailyChallenge, resources,
-    soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, leagueOptIn,
+    soundEnabled, soundVolume, hapticsEnabled, reduceMotion, calmMode, leagueOptIn, leagueConsentAnswered,
     setCurrentLevelId, isLevelUnlocked, markLevelCompleted, markLevelAwarded,
     markWordRewarded, isWordRewarded, countRewardedBonus,
     mergeMastery, addCollectedWord, toggleFavorite,
-    setSoundEnabled, setSoundVolume, setHapticsEnabled, setReduceMotion, setCalmMode, setLeagueOptIn, updateStats,
+    setSoundEnabled, setSoundVolume, setHapticsEnabled, setReduceMotion, setCalmMode, setLeagueOptIn, setLeagueConsentAnswered, updateStats,
     claimDailyReward: claimDailyRewardImpl,
     updateResources,
   };

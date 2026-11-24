@@ -2,15 +2,19 @@ import { useState } from 'react';
 import { useGame } from '../store/GameContext';
 import { Modal } from './Modal';
 import { PremiumPrimaryButton } from './PremiumPrimaryButton';
+import { fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
+import { useFullscreenCooldownRemaining } from '../services/useFullscreenCooldown';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 
 export function SecondChanceModal() {
   const { play, acceptSecondChance, declineSecondChance } = useGame();
   const adsLeft = useRewardedAdsLeftToday();
+  const cooldownLeft = useFullscreenCooldownRemaining();
   const [adPending, setAdPending] = useState(false);
+  const canStartAd = adsLeft > 0 && cooldownLeft <= 0;
 
   const watchAd = async () => {
-    if (adPending) return;
+    if (adPending || !canStartAd) return;
     setAdPending(true);
     try {
       await acceptSecondChance();
@@ -34,7 +38,8 @@ export function SecondChanceModal() {
         Bu deneme olmadı; oyun devam ediyor.
         <br />
         Bulduğun kelimeler korunuyor. Devam etmek için reklam gerekmez.
-        {adsLeft > 0 && ' İstersen isteğe bağlı reklamla bu turdaki serini ve kusursuz bonusunu koru.'}
+        {canStartAd && ' İstersen isteğe bağlı reklamla bu turdaki serini ve kusursuz bonusunu koru.'}
+        {adsLeft > 0 && cooldownLeft > 0 && ` ${fullscreenCooldownMessage(cooldownLeft)}`}
       </p>
       <div className="modalCtaStack">
         <PremiumPrimaryButton
@@ -50,10 +55,14 @@ export function SecondChanceModal() {
             size="compact"
             variant="secondary"
             className="modalCta modalCta--secondary"
-            disabled={adPending}
+            disabled={adPending || cooldownLeft > 0}
             onClick={() => { play('tap'); void watchAd(); }}
           >
-            {adPending ? 'Reklam açılıyor…' : `Serimi Reklamla Koru (${adsLeft})`}
+            {adPending
+              ? 'Reklam açılıyor…'
+              : cooldownLeft > 0
+                ? `${cooldownLeft} sn bekle`
+                : `Serimi Reklamla Koru (${adsLeft})`}
           </PremiumPrimaryButton>
         )}
       </div>

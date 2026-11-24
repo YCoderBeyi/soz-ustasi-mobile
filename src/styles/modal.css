@@ -375,8 +375,20 @@
 .rewardScore { display: grid; justify-items: center; gap: 2px; margin: 8px 0; }
 .rewardScore span { font-size: 12px; letter-spacing: 0.12em; opacity: 0.75; }
 .rewardScore strong { font-size: 32px; line-height: 1.1; }
+.rewardScore--celebrated strong { animation: rewardScoreArrive 520ms cubic-bezier(.18,.8,.3,1) both; }
+.rewardScore--still strong { animation: none; }
 .rewardScore small { font-size: 13px; opacity: 0.8; }
 .rewardScore .rewardScoreRecord { color: #ffd166; font-weight: 800; opacity: 1; }
+
+@keyframes rewardScoreArrive {
+  0% { opacity: .45; transform: translateY(5px) scale(.88); }
+  72% { opacity: 1; transform: translateY(-1px) scale(1.06); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rewardScore--celebrated strong { animation: none; }
+}
 
 /* Keep the close button from sitting on top of the hero card. */
 .rewardHero { margin-right: 52px; }

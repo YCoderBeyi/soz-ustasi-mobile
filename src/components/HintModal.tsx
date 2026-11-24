@@ -2,6 +2,8 @@ import { useState } from 'react';
 import '../styles/hint.css';
 import { useGame } from '../store/GameContext';
 import { Modal } from './Modal';
+import { fullscreenCooldownMessage } from '../services/ads/cooldownCopy';
+import { useFullscreenCooldownRemaining } from '../services/useFullscreenCooldown';
 import { useRewardedAdsLeftToday } from '../services/useRewardedAdsLeft';
 
 const HINT_COST = 20;
@@ -20,11 +22,13 @@ export function HintModal() {
     revealMeaningHint, revealLetterHint, revealMeaningHintViaAd, revealLetterHintViaAd,
   } = useGame();
   const adsLeft = useRewardedAdsLeftToday();
+  const cooldownLeft = useFullscreenCooldownRemaining();
   const canAfford = coins >= HINT_COST;
   const [adPending, setAdPending] = useState<HintOption['id'] | null>(null);
+  const canStartAd = adsLeft > 0 && cooldownLeft <= 0;
 
   const useAd = async (option: HintOption) => {
-    if (adPending) return;
+    if (adPending || !canStartAd) return;
     setAdPending(option.id);
     try {
       await option.payWithAd();
@@ -82,12 +86,18 @@ export function HintModal() {
                   type="button"
                   className="hintPay hintPay--ad"
                   onClick={() => { play('tap'); void useAd(option); }}
-                  disabled={adPending !== null}
+                  disabled={adPending !== null || cooldownLeft > 0}
                   aria-busy={adPending === option.id}
                   aria-label={`${option.title}, isteğe bağlı reklam, bugün ${adsLeft} hak kaldı`}
                 >
                   <span aria-hidden="true">▶</span>
-                  <b>{adPending === option.id ? 'Reklam açılıyor…' : 'Reklam izle'}</b>
+                  <b>
+                    {adPending === option.id
+                      ? 'Reklam açılıyor…'
+                      : cooldownLeft > 0
+                        ? `${cooldownLeft} sn`
+                        : 'Reklam izle'}
+                  </b>
                   <small>{adsLeft}</small>
                 </button>
               )}
@@ -95,10 +105,13 @@ export function HintModal() {
           </section>
         ))}
       </div>
+      {cooldownLeft > 0 && adsLeft > 0 && (
+        <p className="modalWarning">{fullscreenCooldownMessage(cooldownLeft)}</p>
+      )}
       {!canAfford && adsLeft === 0 && (
         <p className="modalWarning">Daha fazla altına ihtiyacın var. Reklam hakkı da kalmadı.</p>
       )}
-      {!canAfford && adsLeft > 0 && (
+      {!canAfford && adsLeft > 0 && cooldownLeft <= 0 && (
         <p className="modalWarning">Altının yetmiyor; istersen reklamla ipucu alabilirsin.</p>
       )}
     </Modal>

@@ -1,6 +1,8 @@
 # Reklam yayın hazırlığı v1 (2026-11-08)
 
-Yayıncı kimliği: `pub-2784764635828379`. Reklam türleri: oyuncu isteğiyle ödüllü reklam ve yalnızca harita ekranında gösterilen banner.
+Yayıncı kimliği: `pub-2784764635828379`. Reklam türleri (C+): oyuncu isteğiyle **standart ödüllü**; harita/LevelStart **üst banner**; bölüm sonrası frekanslı **geçiş (interstitial)**. Rewarded Interstitial kullanılmaz.
+
+İlgili: [[Ad-Monetization-C-Plus-Architecture-v1]], [[Ad-Monetization-C-Plus-Implementation-Plan-v1]], [[Data-Safety-v1]], [[Release-Manifest-v1]], [[UA-App-Campaign-Draft-v1]]
 
 ## Kodda doğrulananlar (otomatik: `npm run audit:release`)
 | Konu | Durum | Nasıl doğrulandı |
@@ -24,7 +26,8 @@ Yayıncı kimliği: `pub-2784764635828379`. Reklam türleri: oyuncu isteğiyle �
 
 ## Gerçek cihazda denenmesi gerekenler
 - Banner birimi: `ca-app-pub-2784764635828379/3651252114` (Söz Ustası Android AdMob kaydı). Üretim derlemesi bu kimliği `.env.production.local` içindeki `VITE_ADMOB_BANNER_ID` değerinden alır.
-- Banner yalnızca harita ekranında üstte gösterilir; oyun ekranına geçişte gizlenir. Banner yeni oluşturulduğu için canlı envanterin etkinleşmesi bir saate kadar sürebilir.
+- Geçiş (interstitial) birimi: `ca-app-pub-2784764635828379/3292115308`. Üretim: `VITE_ADMOB_INTERSTITIAL_ID`. Uygulama kimliği (zaten `strings.xml`): `ca-app-pub-2784764635828379~5793638649`.
+- Banner harita ve seviye başlangıç (tanıtım) ekranlarında üstte gösterilir; oyun ekranına geçişte gizlenir. Her iki ekranda da banner için etkileşimsiz üst boşluk ayrılır. Banner yeni oluşturulduğu için canlı envanterin etkinleşmesi bir saate kadar sürebilir.
 - Yeni bir release paketi üret ve kur. Mevcut `artifacts/SozUstasi-1.1.0-release.apk` **29 Ekim** tarihli, bugünkü reklam kodunu (rıza koruması, kitle beyanı) içermiyor.
 - Rıza formu çıkıyor mu, reddedince hiç reklam istenmiyor mu?
 - Ödüllü reklam: izle (ödül verilir), erken kapat (ödül yok), reklam yok/hata (oyun devam eder, bilgi mesajı).

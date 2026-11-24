@@ -4,6 +4,7 @@ import { getTheme } from '../../data/themes';
 import { getLevelStory } from '../../data/levelStories';
 import { OBJECTIVE_KEYS, getObjectiveLabels } from '../../game/objectives';
 import { PremiumPrimaryButton } from '../PremiumPrimaryButton';
+import { useBannerSlotReserved } from '../../hooks/useTopBanner';
 import { getRegionChestCoins } from '../../game/regionChest';
 import { rewardKey } from '../../game/lexicon';
 import { SealedChestReward } from '../SealedChestReward';
@@ -26,6 +27,7 @@ function BriefingStatIcon({ kind }: { kind: 'main' | 'secret' | 'reward' }) {
 
 export function LevelStartScreen() {
   const { level, levelMastery, awardedLevels, rewardedWordKeys, doublerRemaining, selectedSealId, reduceMotion, calmMode, startLevel, setScreen, play } = useGame();
+  const bannerReserved = useBannerSlotReserved();
   const theme = getTheme(level.themeId);
   const story = getLevelStory(level.levelId);
   const objectiveLabels = getObjectiveLabels(level);
@@ -64,7 +66,7 @@ export function LevelStartScreen() {
 
   return (
     <main
-      className={`ls-screen${launching ? ' ls-screen--launching' : ''}`}
+      className={`ls-screen${bannerReserved ? ' ls-screen--banner' : ''}${launching ? ' ls-screen--launching' : ''}`}
       style={{ '--ls-bg': `url(${theme.backgroundImage})` } as CSSProperties}
     >
       <button type="button" className="ls-close" onClick={handleClose} aria-label="Kapat" disabled={launching}>

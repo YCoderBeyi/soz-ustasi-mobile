@@ -16,7 +16,7 @@ export type AdWatchStats = {
 };
 
 export type PlayerSave = {
-  version: 3;
+  version: 4;
   currentLevelId: number;
   coins: number;
   completedLevels: number[];
@@ -30,8 +30,10 @@ export type PlayerSave = {
   reduceMotion: boolean;
   /** Calm mode: score without the combo multiplier. */
   calmMode: boolean;
-  /** Opt-in Play Games rivalry (weekly score + region stars). */
+  /** Opt-in Play Games score submission (weekly best level score + total mastery stars). */
   leagueOptIn: boolean;
+  /** Whether the player has answered the first-launch Play Games sharing prompt. */
+  leagueConsentAnswered: boolean;
   levelMastery: Record<number, LevelMastery>;
   ownedShopItems: string[];
   selectedThemeId: string | null;
@@ -49,7 +51,7 @@ export type Feedback = 'correct' | 'wrong' | 'unknown' | 'hidden' | 'hint' | 'sh
 // Constants
 // ---------------------------------------------------------------------------
 
-export const CURRENT_SAVE_VERSION = 3;
+export const CURRENT_SAVE_VERSION = 4;
 const SAVE_KEY = 'soz-ustasi-player-v1';
 const LEGACY_STATS_KEY = 'soz-stats-v1';
 
@@ -59,7 +61,7 @@ const LEGACY_STATS_KEY = 'soz-stats-v1';
 
 export function getDefaultSave(): PlayerSave {
   return {
-    version: 3,
+    version: 4,
     currentLevelId: initialLevel.levelId,
     coins: 120,
     completedLevels: [],
@@ -73,6 +75,7 @@ export function getDefaultSave(): PlayerSave {
     reduceMotion: false,
     calmMode: false,
     leagueOptIn: false,
+    leagueConsentAnswered: false,
     levelMastery: {},
     ownedShopItems: [],
     selectedThemeId: null,
@@ -113,9 +116,19 @@ function migrateV2ToV3(raw: RawSave): RawSave {
   return { ...raw, version: 3 };
 }
 
+/** Ask players who have not opted in yet; retain prior affirmative consent. */
+function migrateV3ToV4(raw: RawSave): RawSave {
+  return {
+    ...raw,
+    version: 4,
+    leagueConsentAnswered: raw.leagueOptIn === true,
+  };
+}
+
 const MIGRATIONS: Record<number, (raw: RawSave) => RawSave> = {
   1: migrateV1ToV2,
   2: migrateV2ToV3,
+  3: migrateV3ToV4,
 };
 
 /**
@@ -246,7 +259,7 @@ function sanitize(data: RawSave): PlayerSave {
     ? data.selectedSealId : null;
 
   return {
-    version: 3,
+    version: 4,
     currentLevelId,
     coins: typeof data.coins === 'number' && Number.isFinite(data.coins) && data.coins >= 0
       ? Math.floor(data.coins)
@@ -266,6 +279,7 @@ function sanitize(data: RawSave): PlayerSave {
     reduceMotion: data.reduceMotion === true,
     calmMode: data.calmMode === true,
     leagueOptIn: data.leagueOptIn === true,
+    leagueConsentAnswered: data.leagueConsentAnswered === true,
     levelMastery,
     ownedShopItems,
     selectedThemeId,

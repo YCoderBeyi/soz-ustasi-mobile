@@ -14,14 +14,17 @@ const { state } = vi.hoisted(() => ({ state: {} as Record<string, unknown> }));
 vi.mock('../store/GameContext', () => ({ useGame: () => state }));
 vi.mock('../services/admob', () => ({
   showAdPrivacyOptions: vi.fn(),
+  showRewardedAd: vi.fn(async () => false),
   getLastAdFailureDetail: () => '',
   getRewardedAdsLeftToday: () => 6,
   subscribeRewardedAdsLeft: () => () => {},
-  hasMapBannerSlot: vi.fn(() => false),
-  isMapBannerVisible: vi.fn(() => false),
-  subscribeMapBannerState: vi.fn(() => () => {}),
-  showMapBanner: vi.fn(async () => undefined),
-  hideMapBanner: vi.fn(async () => undefined),
+  hasBannerSlot: vi.fn(() => false),
+  isBannerSlotReserved: vi.fn(() => false),
+  subscribeBannerSlotState: vi.fn(() => () => {}),
+  showTopBanner: vi.fn(async () => undefined),
+  hideTopBanner: vi.fn(async () => undefined),
+  attemptLevelBreakInterstitial: vi.fn(async () => 'skipped'),
+  noteLevelCompletedForAds: vi.fn(),
 }));
 
 afterEach(cleanup);
@@ -31,6 +34,7 @@ beforeEach(() => {
     soundEnabled: true, soundVolume: 80, hapticsEnabled: false, calmMode: false, reduceMotion: false,
     setSoundEnabled: vi.fn(), setSoundVolume: vi.fn(), setHapticsEnabled: vi.fn(),
     setCalmMode: vi.fn(), setReduceMotion: vi.fn(),
+    leagueOptIn: false, setLeagueOptIn: vi.fn(), setLeagueConsentAnswered: vi.fn(),
     completedLevels: [], collectedWords: [], favoriteWords: [], theme: { primaryColor: '#f1c96a' },
     coins: 0, isItemOwned: () => false, doublerRemaining: 0, toast: '', toggleFavorite: vi.fn(),
     level: levels[0], levelMastery: {}, isLevelUnlocked: () => true, dailyChallenge: null,
@@ -65,6 +69,15 @@ describe('screen flows', () => {
     expect(state.setReduceMotion).toHaveBeenCalledWith(true);
   });
 
+  it('explains that score submission is separate from Play Games sign-in', () => {
+    render(<SettingsScreen />);
+    expect(screen.getByText(/Açıkken her seviye sonunda seviye puanın/)).toBeTruthy();
+    expect(screen.getByText(/Bu tercih ilk açılışta sorulur/)).toBeTruthy();
+    fireEvent.click(screen.getByRole('switch', { name: /Play Games Ligine Katıl/ }));
+    expect(state.setLeagueOptIn).toHaveBeenCalledWith(true);
+    expect(state.setLeagueConsentAnswered).toHaveBeenCalledWith(true);
+  });
+
   it('starts the first visit immediately with onboarding', () => {
     render(<StartScreen3D />);
     fireEvent.click(screen.getByRole('button', { name: 'Oyuna Başla' }));
@@ -76,6 +89,13 @@ describe('screen flows', () => {
     render(<StartScreen3D />);
     fireEvent.click(screen.getByRole('button', { name: 'Devam Et' }));
     expect(state.setScreen).toHaveBeenCalledWith('map');
+  });
+
+  it('keeps score submission opt-in separate from the Play Games sign-in CTA', () => {
+    render(<StartScreen3D />);
+    fireEvent.click(screen.getByRole('button', { name: /Play Games sıralamaları/ }));
+    expect(state.setLeagueOptIn).not.toHaveBeenCalled();
+    expect(screen.getByRole('status').textContent).toMatch(/Android uygulamasında/);
   });
 
   it('names shop purchase controls with their item and cost', () => {

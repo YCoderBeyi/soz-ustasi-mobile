@@ -23,6 +23,7 @@ export type LeaguePreview = {
   player: PlayerInfo;
   scores: LeaderboardScore[];
   ownScore: LeaderboardScore | null;
+  scoreAbove: LeaderboardScore | null;
 };
 
 const isNativeAndroid = () => Capacitor.getPlatform() === 'android';
@@ -212,12 +213,18 @@ export async function loadLeaguePreview(key: PlayGamesLeaderboardKey): Promise<L
   if (!isLeaderboardConfigured(leaderboardId) || await signInStatus(false) !== 'signed-in') return null;
   const PlayGames = await getPlayGames();
   const timeSpan = key === 'weeklyScore' ? 'weekly' : 'allTime';
-  const [top, own, player] = await Promise.all([
+  const [top, own, centered, player] = await Promise.all([
     PlayGames.loadTopScores({ leaderboardId, timeSpan, collection: 'public', maxResults: 10 }),
     PlayGames.loadCurrentPlayerScore({ leaderboardId, timeSpan, collection: 'public' }),
+    PlayGames.loadPlayerCenteredScores({ leaderboardId, timeSpan, collection: 'public', maxResults: 25 }),
     PlayGames.getPlayer(),
   ]);
-  return { player, scores: top.scores, ownScore: own.score };
+  const scoreAbove = own.score && typeof own.score.rank === 'number'
+    ? [...top.scores, ...centered.scores]
+      .filter((score) => typeof score.rank === 'number' && score.rank < own.score!.rank!)
+      .sort((a, b) => (b.rank ?? 0) - (a.rank ?? 0))[0] ?? null
+    : null;
+  return { player, scores: top.scores, ownScore: own.score, scoreAbove };
 }
 
 export async function showLeagueBoard(key: PlayGamesLeaderboardKey): Promise<boolean> {

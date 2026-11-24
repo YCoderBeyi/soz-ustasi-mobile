@@ -26,7 +26,7 @@ export function OnboardingScreen() {
   const firstWordIndexes = wordLetterIndexes(firstLevelLetters, firstLevelExample);
   const [demoProgress, setDemoProgress] = useState(0);
   const slides = [
-    { title: 'Harfleri Birleştir', body: 'Komşu harflerin üzerinde sürükleyerek kelimeyi kur.', word: firstLevelExample, accent: 'Bağla' },
+    { title: 'Harfleri Birleştir', body: 'Parmağını harflerin üstünde sağa, sola veya çapraz gezdirerek kelimeyi kur.', word: firstLevelExample, accent: 'Bağla' },
     { title: 'Anlamı Keşfet', body: 'Her kelimenin anlamını gör; yeni sözcükleri keşfet.', word: 'GÜL', accent: 'Anlam' },
     { title: 'Mührü Doldur', body: 'Hedefleri tamamla, mührü aç ve ödülünü al.', word: 'SÖZ', accent: 'Ödül' },
   ];
