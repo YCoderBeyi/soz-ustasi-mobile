@@ -114,7 +114,7 @@ export function SettingsScreen() {
       <footer className="settingsFooter">
         <button onClick={() => { play('tap'); setModal('privacy'); }}>Gizlilik Politikası <b>&gt;</b></button>
         <p>İlerlemen yalnızca bu cihazda saklanır.</p>
-        <p>Bonus kelime adayları hunspell-tr sözlüğünden (MPL 2.0, github.com/tdd-ai/hunspell-tr) derlenip elle denetlenmiştir.</p>
+        <p>Bonus kelimeler ve kısa açıklamaları bu oyun için hazırlanmıştır.</p>
       </footer>
       {modal === 'privacy' && <PrivacyModal />}
     </main>

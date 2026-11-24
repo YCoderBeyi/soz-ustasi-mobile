@@ -1,12 +1,11 @@
 # Third-Party Notices
 
-## Zemberek NLP
+The runtime bonus-word list is maintained in `src/game/bonusDictionary.ts`.
+The previously derived Hunspell-Tr bonus tier and its generator were removed
+on 2026-11-25; see `vault/07-Production/Bonus-Lexicon-Retirement-2026-11-25.md`.
 
-The curated bonus-word candidates in `src/game/bonusDictionary.ts` were
-cross-checked against the Zemberek Turkish lexicon.
-
-- Project: https://github.com/ahmetaa/zemberek-nlp
-- License: Apache License 2.0
-
-Only a small, manually reviewed set of common words is included. The original
-lexicon is not redistributed with this project.
+This file is not a complete legal clearance of runtime dependencies or media.
+The application still integrates third-party SDKs and uses packaged visual,
+audio, and font assets; their individual licenses and provenance must be
+checked from their package metadata and asset source records before making a
+zero-risk claim.

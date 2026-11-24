@@ -4,9 +4,7 @@ import { SessionProvider, useSession } from './SessionContext';
 import type { LevelData } from '../../types';
 import type { DailyChallenge } from '../../types';
 import { levels } from '../../data/levels';
-import { normalizeWord } from '../../game/normalize';
 import { findBonusDictionaryWord } from '../../game/bonusDictionary';
-import { GENERATED_BONUS_WORDS } from '../../data/bonusWords.generated';
 
 vi.mock('../../services/admob', () => ({
   showRewardedAd: vi.fn(),
@@ -530,21 +528,15 @@ describe('SessionContext', () => {
     expect(result.current.feedback).toBe('wrong');
   });
 
-  it('rewards a reviewed word without a hand-written meaning and shows no empty meaning card', () => {
-    const authored = new Set(levels.flatMap((item) =>
-      [...item.mainWords, ...item.hiddenWords].map((entry) => normalizeWord(entry.word))));
-    const pick = GENERATED_BONUS_WORDS.find((word) =>
-      [...word].length >= 4 && !authored.has(word) && !findBonusDictionaryWord(word)?.meaning);
-    expect(pick).toBeDefined();
-
+  it('rewards a project-authored bonus word and shows its authored meaning', () => {
     const addCoins = vi.fn();
     const { result } = renderHook(() => useSession(), { wrapper: createWrapper({ addCoins }) });
-    act(() => result.current.startLevel({ ...testLevel, letters: [...pick!] }));
-    act(() => result.current.submitWord(pick!));
+    act(() => result.current.startLevel(testLevel));
+    act(() => result.current.submitWord('BOL'));
 
     expect(result.current.feedback).toBe('hidden');
     expect(result.current.toast).toContain('Bonus Kelime');
-    expect(result.current.meaning).toBeNull();
+    expect(result.current.meaning?.meaning).toBe(findBonusDictionaryWord('BOL')?.meaning);
     expect(result.current.streak).toBe(1);
     expect(addCoins).toHaveBeenCalledTimes(1);
   });

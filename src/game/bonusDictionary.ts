@@ -1,15 +1,21 @@
 import type { WordEntry } from '../types';
 import { normalizeWord } from './normalize';
-import { GENERATED_BONUS_MEANINGS, GENERATED_BONUS_WORDS } from '../data/bonusWords.generated';
 
-// Common words curated for the letter pools; short meanings are written for this game.
-const bonusWords: WordEntry[] = [
+// Project-authored bonus entries and meanings; runtime does not load external lexicons.
+export const bonusWords: WordEntry[] = [
   { word: 'AMA', meaning: 'Karşıt iki düşünceyi birbirine bağlayan söz.' },
   { word: 'BOL', meaning: 'Miktarı veya sayısı çok olan.' },
   { word: 'SU', meaning: 'Canlıların yaşamı için gerekli saydam sıvı.' },
   { word: 'ŞU', meaning: 'Yakındaki veya gösterilen varlığı belirten söz.' },
   { word: 'DENE', meaning: 'Bir şeyi sınamak için kullanılan kısa komut.' },
   { word: 'SÜZ', meaning: 'Bir sıvıyı süzgeçten geçir.' },
+  { word: 'HAL', meaning: 'Bir kimse veya şeyin içinde bulunduğu durum.' },
+  { word: 'VALİ', meaning: 'Bir ilin yönetiminden sorumlu en üst kamu görevlisi.' },
+  { word: 'İKİ', meaning: 'Birden sonra gelen sayı.' },
+  { word: 'ŞIK', meaning: 'Zarif ve göze hoş görünen.' },
+  { word: 'ASMA', meaning: 'Üzüm veren, sarılarak büyüyen bitki.' },
+  { word: 'ALMA', meaning: 'Bir şeyi eline ya da sahipliğine geçirme işi.' },
+  { word: 'İLK', meaning: 'Bir sıranın veya dizinin başında bulunan.' },
   { word: 'ARK', meaning: 'Su taşımak için açılmış küçük kanal.' },
   { word: 'KREMA', meaning: 'Yemek ve tatlılarda kullanılan yoğun kıvamlı karışım.' },
   { word: 'DELİK', meaning: 'Bir yüzeyde bulunan açıklık veya oyuk.' },
@@ -124,11 +130,7 @@ const bonusWords: WordEntry[] = [
   { word: 'ZİL', meaning: 'Çalındığında ses çıkararak haber veren küçük araç.' },
 ];
 
-// Hand-written meanings win; the generated tier (double-reviewed, values-filtered) carries original short meanings where authored.
 const dictionary = new Map<string, WordEntry>();
-for (const word of GENERATED_BONUS_WORDS) {
-  dictionary.set(normalizeWord(word), { word, meaning: GENERATED_BONUS_MEANINGS[word] ?? '' });
-}
 for (const entry of bonusWords) {
   dictionary.set(normalizeWord(entry.word), entry);
 }

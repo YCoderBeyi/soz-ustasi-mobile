@@ -50,7 +50,7 @@ function mergeLetterPools(first: string, second: string): string[] {
 function buildReviewedWordBank(): WordEntry[] {
   const byWord = new Map<string, WordEntry>();
   for (const level of levels) {
-    for (const entry of level.mainWords) {
+    for (const entry of [...level.mainWords, ...level.hiddenWords]) {
       const key = normalizeWord(entry.word);
       if (approvedWordSet.has(key) && entry.meaning.length >= 10) byWord.set(key, entry);
     }

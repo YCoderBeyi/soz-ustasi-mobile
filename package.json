@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
-    "generate:bonus-lexicon": "node scripts/generate-bonus-lexicon.mjs",
     "audit:levels": "node scripts/audit-levels.mjs",
     "audit:plan": "node scripts/audit-plan.mjs",
-    "audit:release": "node scripts/audit-release.mjs",
+    "audit:asset-provenance": "node scripts/audit-asset-provenance.mjs",
+    "audit:release": "npm run audit:asset-provenance && node scripts/audit-release.mjs",
     "build:site": "node scripts/build-site.mjs",
     "audit:ui": "node scripts/audit-ui-assets.mjs",
     "optimize:assets": "node scripts/optimize-production-assets.mjs",

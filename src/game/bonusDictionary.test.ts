@@ -1,48 +1,25 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { GENERATED_BONUS_MEANINGS, GENERATED_BONUS_WORDS } from '../data/bonusWords.generated';
-import { findBonusDictionaryWord } from './bonusDictionary';
+import { bonusWords, findBonusDictionaryWord } from './bonusDictionary';
 import { normalizeWord } from './normalize';
 
-const deniedByValues = new Set(
-  Object.values(
-    JSON.parse(
-      readFileSync('vault/07-Production/bonus-lexicon-v1/denied-by-values.json', 'utf8'),
-    ) as Record<string, string[]>,
-  ).flat(),
-);
-
 describe('bonus dictionary', () => {
-  it('never contains a word the values review removed', () => {
-    for (const word of deniedByValues) {
-      expect(findBonusDictionaryWord(word), word).toBeUndefined();
+  it('keeps every project-authored entry canonical, unique and explainable', () => {
+    const words = bonusWords.map(({ word }) => word);
+    expect(new Set(words).size).toBe(words.length);
+    for (const entry of bonusWords) {
+      expect(normalizeWord(entry.word), entry.word).toBe(entry.word);
+      expect(entry.word, entry.word).toMatch(/^[A-ZÇĞİÖŞÜÂÎÛ]+$/);
+      expect(entry.meaning.length, entry.word).toBeGreaterThan(0);
+      expect(entry.meaning.length, entry.word).toBeLessThanOrEqual(120);
+      expect(findBonusDictionaryWord(entry.word)?.meaning, entry.word).toBe(entry.meaning);
     }
   });
 
-  it('keeps the generated tier canonical, unique and at least three letters', () => {
-    expect(new Set(GENERATED_BONUS_WORDS).size).toBe(GENERATED_BONUS_WORDS.length);
-    for (const word of GENERATED_BONUS_WORDS) {
-      expect(normalizeWord(word), word).toBe(word);
-      expect([...word].length, word).toBeGreaterThanOrEqual(3);
-      expect(word, word).toMatch(/^[A-ZÇĞİÖŞÜÂÎÛ]+$/);
-    }
-  });
-
-  it('serves authored meanings for generated words, short and sentence-shaped', () => {
-    const withMeaning = Object.entries(GENERATED_BONUS_MEANINGS);
-    expect(withMeaning.length).toBeGreaterThan(200);
-    for (const [word, meaning] of withMeaning) {
-      expect(GENERATED_BONUS_WORDS, word).toContain(word);
-      expect(findBonusDictionaryWord(word)?.meaning, word).toBeTruthy();
-      expect(meaning.length, word).toBeLessThanOrEqual(90);
-      expect(meaning, word).toMatch(/[.]$/);
-    }
-  });
-
-  it('keeps hand-written meanings ahead of the generated tier', () => {
+  it('serves project-authored meanings and rejects unknown entries', () => {
     expect(findBonusDictionaryWord('kulak')?.meaning).toBeTruthy();
     expect(findBonusDictionaryWord('dene')?.meaning).toBe('Bir şeyi sınamak için kullanılan kısa komut.');
     expect(findBonusDictionaryWord('süz')?.meaning).toBe('Bir sıvıyı süzgeçten geçir.');
+    expect(findBonusDictionaryWord('bol')?.meaning).toBe('Miktarı veya sayısı çok olan.');
     expect(findBonusDictionaryWord('KEL')).toBeUndefined();
     expect(findBonusDictionaryWord('QQQQ')).toBeUndefined();
   });

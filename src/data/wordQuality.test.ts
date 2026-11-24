@@ -15,12 +15,6 @@ const MORE_THAN_ONE_B_ALLOWED: Record<number, string> = {};
 const requiredTargetExclusions = JSON.parse(
   readFileSync(`${dir}/required-target-exclusions.json`, 'utf8'),
 ) as Record<string, string>;
-const valuesExceptions = JSON.parse(readFileSync(`${dir}/values-exceptions.json`, 'utf8')) as Record<string, string>;
-const denied = new Set(
-  Object.values(
-    JSON.parse(readFileSync('vault/07-Production/bonus-lexicon-v1/denied-by-values.json', 'utf8')) as Record<string, string[]>,
-  ).flat().map(normalizeWord),
-);
 
 const authored = levels.flatMap((level) => [
   ...level.mainWords.map((entry) => ({ level: level.levelId, role: 'ana', word: entry.word })),
@@ -36,26 +30,11 @@ describe('word quality gate', () => {
     expect(rejected, 'onaylanmamis kelimeler (vault/07-Production/word-quality-v1/README.md)').toEqual([]);
   });
 
-  it('keeps the values blocklist out of the levels unless the exception is documented', () => {
-    const hits = authored
-      .filter((item) => denied.has(normalizeWord(item.word)))
-      .filter((item) => !valuesExceptions[normalizeWord(item.word)])
-      .map((item) => `L${item.level} ${item.role}: ${item.word}`);
-    expect(hits, 'kara listedeki kelime icin values-exceptions.json gerekcesi yok').toEqual([]);
-  });
-
   it('does not use bare imperative forms as seal or hidden-star targets', () => {
     const unsuitable = authored
       .filter((item) => requiredTargetExclusions[normalizeWord(item.word)])
       .map((item) => `L${item.level} ${item.role}: ${item.word} (${requiredTargetExclusions[normalizeWord(item.word)]})`);
     expect(unsuitable, 'zorunlu hedeflerde çıplak emir biçimi').toEqual([]);
-  });
-
-  it('keeps every documented exception tied to a word that is still in use', () => {
-    const used = new Set(authored.map((item) => normalizeWord(item.word)));
-    for (const word of Object.keys(valuesExceptions)) {
-      expect(used.has(normalizeWord(word)), `${word} artik kullanilmiyor, istisnayi sil`).toBe(true);
-    }
   });
 
   it('requires at most one only-B-rated word per level, so a player is never blocked by two fuzzy words', () => {

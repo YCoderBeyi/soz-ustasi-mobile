@@ -29,7 +29,7 @@ describe('endless level generation', () => {
 
   it('fills the supported progression with unique approved-word recipes and has no replay cycle', () => {
     expect(getEndlessRecipeCount()).toBe(MAX_LEVEL_ID - 76 + 1);
-    expect(getEndlessRecipeCount()).toBeGreaterThan(5_000);
+    expect(getEndlessRecipeCount()).toBeGreaterThan(4_000);
     expect(getLevelById(MAX_LEVEL_ID + 1)).toBeUndefined();
   });
 

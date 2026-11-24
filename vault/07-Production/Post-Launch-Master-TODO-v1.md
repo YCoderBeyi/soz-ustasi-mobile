@@ -246,9 +246,8 @@ durdurulur ve stabilizasyon önceliklendirilir.
 Kaynak: 2026-11-07 tasarım istişaresi. Bu bölüm onaylı uygulama sırasının parçası değildir.
 
 ### H1 - Bonus Kelime Sözlüğü (kapalı izin listesi)
-- [ ] hunspell-tr (MPL 2.0) yalnızca aday üretici olarak kullanılır; kabul listesi level başına kapalı ve çift geçişle onaylıdır.
-- [ ] MPL 2.0 lisans metni ve atıf Ayarlar > Hakkında ve Data-Safety belgesine eklenir.
-- [ ] Bonus kelime anlamı TDK'dan kopyalanmaz.
+- [x] 2026-11-25: Hunspell-Tr'den türetilmiş bonus kelime katmanı ve üretim aracı kaldırıldı; çalışan bonus sözlüğü proje içinde açıkça tanımlıdır.
+- [x] Bonus kelime anlamları proje içinde yazılır; harici sözlük metinleri kopyalanmaz.
 
 ### H2 - Puan ve Çarpan
 - [ ] Bonus coin azalan getiri (3, 2, 1, 1, 0), 5 kelime sınırı kalkar.

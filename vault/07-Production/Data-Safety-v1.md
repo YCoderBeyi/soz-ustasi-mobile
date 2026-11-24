@@ -51,5 +51,5 @@ Aşağıdaki özelliklerden biri eklenirse Data Safety formu ve gizlilik politik
 
 ## Üçüncü Taraf Veri ve Lisans
 
-- Bonus kelime listesi `tdd-ai/hunspell-tr` (MPL 2.0) kaynaklı adaylardan elle denetlenerek derlenmiştir; lisans metni ve yöntem `vault/07-Production/bonus-lexicon-v1/` altındadır. Ayarlar ekranında atıf vardır.
-- Bonus kelime anlamları bu projede özgün yazılmıştır (`meanings.json`); TDK veya başka sözlükten kopyalanmaz. Kullanıcı verisi toplanmaz, bu bölüm yalnızca lisans yükümlülüğünü kayıt altına alır.
+- 2026-11-25 itibarıyla MPL 2.0 Hunspell-Tr'den türetilmiş bonus kelime katmanı, üretim kodu, üretim betiği ve türetilmiş veri dosyaları kaldırıldı. Çalışan bonus sözlüğü `src/game/bonusDictionary.ts` içinde tutulur.
+- Uygulama yine AdMob ve Google Play Games Services gibi üçüncü taraf SDK'ları kullanır. Bu not içerik/veri kökeni notudur; SDK lisanslarının veya tüm görsel, ses ve font varlıklarının hak denetiminin tamamlandığı anlamına gelmez.
